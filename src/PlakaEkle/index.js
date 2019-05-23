@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import {Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
+import { Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 
 const k1 = require("../../assets/Resim.png");
@@ -19,8 +19,8 @@ export default class PlakaEkle extends Component {
         this.state = {
             userName: '',
             plaka1: undefined,
-            plaka2:'',
-            plaka3:'',
+            plaka2: '',
+            plaka3: '',
             yakitTipi: undefined,
             araba: undefined,
 
@@ -30,7 +30,7 @@ export default class PlakaEkle extends Component {
         var text = this.state.plaka2;
         var uppercasetext = text.toUpperCase();
         this.setState({ plaka2: uppercasetext });
-      };
+    };
     onPlakaValueChange(value: string) {
         this.setState({
             plaka: value
@@ -53,15 +53,15 @@ export default class PlakaEkle extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim")}>
-                            <Icon name="arrow-back" />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Plaka Ekle</Title>
+                        <Title style={{ color: '#fff' }}>Plaka Ekle</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
@@ -95,7 +95,7 @@ export default class PlakaEkle extends Component {
                         <Item regular style={styles.Inputs}>
                             <Image style={{ width: 35, height: 35, resizeMode: 'contain' }} source={plaka}></Image>
                             <Input placeholder='Plaka'
-                                 keyboardType="number-pad"
+                                keyboardType="number-pad"
                                 placeholderTextColor="#efefef"
                                 underlineColorAndroid="transparent" />
                         </Item>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
         marginRight: 5,
         borderRadius: 5,
         marginBottom: 5,
-        marginTop:5,
+        marginTop: 5,
         width: 100,
         //color:'black',
         borderColor: 'black',

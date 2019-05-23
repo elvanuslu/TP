@@ -40,15 +40,15 @@ export default class Satis extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Icon name="arrow-back" />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Satış</Title>
+                        <Title style={{ color: '#fff' }}>Satış</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>

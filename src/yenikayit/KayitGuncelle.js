@@ -40,7 +40,7 @@ export default class KayitGuncelle extends Component {
     }
     _getUserInfo(userID) {
 
-        console.log('kull: ' + this.state.kullanici+'  Kull2: '+userID);
+        console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
         getContact(this.state.kullanici)
             .then((res) => {
                 console.log('Kontakte: ' + res.contacid);
@@ -84,7 +84,7 @@ export default class KayitGuncelle extends Component {
 
     _btnKayit() {
         try {
-            musteriGuncelle(this.state.kullanici,this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre)
+            musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre)
                 .then((responseData) => { console.log("response: " + JSON.stringify(responseData)) })
                 .catch((err) => { console.log(err); });
         } catch (error) {
@@ -94,19 +94,19 @@ export default class KayitGuncelle extends Component {
     render() {
         return (
             <Container style={styles.container}>
-                <StatusBar barStyle="dark-content" />
+                <StatusBar style={{ color: '#fff' }} barStyle="dark-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Icon name="arrow-back" />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Bilgilerimi Güncelle</Title>
+                        <Title style={{ color: '#fff' }}>Bilgilerimi Güncelle</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
         marginRight: 40,
         borderRadius: 5,
         marginBottom: 10,
-        //color:'black',
+        height: 50,
         borderColor: 'black',
     },
     Inputs1: {

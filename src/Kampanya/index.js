@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import {Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem } from 'native-base';
 
 import { getKampanyaListesi } from '../Service/FetchUser';
@@ -37,60 +37,60 @@ export default class kampanya extends Component {
         super();
         this.state = {
             //datam: datas
-            datam:[],
+            datam: [],
             loading: true
         }
     }
-componentDidMount(){
-   this._getKampanyaListesi();
-}
-_getKampanyaListesi(){
-    getKampanyaListesi()
-    .then((res) =>{
-        this.setState({datam :res,loading:false});
-      console.log(res);
-    });
-}
-GetItem(item) {
-    //Function for click on an item
-   // Alert.alert(item);
-    this.props.navigation.navigate("kampanyadetay",{Id:item});
-  }
+    componentDidMount() {
+        this._getKampanyaListesi();
+    }
+    _getKampanyaListesi() {
+        getKampanyaListesi()
+            .then((res) => {
+                this.setState({ datam: res, loading: false });
+                console.log(res);
+            });
+    }
+    GetItem(item) {
+        //Function for click on an item
+        // Alert.alert(item);
+        this.props.navigation.navigate("kampanyadetay", { Id: item });
+    }
     render() {
         return (
             <Container style={styles.container}>
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-                <Header  style={{ backgroundColor: 'red' }}>
+                <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('hesabim')}>
-                            <Icon name="arrow-back" />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Kampanyalar</Title>
+                        <Title style={{ color: '#fff' }}>Kampanyalar</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
                 <View style={styles.container1}>
-                <View style={{ flexDirection: 'column', justifyContent: 'center',alignItems:'center' }}>
-                            <Spinner
-                                visible={this.state.loading}
-                                textContent={'Yükleniyor...'}
-                                textStyle={styles.spinnerTextStyle}
-                            />
-                        </View>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spinner
+                            visible={this.state.loading}
+                            textContent={'Yükleniyor...'}
+                            textStyle={styles.spinnerTextStyle}
+                        />
+                    </View>
                     <FlatList
                         data={this.state.datam}
                         renderItem={({ item }) =>
                             <Card key={item.bm_kampanyaid} style={styles.cardmb}>
                                 <CardItem cardBody>
                                     <Body>
-                                        <TouchableOpacity style={styles.logo} onPress={() =>this.GetItem(item.bm_kampanyaid)}>
-                                            <Image style={styles.logo} source={{uri: item.bm_pictureurl}} />
+                                        <TouchableOpacity style={styles.logo} onPress={() => this.GetItem(item.bm_kampanyaid)}>
+                                            <Image style={styles.logo} source={{ uri: item.bm_pictureurl }} />
                                         </TouchableOpacity>
                                     </Body>
                                 </CardItem>
@@ -109,9 +109,9 @@ GetItem(item) {
 const styles = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF'
-      },
-   
-   
+    },
+
+
     container: {
         flex: 1,
         //  flexDirection: 'column',

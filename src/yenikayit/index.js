@@ -48,10 +48,10 @@ export default class yenikayit extends Component {
             smsIzni: true,
         })
         if (value == true) {
-           // Alert.alert("Switch is On.");
+            // Alert.alert("Switch is On.");
         }
         else {
-         //   Alert.alert("Switch is Off.");
+            //   Alert.alert("Switch is Off.");
         }
 
     }
@@ -60,7 +60,7 @@ export default class yenikayit extends Component {
             SozlesmeOkudum: value
         })
         if (value == true) {
-          //  Alert.alert("Switch is On.");
+            //  Alert.alert("Switch is On.");
         }
         else {
             //Alert.alert("Switch is Off.");
@@ -72,10 +72,10 @@ export default class yenikayit extends Component {
             SwitchOnValueHolder: value
         })
         if (value == true) {
-          //  Alert.alert("Switch is On.");
+            //  Alert.alert("Switch is On.");
         }
         else {
-           // Alert.alert("Switch is Off.");
+            // Alert.alert("Switch is Off.");
         }
 
     }
@@ -149,44 +149,44 @@ export default class yenikayit extends Component {
         try {
             if (this.state.SozlesmeOkudum === true && this.state.KampanyaDuyurular === true) {
 
-                 console.log('Adı: ' + this.state.Adi.length);
+                console.log('Adı: ' + this.state.Adi.length);
                 if (this.state.Adi.length >= 3) {
-                    if (this.state.Soyadi.length >=3) {
+                    if (this.state.Soyadi.length >= 3) {
                         if (this.state.eposta !== '') {
-                            if (this.state.tel.length>=11) {
-                                if (this.state.plaka.length>=7) {
-                                    if (this.state.Sifre.length>5) {
-                                        if(this.state.Sifre === this.state.Sifre2){
-                                        this.setState({ loading: true })
-                                        MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
-                                            this.state.Sifre, this.state.plaka, this.state.selected2,
-                                            this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum)
-                                            .then((responseData) => {
-                                                this.setState({ loading: false })
-                                                if (responseData.status === true) {
-                                                    Alert.alert(
-                                                        'Kayıt İşlemi!',
-                                                        responseData.message,
-                                                        [
+                            if (this.state.tel.length >= 11) {
+                                if (this.state.plaka.length >= 7) {
+                                    if (this.state.Sifre.length > 5) {
+                                        if (this.state.Sifre === this.state.Sifre2) {
+                                            this.setState({ loading: true })
+                                            MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
+                                                this.state.Sifre, this.state.plaka, this.state.selected2,
+                                                this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum)
+                                                .then((responseData) => {
+                                                    this.setState({ loading: false })
+                                                    if (responseData.status === true) {
+                                                        Alert.alert(
+                                                            'Kayıt İşlemi!',
+                                                            responseData.message,
+                                                            [
 
-                                                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                                                        ],
-                                                        { cancelable: true },
-                                                    );
-                                                    // console.log("response: " + JSON.stringify(responseData)) 
-                                                }
-                                            })
-                                            .catch((err) => {
-                                                this.setState({ loading: false })
-                                                console.log(err);
-                                            });
+                                                                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                            ],
+                                                            { cancelable: true },
+                                                        );
+                                                        // console.log("response: " + JSON.stringify(responseData)) 
+                                                    }
+                                                })
+                                                .catch((err) => {
+                                                    this.setState({ loading: false })
+                                                    console.log(err);
+                                                });
                                         }
-                                        else{
+                                        else {
                                             Alert.alert(
                                                 'Kayıt İşlemi!',
                                                 'Girilen Şifre birbirinden farklı.',
                                                 [
-    
+
                                                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                                 ],
                                                 { cancelable: true },
@@ -285,19 +285,19 @@ export default class yenikayit extends Component {
     render() {
         return (
             <Container style={styles.container}>
-                <StatusBar barStyle="dark-content" />
+                <StatusBar style={{ color: '#fff' }} barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Icon name="arrow-back" />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Yeni Kayıt</Title>
+                        <Title style={{ color: '#fff' }}>Yeni Kayıt</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
@@ -316,7 +316,7 @@ export default class yenikayit extends Component {
                             textStyle={styles.spinnerTextStyle}
                         />
                     </View>
-                    <Content style={{ backgroundColor: '#fff' }}>
+                    <Content style={{ backgroundColor: '#fff', }}>
                         <Body>
                             <Form>
                                 <Item regular style={styles.Inputs}>
@@ -370,7 +370,7 @@ export default class yenikayit extends Component {
                                         value={this.state.plaka}
                                         underlineColorAndroid="transparent" />
                                 </Item>
-                                <Item picker style={styles.comboItem}>
+                                <Item picker style={styles.Inputs}>
                                     <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                                     <Picker borderColor='black'
                                         mode="dropdown"
@@ -431,7 +431,7 @@ export default class yenikayit extends Component {
                                 value={this.state.SozlesmeOkudum} />
                         </View>
                         <View style={styles.switchcontainer}>
-                            <View style={{ alignContent: 'center' }}>
+                            <View style={{ alignContent: 'center', marginBottom: 5 }}>
                                 <Text style={styles.switcText}>Kampanya ve duyurular için benimle{"\n"}iletişime geçilmesine izin veriyorum</Text>
                             </View>
 
@@ -465,7 +465,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     containerOrta: {
-        flex: 12,
+        flex: 10,
+        flexDirection: 'column',
+        alignItems: 'center',
         backgroundColor: 'transparent',
     },
     containerBottom: {
@@ -487,10 +489,12 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     Inputs: {
-        marginLeft: 40,
-        marginRight: 40,
+        marginLeft: 30,
+        marginRight: 30,
         borderRadius: 5,
         marginBottom: 10,
+        height: 40,
+        width: 300,
         //color:'black',
         borderColor: 'black',
     },

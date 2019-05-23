@@ -69,15 +69,15 @@ export default class kampanyadetay extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("kampanya")}>
-                            <Icon name="arrow-back" color="blue" />
+                            <Icon name="arrow-back" style={{color:'#fff'}} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Kampanya Detay</Title>
+                    <Title style={{color:'#fff'}}>Kampanya Detay</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{color:'#fff'}}/>
                         </Button>
                     </Right>
                 </Header>

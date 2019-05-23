@@ -75,15 +75,15 @@ export default class DuyuruDetay extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("Duyurular")}>
-                            <Icon name="arrow-back" color="blue" />
+                            <Icon name="arrow-back" style={{color:'#fff'}} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Duyuru Detayı</Title>
+                    <Title style={{color:'#fff'}}>Duyuru Detayı</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{color:'#fff'}}/>
                         </Button>
                     </Right>
                 </Header>

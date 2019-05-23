@@ -84,19 +84,19 @@ export default class SatisVePuanGecmisi extends Component {
     render() {
         return (
             <Container style={styles.container}>
-                <StatusBar backgroundColor="transparent" barStyle="light-content" />
+                <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Icon name="arrow-back" />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Satış Ve Puan Geçmişi</Title>
+                        <Title style={{ color: '#fff' }}>Satış Ve Puan Geçmişi</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
@@ -124,64 +124,64 @@ export default class SatisVePuanGecmisi extends Component {
                                 renderRow={data =>
                                     <ListItem  >
                                         <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisVePuanDetay")}>
-                                        <View style={{ flexDirection: 'row' }}>
-                                            <View style={{ width: '27%' }}>
-                                                <Text style={styles.txt} > {data.zaman}</Text>
-                                            </View>
-                                            <View style={{ width: '30%' }}>
-                                                <Text style={styles.txt}> {data.Istasyon}</Text>
-                                            </View>
-                                            <View style={{ width: '20%' }}>
-                                                <Text style={styles.txt}> {data.Tutar}</Text>
-                                            </View>
-                                            <View style={{ width: '23%', flexDirection: 'row' }}>
-                                                <Text style={styles.txt}> {data.Puan}</Text>
+                                            <View style={{ flexDirection: 'row' }}>
+                                                <View style={{ width: '27%' }}>
+                                                    <Text style={styles.txt} > {data.zaman}</Text>
+                                                </View>
+                                                <View style={{ width: '30%' }}>
+                                                    <Text style={styles.txt}> {data.Istasyon}</Text>
+                                                </View>
+                                                <View style={{ width: '20%' }}>
+                                                    <Text style={styles.txt}> {data.Tutar}</Text>
+                                                </View>
+                                                <View style={{ width: '23%', flexDirection: 'row' }}>
+                                                    <Text style={styles.txt}> {data.Puan}</Text>
 
-                                                <Image
-                                                    style={styles.button}
-                                                    source={require('../../assets/detay.png')}
-                                                />
+                                                    <Image
+                                                        style={styles.button}
+                                                        source={require('../../assets/detay.png')}
+                                                    />
+
+                                                </View>
 
                                             </View>
-
-                                        </View>
                                         </TouchableOpacity>
                                     </ListItem>}
                                 renderLeftHiddenRow={data =>
-                                <Content style={{ flexDirection: 'row' }}>
+                                    <Content style={{ flexDirection: 'row' }}>
+                                        <Button
+                                            full
+                                            onPress={() => alert(data.Id)}
+                                            style={{
+                                                backgroundColor: "#ec971f",
+                                                flex: 1,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                color: '#fff',
+                                            }}
+                                        >
+                                            <Icon active name="md-create" />
+                                        </Button>
+
+                                    </Content>
+
+                                }
+
+                                renderRightHiddenRow={(data, secId, rowId, rowMap) =>
                                     <Button
                                         full
-                                        onPress={() => alert(data.Id)}
+                                        danger
+                                        onPress={_ => this.deleteRow(secId, rowId, rowMap)}
                                         style={{
-                                            backgroundColor: "#ec971f",
                                             flex: 1,
                                             alignItems: "center",
-                                            justifyContent: "center",
-                                            color: '#fff',
+                                            justifyContent: "center"
                                         }}
                                     >
-                                        <Icon active name="md-create" />
-                                    </Button>
-
-                                </Content>
-
-                            }
-
-                            renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-                                <Button
-                                    full
-                                    danger
-                                    onPress={_ => this.deleteRow(secId, rowId, rowMap)}
-                                    style={{
-                                        flex: 1,
-                                        alignItems: "center",
-                                        justifyContent: "center"
-                                    }}
-                                >
-                                    <Icon active name="trash" />
-                                </Button>}
-                            leftOpenValue={75}
-                            rightOpenValue={-75}
+                                        <Icon active name="trash" />
+                                    </Button>}
+                                leftOpenValue={75}
+                                rightOpenValue={-75}
                             />
 
                         </View>

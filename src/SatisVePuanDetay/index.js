@@ -22,19 +22,19 @@ export default class SatisVePuanDetay extends Component {
     render() {
         return (
             <Container style={styles.container}>
-                <StatusBar backgroundColor="transparent" barStyle="light-content" />
+                <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi")}>
-                            <Icon name="arrow-back" />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Satış/Puan Detay</Title>
+                        <Title style={{ color: '#fff' }}>Satış/Puan Detay</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
@@ -54,7 +54,7 @@ export default class SatisVePuanDetay extends Component {
                         <ListItem icon>
                             <Left>
                                 <Button style={{ backgroundColor: "transparent" }}>
-                                    <Image style={{ width: 20, resizeMode: 'contain',  }} source={require('../../assets/tarih_1.png')} />
+                                    <Image style={{ width: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
                                 </Button>
                             </Left>
                             <Body>
@@ -67,7 +67,7 @@ export default class SatisVePuanDetay extends Component {
                         <ListItem icon>
                             <Left>
                                 <Button style={{ backgroundColor: "transparent" }}>
-                                    <Image style={{ width: 18, resizeMode: 'contain',  }} source={require('../../assets/miktar_1.png')} />
+                                    <Image style={{ width: 18, resizeMode: 'contain', }} source={require('../../assets/miktar_1.png')} />
                                 </Button>
                             </Left>
                             <Body>
@@ -92,8 +92,8 @@ export default class SatisVePuanDetay extends Component {
                         </ListItem>
                         <ListItem icon>
                             <Left>
-                                <Button style={{ backgroundColor: "transparent",alignItems:'center' }}>
-                                    <Image style={{ width: 22, resizeMode: 'contain',}} source={require('../../assets/tparalogo.png')} />
+                                <Button style={{ backgroundColor: "transparent", alignItems: 'center' }}>
+                                    <Image style={{ width: 22, resizeMode: 'contain', }} source={require('../../assets/tparalogo.png')} />
                                 </Button>
                             </Left>
                             <Body>
@@ -106,7 +106,7 @@ export default class SatisVePuanDetay extends Component {
                         <ListItem icon>
                             <Left>
                                 <Button style={{ backgroundColor: "transparent" }}>
-                                    <Image style={{ width: 22, resizeMode: 'contain',  }} source={require('../../assets/pomp.png')} />
+                                    <Image style={{ width: 22, resizeMode: 'contain', }} source={require('../../assets/pomp.png')} />
                                 </Button>
                             </Left>
                             <Body>
@@ -132,7 +132,7 @@ export default class SatisVePuanDetay extends Component {
                         <ListItem icon>
                             <Left>
                                 <Button style={{ backgroundColor: "transparent" }}>
-                                    <Image style={{ width: 20, resizeMode: 'contain',  }} source={require('../../assets/istasyon_1.png')} />
+                                    <Image style={{ width: 20, resizeMode: 'contain', }} source={require('../../assets/istasyon_1.png')} />
                                 </Button>
                             </Left>
                             <Body>
@@ -201,8 +201,8 @@ const styles = StyleSheet.create({
     },
     banner: {
         // marginTop: 2,
-        width:'100%',
-      //  height: '100%',
+        width: '100%',
+        //  height: '100%',
         resizeMode: 'contain',
         marginBottom: 30,
     },

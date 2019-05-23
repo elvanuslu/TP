@@ -13,6 +13,7 @@ const k2 = require("../../assets/Resim2.png");
 const k3 = require("../../assets/image3.png");
 const Duzenle = require("../../assets/duzenle.png");
 const Sil = require("../../assets/sil.png");
+const cizgi = require("../../assets/cizgi.png");
 
 const datas = [
     {
@@ -32,7 +33,7 @@ const datas = [
     {
         Id: '34-ELV-34',
         img: k1,
-        text: "Benzin",
+        text: "Kurşunsuz 95",
         note: "Enjoy these agile pills with no side effects to cure your issues. If you find these healthy then please leave your comments and recommend more rules that you normally apply in your Agile journey. More to come...",
         time: "MERCEDES"
     },
@@ -81,19 +82,19 @@ export default class Plakalarim extends Component {
     render() {
         return (
             <Container style={styles.container}>
-                <StatusBar backg roundColor="transparent" barStyle="light-content" />
-                <Header style={{ backgroundColor: 'red' }}>
+                <StatusBar color='#fff' backgroundColor="transparent" barStyle="light-content" />
+                <Header style={{ backgroundColor: 'red', color: '#fff' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('hesabim')}>
-                            <Icon name="arrow-back" />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Plakalarım</Title>
+                        <Title style={{ color: '#fff' }}>Plakalarım</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" />
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
@@ -110,12 +111,12 @@ export default class Plakalarim extends Component {
                 <View style={styles.containerBottom}>
 
                     <View style={styles.switchcontainer}>
-                    <Button danger style={{marginRight:10}} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
+                        <Button danger style={{ marginRight: 10 }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
                             <Icon active name="trash" style={{ color: "#FFF", }} />
                             <Text style={styles.txtYazi}>Sil    </Text>
                         </Button>
-                        <Button warning style={{marginRight:10}} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
-                            <Icon active name="md-create" style={{ color: "#FFF", marginRight:5 }} />
+                        <Button warning style={{ marginRight: 10 }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
+                            <Icon active name="md-create" style={{ color: "#FFF", marginRight: 5 }} />
                             <Text style={styles.txtYazi}>Düzenle  </Text>
                         </Button>
                         <Button success onPress={() => this.props.navigation.navigate("PlakaEkle")}>
@@ -125,19 +126,32 @@ export default class Plakalarim extends Component {
                     </View>
                     <Content style={{ backgroundColor: '#fff' }}>
                         <View >
-                            <Content style={{ marginLeft: 10, marginRight: 10 }}>
+                            <Content style={{ marginLeft: 15, marginTop: 15, marginRight: 15, width: '100%', }}>
+                                <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
+                                    <View >
+                                        <Text style={styles.txtHeader}>Araçlar</Text>
+                                    </View>
+                                    <View >
+                                        <Text style={styles.txtHeader}>Plakalar</Text>
+                                    </View>
+                                    <View style={{ marginRight:20 }}>
+                                        <Text style={styles.txtHeader} >Yakıt Tipi</Text>
+                                    </View>
+
+                                </View>
+                                <Image style={{ width: '95%', height: 1 }} source={cizgi}></Image>
                                 <List
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem  >
                                             <Left>
-                                                <Text > {data.time}</Text>
+                                                <Text style={{ width: 90, marginRight: 10, }}> {data.time}</Text>
                                             </Left>
-                                            <Body>
-                                                <Text> {data.Id}</Text>
+                                            <Body >
+                                                <Text style={{ width: 90, marginRight: 10}}> {data.Id}</Text>
                                             </Body>
                                             <Right >
-                                                <Text> {data.text}</Text>
+                                                <Text style={{ width: 100, textAlign: 'right', marginRight: 10, }}> {data.text}</Text>
                                             </Right>
                                         </ListItem>}
                                     renderLeftHiddenRow={data =>
@@ -179,9 +193,9 @@ export default class Plakalarim extends Component {
                             </Content>
                         </View>
                     </Content>
-                </View>
+                </View >
 
-            </Container>
+            </Container >
         );
     }
 }
@@ -194,7 +208,7 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
         alignItems: 'center',
     },
@@ -243,7 +257,7 @@ const styles = StyleSheet.create({
     banner: {
         // marginTop: 2,
         width: '100%',
-       // height: 220,
+        // height: 220,
         resizeMode: 'contain',
         marginBottom: 5,
     },
@@ -292,6 +306,10 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     txtGrd: {
-        fontSize:8,
+        fontSize: 8,
+    },
+    txtHeader: {
+        fontSize: 16,
+        fontWeight: '600',
     }
 });
