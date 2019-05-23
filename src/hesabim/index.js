@@ -67,7 +67,7 @@ export default class hesabim extends Component {
                 </View>
                 <View style={styles.containerBottom}>
                     <Content>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("yenikayit")}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("KayitGuncelle")}>
                             <Image style={styles.button}
                                 source={require('../../assets/bilgilerimiguncelle.png')}
                             />

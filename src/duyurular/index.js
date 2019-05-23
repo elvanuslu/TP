@@ -7,12 +7,13 @@ import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardIt
 const k1 = require("../../assets/resim1.png");
 const k2 = require("../../assets/Resim2.png");
 const k3 = require("../../assets/image3.png");
+const k4 = require("../../assets/Duyuru1.png");
 const datas = [
     {
         Id: 1,
         img: k1,
         text: "Yeni TP Extra Dizel",
-        note: "Eğitimlerde ve danışmanlık çalışmalarında sıklıkla konuyla ilgili bağlantı soruluyor. Ben de tüm Çevik Süreçler (Agile Frameworks) için faydalı olduğunu düşündüğüm bağlantıları (links) bir araya getirerek sizinle paylaşmaya karar verdim.",
+        note: "  Türkiye Petrolleri İnsan Kaynakları Grup Müdürü Çağla Bürümlü almış oldukları ödül hakkında şunları söyledi:. ",
         time: "3:43 pm"
     },
     {
@@ -73,8 +74,8 @@ export default class Duyurular extends Component {
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 5 }}>
                                     <Body>
-                                        <TouchableOpacity style={styles.logo} onPress={() => this.props.navigation.navigate("kampanyadetay")}>
-                                            <Image style={styles.logo} source={item.img} />
+                                        <TouchableOpacity style={{height:133,width:'100%',}} onPress={() => this.props.navigation.navigate("DuyuruDetay")}>
+                                        <Image style={styles.logo} source={item.img} />
                                         </TouchableOpacity>
                                        
                                     </Body>
@@ -112,8 +113,8 @@ const styles = StyleSheet.create({
     },
     logo: {
         width: '100%',
-        height: 132,
-        resizeMode: 'contain',
+        height: '100%',
+        resizeMode:'cover',
     },
     cardmb: {
         marginLeft: 10,

@@ -1,11 +1,13 @@
 
 import React, { Component } from 'react';
-import { Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import {Picker,Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
+import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon1 from "react-native-vector-icons/FontAwesome";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
+import { getYakitTipi, MusteriKayit } from '../Service/FetchUser';
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -19,15 +21,67 @@ export default class yenikayit extends Component {
             kullanici: '',
             formatted: '',
             extracted: '',
+            Adi: '',
+            Soyadi: '',
             eposta: '',
             tel: '',
             plaka: '',
-            akaryakit: '',
+            yakitTipi: undefined,
+            yakitTipiDeger: undefined,
             Sifre: '',
+            Sifre2: '',
+            error: '',
+            isLoading: false,
+            yakitTipleri: [],
+            selected2: undefined,
+            labelName: '',
+            loading: false,
+            SwitchOnValueHolder: false,
+            SozlesmeOkudum: false,
+            KampanyaDuyurular: false,
+            smsIzni: true,
         }
+    }
+    KapmanyaDuyuru = (value) => {
+        this.setState({
+            KampanyaDuyurular: value,
+            smsIzni: true,
+        })
+        if (value == true) {
+           // Alert.alert("Switch is On.");
+        }
+        else {
+         //   Alert.alert("Switch is Off.");
+        }
+
+    }
+    OkudumOnayladim = (value) => {
+        this.setState({
+            SozlesmeOkudum: value
+        })
+        if (value == true) {
+          //  Alert.alert("Switch is On.");
+        }
+        else {
+            //Alert.alert("Switch is Off.");
+        }
+
+    }
+    ShowAlert = (value) => {
+        this.setState({
+            SwitchOnValueHolder: value
+        })
+        if (value == true) {
+          //  Alert.alert("Switch is On.");
+        }
+        else {
+           // Alert.alert("Switch is Off.");
+        }
+
     }
     componentDidMount() {
         this._retrieveKullanici();
+        this._getYakitTipleri();
     }
     _retrieveKullanici = async () => {
         try {
@@ -35,6 +89,7 @@ export default class yenikayit extends Component {
             if (value !== null) {
                 this.setState({ kullanici: value });
                 console.log("UserId " + this.state.kullanici);
+
             }
         } catch (error) {
             // Error retrieving data
@@ -47,15 +102,185 @@ export default class yenikayit extends Component {
 
         }
     }
+    onBeniHatirla() {
+
+    }
+    onValueChange2(value, label) {
+
+        this.setState(
+            {
+                selected2: value,
+                labelName: label
+            },
+            () => {
+                console.log('selectedValue: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+            }
+        )
+    }
     onYakitTipiValueChange(value: string) {
         this.setState({
             yakitTipi: value
         });
+        console.log("Yakıt Tipi: " + this.state.yakitTipi);
+        console.log("Yakit Val: " + this.state.yakitTipiDeger);
     }
     onArabaValueChange(value: string) {
         this.setState({
-            araba: value
-        });
+            araba: value,
+
+        },
+            () => { console.log('Araba: ' + this.state.araba) }
+        );
+    }
+    _getYakitTipleri() {
+        getYakitTipi()
+            .then((res) => {
+                this.setState({
+                    yakitTipleri: res,
+                });
+                //        console.log("Yakit" + ("log Yakit" + JSON.stringify(this.state.yakitTipleri)));
+                //        console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
+            })
+            .catch(e => {
+                console.log("hata: " + e);
+            });
+    }
+    _btnKayit() {
+        try {
+            if (this.state.SozlesmeOkudum === true && this.state.KampanyaDuyurular === true) {
+
+                 console.log('Adı: ' + this.state.Adi.length);
+                if (this.state.Adi.length >= 3) {
+                    if (this.state.Soyadi.length >=3) {
+                        if (this.state.eposta !== '') {
+                            if (this.state.tel.length>=11) {
+                                if (this.state.plaka.length>=7) {
+                                    if (this.state.Sifre.length>5) {
+                                        if(this.state.Sifre === this.state.Sifre2){
+                                        this.setState({ loading: true })
+                                        MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
+                                            this.state.Sifre, this.state.plaka, this.state.selected2,
+                                            this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum)
+                                            .then((responseData) => {
+                                                this.setState({ loading: false })
+                                                if (responseData.status === true) {
+                                                    Alert.alert(
+                                                        'Kayıt İşlemi!',
+                                                        responseData.message,
+                                                        [
+
+                                                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                        ],
+                                                        { cancelable: true },
+                                                    );
+                                                    // console.log("response: " + JSON.stringify(responseData)) 
+                                                }
+                                            })
+                                            .catch((err) => {
+                                                this.setState({ loading: false })
+                                                console.log(err);
+                                            });
+                                        }
+                                        else{
+                                            Alert.alert(
+                                                'Kayıt İşlemi!',
+                                                'Girilen Şifre birbirinden farklı.',
+                                                [
+    
+                                                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                ],
+                                                { cancelable: true },
+                                            );
+                                        }
+                                    }
+                                    else {
+                                        Alert.alert(
+                                            'Kayıt İşlemi!',
+                                            'Şifre boş bırakılamaz, en az 6 karakter olmalı',
+                                            [
+
+                                                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                            ],
+                                            { cancelable: true },
+                                        );
+                                    }
+                                }//Plaka...
+                                else {
+                                    Alert.alert(
+                                        'Kayıt İşlemi!',
+                                        'Plaka alanı boş bırakılamaz.',
+                                        [
+
+                                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                        ],
+                                        { cancelable: true },
+                                    );
+                                }
+                            } // Tel...
+                            else {
+                                Alert.alert(
+                                    'Kayıt İşlemi!',
+                                    'Telefon alanı boş bırakılamaz.',
+                                    [
+
+                                        { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                    ],
+                                    { cancelable: true },
+                                );
+                            }
+                        } //E-Posta...
+                        else {
+                            Alert.alert(
+                                'Kayıt İşlemi!',
+                                'E-Posta alanı boş bırakılamaz.',
+                                [
+
+                                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                ],
+                                { cancelable: true },
+                            );
+                        }
+                    }// Soyadı...
+                    else {
+                        Alert.alert(
+                            'Kayıt İşlemi!',
+                            'Soyadı alanı boş bırakılamaz.',
+                            [
+
+                                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                            ],
+                            { cancelable: true },
+                        );
+                    }
+                }//Adı...
+                else {
+                    Alert.alert(
+                        'Kayıt İşlemi!',
+                        'Adınızı girmelisiniz.',
+                        [
+
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                }
+            }
+            else {
+                Alert.alert(
+                    'Onay İşlemi!',
+                    '* Sözleşmeyi Okudum onayladım \n* Kampanya ve Duyurular için benimle iletişime geçilmesine izin veriyorum.'
+                    + '\n Onaylamalısınız.',
+                    [
+
+                        { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: true },
+                );
+            }
+        } catch (error) {
+            this.setState({ loading: false })
+            console.log('hata oluştu: ' + error);
+        }
     }
     render() {
         return (
@@ -84,20 +309,29 @@ export default class yenikayit extends Component {
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spinner
+                            visible={this.state.loading}
+                            textContent={'Lütfen Bekleyiniz...'}
+                            textStyle={styles.spinnerTextStyle}
+                        />
+                    </View>
                     <Content style={{ backgroundColor: '#fff' }}>
                         <Body>
                             <Form>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='Ad'
-                                        // keyboardType="email-address"
+                                        onChangeText={(value) => this.setState({ Adi: value })}
+                                        value={this.state.Adi}
                                         placeholderTextColor="#efefef"
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='Soyad'
-                                        // keyboardType="email-address"
+                                        onChangeText={(value) => this.setState({ Soyadi: value })}
+                                        value={this.state.Soyadi}
                                         placeholderTextColor="#efefef"
                                         underlineColorAndroid="transparent" />
                                 </Item>
@@ -106,6 +340,8 @@ export default class yenikayit extends Component {
                                     <Input placeholder='e-posta adresi giriniz...'
                                         keyboardType="email-address"
                                         placeholderTextColor="#efefef"
+                                        onChangeText={(value) => this.setState({ eposta: value })}
+                                        value={this.state.eposta}
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
@@ -116,10 +352,11 @@ export default class yenikayit extends Component {
                                         keyboardType="phone-pad"
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(formatted, extracted) => {
-                                            console.log(formatted)
-                                            console.log(extracted)
+                                            this.setState({ tel: formatted })
+                                            //  console.log(formatted)
+                                            // console.log(extracted)
                                         }}
-                                        mask={"+90 ([000]) [000] [00] [00]"}
+                                        mask={"0 [000] [000] [00] [00]"}
                                     />
 
                                 </Item>
@@ -129,6 +366,8 @@ export default class yenikayit extends Component {
                                         autoCapitalize='characters'
                                         // keyboardType="email-address"
                                         placeholderTextColor="#efefef"
+                                        onChangeText={(value) => this.setState({ plaka: value })}
+                                        value={this.state.plaka}
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item picker style={styles.comboItem}>
@@ -140,19 +379,32 @@ export default class yenikayit extends Component {
                                         placeholder="Yakıt Tipi"
                                         placeholderStyle={{ color: "#bfc6ea" }}
                                         placeholderIconColor="#007aff"
-                                        selectedValue={this.state.yakitTipi}
-                                        onValueChange={this.onYakitTipiValueChange.bind(this)}
-                                    >
-                                        <Picker.Item label="Benzin" value="key0" />
-                                        <Picker.Item label="Dizel" value="key1" />
-                                        <Picker.Item label="Lpg" value="key2" />
+                                        //   selectedValue={this.state.yakitTipi}
+                                        //    onValueChange={this.onYakitTipiValueChange.bind(this)}
+                                        // onValueChange={(itemValue, itemIndex) => this.setState({ yakitTipi: itemValue, yakitTipiDeger:itemIndex },this.onYakitTipiValueChange.bind(this))}
+                                        selectedValue={this.state.selected2}
+                                        onValueChange={this.onValueChange2.bind(this)}>
+                                        {
+                                            this.state.yakitTipleri.map((item, key) => (
+                                                //  console.log("ttip: " + item.bm_yakittipiadi),
+                                                //  console.log("ttip: " + item.bm_yakittipiid),
+                                                <Picker.Item
+                                                    label={item.bm_yakittipiadi}
+                                                    value={item.bm_yakittipiid}
+                                                    key={item.bm_yakittipiid} />)
+                                            )
+                                        }
                                     </Picker>
                                 </Item>
+
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='Şifre '
                                         // keyboardType="email-address"
                                         placeholderTextColor="#efefef"
+                                        secureTextEntry={true}
+                                        onChangeText={(value) => this.setState({ Sifre: value })}
+                                        value={this.state.Sifre}
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
@@ -160,36 +412,35 @@ export default class yenikayit extends Component {
                                     <Input placeholder='Şifre (tekrar)... '
                                         // keyboardType="email-address"
                                         placeholderTextColor="#efefef"
+                                        secureTextEntry={true}
+                                        onChangeText={(value) => this.setState({ Sifre2: value })}
+                                        value={this.state.Sifre2}
                                         underlineColorAndroid="transparent" />
                                 </Item>
                             </Form>
                         </Body>
-                        <View style={styles.switchcontainer}>
-                            <View style={{ alignContent: 'center' }}>
-                                <Text style={styles.switcText}>Beni Hatırla</Text>
-                            </View>
-                            <Switch
-                                onValueChange={this.toggleSwitch1}
-                                value={this.switch1Value} />
 
-                        </View>
                         <View style={styles.switchcontainer}>
                             <View style={{ alignContent: 'center' }}>
                                 <Text style={styles.switcText}>Sözleşmeyi Okudum Onaylıyorum</Text>
                             </View>
+
                             <Switch
-                                onValueChange={this.toggleSwitch1}
-                                value={this.switch1Value} />
+                                onValueChange={(value) => this.OkudumOnayladim(value)}
+                                style={{ marginBottom: 0 }}
+                                value={this.state.SozlesmeOkudum} />
                         </View>
                         <View style={styles.switchcontainer}>
                             <View style={{ alignContent: 'center' }}>
                                 <Text style={styles.switcText}>Kampanya ve duyurular için benimle{"\n"}iletişime geçilmesine izin veriyorum</Text>
                             </View>
+
                             <Switch
-                                onValueChange={this.toggleSwitch1}
-                                value={this.switch1Value} />
+                                onValueChange={(value) => this.KapmanyaDuyuru(value)}
+                                style={{ marginBottom: 0 }}
+                                value={this.state.KampanyaDuyurular} />
                         </View>
-                        <Button block danger style={styles.mb15}>
+                        <Button block danger style={styles.mb15} onPress={() => this._btnKayit()}>
                             <Text style={styles.buttonText}>KAYIT OL</Text>
                         </Button>
                     </Content>
@@ -202,6 +453,9 @@ export default class yenikayit extends Component {
 
 
 const styles = StyleSheet.create({
+    spinnerTextStyle: {
+        color: '#FFF'
+    },
     container: {
         flex: 1,
     },
@@ -281,6 +535,6 @@ const styles = StyleSheet.create({
         //   marginBottom: 15,
         borderWidth: 1,
         marginTop: 5,
- 
+
     },
 })

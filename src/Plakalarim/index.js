@@ -84,7 +84,7 @@ export default class Plakalarim extends Component {
                 <StatusBar backg roundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.goBack()}>
+                        <Button transparent onPress={() => this.props.navigation.navigate('hesabim')}>
                             <Icon name="arrow-back" />
                         </Button>
                     </Left>

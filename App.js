@@ -18,6 +18,8 @@ import PlakaEkle from "./src/PlakaEkle/";
 import Plakalarim from "./src/Plakalarim/";
 import SatisVePuanGecmisi from './src/SatisVePuanGecmisi';
 import SatisVePuanDetay from "./src/SatisVePuanDetay/";
+import KayitGuncelle from './src/yenikayit/KayitGuncelle';
+import DuyuruDetay from './src/duyurular/DuyuruDetay';
 
 const Drawer = createDrawerNavigator({
    login: {screen: login},
@@ -32,6 +34,8 @@ const Drawer = createDrawerNavigator({
    Plakalarim :{ screen: Plakalarim},
    SatisVePuanGecmisi: { screen: SatisVePuanGecmisi},
    SatisVePuanDetay:{screen: SatisVePuanDetay},
+   KayitGuncelle: { screen: KayitGuncelle},
+   DuyuruDetay: { screen: DuyuruDetay}
 },
 {
   initialRouteName: "login",
@@ -52,6 +56,8 @@ const AppNavigator = createStackNavigator({
   Plakalarim: { screen: Plakalarim},
   SatisVePuanGecmisi: { screen: SatisVePuanGecmisi},
   SatisVePuanDetay:{ screen: SatisVePuanDetay},
+  KayitGuncelle: { screen: KayitGuncelle},
+  DuyuruDetay: { screen: DuyuruDetay},
 }, 
 {
   initialRouteName: "Drawer",

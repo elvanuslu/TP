@@ -1,8 +1,10 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import {Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem } from 'native-base';
 
+import { getKampanyaListesi } from '../Service/FetchUser';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
@@ -34,18 +36,33 @@ export default class kampanya extends Component {
     constructor() {
         super();
         this.state = {
-            datam: datas
+            //datam: datas
+            datam:[],
+            loading: true
         }
     }
-
-
+componentDidMount(){
+   this._getKampanyaListesi();
+}
+_getKampanyaListesi(){
+    getKampanyaListesi()
+    .then((res) =>{
+        this.setState({datam :res,loading:false});
+      console.log(res);
+    });
+}
+GetItem(item) {
+    //Function for click on an item
+   // Alert.alert(item);
+    this.props.navigation.navigate("kampanyadetay",{Id:item});
+  }
     render() {
         return (
             <Container style={styles.container}>
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <Header  style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.goBack()}>
+                        <Button transparent onPress={() => this.props.navigation.navigate('hesabim')}>
                             <Icon name="arrow-back" />
                         </Button>
                     </Left>
@@ -59,14 +76,21 @@ export default class kampanya extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container1}>
+                <View style={{ flexDirection: 'column', justifyContent: 'center',alignItems:'center' }}>
+                            <Spinner
+                                visible={this.state.loading}
+                                textContent={'Yükleniyor...'}
+                                textStyle={styles.spinnerTextStyle}
+                            />
+                        </View>
                     <FlatList
-                        data={datas}
+                        data={this.state.datam}
                         renderItem={({ item }) =>
-                            <Card key={item.Id} style={styles.cardmb}>
+                            <Card key={item.bm_kampanyaid} style={styles.cardmb}>
                                 <CardItem cardBody>
                                     <Body>
-                                        <TouchableOpacity style={styles.logo} onPress={() => this.props.navigation.navigate("kampanyadetay")}>
-                                            <Image style={styles.logo} source={item.img} />
+                                        <TouchableOpacity style={styles.logo} onPress={() =>this.GetItem(item.bm_kampanyaid)}>
+                                            <Image style={styles.logo} source={{uri: item.bm_pictureurl}} />
                                         </TouchableOpacity>
                                     </Body>
                                 </CardItem>
@@ -83,6 +107,11 @@ export default class kampanya extends Component {
 }
 
 const styles = StyleSheet.create({
+    spinnerTextStyle: {
+        color: '#FFF'
+      },
+   
+   
     container: {
         flex: 1,
         //  flexDirection: 'column',

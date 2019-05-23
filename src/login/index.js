@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity } from 'react-native';
 import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { getUserInfo } from '../Service/FetchUser';
@@ -10,12 +10,14 @@ export default class login extends Component {
   constructor() {
     super();
     this.state = {
-      switch1Value: false,
+      switch1Value: true,
       UserName: 'asu@test.com',
       Pass: '123456',
-      userId:'',
+      userId: '',
       error: '',
       isLoading: false,
+      loading: false,
+      SwitchOnValueHolder: false,
     }
   }
   /*
@@ -35,36 +37,38 @@ export default class login extends Component {
       });
   }
   */
- _storeData = async () => {
-  try {
-    console.log("usr="+this.state.userId);
-    await AsyncStorage.setItem("UserName",this.state.UserName);
-    await AsyncStorage.setItem('userId',this.state.userId);
-    
-  } catch (error) {
-    console.log("Err="+error);
-  }
-};
+  _storeData = async () => {
+    try {
+      // console.log("usr="+this.state.userId);
+      await AsyncStorage.setItem("UserName", this.state.UserName);
+      await AsyncStorage.setItem('userId', this.state.userId);
+
+    } catch (error) {
+      console.log("Err=" + error);
+    }
+  };
   handleSubmit() {
+    this.setState({ loading: true })
     getUserInfo(this.state.UserName, this.state.Pass)
       .then((res) => {
-        this.setState({userId :res.contactid});
-        console.log("stateUserId=>" + this.state.userId);
+        this.setState({ userId: res.contactid, loading: false });
+        //      console.log("stateUserId=>" + this.state.userId);
         if (res.contactid === undefined) {
-          
-          Toast.show({
-            text: "Hata\n" + res,
-            buttonText: "Okay",
-            type: 'danger'
-          })
+
+          /*    Toast.show({
+                text: "Hata\n" + res,
+                buttonText: "Okay",
+                type: 'danger'
+              })
+            */
           Alert.alert(
             'Hata!',
-            res ,
+            res,
             [
-             
-              {text: 'Tamam', onPress: () => console.log('OK Pressed')},
+
+              { text: 'Tamam', onPress: () => console.log('OK Pressed') },
             ],
-            {cancelable: true},
+            { cancelable: true },
           );
           this.setState({
             error: 'User not found',
@@ -72,14 +76,14 @@ export default class login extends Component {
         }
         else {
           console.log("Kayıt else=>" + res);
-          this.setState({userId:res.contactid});
-        this._storeData();
+          this.setState({ userId: res.contactid });
+          this._storeData();
           Toast.show({
-            text: "Giriş Başarılı!\n" ,
+            text: "Giriş Başarılı!\n",
             buttonText: "Okay",
             type: 'success',
           })
-          this.props.navigation.navigate("hesabim",{Data:res});
+          this.props.navigation.navigate("hesabim", { Data: res });
           this.setState({
             error: false,
             username: ''
@@ -92,10 +96,30 @@ export default class login extends Component {
     this.setState({ switch1Value: value })
     console.log('Switch 1 is: ' + value)
   }
+
+  ShowAlert = (value) => {
+    this.setState({
+      SwitchOnValueHolder: value
+    })
+    if (value == true) {
+      Alert.alert("Switch is On.");
+    }
+    else {
+      Alert.alert("Switch is Off.");
+    }
+
+  }
   render() {
     return (
       <Container>
         <View style={styles.container}>
+          <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <Spinner
+              visible={this.state.loading}
+              textContent={'Yükleniyor...'}
+              textStyle={styles.spinnerTextStyle}
+            />
+          </View>
           <View style={styles.container1}>
             <View>
               <Image style={styles.logo} source={require('../../assets/tplogo.png')}
@@ -130,9 +154,11 @@ export default class login extends Component {
                 <View style={{ alignContent: 'center' }}>
                   <Text style={styles.switcText}>Beni Hatırla</Text>
                 </View>
+
                 <Switch
-                  onValueChange={this.toggleSwitch1}
-                  value={this.switch1Value} />
+                  onValueChange={(value) => this.ShowAlert(value)}
+                  style={{ marginBottom: 0 }}
+                  value={this.state.SwitchOnValueHolder} />
               </View>
 
 
@@ -163,13 +189,15 @@ export default class login extends Component {
             </View>
           </View>
         </View>
-      </Container>
+      </Container >
     );
   }
 }
 
 const styles = StyleSheet.create({
-
+  spinnerTextStyle: {
+    color: '#FFF'
+  },
   container: {
     flex: 1,
 
