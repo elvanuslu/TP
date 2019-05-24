@@ -159,9 +159,11 @@ export default class yenikayit extends Component {
                                         if (this.state.Sifre === this.state.Sifre2) {
                                             this.setState({ loading: true })
                                             MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
-                                                this.state.Sifre, this.state.plaka, this.state.selected2,
+                                                this.state.Sifre, this.state.plaka, this.state.selected2,this.state.selected2,
                                                 this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum)
                                                 .then((responseData) => {
+                                                  //  let response =JSON.stringify(responseData);
+                                                    //console.log('responseData='+ responseData.status)
                                                     this.setState({ loading: false })
                                                     if (responseData.status === true) {
                                                         Alert.alert(
@@ -169,7 +171,7 @@ export default class yenikayit extends Component {
                                                             responseData.message,
                                                             [
 
-                                                                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                                { text: 'Tamam', onPress: () =>  this.setState({ loading: false }) },
                                                             ],
                                                             { cancelable: true },
                                                         );
@@ -345,7 +347,7 @@ export default class yenikayit extends Component {
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                                    <Icon active name='person' color='#fff' />
                                     <TextInputMask style={styles.Inputs1}
                                         placeholder="Telefon Giriniz..."
                                         placeholderTextColor="#efefef"
@@ -364,11 +366,28 @@ export default class yenikayit extends Component {
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='Plaka Giriniz...'
                                         autoCapitalize='characters'
-                                        // keyboardType="email-address"
+                                        keyboardType="name-phone-pad"
                                         placeholderTextColor="#efefef"
                                         onChangeText={(value) => this.setState({ plaka: value })}
                                         value={this.state.plaka}
                                         underlineColorAndroid="transparent" />
+                                    <TextInputMask style={styles.Inputs1}
+                                        autoCapitalize="characters"
+                                        placeholder="Plaka Giriniz..."
+                                        placeholderTextColor="#efefef"
+                                        keyboardType="name-phone-pad"
+                                     //   onChangeText={(value) => this.setState({ plaka: value })}
+                                        value={this.state.plaka}
+                                        underlineColorAndroid="transparent"
+
+                                        refInput={ref => { this.input = ref }}
+                                        onChangeText={(formatted, extracted) => {
+                                            this.setState({ plaka: formatted })
+                                            console.log(formatted)
+                                            console.log(extracted)
+                                        }}
+                                        mask={"[00] [AAa] [0000]"}
+                                    />
                                 </Item>
                                 <Item picker style={styles.Inputs}>
                                     <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
@@ -495,11 +514,16 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         height: 40,
         width: 300,
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderWidth: 1,
         //color:'black',
         borderColor: 'black',
     },
     Inputs1: {
-
+        alignSelf: 'center',
+        height: 40,
         borderRadius: 5,
         marginBottom: 10,
         width: '90%',

@@ -15,7 +15,8 @@ export const getYakitTipi = () => {
     .then((ret) => ret.json())
   //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
 }
-export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid,smsizni,donotemail,kullanicisozlesmeizni) => {
+export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid,BMyakitcinsiid2,smsizni,donotemail,kullanicisozlesmeizni) => {
+  console.log('plaka: '+Bmplaka)
   const URL = `http://85.105.103.4:8096/PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
@@ -31,7 +32,8 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
         mobilePhone: MobilePhone,
         bm_sifre: BMsifre,
         bm_plaka: Bmplaka,
-        bm_yakitcinsiid: BMyakitcinsiid,
+        bm_yakitcinsiid_1: BMyakitcinsiid,
+        bm_yakitcinsiid_2: BMyakitcinsiid2,
         bm_smsizni: smsizni,
         donotmail:donotemail,
         bm_kullanicisozlesmeizni: kullanicisozlesmeizni

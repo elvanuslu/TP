@@ -21,6 +21,7 @@ import SatisVePuanDetay from "./src/SatisVePuanDetay/";
 import KayitGuncelle from './src/yenikayit/KayitGuncelle';
 import DuyuruDetay from './src/duyurular/DuyuruDetay';
 
+
 const Drawer = createDrawerNavigator({
    login: {screen: login},
    kampanya: {screen: kampanya},

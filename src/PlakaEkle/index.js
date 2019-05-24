@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
-
+import TextInputMask from 'react-native-text-input-mask';
 
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
@@ -12,6 +12,7 @@ const pompa = require("../../assets/pompatabancakirmizi.png");
 const plaka = require("../../assets/plakaKirmizi.png");
 const pmpa = require("../../assets/pompaKirmizi.png");
 const araba = require("../../assets/araba.png");
+
 
 export default class PlakaEkle extends Component {
     constructor() {
@@ -47,9 +48,10 @@ export default class PlakaEkle extends Component {
         });
     }
     render() {
+        <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
         return (
             <Container style={styles.container}>
-                <StatusBar backg roundColor="transparent" barStyle="light-content" />
+
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim")}>
@@ -77,34 +79,30 @@ export default class PlakaEkle extends Component {
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'row' }}>
-                        <Item regular style={styles.Inputs}>
-                            <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={plaka}></Image>
-                            <Input placeholder='Plaka'
-                                keyboardType="number-pad"
-                                placeholderTextColor="#efefef"
-                                underlineColorAndroid="transparent" />
-                        </Item>
-                        <Item regular style={styles.Inputs}>
-                            <Image style={{ width: 35, height: 35, resizeMode: 'contain' }} source={plaka}></Image>
-                            <Input placeholder='Plaka'
-                                // keyboardType="email-address"
-                                placeholderTextColor="#efefef"
+                        <Item regular style={styles.Inputs2}>
+                            <Image style={{ width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
+                            <TextInputMask style={styles.Inputs1}
                                 autoCapitalize="characters"
-                                underlineColorAndroid="transparent" />
-                        </Item>
-                        <Item regular style={styles.Inputs}>
-                            <Image style={{ width: 35, height: 35, resizeMode: 'contain' }} source={plaka}></Image>
-                            <Input placeholder='Plaka'
-                                keyboardType="number-pad"
+                                placeholder="Plaka Giriniz..."
                                 placeholderTextColor="#efefef"
-                                underlineColorAndroid="transparent" />
+                                keyboardType="name-phone-pad"
+                                refInput={ref => { this.input = ref }}
+                                onChangeText={(formatted, extracted) => {
+                                    this.setState({ tel: formatted })
+                                    console.log(formatted)
+                                    console.log(extracted)
+                                }}
+                                mask={"[00] [AAa] [0000]"}
+                            />
+
                         </Item>
+
                     </View>
 
-                    <Item picker style={styles.comboItem}>
+                    <Item picker style={styles.Inputs2}>
                         <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
-                        <Picker borderColor='black'
+                        <Picker  borderWidt='1' borderColor='black'
                             mode="dropdown"
                             iosIcon={<Icon name="arrow-down" />}
                             style={{ width: undefined }}
@@ -119,9 +117,9 @@ export default class PlakaEkle extends Component {
                             <Picker.Item label="Lpg" value="key2" />
                         </Picker>
                     </Item>
-                    <Item picker style={styles.comboItem}>
+                    <Item picker style={styles.Inputs2}>
                         <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
-                        <Picker borderColor='black'
+                        <Picker style={styles.Inputs2} borderColor='black'
                             mode="dropdown"
                             iosIcon={<Icon name="arrow-down" />}
                             style={{ width: undefined }}
@@ -154,6 +152,7 @@ export default class PlakaEkle extends Component {
 }
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
 
@@ -172,6 +171,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         flexDirection: 'column',
+     
     },
     welcome: {
         fontSize: 20,
@@ -247,5 +247,29 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginTop: 5,
 
+    },
+    
+    Inputs1: {
+        alignSelf: 'center',
+        height: 50,
+        borderRadius: 5,
+        marginBottom: 10,
+        width: '90%',
+        //color:'black',
+        borderColor: 'black',
+    },
+    Inputs2: {
+        marginLeft: 30,
+        marginRight: 30,
+        borderRadius: 5,
+        marginBottom: 10,
+        height: 50,
+        width: 300,
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth:1,
+        borderWidth:1,
+        //color:'black',
+        borderColor: 'black',
     },
 });
