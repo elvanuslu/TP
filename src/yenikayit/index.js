@@ -171,11 +171,22 @@ export default class yenikayit extends Component {
                                                             responseData.message,
                                                             [
 
-                                                                { text: 'Tamam', onPress: () =>  this.setState({ loading: false }) },
+                                                                { text: 'Tamam', onPress: () =>  this.props.navigation.navigate("login") },
                                                             ],
                                                             { cancelable: true },
                                                         );
                                                         // console.log("response: " + JSON.stringify(responseData)) 
+                                                    }
+                                                    else{
+                                                        Alert.alert(
+                                                            'Kayıt İşlemi!',
+                                                            responseData.message,
+                                                            [
+
+                                                                { text: 'Tamam', onPress: () =>  console.log('False') },
+                                                            ],
+                                                            { cancelable: true },
+                                                        ); 
                                                     }
                                                 })
                                                 .catch((err) => {
@@ -282,6 +293,8 @@ export default class yenikayit extends Component {
         } catch (error) {
             this.setState({ loading: false })
             console.log('hata oluştu: ' + error);
+        } finally{
+            this.setState({ loading: false })
         }
     }
     render() {
