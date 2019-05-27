@@ -1,0 +1,5 @@
+platform :ios, '9.0'
+target 'TP' do
+pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga/yoga.podspec'
+pod 'GoogleMaps'
+end

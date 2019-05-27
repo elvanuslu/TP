@@ -8,6 +8,8 @@ import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getYakitTipi, MusteriKayit } from '../Service/FetchUser';
 
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
@@ -41,7 +43,15 @@ export  default class Harita extends Component{
                     </Right>
                 </Header>
                 <View>
-                    
+                   <MapView provider={PROVIDER_GOOGLE}
+                   style={styles.container}
+                   initialRegion={{
+                       latitude: 39.7392,
+                       longitude: -104.9903,
+                       latitudeDelta: 0.0922,
+                       longitudeDelta:0.0421,
+                   }}>
+                    </MapView> 
                 </View>
             </Container>
         );
@@ -57,9 +67,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        flex: 3,
-        backgroundColor: 'transparent',
-        alignItems: 'center',
+        height:'100%',
+        width:'100%',
     },
     containerOrta: {
         flex: 10,
