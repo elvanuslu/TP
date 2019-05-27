@@ -20,6 +20,7 @@ import SatisVePuanGecmisi from './src/SatisVePuanGecmisi';
 import SatisVePuanDetay from "./src/SatisVePuanDetay/";
 import KayitGuncelle from './src/yenikayit/KayitGuncelle';
 import DuyuruDetay from './src/duyurular/DuyuruDetay';
+import Harita from './src/Harita/Harita';
 
 
 const Drawer = createDrawerNavigator({
@@ -36,7 +37,9 @@ const Drawer = createDrawerNavigator({
    SatisVePuanGecmisi: { screen: SatisVePuanGecmisi},
    SatisVePuanDetay:{screen: SatisVePuanDetay},
    KayitGuncelle: { screen: KayitGuncelle},
-   DuyuruDetay: { screen: DuyuruDetay}
+   DuyuruDetay: { screen: DuyuruDetay},
+Harita:{ screen: Harita},
+
 },
 {
   initialRouteName: "login",
@@ -59,6 +62,7 @@ const AppNavigator = createStackNavigator({
   SatisVePuanDetay:{ screen: SatisVePuanDetay},
   KayitGuncelle: { screen: KayitGuncelle},
   DuyuruDetay: { screen: DuyuruDetay},
+  Harita:{ screen: Harita},
 }, 
 {
   initialRouteName: "Drawer",

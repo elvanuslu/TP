@@ -84,7 +84,7 @@ export default class hesabim extends Component {
                                 source={require('../../assets/satisvepuan.png')}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("kampanya")}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Harita")}>
                             <Image
                                 style={styles.button1}
                                 source={require('../../assets/t-para.png')}
