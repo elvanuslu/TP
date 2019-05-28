@@ -14,52 +14,78 @@ const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
+const pin = require("../../assets/pin.png");
 
 export  default class Harita extends Component{
     constructor() {
         super();
         this.state = {
             kullanici: '',
+            latitude:37.755388,
+            longitude: -122.426123,
         }
     }
 
     render() {
         return(
-            <Container style={styles.container}>
-             <StatusBar style={{ color: '#fff' }} barStyle="light-content" />
-                <Header style={{ backgroundColor: 'red' }}>
-                    <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title style={{ color: '#fff' }}>Harita</Title>
-                    </Body>
-                    <Right>
-                        <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" style={{ color: '#fff' }} />
-                        </Button>
-                    </Right>
-                </Header>
-                <View>
-                   <MapView provider={PROVIDER_GOOGLE}
-                   style={styles.container}
-                   initialRegion={{
-                       latitude: 39.7392,
-                       longitude: -104.9903,
-                       latitudeDelta: 0.0922,
-                       longitudeDelta:0.0421,
-                   }}>
-                    </MapView> 
-                </View>
-            </Container>
+              
+              <MapView provider={PROVIDER_GOOGLE}
+              style={styles.map}
+              initialRegion={{
+                  latitude: 41.001895,
+                  longitude: 29.045486,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta:0.0421,
+              }}>
+              <MapView.Marker coordinate={{latitude: 41.001895, longitude: 29.045486}} title="Türk Petrol" description="description" />
+               </MapView> 
         );
     }
 }
+/*
+  /*</View>
+                    <MapView.Marker coordinate = {this.state.userPosition} image = {require('../../Images/marker.png')}/>
+    {this.state.datas.map((data) => (
+        <MapView.Marker
+            coordinate={{latitude: data.latitude, longitude: data.longitude}}
+            image={require('../../Images/pin.png')}
+        />
+    ))}
+</MapView>
 
+navigator.geolocation.getCurrentPosition(
+    (position) => {
+        let location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        };
+        this.setstate({userPosition: location});
+    },
+(error) => alert(error.message),
+    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+);
+
+navigator.geolocation.getCurrentPosition(
+    (position) => {
+        let location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        };
+        this.setstate({userPosition: location});
+    },
+(error) => alert(error.message),
+    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+);
+*/
 
 const styles = StyleSheet.create({
+    map: {
+        flex: 6,
+        ...StyleSheet.absoluteFillObject,
+        width:'100%',
+        height:'100%',
+        backgroundColor:'gray'
+    },
     spinnerTextStyle: {
         color: '#FFF'
     },
