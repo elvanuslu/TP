@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import { Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
+import {Footer,FooterTab, Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon1 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getYakitTipi, MusteriKayit } from '../Service/FetchUser';
 
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+
+import MapView, { PROVIDER_GOOGLE, MAP_TYPES } from 'react-native-maps';
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -16,29 +15,59 @@ const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 const pin = require("../../assets/pin.png");
 
-export  default class Harita extends Component{
+export default class Harita extends Component {
     constructor() {
         super();
         this.state = {
             kullanici: '',
-            latitude:37.755388,
+            latitude: 37.755388,
             longitude: -122.426123,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
         }
     }
 
     render() {
-        return(
-              
-              <MapView provider={PROVIDER_GOOGLE}
-              style={styles.map}
-              initialRegion={{
-                  latitude: 41.001895,
-                  longitude: 29.045486,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta:0.0421,
-              }}>
-              <MapView.Marker coordinate={{latitude: 41.001895, longitude: 29.045486}} title="Türk Petrol" description="description" />
-               </MapView> 
+        <View>
+            <Text>Başlık1</Text>
+            <Text>Yazı</Text>
+            <Image source={{ pin }} style={{ width: 100, resizeMode: 'contain' }}></Image>
+        </View>
+        return (
+            <Container>
+                <StatusBar style={{ color: '#fff' }} barStyle="dark-content" />
+                <Header style={{ backgroundColor: 'red' }}>
+                    <Left>
+                        <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title style={{ color: '#fff' }}>Harita</Title>
+                    </Body>
+                    <Right>
+                        <Button transparent onPress={() => this.props.navigation.openDrawer()}>
+                            <Icon name="menu" style={{ color: '#fff' }} />
+                        </Button>
+                    </Right>
+                </Header>
+                <View style={styles.container}>
+                <MapView //provider={PROVIDER_GOOGLE}
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: 41.001895,
+                        longitude: 29.045486,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}>
+                    <MapView.Marker coordinate={{ latitude: 41.001895, longitude: 29.045486 }}
+                        Image={{ pin }}
+                        title="Türk Petrol" description="description">
+                    </MapView.Marker>
+                </MapView>
+                </View>
+                
+              </Container>
         );
     }
 }
@@ -82,9 +111,9 @@ const styles = StyleSheet.create({
     map: {
         flex: 6,
         ...StyleSheet.absoluteFillObject,
-        width:'100%',
-        height:'100%',
-        backgroundColor:'gray'
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'gray'
     },
     spinnerTextStyle: {
         color: '#FFF'
@@ -93,8 +122,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        height:'100%',
-        width:'100%',
+        height: '100%',
+        width: '100%',
     },
     containerOrta: {
         flex: 10,
