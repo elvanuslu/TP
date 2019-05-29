@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import {Footer,FooterTab, Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
+import { Footer, FooterTab, Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon1 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { getIstasyonWithLatLon } from '../Service/FetchUser';
 
 import MapView, { PROVIDER_GOOGLE, MAP_TYPES } from 'react-native-maps';
 
@@ -26,22 +26,30 @@ export default class Harita extends Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
             error: null,
+            datas: [],
         }
+    }
+    _getData() {
+        getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
+            this.setState({ datas: res });
+            console.log('res= ' + JSON.stringify(this.state.datas));
+        })
     }
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.setState({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              error: null,
-            });
-            console.log('LAT: '+ this.state.latitude+' Lon: '+ this.state.longitude);
-          },
-          (error) => this.setState({ error: error.message }),
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null,
+                });
+                this._getData();
+                console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
-      }
+    }
     render() {
         <View>
             <Text>Başlık1</Text>
@@ -67,23 +75,61 @@ export default class Harita extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container}>
-                <MapView //provider={PROVIDER_GOOGLE}
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: this.state.latitude, //41.001895,
-                        longitude: this.state.longitude, //29.045486,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    }}>
-                    <MapView.Marker coordinate={{ latitude: 41.001895, longitude: 29.045486 }}
-                        Image={{ pin }}
-                        title="Türk Petrol" description="description">
-                    </MapView.Marker>
-                    
-                </MapView>
+                    <MapView //provider={PROVIDER_GOOGLE}
+                        style={styles.map}
+                        initialRegion={{
+                            latitude: this.state.latitude, //41.001895,
+                            longitude: this.state.longitude, //29.045486,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        }}>
+                        <MapView.Marker coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
+                            Image={{ pin }}
+                            title="Türk Petrol" description="description">
+                        </MapView.Marker>
+                        {this.state.datas.map((data, i) => (
+                            <MapView.Marker
+                                key={i}
+                                coordinate={{
+                                    latitude: data.Address1_Latitude,
+                                    longitude: data.Address1_Longitude
+                                }}
+                                title={data.name} description={data.Adres}
+                                Image={{ pin }}>
+                                <View style={{
+                                    flexDirection: 'row', width: 100, height: 40,
+                                    backgroundColor: 'red'
+                                }}>
+                                    <View
+                                        style={{
+                                            flexDirection: 'column'
+                                        }} >
+                                        <Text
+                                            style={{
+                                                marginLeft: 2,
+                                                fontSize: 9,
+                                                color: '#ffffff',
+                                                fontWeight: 'bold',
+                                                textDecorationLine: 'none'
+                                            }}>{data.name}</Text>
+                                        <Text
+                                            style={{
+                                                marginLeft: 2,
+                                                fontSize: 9,
+                                                color: '#ffffff',
+                                                fontWeight: 'bold',
+                                                textDecorationLine: 'underline'
+                                            }}
+                                        >{data.Adres}</Text>
+                                        <Text></Text>
+                                    </View>
+                                </View>
+                            </MapView.Marker>
+                        ))}
+                    </MapView>
                 </View>
-                
-              </Container>
+
+            </Container>
         );
     }
 }
