@@ -64,6 +64,7 @@ export default class Harita extends Component {
                         Image={{ pin }}
                         title="Türk Petrol" description="description">
                     </MapView.Marker>
+                    
                 </MapView>
                 </View>
                 
