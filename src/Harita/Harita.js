@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import MapView, { PROVIDER_GOOGLE, MAP_TYPES } from 'react-native-maps';
 
+
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
@@ -20,13 +21,27 @@ export default class Harita extends Component {
         super();
         this.state = {
             kullanici: '',
-            latitude: 37.755388,
-            longitude: -122.426123,
+            latitude: 40.001895,
+            longitude: 28.045486,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
+            error: null,
         }
     }
-
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              error: null,
+            });
+            console.log('LAT: '+ this.state.latitude+' Lon: '+ this.state.longitude);
+          },
+          (error) => this.setState({ error: error.message }),
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        );
+      }
     render() {
         <View>
             <Text>Başlık1</Text>
@@ -55,8 +70,8 @@ export default class Harita extends Component {
                 <MapView //provider={PROVIDER_GOOGLE}
                     style={styles.map}
                     initialRegion={{
-                        latitude: 41.001895,
-                        longitude: 29.045486,
+                        latitude: this.state.latitude, //41.001895,
+                        longitude: this.state.longitude, //29.045486,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}>
