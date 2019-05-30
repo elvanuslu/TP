@@ -1,4 +1,16 @@
 
+export const getIstasyonWithLatLon=(lat,lon,sayac)=>{ 
+  console.log('lat: '+lat); 
+  console.log('lon: '+lon); 
+  console.log('Sayaç: '+sayac); 
+  try { 
+    const URL = `http://85.105.103.4:8096/TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`; 
+    return fetch(URL, { method: 'GET' }) 
+    .then((res) => res.json()) 
+  } catch (error) { 
+     
+  } 
+} 
 export const getUserInfo = (name, pass) => {
   let username = name.toLowerCase().trim();
   //   console.log("User="+username+"  Pass ="+pass);
