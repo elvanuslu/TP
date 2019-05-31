@@ -1,8 +1,9 @@
 
 export const getIstasyonWithLatLon=(lat,lon,sayac)=>{ 
-  console.log('lat: '+lat); 
+ /* console.log('lat: '+lat); 
   console.log('lon: '+lon); 
   console.log('Sayaç: '+sayac); 
+  */
   try { 
     const URL = `http://85.105.103.4:8096/TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`; 
     return fetch(URL, { method: 'GET' }) 
@@ -17,7 +18,6 @@ export const getUserInfo = (name, pass) => {
   const URL = `http://85.105.103.4:8096/GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
-  // .then((data) => {console.log("Data=>"+ data)});
 }
 
 export const getYakitTipi = () => {
@@ -93,8 +93,6 @@ export const getKampanyaListesi = () => {
 
 }
 export const getKampanyaDetayList = (Id) => {
-  console.log(Id);
-  // const URL = `http://85.105.103.4:8096/GetBm_KampanyaByID`;
   const URL = `http://85.105.103.4:8096/GetBm_KampanyaByID?bm_kampanyaId=${Id}`;
   return fetch(URL,{method: 'GET'})
     .then((res) => res.json())

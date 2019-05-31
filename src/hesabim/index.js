@@ -66,7 +66,7 @@ export default class hesabim extends Component {
                     <Image style={styles.banner} source={k1} />
                 </View>
                 <View style={styles.containerBottom}>
-                    <Content>
+                   
                         <TouchableOpacity onPress={() => this.props.navigation.navigate("KayitGuncelle")}>
                             <Image style={styles.button}
                                 source={require('../../assets/bilgilerimiguncelle.png')}
@@ -84,15 +84,17 @@ export default class hesabim extends Component {
                                 source={require('../../assets/satisvepuan.png')}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Harita")}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
                             <Image
-                                style={styles.button1}
-                                source={require('../../assets/t-para.png')}
+                                style={styles.button}
+                                source={require('../../assets/EnYakinIstasyon.png')}
                             />
                         </TouchableOpacity>
-                    </Content>
+                        <TouchableOpacity style={styles.button1}></TouchableOpacity>
+                        <Text style={styles.button1}></Text>
+                   
                 </View>
-
+  <View style={styles.container}></View>
             </Container>
         );
     }
@@ -108,10 +110,10 @@ const styles = StyleSheet.create({
     container1: {
         flex: 2,
         backgroundColor: 'transparent',
-        alignItems: 'center',
+       // alignItems: 'center',
     },
     containerOrta: {
-        flex: 4,
+        flex: 5,
         backgroundColor: 'transparent',
     },
     containerBottom: {
@@ -119,6 +121,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         alignItems: 'center',
         flexDirection: 'column',
+        width:'100%',
+      
     },
     welcome: {
         fontSize: 20,
@@ -141,14 +145,14 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         //  width: 150,
-        height: 80,
+        height: '75%',
         resizeMode: 'contain',
         marginBottom: 5,
     },
     banner: {
         // marginTop: 2,
         width: '100%',
-        height: 220,
+        height: 222,
         resizeMode: 'contain',
         marginBottom: 5,
     },
@@ -163,17 +167,20 @@ const styles = StyleSheet.create({
     button: {
         resizeMode: 'contain',
         width: 320,
+       
         marginRight: 30,
         marginLeft: 30,
         marginBottom: -60,
+        
 
     },
     button1: {
-        resizeMode: 'contain',
+    //    resizeMode: 'contain',
         width: 320,
         marginRight: 30,
         marginLeft: 30,
         marginBottom: 5,
+     
     },
     button2: {
 

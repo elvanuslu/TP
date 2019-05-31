@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import {Footer,FooterTab, Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
+import { ImageBackground, Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Footer, FooterTab, Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon1 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -14,14 +14,25 @@ const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 const pin = require("../../assets/pin.png");
+const background = require("../../assets/petroldetay.png");
+const tasittanima = require("../../assets/tasittanima.png");
+const telefon = require("../../assets/telefon.png");
+const tmis = require("../../assets/tmis.png");
+const tpgaz = require("../../assets/tpgaz.png");
+const tsarj = require("../../assets/tsarj.png");
+const yoltarifi = require("../../assets/yoltarifi.png");
+
+const logo = require("../../assets/logo.png");
+const logoFull = require("../../assets/logoFull.png");
+
 
 export default class Harita extends Component {
     constructor() {
         super();
         this.state = {
             kullanici: '',
-            latitude: 41.001895,
-            longitude: 29.045486,
+            latitude: 40.802095,//41.001895,
+            longitude: 29.526954,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
             datas: [],
@@ -73,7 +84,7 @@ export default class Harita extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container}>
-                <MapView //provider={PROVIDER_GOOGLE}
+                    <MapView //provider={PROVIDER_GOOGLE}
                         style={styles.map}
                         initialRegion={{
                             latitude: this.state.latitude, //41.001895,
@@ -95,39 +106,24 @@ export default class Harita extends Component {
                                 title={data.name} description={data.Adres}
                                 Image={{ pin }}>
                                 <View style={{
-                                    flexDirection: 'row', width: 100, height: 40,
-                                    backgroundColor: 'red'
+                                    flexDirection: 'row',
+                                    backgroundColor: 'transparent'
                                 }}>
                                     <View
                                         style={{
                                             flexDirection: 'column'
                                         }} >
-                                        <Text
-                                            style={{
-                                                marginLeft: 2,
-                                                fontSize: 9,
-                                                color: '#ffffff',
-                                                fontWeight: 'bold',
-                                                textDecorationLine: 'none'
-                                            }}>{data.name}</Text>
-                                        <Text
-                                            style={{
-                                                marginLeft: 2,
-                                                fontSize: 9,
-                                                color: '#ffffff',
-                                                fontWeight: 'bold',
-                                                textDecorationLine: 'underline'
-                                            }}
-                                        >{data.Adres}</Text>
-                                        <Text></Text>
+                                        <ImageBackground source={logoFull} style={{ width: 85, height: 88, resizeMode: 'contain' }}>
+                                                <Text style={styles.txtHeader}>{data.name.trim()}</Text>
+                                        </ImageBackground>
                                     </View>
                                 </View>
                             </MapView.Marker>
                         ))}
                     </MapView>
                 </View>
-                
-              </Container>
+
+            </Container>
         );
     }
 }
@@ -168,6 +164,23 @@ navigator.geolocation.getCurrentPosition(
 */
 
 const styles = StyleSheet.create({
+    txtHeader: {
+       // marginLeft: 5,
+      // textAlign:'left',
+        marginTop: 10,
+        fontFamily: 'Myriadpro-Bold',
+        fontSize: 8,
+        color: '#fff',
+        alignSelf: 'center',
+    },
+    txtAdres: {
+        marginLeft: 5,
+        marginTop: 5,
+        fontFamily: 'Myriadpro-Regular',
+        fontSize: 8,
+        color: '#fff',
+       // alignSelf: 'center',
+    },
     map: {
         flex: 6,
         ...StyleSheet.absoluteFillObject,
@@ -209,62 +222,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginBottom: 5,
     },
-    Inputs: {
-        marginLeft: 30,
-        marginRight: 30,
-        borderRadius: 5,
-        marginBottom: 10,
-        height: 40,
-        width: 300,
-        borderTopWidth: 1,
-        borderLeftWidth: 1,
-        borderRightWidth: 1,
-        borderWidth: 1,
-        //color:'black',
-        borderColor: 'black',
-    },
-    Inputs1: {
-        alignSelf: 'center',
-        height: 40,
-        borderRadius: 5,
-        marginBottom: 10,
-        width: '90%',
-        //color:'black',
-        borderColor: 'black',
-    },
-    switchcontainer: {
-        flexDirection: 'row',
-        alignSelf: 'flex-end',
-        marginRight: 31,
-        alignItems: 'center',
 
-    },
-    switcText: {
-        textAlign: 'right',
-        fontSize: 12,
-        fontWeight: '300',
-        color: 'gray',
-        marginRight: 5,
-    },
-    mb15: {
-        borderRadius: 5,
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '800',
-    },
-    comboItem: {
-        marginRight: 40,
-        marginLeft: 40,
-        borderColor: 'black',
-        //   marginBottom: 15,
-        borderWidth: 1,
-        marginTop: 5,
 
-    },
+
+
 })

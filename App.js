@@ -21,53 +21,56 @@ import SatisVePuanDetay from "./src/SatisVePuanDetay/";
 import KayitGuncelle from './src/yenikayit/KayitGuncelle';
 import DuyuruDetay from './src/duyurular/DuyuruDetay';
 import Harita from './src/Harita/Harita';
+import EnYakinIstasyon from './src/EnYakinIstasyon';
 
 
 const Drawer = createDrawerNavigator({
-   login: {screen: login},
-   kampanya: {screen: kampanya},
-   kampanyadetay:{ screen : kampanyadetay},
-   yenikayit:{screen : yenikayit},
-   hesabim : { screen:hesabim},
-   Duyurular: {screen: Duyurular},
-   SifremiUnuttum: { screen: SifremiUnuttum},
-   PlakaEkle: { screen: PlakaEkle},
-   Satis :{ screen: Satis},
-   Plakalarim :{ screen: Plakalarim},
-   SatisVePuanGecmisi: { screen: SatisVePuanGecmisi},
-   SatisVePuanDetay:{screen: SatisVePuanDetay},
-   KayitGuncelle: { screen: KayitGuncelle},
-   DuyuruDetay: { screen: DuyuruDetay},
-Harita:{ screen: Harita},
+  login: { screen: login },
+  kampanya: { screen: kampanya },
+  kampanyadetay: { screen: kampanyadetay },
+  yenikayit: { screen: yenikayit },
+  hesabim: { screen: hesabim },
+  Duyurular: { screen: Duyurular },
+  SifremiUnuttum: { screen: SifremiUnuttum },
+  PlakaEkle: { screen: PlakaEkle },
+  Satis: { screen: Satis },
+  Plakalarim: { screen: Plakalarim },
+  SatisVePuanGecmisi: { screen: SatisVePuanGecmisi },
+  SatisVePuanDetay: { screen: SatisVePuanDetay },
+  KayitGuncelle: { screen: KayitGuncelle },
+  DuyuruDetay: { screen: DuyuruDetay },
+  EnYakinIstasyon: { screen: EnYakinIstasyon },
+  Harita: { screen: Harita },
 
 },
-{
-  initialRouteName: "login",
-  contentComponent: props => <SideBar {...props} />
-})
+  {
+    initialRouteName: "login",
+    contentComponent: props => <SideBar {...props} />
+  })
 
 const AppNavigator = createStackNavigator({
-  Drawer :{ screen:Drawer},
-  login : { screen:login},
-  kampanya: {screen: kampanya},
-  kampanyadetay: {screen: kampanyadetay},
-  yenikayit:{ screen: yenikayit},
-  hesabim :{ screen: hesabim},
-  Duyurular: {screen: Duyurular},
-  SifremiUnuttum: { screen: SifremiUnuttum},
-  PlakaEkle: { screen: PlakaEkle},
-  Satis :{ screen: Satis},
-  Plakalarim: { screen: Plakalarim},
-  SatisVePuanGecmisi: { screen: SatisVePuanGecmisi},
-  SatisVePuanDetay:{ screen: SatisVePuanDetay},
-  KayitGuncelle: { screen: KayitGuncelle},
-  DuyuruDetay: { screen: DuyuruDetay},
-  Harita:{ screen: Harita},
-}, 
-{
-  initialRouteName: "Drawer",
-  headerMode: "none"
-});
+  Drawer: { screen: Drawer },
+  login: { screen: login },
+  kampanya: { screen: kampanya },
+  kampanyadetay: { screen: kampanyadetay },
+  yenikayit: { screen: yenikayit },
+  hesabim: { screen: hesabim },
+  Duyurular: { screen: Duyurular },
+  SifremiUnuttum: { screen: SifremiUnuttum },
+  PlakaEkle: { screen: PlakaEkle },
+  Satis: { screen: Satis },
+  Plakalarim: { screen: Plakalarim },
+  SatisVePuanGecmisi: { screen: SatisVePuanGecmisi },
+  SatisVePuanDetay: { screen: SatisVePuanDetay },
+  KayitGuncelle: { screen: KayitGuncelle },
+  DuyuruDetay: { screen: DuyuruDetay },
+  Harita: { screen: Harita },
+  EnYakinIstasyon: { screen: EnYakinIstasyon },
+},
+  {
+    initialRouteName: "Drawer",
+    headerMode: "none"
+  });
 const AppContainer = createAppContainer(AppNavigator);
 console.disableYellowBox = true;
 export default () =>
