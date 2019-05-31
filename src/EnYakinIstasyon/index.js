@@ -4,11 +4,13 @@ import {
     List,
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
 } from 'native-base';
+import { getIstasyonWithLatLon } from '../Service/FetchUser';
 
-
-const k1 = require("../../assets/Resim.png");
-const k2 = require("../../assets/Kampanya-2.png");
-const k3 = require("../../assets/Kampanya-3.png");
+const tmis = require("../../assets/tmis.png");
+const yoltarifi = require("../../assets/yoltarifi.png");
+const pompa = require("../../assets/pompa.png");
+const yagdegisim = require("../../assets/yagdegisim.png");
+const bankamatik = require("../../assets/tasittanima.png");
 
 
 export default class EnYakinIstasyon extends Component {
@@ -21,9 +23,55 @@ export default class EnYakinIstasyon extends Component {
             listViewData: [],
         }
     }
+    _getData() {
+        getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
+            this.setState({ listViewData: res });
+            console.log('res= ' + JSON.stringify(this.state.listViewData));
+        })
+    }
+    /*
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null,
+                });
+                this._getData();
+                console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        );
+    }
+    */
+    componentWillMount() {
+        var self = this;
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null,
+                });
+                this._getData();
+                console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        );
+        this._getData();
+
+    }
+    GetItem(item) {
+        console.log('item='+item);
+        this.props.navigation.navigate("Harita", { Id: item });
+    }
     render() {
         return (
-            <Container>
+            <Container style={styles.container}>
                 <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
@@ -32,7 +80,7 @@ export default class EnYakinIstasyon extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title style={{ color: '#fff' }}>Satış Ve Puan Geçmişi</Title>
+                        <Title style={{ color: '#fff' }}>En Yakın İstasyon</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
@@ -40,11 +88,47 @@ export default class EnYakinIstasyon extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <View style={styles.container1}>
-                    <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')}
+
+                <View style={styles.containerOrta}>
+                    <View >
+                        <Image style={styles.logo} source={require('../../assets/tplogo.png')}
                         />
-                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                        <Image style={{ width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                    </View>
+                    <View style={{marginBottom:10,marginTop:-130}} >
+                        <FlatList
+                            data={this.state.listViewData}
+                            renderItem={({ item }) =>
+                                <Card key={item.AccountId} style={styles.cardmb}>
+                                    <TouchableOpacity onPress={() => this.GetItem(item.AccountId)}>
+                                        <CardItem cardBody>
+                                            <Body>
+                                                <View style={{ width: '100%', flexDirection: 'row', }}>
+                                                    <Image style={{ width: 25, resizeMode: 'contain', marginLeft: 10, marginTop: -20 }} source={pompa} />
+                                                    <Text style={styles.txt}>{item.name.trim().toUpperCase()}</Text>
+
+                                                </View>
+                                                <View style={{ backgroundColor: 'transparent' }}>
+                                                    <Text style={styles.txt2}>{item.Adres.trim()}</Text>
+                                                </View>
+                                                <View style={{ width: '100%', flexDirection: 'row', marginTop: -10, marginLeft: 30 }}>
+                                                    {item.yikama == true ? (<Image style={{ width: 50,height:50, resizeMode: 'contain', marginLeft: 2, marginRight: 5, marginTop: 0, }} source={tmis} />) : false}
+                                                    {item.yagdegisimi == true ? (<Image style={{ width: 30,height:30, resizeMode: 'contain', marginLeft: 5,  marginTop: 10, }} source={yagdegisim} />) : false}
+                                                    {item.bankamatik == true ? (<Image style={{ width: 30,height:30, resizeMode: 'contain', marginLeft: 5,  marginTop: 10, }} source={bankamatik} />) : false}
+                                                </View>
+                                            </Body>
+                                            <Right style={{ height: 80, width: 50 }}>
+                                                <Image style={{ width: 30, resizeMode: 'contain', marginRight: 5, marginTop: -70, }} source={yoltarifi} />
+
+                                            </Right>
+
+                                        </CardItem>
+                                    </TouchableOpacity>
+                                </Card>
+
+                            }
+                            keyExtractor={(item, index) => index.toString()}
+                        />
                     </View>
                 </View>
             </Container>
@@ -59,15 +143,15 @@ const styles = StyleSheet.create({
     },
     container1: {
         flex: 2,
-        backgroundColor: 'transparent',
+        backgroundColor: 'yellow',
         alignItems: 'center',
         marginBottom: 5,
     },
     containerOrta: {
-        flex: 5,
+        flex: 6,
         backgroundColor: 'transparent',
-        alignItems: 'center',
-        justifyContent: 'center',
+        //alignItems: 'center',
+        //justifyContent: 'center',
     },
     containerBottom: {
         flex: 4,
@@ -75,44 +159,13 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         //    flexDirection: 'column',
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-    Inputs: {
-        marginLeft: 40,
-        marginRight: 40,
-        borderRadius: 5,
-        marginBottom: 15,
-        //color:'black',
-        borderColor: 'black',
-    },
     logo: {
         marginTop: 5,
         //  width: 150,
         height: '35%',
         resizeMode: 'contain',
         marginBottom: 5,
-    },
-    banner: {
-        // marginTop: 2,
-        width: '100%',
-        height: 220,
-        resizeMode: 'contain',
-        marginBottom: 5,
-    },
-    switchcontainer: {
-        flexDirection: 'row',
-        alignSelf: 'flex-end',
-        marginRight: 31,
-        alignItems: 'center',
-
+        alignSelf: 'center',
     },
 
     button: {
@@ -124,25 +177,25 @@ const styles = StyleSheet.create({
         marginBottom: 0,
 
     },
-    button1: {
-        resizeMode: 'contain',
-        width: 320,
-        marginRight: 30,
-        marginLeft: 30,
-        marginBottom: 5,
-    },
-    button2: {
-
-        alignSelf: 'center',
-        marginTop: 0,
-        backgroundColor: 'transparent',
-    },
-    mb15: {
-        marginBottom: 10
-    },
     txt: {
-        marginLeft: 15,
+        marginLeft: 5,
         fontSize: 14,
+        marginTop: 5,
+        color: 'red',
+        fontFamily: 'Myriadpro-Bold',
+    },
+    txt2: {
+        marginLeft: 40,
+        fontSize: 12,
+        marginTop: -30,
+        alignSelf: 'flex-start',
+        fontFamily: 'Myriadpro-Regular',
 
-    }
+    },
+    cardmb: {
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 10,
+        borderRadius: 5,
+    },
 });

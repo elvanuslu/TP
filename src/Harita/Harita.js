@@ -70,7 +70,7 @@ export default class Harita extends Component {
                 <StatusBar style={{ color: '#fff' }} barStyle="dark-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
                             <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
