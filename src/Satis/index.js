@@ -1,7 +1,9 @@
 
 import React, { Component } from 'react';
 import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import { Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
+import { Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
+
+import { getIstasyonWithLatLon, getYakitTipi } from '../Service/FetchUser';
 
 
 const k1 = require("../../assets/Resim.png");
@@ -17,21 +19,118 @@ export default class Satis extends Component {
     constructor() {
         super();
         this.state = {
-            userName: '',
+            kullanici: '',
             selected2: undefined,
-            selected2: undefined,
+            yakitTipi: undefined,
+            yakitTipiDeger: undefined,
+            yakitTipleri: [],
+            Istasyon: [],
+            Plaka: [],
+            labelName: '',
+            latitude: 40.802095,//41.001895,
+            longitude: 29.526954,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+            istasyonselectedId: undefined,
+            istasyonName: '',
+            datas:[],
 
         }
+    }
+    onIstasyonId(val: string) {
+        this.setState({ istasyonselectedId: val });
+        console.log('Id= '+val);
+    }
+    onIstasyonName(value, label){
+        this.setState(
+            {
+                istasyonselectedId: value,
+                istasyonName: label
+            },
+            () => {
+                console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId)
+            }
+        )
     }
     onValueChange(value: string) {
         this.setState({
             selected: value
         });
     }
-    onValueChange2(value: string) {
+    onValueChange2(value, label) {
+
+        this.setState(
+            {
+                selected2: value,
+                labelName: label
+            },
+            () => {
+                console.log('selectedValue: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+            }
+        )
+    }
+    onYakitTipiValueChange(value: string) {
         this.setState({
-            selected2: value
+            yakitTipi: value
         });
+        //  console.log("Yakıt Tipi: " + this.state.yakitTipi);
+        // console.log("Yakit Val: " + this.state.yakitTipiDeger);
+    }
+
+    _getYakitTipleri() {
+        getYakitTipi()
+            .then((res) => {
+                this.setState({
+                    yakitTipleri: res,
+                });
+                // console.log("Yakit" + ("log Yakit" + JSON.stringify(this.state.yakitTipleri)));
+                // console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
+            })
+            .catch(e => {
+                console.log("hata: " + e);
+            });
+    }
+    _retrieveKullanici = async () => {
+        try {
+            const value = await AsyncStorage.getItem('userId');
+            if (value !== null) {
+                this.setState({ kullanici: value });
+                console.log("UserId " + this.state.kullanici);
+
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+    };
+    _getLocation = async () => {
+        try {
+            await navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        error: null,
+                    });
+                    this._getLatLon();
+                    console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                },
+                (error) => this.setState({ error: error.message }),
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            );
+        } catch (error) {
+
+        }
+    }
+    _getLatLon = async () => {
+        await getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
+            this.setState({ datas: res });
+            //   console.log('res= ' + JSON.stringify(this.state.datas));
+        })
+    }
+    componentDidMount() {
+        this._getLocation();
+        this._retrieveKullanici();
+        this._getYakitTipleri();
     }
     render() {
         return (
@@ -61,105 +160,115 @@ export default class Satis extends Component {
                 </View>
                 <View style={styles.containerOrta}>
                     <Content>
-                        <Item picker style={styles.comboItem}>
-                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={logo}></Image>
-                            <Picker borderColor='black'
-                                mode="dropdown"
-                                iosIcon={<Icon name="arrow-down" />}
-                                style={{ width: undefined }}
-                                placeholder="İstasyon"
-                                placeholderStyle={{ color: "#bfc6ea" }}
-                                placeholderIconColor="#007aff"
-                                selectedValue={this.state.selected2}
-                                onValueChange={this.onValueChange2.bind(this)}
-                            >
-                                <Picker.Item label="İstasyon" value="key0" />
-                                <Picker.Item label="Istasyon 1" value="key1" />
-                                <Picker.Item label="Özgür Benzin" value="key2" />
-                                <Picker.Item label="Debit Benzi" value="key3" />
-                                <Picker.Item label="Sevinç Benzin" value="key4" />
-                                <Picker.Item label="Sarayaltı Petrol" value="key5" />
-                            </Picker>
-                        </Item>
+                        <Form>
+                            <Item picker style={styles.comboItem}>
+                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={logo}></Image>
+                                <Picker borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="İstasyon"
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.istasyonselectedId}
+                                    onValueChange={this.onIstasyonName.bind(this)}>
+                                    {
+                                        this.state.datas.map((item, key) => (
+                                             // console.log("ttip: " + item.name),
+                                             // console.log("ttip: " + item.AccountId),
+                                            <Picker.Item
+                                                label={item.name}
+                                                value={item.AccountId}
+                                                key={item.AccountId} />)
+                                        )
+                                    }
+                                </Picker>
+                            </Item>
 
-                        <Item picker style={styles.comboItem}>
-                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
+                            <Item picker style={styles.comboItem}>
+                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
 
-                            <Picker borderColor='black'
-                                mode="dropdown"
-                                iosIcon={<Icon name="arrow-down" />}
-                                style={{ width: undefined }}
-                                placeholder="Plaka..."
-                                placeholderStyle={{ color: "#bfc6ea" }}
-                                placeholderIconColor="#007aff"
-                                selectedValue={this.state.selected2}
-                                onValueChange={this.onValueChange2.bind(this)}
-                            >
-                                <Picker.Item label="34-AL-3434" value="key0" />
-                                <Picker.Item label="35-EU-3535" value="key1" />
+                                <Picker borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="Plaka..."
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.selected2}
+                                    onValueChange={this.onValueChange2.bind(this)}
+                                >
+                                    <Picker.Item label="34-AL-3434" value="key0" />
+                                    <Picker.Item label="35-EU-3535" value="key1" />
 
-                            </Picker>
-                        </Item>
-                        <Item picker style={styles.comboItem}>
-                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                </Picker>
+                            </Item>
+                            <Item picker style={styles.Inputs}>
+                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                <Picker borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="Yakıt Tipi"
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.selected2}
+                                    onValueChange={this.onValueChange2.bind(this)}>
+                                    {
+                                        this.state.yakitTipleri.map((item, key) => (
+                                            //  console.log("ttip: " + item.bm_yakittipiadi),
+                                            //  console.log("ttip: " + item.bm_yakittipiid),
+                                            <Picker.Item
+                                                label={item.bm_yakittipiadi}
+                                                value={item.bm_yakittipiid}
+                                                key={item.bm_yakittipiid} />)
+                                        )
+                                    }
+                                </Picker>
+                            </Item>
+                            <Item regular style={styles.Inputs}>
+                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pmpa}></Image>
 
-                            <Picker borderColor='black'
-                                mode="dropdown"
-                                iosIcon={<Icon name="arrow-down" />}
-                                style={{ width: undefined }}
-                                placeholder="Yakıt Tipi"
-                                placeholderStyle={{ color: "#bfc6ea" }}
-                                placeholderIconColor="#007aff"
-                                selectedValue={this.state.selected2}
-                                onValueChange={this.onValueChange2.bind(this)}
-                            >
-                                <Picker.Item label="Benzin" value="key0" />
-                                <Picker.Item label="Dizel" value="key1" />
-                                <Picker.Item label="Motorin" value="key2" />
-                            </Picker>
-                        </Item>
-                        <Item regular style={styles.Inputs}>
-                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pmpa}></Image>
-
-                            <Input placeholder='Pompa No...'
-                                keyboardType="phone-pad"
-                                placeholderTextColor="#efefef"
-                                underlineColorAndroid="transparent" />
-                        </Item>
-                        <Item regular style={styles.Inputs}>
-                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={kampanya}></Image>
-
-                            <Input placeholder='Kupon Kodu...'
-                                //keyboardType="phone-pad"
-                                placeholderTextColor="#efefef"
-                                underlineColorAndroid="transparent" />
-                        </Item>
-                        <View style={{ marginTop: -10, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
-                            <Item regular style={styles.Inputs1}>
-                                <Image style={{ width: 30, height: 25, resizeMode: 'contain' }} source={odeme}></Image>
-
-                                <Input placeholder='Ödeme tutarı...'
-                                    // keyboardType="phone-pad"
+                                <Input placeholder='Pompa No...'
+                                    keyboardType="phone-pad"
                                     placeholderTextColor="#efefef"
                                     underlineColorAndroid="transparent" />
                             </Item>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate("hesabim")}>
-                                <Image
-                                    style={{ width: 100, height: 100, resizeMode: 'contain', marginLeft: 5 }}
-                                    source={require('../../assets/doldursecili.png')}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                            <Text style={styles.txtYazi}>Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun.{'\n\n'}Kredi kartınızda çekilen ön provizyon yakıt alımından sonra kartınıza iade edilecektir.  </Text>
+                            <Item regular style={styles.Inputs}>
+                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={kampanya}></Image>
 
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate("hesabim")}>
-                                <Image
-                                    style={styles.button}
-                                    source={require('../../assets/odemeyap.png')}
-                                />
-                            </TouchableOpacity>
-                        </View>
+                                <Input placeholder='Kupon Kodu...'
+                                    //keyboardType="phone-pad"
+                                    placeholderTextColor="#efefef"
+                                    underlineColorAndroid="transparent" />
+                            </Item>
+                            <View style={{ marginTop: -20, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
+                                <Item regular style={styles.Inputs1}>
+                                    <Image style={{ width: 30, height: 25, resizeMode: 'contain' }} source={odeme}></Image>
+
+                                    <Input placeholder='Ödeme tutarı...'
+                                        keyboardType="decimal-pad"
+                                        placeholderTextColor="#efefef"
+                                        underlineColorAndroid="transparent" />
+                                </Item>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate("hesabim")}>
+                                    <Image
+                                        style={{ width: 100, height: 100, resizeMode: 'contain', marginLeft: 5 }}
+                                        source={require('../../assets/doldursecili.png')}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <Text style={styles.txtYazi}>Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun.{'\n\n'}Kredi kartınızda çekilen ön provizyon yakıt alımından sonra kartınıza iade edilecektir.  </Text>
+
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate("hesabim")}>
+                                    <Image
+                                        style={styles.button}
+                                        source={require('../../assets/odemeyap.png')}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </Form>
                     </Content>
                 </View>
             </Container>
@@ -211,11 +320,12 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 15,
         borderColor: 'black',
+        height: 40,
     },
     Inputs1: {
         marginLeft: 30,
         width: '57%',
-        height: 45,
+        height: 40,
         borderRadius: 5,
         borderColor: 'black',
     },

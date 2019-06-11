@@ -41,7 +41,7 @@ export default class Harita extends Component {
     _getData() {
         getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
             this.setState({ datas: res });
-            console.log('res= ' + JSON.stringify(this.state.datas));
+         //   console.log('res= ' + JSON.stringify(this.state.datas));
         })
     }
     componentDidMount() {
@@ -53,7 +53,7 @@ export default class Harita extends Component {
                     error: null,
                 });
                 this._getData();
-                console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+           //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
             },
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
