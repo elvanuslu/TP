@@ -25,7 +25,7 @@ export default class kampanyadetay extends Component {
     }
     closeActivityIndicator = () => setTimeout(() => this.setState({
         loading: false
-    }), 60000)
+    }), 10000)
 
     componentDidMount() {
         const itemId = this.props.navigation.getParam('Id');

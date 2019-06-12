@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { getIstasyonWithLatLon, getYakitTipi } from '../Service/FetchUser';
+import { getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage } from '../Service/FetchUser';
 
 
 const k1 = require("../../assets/Resim.png");
@@ -16,8 +16,8 @@ const kampanya = require("../../assets/kapmpanyakirmizi.png");
 
 
 export default class Satis extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             kullanici: '',
             selected2: undefined,
@@ -33,22 +33,33 @@ export default class Satis extends Component {
             longitudeDelta: 0.0421,
             istasyonselectedId: undefined,
             istasyonName: '',
-            datas:[],
+            datas: [],
+            PlakaSelectId:undefined,
+            PlakaName: '',
 
         }
     }
+    onPlaka(value,label){
+        this.setState({
+            PlakaSelectId:value,
+            PlakaName: label
+        },
+        () => {
+             console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
+         })
+    }
     onIstasyonId(val: string) {
         this.setState({ istasyonselectedId: val });
-        console.log('Id= '+val);
+        console.log('Id= ' + val);
     }
-    onIstasyonName(value, label){
+    onIstasyonName(value, label) {
         this.setState(
             {
                 istasyonselectedId: value,
                 istasyonName: label
             },
             () => {
-                console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId)
+               // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId)
             }
         )
     }
@@ -76,7 +87,23 @@ export default class Satis extends Component {
         //  console.log("Yakıt Tipi: " + this.state.yakitTipi);
         // console.log("Yakit Val: " + this.state.yakitTipiDeger);
     }
-
+    _getPlakaListesi = async () => {
+        try {
+            const uId =  await getStorage('userId');
+          //  alert('Uid= ' + uId);
+            getPlakaList(uId)
+                .then((res) => {
+                 //   console.log('Res= ' + JSON.stringify(res))
+                    this.setState({ Plaka: res });
+                  //  alert('Plaka= '+this.state.Plaka[0].bm_musteriaraciid+' - '+this.state.Plaka[0].bm_plaka);
+                })
+                .catch(e => {
+                    alert(e);
+                })
+        } catch (error) {
+            alert('Genel Hata' + error);
+        }
+    }
     _getYakitTipleri() {
         getYakitTipi()
             .then((res) => {
@@ -127,11 +154,16 @@ export default class Satis extends Component {
             //   console.log('res= ' + JSON.stringify(this.state.datas));
         })
     }
+    
+
     componentDidMount() {
+        console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();
         this._getYakitTipleri();
+        this._getPlakaListesi();
     }
+   
     render() {
         return (
             <Container style={styles.container}>
@@ -174,8 +206,8 @@ export default class Satis extends Component {
                                     onValueChange={this.onIstasyonName.bind(this)}>
                                     {
                                         this.state.datas.map((item, key) => (
-                                             // console.log("ttip: " + item.name),
-                                             // console.log("ttip: " + item.AccountId),
+                                            // console.log("ttip: " + item.name),
+                                            // console.log("ttip: " + item.AccountId),
                                             <Picker.Item
                                                 label={item.name}
                                                 value={item.AccountId}
@@ -195,12 +227,18 @@ export default class Satis extends Component {
                                     placeholder="Plaka..."
                                     placeholderStyle={{ color: "#bfc6ea" }}
                                     placeholderIconColor="#007aff"
-                                    selectedValue={this.state.selected2}
-                                    onValueChange={this.onValueChange2.bind(this)}
-                                >
-                                    <Picker.Item label="34-AL-3434" value="key0" />
-                                    <Picker.Item label="35-EU-3535" value="key1" />
-
+                                    selectedValue={this.state.PlakaSelectId}
+                                    onValueChange={this.onPlaka.bind(this)}>
+                                    {
+                                        this.state.Plaka.map((item, key) => (
+                                            // console.log("Plaka: " + item.bm_plaka),
+                                            // console.log("plaka Id: " + item.bm_musteriaraciid),
+                                            <Picker.Item
+                                                label={item.bm_plaka}
+                                                value={item.bm_musteriaraciid}
+                                                key={item.bm_musteriaraciid} />)
+                                        )
+                                    }
                                 </Picker>
                             </Item>
                             <Item picker style={styles.Inputs}>
@@ -230,7 +268,7 @@ export default class Satis extends Component {
                                 <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pmpa}></Image>
 
                                 <Input placeholder='Pompa No...'
-                                    keyboardType="phone-pad"
+                                    keyboardType="number-pad"
                                     placeholderTextColor="#efefef"
                                     underlineColorAndroid="transparent" />
                             </Item>
