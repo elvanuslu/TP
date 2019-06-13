@@ -66,35 +66,31 @@ export default class hesabim extends Component {
                     <Image style={styles.banner} source={k1} />
                 </View>
                 <View style={styles.containerBottom}>
-                   
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("KayitGuncelle")}>
-                            <Image style={styles.button}
-                                source={require('../../assets/bilgilerimiguncelle.png')}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("Plakalarim")}>
-                            <Image
-                                style={styles.button}
-                                source={require('../../assets/araclarim.png')}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi")}>
-                            <Image
-                                style={styles.button}
-                                source={require('../../assets/satisvepuan.png')}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
-                            <Image
-                                style={styles.button}
-                                source={require('../../assets/EnYakinIstasyon.png')}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button1}></TouchableOpacity>
-                        <Text style={styles.button1}></Text>
-                   
+
+                    <TouchableOpacity style={{ justifyContent:'center',height: 50,width:320,marginTop:5,marginLeft:30,marginRight:30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle")}>
+                        <Image style={styles.button}
+                            source={require('../../assets/bilgilerimiguncelle.png')}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ justifyContent:'center', height: 50,width:320,marginTop:5,marginLeft:30,marginRight:30, }} onPress={() => this.props.navigation.navigate("Plakalarim")}>
+                        <Image
+                            style={styles.button}
+                            source={require('../../assets/araclarim.png')}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ justifyContent:'center', height: 50,width:320,marginTop:5,marginLeft:30,marginRight:30, }} onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi")}>
+                        <Image
+                            style={styles.button}
+                            source={require('../../assets/satisvepuan.png')}
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ height: 50,width:320,marginTop:5,marginLeft:30,marginRight:30,}} onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
+                        <Image style={styles.button1} source={require('../../assets/EnYakinIstasyon.png')} />
+                    </TouchableOpacity>
+
+
                 </View>
-  <View style={styles.container}></View>
+                <View style={styles.container}></View>
             </Container>
         );
     }
@@ -110,19 +106,22 @@ const styles = StyleSheet.create({
     container1: {
         flex: 2,
         backgroundColor: 'transparent',
-       // alignItems: 'center',
+        // alignItems: 'center',
     },
     containerOrta: {
         flex: 5,
         backgroundColor: 'transparent',
+        //alignItems: 'center',
     },
     containerBottom: {
         flex: 6,
         backgroundColor: 'transparent',
-        alignItems: 'center',
-        flexDirection: 'column',
-        width:'100%',
-      
+        alignSelf: 'center',
+        // justifyContent: 'center',
+        // alignItems:'center',
+        // flexDirection: 'column',
+        //  width: '100%',
+
     },
     welcome: {
         fontSize: 20,
@@ -167,20 +166,21 @@ const styles = StyleSheet.create({
     button: {
         resizeMode: 'contain',
         width: 320,
-       
-        marginRight: 30,
-        marginLeft: 30,
-        marginBottom: -60,
-        
+        alignItems: 'center',
+      //  marginRight: 30,
+      //  marginLeft: 30,
+        // marginBottom: -60,
+
 
     },
     button1: {
-    //    resizeMode: 'contain',
+        resizeMode: 'contain',
         width: 320,
-        marginRight: 30,
-        marginLeft: 30,
-        marginBottom: 5,
-     
+        height: 50,
+   // marginRight: 30,
+   //     marginLeft: 30,
+        marginTop: 5,
+
     },
     button2: {
 

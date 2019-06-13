@@ -5,7 +5,7 @@ import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, 
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { getUserInfo,isAvailable } from '../Service/FetchUser';
+import { getUserInfo } from '../Service/FetchUser';
 export default class login extends Component {
   constructor() {
     super();
@@ -47,10 +47,22 @@ export default class login extends Component {
       console.log("Err=" + error);
     }
   };
+ isAvailable () {
+    const timeout = new Promise((resolve, reject) => {
+      setTimeout(reject, 3000, 'Request timed out');
+    });
+    const request = fetch('http://85.105.103.4');
+    return Promise
+      .race([timeout, request])
+      .then(response => '')
+      .catch(error => {
+        alert('Bağlantı Hatası...')
+        this.setState({ loading: false })
+      });
+  }
   handleSubmit() {
     this.setState({ loading: true })
-    if(isAvailable()==false)
-    this.setState({ loading: false })
+    this.isAvailable();
     getUserInfo(this.state.UserName, this.state.Pass)
       .then((res) => {
         this.setState({ userId: res.contactid, loading: false });

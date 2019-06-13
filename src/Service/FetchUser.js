@@ -1,6 +1,8 @@
 import { AsyncStorage, NetInfo } from 'react-native';
 const define_api_url = "http://85.105.103.4:8096/";
 
+//const define_api_url = "http://10.200.202.174:81/";
+
 export const isAvailable = () => {
   const timeout = new Promise((resolve, reject) => {
     setTimeout(reject, 3000, 'Request timed out');
