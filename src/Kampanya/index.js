@@ -52,7 +52,6 @@ export default class kampanya extends Component {
             });
     }
     GetItem(item) {
-        //Function for click on an item
         // Alert.alert(item);
         this.props.navigation.navigate("kampanyadetay", { Id: item });
     }

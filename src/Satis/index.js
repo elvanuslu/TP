@@ -93,7 +93,7 @@ export default class Satis extends Component {
           //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
-                 //   console.log('Res= ' + JSON.stringify(res))
+                    console.log('Res= ' + JSON.stringify(res))
                     this.setState({ Plaka: res });
                   //  alert('Plaka= '+this.state.Plaka[0].bm_musteriaraciid+' - '+this.state.Plaka[0].bm_plaka);
                 })

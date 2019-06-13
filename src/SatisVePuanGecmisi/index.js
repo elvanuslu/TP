@@ -5,7 +5,7 @@ import {
     List,
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
 } from 'native-base';
-
+import { getSatisPuanGecmisi, getStorage, setStorage } from '../Service/FetchUser';
 
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
@@ -72,7 +72,23 @@ export default class SatisVePuanGecmisi extends Component {
             yakitTipi: undefined,
             araba: undefined,
             basic: true,
-            listViewData: datas
+            listViewData: [],
+        }
+    }
+    componentDidMount() {
+        this._getSatisVePuanGecmisi();
+    }
+    _getSatisVePuanGecmisi = async () => {
+        try {
+            const uId = await getStorage('userId');
+            getSatisPuanGecmisi(uId)
+                .then((res) => {
+                    console.log('Res= ' + JSON.stringify(res))
+                    this.setState({ listViewData: res });
+                })
+                .catch((error) => alert(error))
+        } catch (error) {
+            alert(error);
         }
     }
     deleteRow(secId, rowId, rowMap) {
@@ -80,6 +96,12 @@ export default class SatisVePuanGecmisi extends Component {
         const newData = [...this.state.listViewData];
         newData.splice(rowId, 1);
         this.setState({ listViewData: newData });
+    }
+    //Burda Kaldık....
+    onPressAndGo(Id) {
+        console.log(Id);
+        setStorage('pompaId',Id);
+        this.props.navigation.navigate("SatisVePuanDetay")
     }
     render() {
         return (
@@ -123,27 +145,26 @@ export default class SatisVePuanGecmisi extends Component {
                                 dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                 renderRow={data =>
                                     <ListItem  >
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisVePuanDetay")}>
+                                        <TouchableOpacity onPress={() => this.onPressAndGo(data.bm_pompaislemiid)}>
                                             <View style={{ flexDirection: 'row' }}>
-                                                <View style={{ width: '27%' }}>
-                                                    <Text style={styles.txt} > {data.zaman}</Text>
+                                                <View style={{ width: '20%', }}>
+                                                    <Text style={styles.txt} > {data.bm_islemtarihi}</Text>
                                                 </View>
-                                                <View style={{ width: '30%' }}>
-                                                    <Text style={styles.txt}> {data.Istasyon}</Text>
+                                                <View style={{ width: '40%', }}>
+                                                    <Text style={styles.txt}> {data.istasyonname}</Text>
                                                 </View>
-                                                <View style={{ width: '20%' }}>
-                                                    <Text style={styles.txt}> {data.Tutar}</Text>
+                                                <View style={{ width: '20%', }}>
+                                                    <Text style={styles.txt}> {data.bm_toplamtutar + ' TL'}</Text>
                                                 </View>
-                                                <View style={{ width: '23%', flexDirection: 'row' }}>
-                                                    <Text style={styles.txt}> {data.Puan}</Text>
+                                                <View style={{ width: '20%', flexDirection: 'row', }}>
+
+                                                    <Text style={styles.txt}> {data.bm_kazanilanpuan + ' TP'}</Text>
 
                                                     <Image
                                                         style={styles.button}
-                                                        source={require('../../assets/detay.png')}
-                                                    />
+                                                        source={require('../../assets/detay.png')} />
 
                                                 </View>
-
                                             </View>
                                         </TouchableOpacity>
                                     </ListItem>}
@@ -151,7 +172,7 @@ export default class SatisVePuanGecmisi extends Component {
                                     <Content style={{ flexDirection: 'row' }}>
                                         <Button
                                             full
-                                            onPress={() => alert(data.Id)}
+                                            onPress={() => alert(data.bm_pompaislemiid)}
                                             style={{
                                                 backgroundColor: "#ec971f",
                                                 flex: 1,
@@ -204,7 +225,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     containerOrta: {
-        flex: 5,
+        flex: 4,
         backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
@@ -235,7 +256,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
-        //  width: 150,
+        //   width: '100%',
         height: '90%',
         resizeMode: 'contain',
         marginBottom: 5,
@@ -243,7 +264,7 @@ const styles = StyleSheet.create({
     banner: {
         // marginTop: 2,
         width: '100%',
-        height: 220,
+        height: '90%',
         resizeMode: 'contain',
         marginBottom: 5,
     },

@@ -5,6 +5,7 @@ import {
 } from 'native-base';
 
 
+import { getSatisPuanDetay, getStorage } from '../Service/FetchUser';
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
@@ -18,7 +19,14 @@ export default class SatisVePuanDetay extends Component {
             extracted: '',
         }
     }
-
+_getSatisPuanDetay=async ()=>{
+    try {
+        const uId = await getStorage('userId');
+        getSatisPuanDetay()
+    } catch (error) {
+        alert('Hata Oluştu ' +error)
+    }
+}
     render() {
         return (
             <Container style={styles.container}>

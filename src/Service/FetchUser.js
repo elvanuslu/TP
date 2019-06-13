@@ -3,15 +3,16 @@ const define_api_url = "http://85.105.103.4:8096/";
 
 export const isAvailable = () => {
   const timeout = new Promise((resolve, reject) => {
-      setTimeout(reject, 3000, 'Request timed out');
+    setTimeout(reject, 3000, 'Request timed out');
   });
-
   const request = fetch('http://85.105.103.4');
-
   return Promise
-      .race([timeout, request])
-      .then(response => '')
-      .catch(error => alert('It timed out :('));
+    .race([timeout, request])
+    .then(response => '')
+    .catch(error => {
+      alert('Bağlantı Hatası...')
+      return false;
+    });
 }
 
 export const checkConnection = () => {
@@ -45,12 +46,12 @@ export const getIstasyonWithLatLon = (lat, lon, sayac) => {
 export const getUserInfo = (name, pass) => {
   let username = name.toLowerCase().trim();
   //   console.log("User="+username+"  Pass ="+pass);
-  
-      isAvailable();
-      console.log("User=" + username + "  Pass =" + pass);
-      const URL = define_api_url+`GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}` ;//`http://85.105.103.4:8096/GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;
-      return fetch(URL, { method: 'GET' })
-        .then((res) => res.json())
+
+ // isAvailable();
+  console.log("User=" + username + "  Pass =" + pass);
+  const URL = define_api_url + `GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;//`http://85.105.103.4:8096/GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
 }
 
 export const getYakitTipi = () => {
@@ -61,7 +62,7 @@ export const getYakitTipi = () => {
   //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
 }
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni) => {
-  console.log('plaka: ' + Bmplaka)
+  //console.log('plaka: ' + Bmplaka)
   const URL = `http://85.105.103.4:8096/PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
@@ -131,20 +132,56 @@ export const getKampanyaDetayList = (Id) => {
     .then((res) => res.json())
 }
 
-export const getPlakaList =  (userId) => {
+export const getPlakaList = (userId) => {
   try {
-    
+
     const URL = define_api_url + `GetBm_MusteriAracList_ByContactId?contactID=${userId}&isActive=Active`;
-    console.log('Url= '+URL);
+    console.log('Url= ' + URL);
     return fetch(URL, { method: 'GET' })
       .then((res) => res.json())
-     // .then((ret)=>console.log(ret.son));
+    // .then((ret)=>console.log(ret.son));
     // http://85.105.103.4:8096/GetBm_MusteriAracList_ByContactId?contactID=f9abd025-258c-e911-838d-000c29289d89&isActive=Active
   } catch (error) {
     console.log('getPlaka Hata oluştu', error);
   }
 }
-
+export const getSatisPuanGecmisi = async (userId) => {
+  try {
+    let userID = userId.trim();
+    const URL = define_api_url + `TP_MusterininPompaislemleri?contactID=${userId}`;
+    return fetch(URL, { method: 'GET' })
+      .then((res) => res.json())
+  } catch (error) {
+    console.log('getSatışPuanGecmisi Hata: ' + error);
+  }
+}
+export const getSatisPuanDetay = async (PompaId) => {
+  try {
+    const URL = define_api_url + `TP_PompaislemiDetayı?PompaislemiId=${PompaId}`;
+    return fetch(URL, { method: 'GET' })
+      .then((res) => res.json())
+  } catch (error) {
+    console.log('getSatışPuanDetay: ' + error);
+  }
+}
+export const postSatisPuanGecmisi = async (userId) => {
+  try {
+    let userID = userId.trim();
+    const URL = define_api_url + `TP_MusterininPompaislemleri`;
+    return fetch(URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ContactId: userID,
+      }),
+    })
+  } catch (error) {
+    console.log('postSatışPuanGeçmişi: ' + error);
+  }
+}
 export const getStorage = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);

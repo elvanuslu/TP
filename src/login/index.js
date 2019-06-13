@@ -5,7 +5,7 @@ import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, 
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { getUserInfo } from '../Service/FetchUser';
+import { getUserInfo,isAvailable } from '../Service/FetchUser';
 export default class login extends Component {
   constructor() {
     super();
@@ -49,6 +49,8 @@ export default class login extends Component {
   };
   handleSubmit() {
     this.setState({ loading: true })
+    if(isAvailable()==false)
+    this.setState({ loading: false })
     getUserInfo(this.state.UserName, this.state.Pass)
       .then((res) => {
         this.setState({ userId: res.contactid, loading: false });
