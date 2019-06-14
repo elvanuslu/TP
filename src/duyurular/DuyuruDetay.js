@@ -20,7 +20,8 @@ export default class DuyuruDetay extends Component {
             kampanyaid: '',
             pictureurl: '',
             Aciklama: '',
-            loading: false
+            loading: false,
+            oldId:'',
         }
 
     }
@@ -39,17 +40,7 @@ export default class DuyuruDetay extends Component {
             this._getKampanyaDetay(itemId);
             */
     }
-    componentWillReceiveProps() {
-   /*     try {
-            const itemId = this.props.navigation.getParam('Id');
-            //   Alert.alert('props');
-            if (itemId !== undefined)
-                this._getKampanyaDetay(itemId);
-        } catch (error) {
-            console.log(error);
-        }
-*/
-    }
+   
     _getKampanyaDetay(ItemId) {
         // Alert.alert(ItemId);
         getKampanyaDetayList(ItemId)
@@ -70,6 +61,14 @@ export default class DuyuruDetay extends Component {
 
     render() {
         const animating = this.state.loading
+        const { navigation } = this.props;
+        const itemId = navigation.getParam('Id', '');
+        
+        if (itemId !== this.state.oldId){
+            console.log('mId= ' + itemId+' Old Id= '+this.state.oldId);
+            this._getKampanyaDetay(itemId);
+            this.setState({oldId: itemId})
+        }
         return (
             <Container style={styles.container}>
                 <Header style={{ backgroundColor: 'red' }}>

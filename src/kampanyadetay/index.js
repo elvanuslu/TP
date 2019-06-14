@@ -19,7 +19,8 @@ export default class kampanyadetay extends Component {
             kampanyaid: '',
             pictureurl: '',
             Aciklama: '',
-            loading: true
+            loading: true,
+            oldId:'',
         }
 
     }
@@ -56,7 +57,7 @@ export default class kampanyadetay extends Component {
                     pictureurl: res.bm_pictureurl,
                     Aciklama: res.bm_aciklama,
                     loading: false,
-                    oldId:undefined,
+                   
                 });
 
                 console.log(res);
@@ -69,7 +70,7 @@ export default class kampanyadetay extends Component {
         const itemId = navigation.getParam('Id', '');
         
         if (itemId !== this.state.oldId){
-            console.log('mId= ' + itemId+' Old Id= '+this.state.oldId);
+            console.log('KampanyaId= ' + itemId+' Old Id= '+this.state.oldId);
             this._getKampanyaDetay(itemId);
             this.setState({oldId: itemId})
         }

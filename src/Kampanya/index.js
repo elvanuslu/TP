@@ -48,7 +48,7 @@ export default class kampanya extends Component {
         getKampanyaListesi()
             .then((res) => {
                 this.setState({ datam: res, loading: false });
-                console.log(res);
+             //   console.log(res);
             });
     }
     GetItem(item) {

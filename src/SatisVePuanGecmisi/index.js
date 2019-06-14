@@ -99,8 +99,8 @@ export default class SatisVePuanGecmisi extends Component {
     }
     //Burda Kaldık....
     onPressAndGo(Id) {
-        console.log(Id);
-        setStorage('pompaId', Id);
+       // console.log(Id);
+       // setStorage('pompaId', Id);
         this.props.navigation.navigate("SatisVePuanDetay",{'pompaID': Id});
     }
     render() {

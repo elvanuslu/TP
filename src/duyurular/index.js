@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
+import { getDuyuruListByUser,getStorage } from '../Service/FetchUser';
 
 const k1 = require("../../assets/resim1.png");
 const k2 = require("../../assets/Resim2.png");
@@ -35,9 +36,29 @@ export default class Duyurular extends Component {
     constructor() {
         super();
         this.state = {
-            userName: ''
+            userName: '',
+            loading: false,
+            data:[],
         }
     }
+    componentDidMount() {
+        console.log('mount')
+        this._getDuyuruListesi();
+    }
+    _getDuyuruListesi= async ()=> {
+        const uId = await getStorage('userId');
+        console.log('mount'+uId)
+        getDuyuruListByUser(uId )
+            .then((res) => {
+                this.setState({ data: res, loading: false });
+                console.log(JSON.stringify(res));
+            })
+            .catch((error) => alert(error))
+    }
+    onPressAndGo(Id) {
+        console.log('duyuru Id='+Id);
+         this.props.navigation.navigate("DuyuruDetay",{'Id': Id});
+     }
     render() {
         return (
             <Container style={styles.container}>
@@ -66,22 +87,23 @@ export default class Duyurular extends Component {
                 </View>
                 <View style={styles.containerOrta}>
                     <FlatList
-                        data={datas}
+                        data={this.state.data}
                         renderItem={({ item }) =>
-                            <Card key={item.Id} style={styles.cardmb}>
+                            <Card key={item.bm_mobilcerikId} style={styles.cardmb}>
                                 <CardItem header>
-                                <Text style={styles.textBaslik}>{item.text}</Text>
+                                <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 5 }}>
                                     <Body>
-                                        <TouchableOpacity style={{height:133,width:'100%',}} onPress={() => this.props.navigation.navigate("DuyuruDetay")}>
-                                        <Image style={styles.logo} source={item.img} />
+                                        <TouchableOpacity style={{height:133,width:'100%',}} onPress={() => this.onPressAndGo(item.bm_mobilcerikId)}>
+                                        
+                                        <Image style={styles.logo} source={item.bm_url} />
                                         </TouchableOpacity>
                                        
                                     </Body>
                                 </CardItem>
                                 <CardItem footer>
-                                     <Text style={styles.textYazi}>{item.note}</Text>
+                                     <Text style={styles.textYazi}>{item.bm_uzunaciklama.slice(0,160)+'\n'}</Text>
                                 </CardItem>
                             </Card>
                         }

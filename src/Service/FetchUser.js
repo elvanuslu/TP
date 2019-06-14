@@ -58,14 +58,14 @@ export const getUserInfo = (name, pass) => {
 
 export const getYakitTipi = () => {
   //console.log("getYakitTipi");
-  const URL = define_api_url+ `GetBm_YakittipiList`;
+  const URL = define_api_url + `GetBm_YakittipiList`;
   return fetch(URL)
     .then((ret) => ret.json())
   //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
 }
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni) => {
   //console.log('plaka: ' + Bmplaka)
-  const URL = define_api_url+`PostContact_And_BmMusteriArac`;
+  const URL = define_api_url + `PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
       method: 'POST',
@@ -92,14 +92,14 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
 
 }
 export const getContact = (userId) => {
-  const URL = define_api_url+`GetContactByContactId?ContactId=${userId}`;
+  const URL = define_api_url + `GetContactByContactId?ContactId=${userId}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
 export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre) => {
 
   //  const URL = `http://85.105.103.4:8096/PutContact`;
-  const URL = define_api_url+`PutContact`;
+  const URL = define_api_url + `PutContact`;
   return fetch(URL,
     {
       method: 'POST',
@@ -123,13 +123,13 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
 
 export const getKampanyaListesi = () => {
   //  const URL = `http://85.105.103.4:8096/TP_CampaignList`;
-  const URL = define_api_url+`TP_CampaignList`;
+  const URL = define_api_url + `TP_CampaignList`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 
 }
 export const getKampanyaDetayList = (Id) => {
-  const URL = define_api_url+`GetBm_KampanyaByID?bm_kampanyaId=${Id}`;
+  const URL = define_api_url + `GetBm_KampanyaByID?bm_kampanyaId=${Id}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
@@ -184,6 +184,12 @@ export const postSatisPuanGecmisi = async (userId) => {
     console.log('postSatışPuanGeçmişi: ' + error);
   }
 }
+export const getDuyuruListByUser = (userId)=>{
+   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=Duyuru&contactid=${userId}`;
+   return fetch(URL, {method:'GET'})
+   .then((res)=>res.json())
+}
+
 export const getStorage = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);
