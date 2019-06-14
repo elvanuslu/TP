@@ -48,7 +48,7 @@ export default class kampanya extends Component {
         getKampanyaListesi()
             .then((res) => {
                 this.setState({ datam: res, loading: false });
-             //   console.log(res);
+                //   console.log(res);
             });
     }
     GetItem(item) {
@@ -86,7 +86,10 @@ export default class kampanya extends Component {
                         data={this.state.datam}
                         renderItem={({ item }) =>
                             <Card key={item.bm_kampanyaid} style={styles.cardmb}>
-                                <CardItem cardBody>
+                                <CardItem header>
+                                    <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
+                                </CardItem>
+                                <CardItem cardBody style={{ borderRadius: 5 }}>
                                     <Body>
                                         <TouchableOpacity style={styles.logo} onPress={() => this.GetItem(item.bm_kampanyaid)}>
                                             <Image style={styles.logo} source={{ uri: item.bm_pictureurl }} />

@@ -47,17 +47,22 @@ export default class Duyurular extends Component {
     }
     _getDuyuruListesi= async ()=> {
         const uId = await getStorage('userId');
-        console.log('mount'+uId)
+     //   console.log('mount'+uId)
         getDuyuruListByUser(uId )
             .then((res) => {
                 this.setState({ data: res, loading: false });
-                console.log(JSON.stringify(res));
+                //console.log(JSON.stringify(res));
             })
             .catch((error) => alert(error))
     }
-    onPressAndGo(Id) {
-        console.log('duyuru Id='+Id);
-         this.props.navigation.navigate("DuyuruDetay",{'Id': Id});
+    onPressAndGo(Id,url,aciklama,aciklama2) {
+        /*console.log('duyuru Id='+Id);
+        console.log('duyuru url='+url);
+        console.log('duyuru aciklama='+aciklama);
+        console.log('duyuru aciklama2='+aciklama2);
+        */
+         this.props.navigation.navigate("DuyuruDetay",{'Id': Id,
+         'url': url,'aciklama':aciklama,'aciklama2':aciklama2});
      }
     render() {
         return (
@@ -95,9 +100,9 @@ export default class Duyurular extends Component {
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 5 }}>
                                     <Body>
-                                        <TouchableOpacity style={{height:133,width:'100%',}} onPress={() => this.onPressAndGo(item.bm_mobilcerikId)}>
+                                        <TouchableOpacity style={{height:133,width:'100%',}} onPress={() => this.onPressAndGo(item.bm_mobilcerikId,item.bm_url,item.bm_kisaaciklama,item.bm_uzunaciklama)}>
                                         
-                                        <Image style={styles.logo} source={item.bm_url} />
+                                        <Image style={styles.logo} source={{ uri: item.bm_url }}  />
                                         </TouchableOpacity>
                                        
                                     </Body>

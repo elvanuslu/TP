@@ -13,6 +13,7 @@ const plaka = require("../../assets/plakaKirmizi.png");
 const pmpa = require("../../assets/pompaKirmizi.png");
 const araba = require("../../assets/araba.png");
 
+import { getYakitTipi,getAracMarkaList,getStorage } from '../Service/FetchUser';
 
 export default class PlakaEkle extends Component {
     constructor() {
@@ -24,6 +25,9 @@ export default class PlakaEkle extends Component {
             plaka3: '',
             yakitTipi: undefined,
             araba: undefined,
+            markalar:[],
+            loading:false,
+            yakitlst:[],
 
         }
     }
@@ -46,6 +50,66 @@ export default class PlakaEkle extends Component {
         this.setState({
             araba: value
         });
+    }
+    _getAracMarkaList = async () => {
+        try {
+            getAracMarkaList()
+                .then((res) => {
+                    this.setState({ markalar: res, loading: false })
+                    console.log(JSON.stringify(res))
+                })
+                .catch((error) => {
+                    Alert.alert(
+                        'Araç markalar Servis Hatası!',
+                        error,
+                        [
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                })
+        } catch (error) {
+            Alert.alert(
+                'Hata!',
+                error,
+                [
+                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: true },
+            );
+        }
+    }
+    _getYakitTipi = async () => {
+        try {
+            getYakitTipi()
+                .then((res) => {
+                    this.setState({ yakitlst: res, loading: false })
+                    console.log(JSON.stringify(res))
+                })
+                .catch((error) => {
+                    Alert.alert(
+                        'Yakıt Servis Hatası!',
+                        error,
+                        [
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                })
+        } catch (error) {
+            Alert.alert(
+                'Hata!',
+                error,
+                [
+                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: true },
+            );
+        }
+    }
+    componentDidMount() {
+        this._getAracMarkaList();
+        this._getYakitTipi();
     }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
@@ -99,6 +163,24 @@ export default class PlakaEkle extends Component {
 
                     </View>
 
+                    <Item picker style={styles.Inputs2}>
+                        <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+
+                        <Picker  borderWidt='1' borderColor='black'
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: undefined }}
+                            placeholder="Yakıt Tipi"
+                            placeholderStyle={{ color: "#bfc6ea" }}
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.yakitTipi}
+                            onValueChange={this.onYakitTipiValueChange.bind(this)}
+                        >
+                            <Picker.Item label="Benzin" value="key0" />
+                            <Picker.Item label="Dizel" value="key1" />
+                            <Picker.Item label="Lpg" value="key2" />
+                        </Picker>
+                    </Item>
                     <Item picker style={styles.Inputs2}>
                         <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
@@ -218,9 +300,10 @@ const styles = StyleSheet.create({
     button: {
         resizeMode: 'contain',
         width: 320,
-        marginRight: 30,
-        marginLeft: 30,
-        marginBottom: -50,
+        marginRight: 35,
+        marginLeft: 35,
+        marginBottom:0,
+        marginTop:-40,
 
     },
     button1: {

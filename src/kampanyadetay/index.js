@@ -26,7 +26,8 @@ export default class kampanyadetay extends Component {
     }
     closeActivityIndicator = () => setTimeout(() => this.setState({
         loading: false
-    }), 10000)
+    }), 4000)
+
 
     componentDidMount() {
         const itemId = this.props.navigation.getParam('Id');
@@ -46,6 +47,7 @@ export default class kampanyadetay extends Component {
 
     }
     _getKampanyaDetay(ItemId) {
+        this.setState({loading:true})
         // Alert.alert(ItemId);
         getKampanyaDetayList(ItemId)
             .then((res) => {
@@ -104,7 +106,7 @@ export default class kampanyadetay extends Component {
 
                             <Image style={styles.logo1} source={require('../../assets/logo.png')}
                             />
-                            <Image style={{ marginLeft: 30, marginRight: 30, width: '80%', height: 1, marginTop: -120 }} source={require('../../assets/cizgi.png')} />
+                            <Image style={{ marginLeft: 30, marginRight: 30, width: '90%', height: 1, marginTop: -120 }} source={require('../../assets/cizgi.png')} />
                         </View>
 
                         <View style={styles.containerOrta}>

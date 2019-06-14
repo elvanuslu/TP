@@ -56,13 +56,7 @@ export const getUserInfo = (name, pass) => {
     .then((res) => res.json())
 }
 
-export const getYakitTipi = () => {
-  //console.log("getYakitTipi");
-  const URL = define_api_url + `GetBm_YakittipiList`;
-  return fetch(URL)
-    .then((ret) => ret.json())
-  //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
-}
+
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni) => {
   //console.log('plaka: ' + Bmplaka)
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
@@ -189,7 +183,18 @@ export const getDuyuruListByUser = (userId)=>{
    return fetch(URL, {method:'GET'})
    .then((res)=>res.json())
 }
-
+export const getYakitTipi = () => {
+  //console.log("getYakitTipi");
+  const URL = define_api_url + `GetBm_YakittipiList`;
+  return fetch(URL)
+    .then((ret) => ret.json())
+  //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
+}
+export const getAracMarkaList =()=>{
+  const URL = define_api_url + `GetBm_AracmarkasiList`;
+  return fetch(URL,{method: 'GET'})
+  .then((res)=>res.json())
+}
 export const getStorage = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);

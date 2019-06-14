@@ -1,12 +1,13 @@
 
 import React, { Component } from 'react';
-import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import {
     List,
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
 } from 'native-base';
 
-
+import { getPlakaList, getStorage } from '../Service/FetchUser';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const k1 = require("../../assets/resim1.png");
 const k2 = require("../../assets/Resim2.png");
@@ -70,9 +71,45 @@ export default class Plakalarim extends Component {
             yakitTipi: undefined,
             araba: undefined,
             basic: true,
-            listViewData: datas
+            listViewData: [],
+            loading: false,
         }
     }
+
+    _getPlakaList = async () => {
+        try {
+            const uId = await getStorage('userId');
+            console.log('plaka User Id = ' + uId)
+            getPlakaList(uId)
+                .then((res) => {
+                    this.setState({ listViewData: res, loading: false })
+                    console.log(JSON.stringify(res))
+                })
+                .catch((error) => {
+                    Alert.alert(
+                        'Servis Hatası!',
+                        error,
+                        [
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                })
+        } catch (error) {
+            Alert.alert(
+                'Hata!',
+                error,
+                [
+                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: true },
+            );
+        }
+    }
+    componentDidMount() {
+        this._getPlakaList();
+    }
+
     deleteRow(secId, rowId, rowMap) {
         rowMap[`${secId}${rowId}`].props.closeRow();
         const newData = [...this.state.listViewData];
@@ -111,17 +148,9 @@ export default class Plakalarim extends Component {
                 <View style={styles.containerBottom}>
 
                     <View style={styles.switchcontainer}>
-                        <Button danger style={{ marginRight: 10 }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
-                            <Icon active name="trash" style={{ color: "#FFF", }} />
-                            <Text style={styles.txtYazi}>Sil    </Text>
-                        </Button>
-                        <Button warning style={{ marginRight: 10 }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
-                            <Icon active name="md-create" style={{ color: "#FFF", marginRight: 5 }} />
-                            <Text style={styles.txtYazi}>Düzenle  </Text>
-                        </Button>
                         <Button success onPress={() => this.props.navigation.navigate("PlakaEkle")}>
                             <Icon active name="add" style={{ color: "#FFF", }} />
-                            <Text style={styles.txtYazi}>Ekle   </Text>
+                            <Text style={styles.txtYazi}>Ekle  </Text>
                         </Button>
                     </View>
                     <Content style={{ backgroundColor: '#fff' }}>
@@ -146,13 +175,13 @@ export default class Plakalarim extends Component {
                                         <ListItem  >
                                             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
                                                 <View >
-                                                    <Text style={styles.txtArac}>{data.time}</Text>
+                                                    <Text style={styles.txtArac}>{data.bm_marka}</Text>
                                                 </View>
                                                 <View >
-                                                    <Text style={styles.txtArac}>{data.Id}</Text>
+                                                    <Text style={styles.txtArac}>{data.bm_plaka}</Text>
                                                 </View>
                                                 <View style={{ marginRight: 15, }}>
-                                                    <Text style={styles.txtArac} >{data.text}</Text>
+                                                    <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
                                                 </View>
 
                                             </View>
@@ -161,7 +190,7 @@ export default class Plakalarim extends Component {
                                         <Content style={{ flexDirection: 'row' }}>
                                             <Button
                                                 full
-                                                onPress={() => alert(data.Id)}
+                                                onPress={() => alert(data.bm_plaka)}
                                                 style={{
                                                     backgroundColor: "#ec971f",
                                                     flex: 1,
@@ -211,7 +240,7 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 1,
+        flex: 2,
         backgroundColor: 'transparent',
         alignItems: 'center',
     },
@@ -221,7 +250,7 @@ const styles = StyleSheet.create({
         //  alignItems: 'center',
     },
     containerOrta: {
-        flex: 5,
+        flex: 3,
         backgroundColor: 'transparent',
         justifyContent: 'center',
     },
@@ -312,8 +341,8 @@ const styles = StyleSheet.create({
         fontSize: 8,
     },
     txtHeader: {
-        fontSize: 16,
-        fontWeight: '600',
+        fontSize: 14,
+        fontWeight: '500',
     },
     txtArac: {
         fontSize: 12,
