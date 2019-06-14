@@ -62,10 +62,10 @@ const datas = [
     },
 ];
 export default class SatisVePuanGecmisi extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
+       
         this.state = {
             userName: '',
             plaka: undefined,
@@ -100,8 +100,8 @@ export default class SatisVePuanGecmisi extends Component {
     //Burda Kaldık....
     onPressAndGo(Id) {
         console.log(Id);
-        setStorage('pompaId',Id);
-        this.props.navigation.navigate("SatisVePuanDetay")
+        setStorage('pompaId', Id);
+        this.props.navigation.navigate("SatisVePuanDetay",{'pompaID': Id});
     }
     render() {
         return (
@@ -132,21 +132,31 @@ export default class SatisVePuanGecmisi extends Component {
                 <View style={styles.containerOrta}>
                     <Image style={styles.banner} source={k1} />
                 </View>
-                <View style={{ backgroundColor: 'transparent', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Image style={styles.button1}
-                        source={require('../../assets/satisvepuanbtn.png')}
-                    />
-                </View>
-                <View style={styles.containerBottom}>
-                    <Content style={{ backgroundColor: '#fff' }}>
-                        <View >
 
+
+                <View style={styles.containerBottom}>
+                    <Content style={{ backgroundColor: 'transparent' }}>
+                        <View style={{ flexDirection: 'row', flex: 1, height: 20, marginRight: 20 }}>
+                            <View style={{ width: '20%', }}>
+                                <Text style={styles.txtBold} > Tarih</Text>
+                            </View>
+                            <View style={{ width: '40%', }}>
+                                <Text style={styles.txtBold}> İstasyon</Text>
+                            </View>
+                            <View style={{ width: '20%', }}>
+                                <Text style={styles.txtBold}> Tutar</Text>
+                            </View>
+                            <View style={{ width: '20%', flexDirection: 'row', alignContent: 'flex-end', justifyContent: 'flex-end' }}>
+                                <Text style={styles.txtBold}> Puan</Text>
+                            </View>
+                        </View>
+                        <View >
                             <List
                                 dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                 renderRow={data =>
-                                    <ListItem  >
+                                    <ListItem style={{ flexDirection: 'row', flex: 1 }} >
                                         <TouchableOpacity onPress={() => this.onPressAndGo(data.bm_pompaislemiid)}>
-                                            <View style={{ flexDirection: 'row' }}>
+                                            <View style={{ flexDirection: 'row', flex: 1 }}>
                                                 <View style={{ width: '20%', }}>
                                                     <Text style={styles.txt} > {data.bm_islemtarihi}</Text>
                                                 </View>
@@ -156,14 +166,11 @@ export default class SatisVePuanGecmisi extends Component {
                                                 <View style={{ width: '20%', }}>
                                                     <Text style={styles.txt}> {data.bm_toplamtutar + ' TL'}</Text>
                                                 </View>
-                                                <View style={{ width: '20%', flexDirection: 'row', }}>
+                                                <View style={{ width: '20%', flexDirection: 'row', alignContent: 'flex-end', justifyContent: 'flex-end' }}>
 
                                                     <Text style={styles.txt}> {data.bm_kazanilanpuan + ' TP'}</Text>
-
-                                                    <Image
-                                                        style={styles.button}
+                                                    <Image style={styles.button}
                                                         source={require('../../assets/detay.png')} />
-
                                                 </View>
                                             </View>
                                         </TouchableOpacity>
@@ -204,7 +211,6 @@ export default class SatisVePuanGecmisi extends Component {
                                 leftOpenValue={75}
                                 rightOpenValue={-75}
                             />
-
                         </View>
                     </Content>
                 </View>
@@ -219,7 +225,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
         alignItems: 'center',
         marginBottom: 5,
@@ -231,7 +237,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     containerBottom: {
-        flex: 4,
+        flex: 5,
         backgroundColor: 'transparent',
         // alignItems: 'center',
         //    flexDirection: 'column',
@@ -264,7 +270,7 @@ const styles = StyleSheet.create({
     banner: {
         // marginTop: 2,
         width: '100%',
-        height: '90%',
+        // height: '90%',
         resizeMode: 'contain',
         marginBottom: 5,
     },
@@ -302,8 +308,14 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     txt: {
-        marginLeft: 15,
-        fontSize: 14,
+        marginLeft: 5,
+        fontSize: 11,
 
-    }
+    },
+    txtBold: {
+        marginLeft: 5,
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
+
 });

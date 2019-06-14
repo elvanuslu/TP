@@ -6,28 +6,56 @@ import {
 
 
 import { getSatisPuanDetay, getStorage } from '../Service/FetchUser';
+
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 
 export default class SatisVePuanDetay extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        
         this.state = {
             kullanici: '',
             formatted: '',
             extracted: '',
+            data: [],
+            pomp: undefined,
+            oldId: '',
         }
     }
-_getSatisPuanDetay=async ()=>{
-    try {
-        const uId = await getStorage('userId');
-        getSatisPuanDetay()
-    } catch (error) {
-        alert('Hata Oluştu ' +error)
+
+    _getSatisPuanDetay = async (pompaId) => {
+        try {
+            const uId = await getStorage('userId');
+            // const pompaId = await getStorage('pompaId');
+            
+            getSatisPuanDetay(pompaId)
+                .then((res) => {
+                    //console.log('res= '+JSON.stringify(res))
+                    this.setState({ data: res })
+                    console.log('Data=' + JSON.stringify(this.state.data));
+                })
+                .catch((error) => alert(error))
+        } catch (error) {
+            alert('Hata Oluştu ' + error)
+        }
     }
-}
+
+
+    componentDidMount() {
+
+        //this._getSatisPuanDetay();
+    }
     render() {
+        const { navigation } = this.props;
+        const itemId = navigation.getParam('pompaID', '');
+        
+        if (itemId !== this.state.oldId){
+            console.log('mPompaId= ' + itemId+' Old Id= '+this.state.oldId);
+            this._getSatisPuanDetay(itemId);
+            this.setState({oldId: itemId})
+        }
         return (
             <Container style={styles.container}>
                 <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
@@ -61,7 +89,7 @@ _getSatisPuanDetay=async ()=>{
                     <Content style={{ marginLeft: 5, marginRight: 5 }}>
                         <ListItem icon>
                             <Left>
-                                <Button style={{ backgroundColor: "transparent" }}>
+                                <Button style={{ backgroundColor: "#fff" }}>
                                     <Image style={{ width: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
                                 </Button>
                             </Left>
@@ -69,12 +97,12 @@ _getSatisPuanDetay=async ()=>{
                                 <Text>Tarih:</Text>
                             </Body>
                             <Right>
-                                <Text>04.05.2019 16:23:15</Text>
+                                <Text>{this.state.data.bm_islemtarihi}</Text>
                             </Right>
                         </ListItem>
                         <ListItem icon>
                             <Left>
-                                <Button style={{ backgroundColor: "transparent" }}>
+                                <Button style={{ backgroundColor: "#fff" }}>
                                     <Image style={{ width: 18, resizeMode: 'contain', }} source={require('../../assets/miktar_1.png')} />
                                 </Button>
                             </Left>
@@ -82,12 +110,12 @@ _getSatisPuanDetay=async ()=>{
                                 <Text>Miktar:</Text>
                             </Body>
                             <Right>
-                                <Text>16.5LT</Text>
+                                <Text>{this.state.data.bm_litre} LT</Text>
                             </Right>
                         </ListItem>
                         <ListItem icon>
                             <Left>
-                                <Button style={{ backgroundColor: "transparent" }}>
+                                <Button style={{ backgroundColor: "#fff" }}>
                                     <Image style={{ width: 20, resizeMode: 'contain', }} source={require('../../assets/ucret_1.png')} />
                                 </Button>
                             </Left>
@@ -95,12 +123,12 @@ _getSatisPuanDetay=async ()=>{
                                 <Text>Ücret:</Text>
                             </Body>
                             <Right>
-                                <Text>105TL</Text>
+                                <Text>{this.state.data.bm_toplamtutar} TL</Text>
                             </Right>
                         </ListItem>
                         <ListItem icon>
                             <Left>
-                                <Button style={{ backgroundColor: "transparent", alignItems: 'center' }}>
+                                <Button style={{ backgroundColor: "#fff", alignItems: 'center' }}>
                                     <Image style={{ width: 22, resizeMode: 'contain', }} source={require('../../assets/tparalogo.png')} />
                                 </Button>
                             </Left>
@@ -113,7 +141,7 @@ _getSatisPuanDetay=async ()=>{
                         </ListItem>
                         <ListItem icon>
                             <Left>
-                                <Button style={{ backgroundColor: "transparent" }}>
+                                <Button style={{ backgroundColor: "#fff" }}>
                                     <Image style={{ width: 22, resizeMode: 'contain', }} source={require('../../assets/pomp.png')} />
                                 </Button>
                             </Left>
@@ -121,12 +149,12 @@ _getSatisPuanDetay=async ()=>{
                                 <Text>Ürün:</Text>
                             </Body>
                             <Right>
-                                <Text>Benzin</Text>
+                                <Text>{this.state.data.productname}</Text>
                             </Right>
                         </ListItem>
                         <ListItem icon>
                             <Left>
-                                <Button style={{ backgroundColor: "transparent" }}>
+                                <Button style={{ backgroundColor: "#fff" }}>
                                     <Image style={{ width: 20, resizeMode: 'contain', }} source={require('../../assets/arac.png')} />
                                 </Button>
                             </Left>
@@ -134,12 +162,12 @@ _getSatisPuanDetay=async ()=>{
                                 <Text>Plaka:</Text>
                             </Body>
                             <Right>
-                                <Text>34-TP-3434</Text>
+                                <Text>{this.state.data.bm_plaka}</Text>
                             </Right>
                         </ListItem>
                         <ListItem icon>
                             <Left>
-                                <Button style={{ backgroundColor: "transparent" }}>
+                                <Button style={{ backgroundColor: "#fff" }}>
                                     <Image style={{ width: 20, resizeMode: 'contain', }} source={require('../../assets/istasyon_1.png')} />
                                 </Button>
                             </Left>
@@ -147,7 +175,7 @@ _getSatisPuanDetay=async ()=>{
                                 <Text>İstasyon:</Text>
                             </Body>
                             <Right>
-                                <Text>4.Levent No 4</Text>
+                                <Text>{this.state.data.istasyonname}</Text>
                             </Right>
                         </ListItem>
                     </Content>
@@ -156,9 +184,6 @@ _getSatisPuanDetay=async ()=>{
         );
     }
 }
-
-
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

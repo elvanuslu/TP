@@ -127,14 +127,14 @@ export default class Plakalarim extends Component {
                     <Content style={{ backgroundColor: '#fff' }}>
                         <View >
                             <Content style={{ marginLeft: 15, marginTop: 15, marginRight: 15, width: '100%', }}>
-                                <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <View >
                                         <Text style={styles.txtHeader}>Araçlar</Text>
                                     </View>
                                     <View >
                                         <Text style={styles.txtHeader}>Plakalar</Text>
                                     </View>
-                                    <View style={{ marginRight:20 }}>
+                                    <View style={{ marginRight: 20 }}>
                                         <Text style={styles.txtHeader} >Yakıt Tipi</Text>
                                     </View>
 
@@ -144,15 +144,18 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem  >
-                                            <Left>
-                                                <Text style={{ width: 90, marginRight: 10, }}> {data.time}</Text>
-                                            </Left>
-                                            <Body >
-                                                <Text style={{ width: 90, marginRight: 10}}> {data.Id}</Text>
-                                            </Body>
-                                            <Right >
-                                                <Text style={{ width: 100, textAlign: 'right', marginRight: 10, }}> {data.text}</Text>
-                                            </Right>
+                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
+                                                <View >
+                                                    <Text style={styles.txtArac}>{data.time}</Text>
+                                                </View>
+                                                <View >
+                                                    <Text style={styles.txtArac}>{data.Id}</Text>
+                                                </View>
+                                                <View style={{ marginRight: 15, }}>
+                                                    <Text style={styles.txtArac} >{data.text}</Text>
+                                                </View>
+
+                                            </View>
                                         </ListItem>}
                                     renderLeftHiddenRow={data =>
                                         <Content style={{ flexDirection: 'row' }}>
@@ -311,5 +314,12 @@ const styles = StyleSheet.create({
     txtHeader: {
         fontSize: 16,
         fontWeight: '600',
+    },
+    txtArac: {
+        fontSize: 12,
+        //  fontWeight: '100',
+        textAlign: 'left',
+
+
     }
 });

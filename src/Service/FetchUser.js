@@ -1,6 +1,6 @@
 import { AsyncStorage, NetInfo } from 'react-native';
 const define_api_url = "http://85.105.103.4:8096/";
-
+//const define_api_url = "http://213.194.120.55:8082/";
 //const define_api_url = "http://10.200.202.174:81/";
 
 export const isAvailable = () => {
@@ -38,7 +38,7 @@ export const getIstasyonWithLatLon = (lat, lon, sayac) => {
    console.log('Sayaç: '+sayac); 
    */
   try {
-    const URL = `http://85.105.103.4:8096/TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
+    const URL = define_api_url + `TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
     return fetch(URL, { method: 'GET' })
       .then((res) => res.json())
   } catch (error) {
@@ -49,7 +49,7 @@ export const getUserInfo = (name, pass) => {
   let username = name.toLowerCase().trim();
   //   console.log("User="+username+"  Pass ="+pass);
 
- // isAvailable();
+  // isAvailable();
   console.log("User=" + username + "  Pass =" + pass);
   const URL = define_api_url + `GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;//`http://85.105.103.4:8096/GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;
   return fetch(URL, { method: 'GET' })
@@ -58,14 +58,14 @@ export const getUserInfo = (name, pass) => {
 
 export const getYakitTipi = () => {
   //console.log("getYakitTipi");
-  const URL = `http://85.105.103.4:8096/GetBm_YakittipiList`;
+  const URL = define_api_url+ `GetBm_YakittipiList`;
   return fetch(URL)
     .then((ret) => ret.json())
   //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
 }
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni) => {
   //console.log('plaka: ' + Bmplaka)
-  const URL = `http://85.105.103.4:8096/PostContact_And_BmMusteriArac`;
+  const URL = define_api_url+`PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
       method: 'POST',
@@ -92,14 +92,14 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
 
 }
 export const getContact = (userId) => {
-  const URL = `http://85.105.103.4:8096/GetContactByContactId?ContactId=${userId}`;
+  const URL = define_api_url+`GetContactByContactId?ContactId=${userId}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
 export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre) => {
 
   //  const URL = `http://85.105.103.4:8096/PutContact`;
-  const URL = `http://85.105.103.4:8096/PutContact`;
+  const URL = define_api_url+`PutContact`;
   return fetch(URL,
     {
       method: 'POST',
@@ -123,13 +123,13 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
 
 export const getKampanyaListesi = () => {
   //  const URL = `http://85.105.103.4:8096/TP_CampaignList`;
-  const URL = `http://85.105.103.4:8096/TP_CampaignList`;
+  const URL = define_api_url+`TP_CampaignList`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 
 }
 export const getKampanyaDetayList = (Id) => {
-  const URL = `http://85.105.103.4:8096/GetBm_KampanyaByID?bm_kampanyaId=${Id}`;
+  const URL = define_api_url+`GetBm_KampanyaByID?bm_kampanyaId=${Id}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
