@@ -83,7 +83,7 @@ export default class Plakalarim extends Component {
             getPlakaList(uId)
                 .then((res) => {
                     this.setState({ listViewData: res, loading: false })
-                    console.log(JSON.stringify(res))
+                  //  console.log(JSON.stringify(res))
                 })
                 .catch((error) => {
                     Alert.alert(

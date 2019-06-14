@@ -149,7 +149,7 @@ export default class yenikayit extends Component {
         try {
             if (this.state.SozlesmeOkudum === true && this.state.KampanyaDuyurular === true) {
 
-                console.log('Adı: ' + this.state.Adi.length);
+               // console.log('Adı: ' + this.state.Adi.length);
                 if (this.state.Adi.length >= 3) {
                     if (this.state.Soyadi.length >= 3) {
                         if (this.state.eposta !== '') {

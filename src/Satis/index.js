@@ -241,7 +241,7 @@ export default class Satis extends Component {
                                     }
                                 </Picker>
                             </Item>
-                            <Item picker style={styles.Inputs}>
+                            <Item picker style={styles.comboItem}>
                                 <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                                 <Picker borderColor='black'
                                     mode="dropdown"
@@ -418,5 +418,11 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         borderColor: 'black',
         marginBottom: 15,
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 5,
     },
 });
