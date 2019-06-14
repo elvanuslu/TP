@@ -56,6 +56,7 @@ export default class kampanyadetay extends Component {
                     pictureurl: res.bm_pictureurl,
                     Aciklama: res.bm_aciklama,
                     loading: false,
+                    oldId:undefined,
                 });
 
                 console.log(res);
@@ -63,7 +64,15 @@ export default class kampanyadetay extends Component {
     }
 
     render() {
-        const animating = this.state.loading
+        const animating = this.state.loading;
+        const { navigation } = this.props;
+        const itemId = navigation.getParam('Id', '');
+        
+        if (itemId !== this.state.oldId){
+            console.log('mId= ' + itemId+' Old Id= '+this.state.oldId);
+            this._getKampanyaDetay(itemId);
+            this.setState({oldId: itemId})
+        }
         return (
             <Container style={styles.container}>
                 <Header style={{ backgroundColor: 'red' }}>

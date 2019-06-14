@@ -53,7 +53,7 @@ export default class kampanya extends Component {
     }
     GetItem(item) {
         // Alert.alert(item);
-        this.props.navigation.navigate("kampanyadetay", { Id: item });
+        this.props.navigation.navigate("kampanyadetay", { 'Id': item });
     }
     render() {
         return (
