@@ -173,11 +173,11 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem  >
-                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
+                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between',textAlign:'left' }}>
                                                 <View >
                                                     <Text style={styles.txtArac}>{data.bm_marka}</Text>
                                                 </View>
-                                                <View >
+                                                <View style={{textAlign:'left',}} >
                                                     <Text style={styles.txtArac}>{data.bm_plaka}</Text>
                                                 </View>
                                                 <View style={{ marginRight: 15, }}>
@@ -348,6 +348,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         //  fontWeight: '100',
         textAlign: 'left',
+        alignSelf:'center'
 
 
     }

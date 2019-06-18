@@ -1,8 +1,9 @@
 
 import React, { Component } from 'react';
-import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, } from 'react-native';
 import { Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 import TextInputMask from 'react-native-text-input-mask';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
@@ -13,13 +14,13 @@ const plaka = require("../../assets/plakaKirmizi.png");
 const pmpa = require("../../assets/pompaKirmizi.png");
 const araba = require("../../assets/araba.png");
 
-import { getYakitTipi, getAracMarkaList, getStorage } from '../Service/FetchUser';
+import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, MusteriKayit } from '../Service/FetchUser';
 
 export default class PlakaEkle extends Component {
     constructor() {
         super();
         this.state = {
-            userName: '',
+            userId: undefined,
             plaka1: undefined,
             plaka2: '',
             plaka3: '',
@@ -33,6 +34,10 @@ export default class PlakaEkle extends Component {
             selected3: '--Seçiniz--',
             labelName: '',
             labelname2: '',
+            card: [],
+            cardSelected: undefined,
+            cardLabel: '',
+
 
         }
     }
@@ -54,7 +59,19 @@ export default class PlakaEkle extends Component {
                 labelName: label
             },
             () => {
-                console.log('selectedValue: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+                console.log('Yakit 1: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+            }
+        )
+    }
+    onCardChange(value, label) {
+
+        this.setState(
+            {
+                cardSelected: value,
+                cardLabel: label
+            },
+            () => {
+                console.log('CardVal: ' + this.state.cardSelected, ' Selected: ' + this.state.cardLabel)
             }
         )
     }
@@ -66,7 +83,7 @@ export default class PlakaEkle extends Component {
                 labelName2: label
             },
             () => {
-                console.log('selectedValue: ' + this.state.labelName2, ' Selected: ' + this.state.selected3)
+                console.log('Yakit 2: ' + this.state.labelName2, ' Selected: ' + this.state.selected3)
             }
         )
     }
@@ -141,9 +158,109 @@ export default class PlakaEkle extends Component {
             );
         }
     }
-    componentDidMount() {
+    _getCard = async () => {
+        try {
+            const Id = await getStorage('userId');
+            getCardById(Id)
+                .then((res) => {
+                    this.setState({ card: res, loading: false })
+                }).catch((error) => {
+                    Alert.alert(
+                        'getCard Servis Hatası!',
+                        error,
+                        [
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                })
+        } catch (error) {
+            Alert.alert(
+                'Hata!',
+                error,
+                [
+                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: true },
+            );
+        }
+    }
+    _mKayit = () => {
+        alert('calıştı'+this.state.plaka1);
+    }
+    _Kaydet() {
+        try {
+
+            this.setState({ loading: true })
+            if (this.state.plaka1 != undefined) {
+            
+                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected)
+                    .then((responseData) => {
+                        // let response = JSON.stringify(responseData);
+                        // console.log('responseData=' + responseData.status)
+                        this.setState({ loading: false })
+                        if (responseData.status === true) {
+                            Alert.alert(
+                                'Araç Kayıt!',
+                                responseData.message,
+                                [
+
+                                    { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim") },
+                                ],
+                                { cancelable: true },
+                            );
+                            // console.log("response: " + JSON.stringify(responseData)) 
+                        }
+                        else {
+                            Alert.alert(
+                                'Araç Kayıt!',
+                                responseData.message,
+                                [
+
+                                    { text: 'Tamam', onPress: () => console.log('False') },
+                                ],
+                                { cancelable: true },
+                            );
+                        }
+                    })
+                    .catch((err) => {
+                        this.setState({ loading: false })
+                        Alert.alert(
+                            'Araç Kayıt!',
+                            err,
+                            [
+
+                                { text: 'Tamam', onPress: () => console.log('False') },
+                            ],
+                            { cancelable: true },
+                        );
+
+                        console.log(err);
+                    })
+
+            }
+        } catch (error) {
+            this.setState({ loading: false })
+            Alert.alert(
+                'Hata!',
+                error,
+                [
+                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: true },
+            );
+
+        }
+        finally {
+            this.setState({ loading: false })
+        }
+    }
+    componentDidMount = async () => {
+        const Id = await getStorage('userId');
+        this.setState({ userId: Id })
         this._getAracMarkaList();
         this._getYakitTipi();
+        this._getCard();
     }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
@@ -176,8 +293,39 @@ export default class PlakaEkle extends Component {
                     <Image style={styles.banner} source={k1} />
                 </View>
                 <View style={styles.containerBottom}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spinner
+                            visible={this.state.loading}
+                            textContent={'Lütfen Bekleyiniz...'}
+                            textStyle={styles.spinnerTextStyle}
+                        />
+                    </View>
                     <Form>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+                            <Item picker style={styles.Inputs2}>
+                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
+
+                                <Picker borderWidt='1' borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="Kart Seç..."
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.cardSelected}
+                                    onValueChange={this.onCardChange.bind(this)}>
+                                    {
+                                        this.state.card.map((item, key) => (
+                                            <Picker.Item
+                                                label={item.bm_kartno}
+                                                value={item.bm_kartid}
+                                                key={item.bm_kartid} />)
+                                        )
+                                    }
+                                </Picker>
+                            </Item>
+                        </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                             <Item regular style={styles.Inputs2}>
                                 <Image style={{ width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
                                 <TextInputMask style={styles.Inputs1}
@@ -187,7 +335,7 @@ export default class PlakaEkle extends Component {
                                     keyboardType="name-phone-pad"
                                     refInput={ref => { this.input = ref }}
                                     onChangeText={(formatted, extracted) => {
-                                        this.setState({ tel: formatted })
+                                        this.setState({ plaka1: formatted })
                                         // console.log(formatted)
                                         // console.log(extracted)
                                     }}
@@ -197,8 +345,8 @@ export default class PlakaEkle extends Component {
                             </Item>
 
                         </View>
-                        <View style={{alignItems:'center',justifyContent:'center'}}>
-                        <Item picker style={styles.Inputs2}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+                            <Item picker style={styles.Inputs2}>
                                 <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
                                 <Picker borderWidt='1' borderColor='black'
@@ -269,7 +417,7 @@ export default class PlakaEkle extends Component {
                                 </Picker>
                             </Item>
                             <View>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate("hesabim")}>
+                                <TouchableOpacity onPress={() => this._Kaydet()}>
                                     <Image
                                         style={styles.button}
                                         source={require('../../assets/plakaekle.png')}
@@ -294,13 +442,15 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
         alignItems: 'center',
+        marginBottom: 30,
     },
     containerOrta: {
         flex: 5,
         backgroundColor: 'transparent',
+        marginBottom: 10,
     },
     containerBottom: {
         flex: 5,
@@ -333,7 +483,7 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         // width: '100%',
-        height: 80,
+        height: 70,
         resizeMode: 'contain',
         marginBottom: 5,
     },

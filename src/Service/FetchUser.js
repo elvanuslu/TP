@@ -58,7 +58,7 @@ export const getUserInfo = (name, pass) => {
 
 
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni) => {
-  //console.log('plaka: ' + Bmplaka)
+  console.log('plaka: ' + Bmplaka)
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
@@ -178,10 +178,52 @@ export const postSatisPuanGecmisi = async (userId) => {
     console.log('postSatışPuanGeçmişi: ' + error);
   }
 }
-export const getDuyuruListByUser = (userId)=>{
-   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=Duyuru&contactid=${userId}`;
-   return fetch(URL, {method:'GET'})
-   .then((res)=>res.json())
+export const getCardById = (Id) => {
+  try {
+    const URL = define_api_url + `GetBm_Kart_ByContactId?ContactId=${Id}`;
+    return fetch(URL, { method: 'GET' })
+      .then((res) => res.json())
+  } catch (error) {
+    console.log('getCardById= ' + error);
+  }
+}
+export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka, kartId) => {
+  try {
+    console.log('contactId' + contactId);
+    console.log('plaka' + plaka);
+    console.log('yakit1' + yakit1);
+    console.log('yakit2' + yakit2);
+    console.log('marka' + marka);
+    console.log('kartId' + kartId);
+    const URL = define_api_url + `PostBm_MusteriArac`;
+    return fetch(URL,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bm_aracmarkaid: marka,
+          bm_yakitcinsiid_1: yakit1,
+          bm_yakitcinsiid_2: yakit2,
+          bm_plaka: plaka,
+          bm_aracmodel: '',
+          bm_musterikartiid: kartId,
+          contactId: contactId,
+        }),
+      })
+      .then((res) => res.json())
+      .catch((error) => console.log('postMusteriArac: ' + error))
+
+  } catch (error) {
+    console.log('postMusteriArac: ' + error);
+  }
+}
+export const getDuyuruListByUser = (userId) => {
+  const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=Duyuru&contactid=${userId}`;
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
 }
 export const getYakitTipi = () => {
   //console.log("getYakitTipi");
@@ -190,10 +232,10 @@ export const getYakitTipi = () => {
     .then((ret) => ret.json())
   //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
 }
-export const getAracMarkaList =()=>{
+export const getAracMarkaList = () => {
   const URL = define_api_url + `GetBm_AracmarkasiList`;
-  return fetch(URL,{method: 'GET'})
-  .then((res)=>res.json())
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
 }
 export const getStorage = async (key) => {
   try {
