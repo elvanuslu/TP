@@ -130,7 +130,7 @@ export default class login extends Component {
           <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Spinner
               visible={this.state.loading}
-              textContent={'Yükleniyor...'}
+              textContent={'Giriş Yapılıyor...'}
               textStyle={styles.spinnerTextStyle}
             />
           </View>

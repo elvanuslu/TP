@@ -56,9 +56,35 @@ export const getUserInfo = (name, pass) => {
     .then((res) => res.json())
 }
 
-
+export const campaignDetailList =(istasyonid,yakittipiid,gecerliodemetipi,tutarTL,contactId,kartId,kampanyakuponuId,fraudIn,plaka)=>{
+  try {
+    const URL = define_api_url + `TP_CampaignDetailList`;
+    return fetch(URL,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bm_istasyonid: istasyonid,
+          bm_yakittipiid: yakittipiid,
+          bm_gecerliodemetipi: gecerliodemetipi,
+          TutarTL: tutarTL,
+          ContactId: contactId,
+          bm_kartId: kartId,
+          bm_kampanyakuponuId: kampanyakuponuId,
+          FraudIn: fraudIn,
+          Plaka: plaka,
+        }),
+      })
+      .then((res) => res.json())
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni, mobilkod) => {
-  console.log('kod: ' + mobilkod)
+ // console.log('kod: ' + mobilkod)
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {

@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Switch, CheckBox, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage } from '../Service/FetchUser';
-import { renderIf } from '../RenderIf';
+import { getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, campaignDetailList } from '../Service/FetchUser';
+
 
 const k1 = require("../../assets/Resim.png");
 const logo = require("../../assets/logoKirmiz.png");
@@ -38,6 +38,60 @@ export default class Satis extends Component {
             PlakaName: '',
             fulle: false,
             SwitchOnValueHolder: false,
+            OdemeTipi: undefined,
+            OdemeLabel: '',
+            PompaNo: undefined,
+            KuponKodu: undefined,
+            Tutar: undefined,
+        }
+    }
+
+    _campaignDetailList = () => {
+        try {
+            if (this.state.istasyonselectedId != undefined) { //istasyon
+                if (this.state.PlakaSelectId != undefined) { // Plaka
+                    if (this.state.selected2 != undefined) { // Yakıt
+                        if (this.state.OdemeTipi != undefined) { // Ödeme Tipi
+                            if (this.state.PompaNo != undefined) { // Pompa No 
+
+                                if (this.state.SwitchOnValueHolder == true) { // Tutar 
+                                    //  campaignDetailList()
+                                    alert('Ödeme Devam1')
+                                }
+                                else {
+                                    if (this.state.Tutar !== undefined) { // Tutar 
+                                        //  campaignDetailList()
+                                        alert('Ödeme Devam2')
+                                    }
+                                    else {
+                                        Alert.alert('Hata!', 'Tutar Girilmedi!');
+                                    }
+                                }
+
+                            }
+                            else {
+                                Alert.alert('Hata!', 'Pompa Numarası Girilmedi!');
+                            }
+                        }
+                        else {
+                            Alert.alert('Hata!', 'Ödeme Tipi Seçilmedi!');
+                        }
+
+                    }
+                    else {
+                        Alert.alert('Hata!', 'Yakıt Seçilmedi!');
+                    }
+                }
+                else {
+                    Alert.alert('Hata!', 'Plaka Seçilmedi!');
+                }
+
+            }
+            else {
+                Alert.alert('Hata!', 'Istasyon Seçilmedi!');
+            }
+        } catch (error) {
+            Alert.alert('Hata!', error);
         }
     }
     ShowAlert = (value) => {
@@ -45,7 +99,7 @@ export default class Satis extends Component {
             SwitchOnValueHolder: value
         })
         if (value == true) {
-          //  Alert.alert("Switch is On.");
+            //  Alert.alert("Switch is On.");
         }
         else {
             //Alert.alert("Switch is Off.");
@@ -76,7 +130,7 @@ export default class Satis extends Component {
                 istasyonName: label
             },
             () => {
-                // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId)
+                console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId)
             }
         )
     }
@@ -93,7 +147,19 @@ export default class Satis extends Component {
                 labelName: label
             },
             () => {
-                console.log('selectedValue: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+                console.log('YakıtId: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+            }
+        )
+    }
+    onOdemeTipi(value, label) {
+
+        this.setState(
+            {
+                OdemeTipi: value,
+                OdemeLabel: label
+            },
+            () => {
+                console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeLabel)
             }
         )
     }
@@ -287,6 +353,8 @@ export default class Satis extends Component {
                                 <Input placeholder='Pompa No...'
                                     keyboardType="number-pad"
                                     placeholderTextColor="#efefef"
+                                    onChangeText={(value) => this.setState({ PompaNo: value })}
+                                    value={this.state.PompaNo}
                                     underlineColorAndroid="transparent" />
                             </Item>
                             <Item regular style={styles.Inputs}>
@@ -295,7 +363,24 @@ export default class Satis extends Component {
                                 <Input placeholder='Kupon Kodu...'
                                     //keyboardType="phone-pad"
                                     placeholderTextColor="#efefef"
+                                    onChangeText={(value) => this.setState({ KuponKodu: value })}
+                                    value={this.state.KuponKodu}
                                     underlineColorAndroid="transparent" />
+                            </Item>
+                            <Item picker style={styles.comboItem}>
+                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                <Picker borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="Ödeme Tipi Seçin..."
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.OdemeTipi}
+                                    onValueChange={this.onOdemeTipi.bind(this)}>
+                                    <Picker.Item label="Nakit" value="Nakit" />
+                                    <Picker.Item label="Card" value="Card" />
+                                </Picker>
                             </Item>
                             <View style={styles.switchcontainer}>
                                 <Switch
@@ -303,15 +388,17 @@ export default class Satis extends Component {
                                     style={{ marginBottom: 0 }}
                                     value={this.state.SwitchOnValueHolder} />
                                 <View style={{ marginLeft: 10, alignContent: 'center' }}>
-                                    <Text style={styles.switcText}>Depoyu Fulle</Text>
+                                    <Text style={styles.switcText}>Depoyu Doldur</Text>
                                 </View>
                             </View>
                             <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
                                 <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
-                                    <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden: styles.ImageShow]} source={odeme}></Image>
+                                    <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={odeme}></Image>
                                     <Input placeholder='Ödeme tutarı...'
                                         keyboardType="decimal-pad"
                                         placeholderTextColor="#efefef"
+                                        onChangeText={(value) => this.setState({ Tutar: value })}
+                                        value={this.state.Tutar}
                                         underlineColorAndroid="transparent" />
                                 </Item>
 
@@ -320,12 +407,10 @@ export default class Satis extends Component {
                             <View style={{ marginTop: 15 }}>
                                 <Text style={styles.txtYazi}>Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
 
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate("hesabim")}>
-                                    <Image
-                                        style={styles.button}
-                                        source={require('../../assets/odemeyap.png')}
-                                    />
-                                </TouchableOpacity>
+                                <Button block danger style={{ marginTop: 30, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>
+                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>DEVAM</Text>
+                                </Button>
+
                             </View>
                         </Form>
                     </Content>
@@ -336,7 +421,7 @@ export default class Satis extends Component {
 }
 
 const styles = StyleSheet.create({
-    ImageShow:{
+    ImageShow: {
         width: 30, height: 25, resizeMode: 'contain'
     },
     hidden: {
