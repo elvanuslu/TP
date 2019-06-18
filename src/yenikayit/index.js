@@ -40,6 +40,9 @@ export default class yenikayit extends Component {
             SozlesmeOkudum: false,
             KampanyaDuyurular: false,
             smsIzni: true,
+            mobilKod: '',
+            mobilKodFormatted: '',
+            mobilextracted: '',
         }
     }
     KapmanyaDuyuru = (value) => {
@@ -160,12 +163,12 @@ export default class yenikayit extends Component {
                                             this.setState({ loading: true })
                                             MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
                                                 this.state.Sifre, this.state.plaka, this.state.selected2,this.state.selected2,
-                                                this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum)
+                                                this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum,this.state.mobilKod)
                                                 .then((responseData) => {
-                                                  //  let response =JSON.stringify(responseData);
-                                                    //console.log('responseData='+ responseData.status)
+                                                   // let response =JSON.stringify(responseData);
+                                                   // console.log('responseData='+ response)
                                                     this.setState({ loading: false })
-                                                    if (responseData.status === true) {
+                                                    if (responseData.status == true) {
                                                         Alert.alert(
                                                             'Kayıt İşlemi!',
                                                             responseData.message,
@@ -428,7 +431,26 @@ export default class yenikayit extends Component {
                                         }
                                     </Picker>
                                 </Item>
+                                <Item regular style={styles.Inputs}>
+                                    <Icon active name='md-alarm' color='#fff' />
+                                    <TextInputMask style={styles.Inputs1}
+                                        autoCapitalize="characters"
+                                        placeholder="Mobil Kod..."
+                                        placeholderTextColor="#efefef"
+                                        keyboardType="name-phone-pad"
+                                        //   onChangeText={(value) => this.setState({ plaka: value })}
+                                        value={this.state.plaka}
+                                        underlineColorAndroid="transparent"
 
+                                        refInput={ref => { this.input = ref }}
+                                        onChangeText={(mobilKodFormatted, mobilextracted) => {
+                                            this.setState({ mobilKod: mobilKodFormatted })
+                                            console.log(mobilKodFormatted)
+                                            console.log(mobilextracted)
+                                        }}
+                                    //  mask={"[00000000]-[0000]-[0000]-[0000]-[000000000000]"}
+                                    />
+                                </Item>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='Şifre '
@@ -492,7 +514,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        flex: 3,
+        flex: 2,
         backgroundColor: 'transparent',
         alignItems: 'center',
     },
@@ -509,7 +531,7 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         //  width: '100%',
-        height: '90%',
+        height: '80%',
         resizeMode: 'contain',
         marginBottom: 5,
     },

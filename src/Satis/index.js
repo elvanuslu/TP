@@ -1,10 +1,10 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import { Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
+import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Switch, CheckBox, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import { getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage } from '../Service/FetchUser';
-
+import { renderIf } from '../RenderIf';
 
 const k1 = require("../../assets/Resim.png");
 const logo = require("../../assets/logoKirmiz.png");
@@ -34,19 +34,36 @@ export default class Satis extends Component {
             istasyonselectedId: undefined,
             istasyonName: '',
             datas: [],
-            PlakaSelectId:undefined,
+            PlakaSelectId: undefined,
             PlakaName: '',
-
+            fulle: false,
+            SwitchOnValueHolder: false,
         }
     }
-    onPlaka(value,label){
+    ShowAlert = (value) => {
         this.setState({
-            PlakaSelectId:value,
+            SwitchOnValueHolder: value
+        })
+        if (value == true) {
+          //  Alert.alert("Switch is On.");
+        }
+        else {
+            //Alert.alert("Switch is Off.");
+        }
+
+    }
+    onChecked = () => {
+        this.setState({ fulle: this.state.fulle == true ? false : true })
+        console.log('fulle ' + this.state.fulle);
+    }
+    onPlaka(value, label) {
+        this.setState({
+            PlakaSelectId: value,
             PlakaName: label
         },
-        () => {
-             console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
-         })
+            () => {
+                console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
+            })
     }
     onIstasyonId(val: string) {
         this.setState({ istasyonselectedId: val });
@@ -59,7 +76,7 @@ export default class Satis extends Component {
                 istasyonName: label
             },
             () => {
-               // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId)
+                // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId)
             }
         )
     }
@@ -89,13 +106,13 @@ export default class Satis extends Component {
     }
     _getPlakaListesi = async () => {
         try {
-            const uId =  await getStorage('userId');
-          //  alert('Uid= ' + uId);
+            const uId = await getStorage('userId');
+            //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
                     console.log('Res= ' + JSON.stringify(res))
                     this.setState({ Plaka: res });
-                  //  alert('Plaka= '+this.state.Plaka[0].bm_musteriaraciid+' - '+this.state.Plaka[0].bm_plaka);
+                    //  alert('Plaka= '+this.state.Plaka[0].bm_musteriaraciid+' - '+this.state.Plaka[0].bm_plaka);
                 })
                 .catch(e => {
                     alert(e);
@@ -154,7 +171,7 @@ export default class Satis extends Component {
             //   console.log('res= ' + JSON.stringify(this.state.datas));
         })
     }
-    
+
 
     componentDidMount() {
         console.log('Did Mount');
@@ -163,7 +180,7 @@ export default class Satis extends Component {
         this._getYakitTipleri();
         this._getPlakaListesi();
     }
-   
+
     render() {
         return (
             <Container style={styles.container}>
@@ -280,24 +297,28 @@ export default class Satis extends Component {
                                     placeholderTextColor="#efefef"
                                     underlineColorAndroid="transparent" />
                             </Item>
-                            <View style={{ marginTop: -20, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
-                                <Item regular style={styles.Inputs1}>
-                                    <Image style={{ width: 30, height: 25, resizeMode: 'contain' }} source={odeme}></Image>
-
+                            <View style={styles.switchcontainer}>
+                                <Switch
+                                    onValueChange={(value) => this.ShowAlert(value)}
+                                    style={{ marginBottom: 0 }}
+                                    value={this.state.SwitchOnValueHolder} />
+                                <View style={{ marginLeft: 10, alignContent: 'center' }}>
+                                    <Text style={styles.switcText}>Depoyu Fulle</Text>
+                                </View>
+                            </View>
+                            <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
+                                <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
+                                    <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden: styles.ImageShow]} source={odeme}></Image>
                                     <Input placeholder='Ödeme tutarı...'
                                         keyboardType="decimal-pad"
                                         placeholderTextColor="#efefef"
                                         underlineColorAndroid="transparent" />
                                 </Item>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate("hesabim")}>
-                                    <Image
-                                        style={{ width: 100, height: 100, resizeMode: 'contain', marginLeft: 5 }}
-                                        source={require('../../assets/doldursecili.png')}
-                                    />
-                                </TouchableOpacity>
+
                             </View>
-                            <View>
-                                <Text style={styles.txtYazi}>Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun.{'\n\n'}Kredi kartınızda çekilen ön provizyon yakıt alımından sonra kartınıza iade edilecektir.  </Text>
+
+                            <View style={{ marginTop: 15 }}>
+                                <Text style={styles.txtYazi}>Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
 
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("hesabim")}>
                                     <Image
@@ -315,6 +336,27 @@ export default class Satis extends Component {
 }
 
 const styles = StyleSheet.create({
+    ImageShow:{
+        width: 30, height: 25, resizeMode: 'contain'
+    },
+    hidden: {
+        width: 0,
+        height: 0,
+    },
+    switchcontainer: {
+        flexDirection: 'row',
+        alignSelf: 'flex-start',
+        marginLeft: 31,
+        alignItems: 'center',
+
+    },
+    switcText: {
+        alignSelf: 'flex-end',
+        fontSize: 12,
+        fontWeight: '300',
+        color: 'gray',
+        marginRight: 5,
+    },
     txtYazi: {
         marginTop: -10,
         marginLeft: 35,
@@ -329,8 +371,9 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
+        marginBottom: 20,
     },
     containerOrta: {
         flex: 8,
@@ -370,7 +413,7 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         width: '100%',
-        height: 90,
+        height: 80,
         resizeMode: 'contain',
         marginBottom: 5,
     },
@@ -381,13 +424,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginBottom: 5,
     },
-    switchcontainer: {
-        flexDirection: 'row',
-        alignSelf: 'flex-end',
-        marginRight: 31,
-        alignItems: 'center',
 
-    },
 
     button: {
         resizeMode: 'contain',

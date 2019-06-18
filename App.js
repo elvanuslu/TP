@@ -22,6 +22,7 @@ import KayitGuncelle from './src/yenikayit/KayitGuncelle';
 import DuyuruDetay from './src/duyurular/DuyuruDetay';
 import Harita from './src/Harita/Harita';
 import EnYakinIstasyon from './src/EnYakinIstasyon';
+import Yardim from './src/Yardim';
 
 
 const Drawer = createDrawerNavigator({
@@ -41,7 +42,7 @@ const Drawer = createDrawerNavigator({
   DuyuruDetay: { screen: DuyuruDetay },
   EnYakinIstasyon: { screen: EnYakinIstasyon },
   Harita: { screen: Harita },
-
+  Yardim:{ screen: Yardim},
 },
   {
     initialRouteName: "login",
@@ -66,6 +67,7 @@ const AppNavigator = createStackNavigator({
   DuyuruDetay: { screen: DuyuruDetay },
   Harita: { screen: Harita },
   EnYakinIstasyon: { screen: EnYakinIstasyon },
+  Yardim: { screen : Yardim},
 },
   {
     initialRouteName: "Drawer",

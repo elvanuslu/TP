@@ -57,8 +57,8 @@ export const getUserInfo = (name, pass) => {
 }
 
 
-export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni) => {
-  console.log('plaka: ' + Bmplaka)
+export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni, mobilkod) => {
+  console.log('kod: ' + mobilkod)
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
@@ -78,7 +78,8 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
         bm_yakitcinsiid_2: BMyakitcinsiid2,
         bm_smsizni: smsizni,
         donotmail: donotemail,
-        bm_kullanicisozlesmeizni: kullanicisozlesmeizni
+        bm_kullanicisozlesmeizni: kullanicisozlesmeizni,
+        bm_mobilkod: mobilkod
       }),
     })
     .then((res) => res.json())
@@ -90,8 +91,8 @@ export const getContact = (userId) => {
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
-export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre) => {
-
+export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod) => {
+  console.log('mobilkod' + mobilKod);
   //  const URL = `http://85.105.103.4:8096/PutContact`;
   const URL = define_api_url + `PutContact`;
   return fetch(URL,
@@ -108,7 +109,8 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
         eMailAddress1: EMailAddress1,
         mobilePhone: MobilePhone,
         bm_sifre: BMsifre,
-        bm_kvkizni: true
+        bm_kvkizni: true,
+        bm_mobilkod: mobilKod
 
       }),
     })
@@ -189,12 +191,6 @@ export const getCardById = (Id) => {
 }
 export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka, kartId) => {
   try {
-    console.log('contactId' + contactId);
-    console.log('plaka' + plaka);
-    console.log('yakit1' + yakit1);
-    console.log('yakit2' + yakit2);
-    console.log('marka' + marka);
-    console.log('kartId' + kartId);
     const URL = define_api_url + `PostBm_MusteriArac`;
     return fetch(URL,
       {
@@ -220,8 +216,25 @@ export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka, k
     console.log('postMusteriArac: ' + error);
   }
 }
+export const SendPasswordByEmailAfterChangedPsw = async (eposta) => {
+  try {
+    const URL = define_api_url + `SendPasswordByEmailAfterChangedPsw?eMailAddress1=${eposta}`;
+    return fetch(URL,
+      { method: 'POST'})
+      .then((res) =>{ res.json()
+        console.log('1SendPasswordByEmailAfterChangedPsw: ' + JSON.stringify(res))})
+      .catch((error) => console.log('SendPasswordByEmailAfterChangedPsw: ' + error))
+  } catch (error) {
+    console.log('SendPasswordByEmailAfterChangedPsw: ' + error);
+  }
+}
 export const getDuyuruListByUser = (userId) => {
-  const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=Duyuru&contactid=${userId}`;
+  const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=1&contactid=${userId}`;
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
+}
+export const getSSS = (durum) => {
+  const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=${durum}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }

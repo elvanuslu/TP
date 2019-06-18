@@ -83,7 +83,7 @@ export default class Plakalarim extends Component {
             getPlakaList(uId)
                 .then((res) => {
                     this.setState({ listViewData: res, loading: false })
-                  //  console.log(JSON.stringify(res))
+                    //  console.log(JSON.stringify(res))
                 })
                 .catch((error) => {
                     Alert.alert(
@@ -117,10 +117,11 @@ export default class Plakalarim extends Component {
         this.setState({ listViewData: newData });
     }
     render() {
+        <StatusBar color='#fff' backgroundColor="blue" barStyle="light-content" />
         return (
             <Container style={styles.container}>
-                <StatusBar color='#fff' backgroundColor="transparent" barStyle="light-content" />
-                <Header style={{ backgroundColor: 'red', color: '#fff' }}>
+
+                <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('hesabim')}>
                             <Icon name="arrow-back" style={{ color: '#fff' }} />
@@ -169,21 +170,23 @@ export default class Plakalarim extends Component {
 
                                 </View>
                                 <Image style={{ width: '95%', height: 1 }} source={cizgi}></Image>
+
                                 <List
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
-                                        <ListItem  >
-                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between',textAlign:'left' }}>
-                                                <View >
-                                                    <Text style={styles.txtArac}>{data.bm_marka}</Text>
-                                                </View>
-                                                <View style={{textAlign:'left',}} >
-                                                    <Text style={styles.txtArac}>{data.bm_plaka}</Text>
-                                                </View>
-                                                <View style={{ marginRight: 15, }}>
-                                                    <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
-                                                </View>
+                                        <ListItem   >
 
+                                            <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
+                                                <Left>
+                                                    <Text style={styles.txtArac}>{data.bm_marka}</Text>
+
+                                                </Left>
+                                                <Body>
+                                                    <Text style={styles.txtArac}>{data.bm_plaka}</Text>
+                                                </Body>
+                                                <Right style={{ marginRight: 10 }}>
+                                                    <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
+                                                </Right>
                                             </View>
                                         </ListItem>}
                                     renderLeftHiddenRow={data =>
@@ -237,12 +240,11 @@ export default class Plakalarim extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     container2: {
         flex: 2,
@@ -260,6 +262,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         //     alignItems: 'center',
         //  flexDirection: 'column',
+    },
+    cardmb: {
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 10,
+        borderRadius: 5,
     },
     welcome: {
         fontSize: 20,
@@ -282,7 +290,7 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         // width: '100%',
-        height: 75,
+        height: '90%',
         resizeMode: 'contain',
         marginBottom: 5,
     },
@@ -347,8 +355,8 @@ const styles = StyleSheet.create({
     txtArac: {
         fontSize: 12,
         //  fontWeight: '100',
-        textAlign: 'left',
-        alignSelf:'center'
+        //   textAlign: 'left',
+        //  alignSelf: 'flex-end'
 
 
     }

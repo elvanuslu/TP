@@ -1,9 +1,10 @@
 
 import React, { Component } from 'react';
 import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import { Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
-import Icon1 from "react-native-vector-icons/FontAwesome";
+import { Picker, Icon, Form, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
+import Icon2 from "react-native-vector-icons";
 
+import Spinner from 'react-native-loading-spinner-overlay';
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getContact, musteriGuncelle } from '../Service/FetchUser';
@@ -29,10 +30,14 @@ export default class KayitGuncelle extends Component {
             yakitTipiDeger: undefined,
             Sifre: '',
             error: '',
+            loading: false,
             isLoading: false,
             yakitTipleri: [],
             selected2: undefined,
             labelName: '',
+            mobilKod: '',
+            mobilKodFormatted: '',
+            mobilextracted: '',
         }
     }
     componentDidMount() {
@@ -60,11 +65,11 @@ export default class KayitGuncelle extends Component {
             const value = await AsyncStorage.getItem('userId');
             if (value !== null) {
                 this.setState({ kullanici: value });
-                console.log("UserIdmKayıt " + this.state.kullanici);
+                //  console.log("UserIdmKayıt " + this.state.kullanici);
                 this._getUserInfo(this.state.kullanici);
             }
         } catch (error) {
-            // Error retrieving data
+            Alert.alert('Hata', error);
         }
     };
 
@@ -84,11 +89,34 @@ export default class KayitGuncelle extends Component {
 
     _btnKayit() {
         try {
-            musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre)
-                .then((responseData) => { console.log("response: " + JSON.stringify(responseData)) })
-                .catch((err) => { console.log(err); });
+            this.setState({ loading: true });
+            //   alert('kayit'+this.state.kullanici)
+            musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre, this.state.mobilKod)
+                .then((responseData) => {
+                    
+                    Alert.alert(
+                        'Düzenleme!',
+                        responseData.message,
+                        [
+            
+                          { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                      );
+                      this.setState({
+                        loading: false,
+                      });
+                      this.setState({ loading: false })
+                  //  Alert.alert('Düzenleme Başarılı.', responseData.message)
+                   // console.log("response: " + JSON.stringify(responseData))
+                    
+                })
+                .catch((err) => { Alert.alert('Hata.', err) });
         } catch (error) {
+            Alert.alert('Hata!', error)
             console.log('hata oluştu: ' + error);
+        } finally {
+            this.setState({ loading: false })
         }
     }
     render() {
@@ -110,6 +138,7 @@ export default class KayitGuncelle extends Component {
                         </Button>
                     </Right>
                 </Header>
+
                 <View style={styles.container1}>
                     <View>
                         <Image style={styles.logo} source={require('../../assets/tplogo.png')}
@@ -118,9 +147,15 @@ export default class KayitGuncelle extends Component {
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spinner
+                            visible={this.state.loading}
+                            textContent={'Yükleniyor...'}
+                            textStyle={styles.spinnerTextStyle}
+                        />
+                    </View>
                     <Content style={{ backgroundColor: '#fff' }}>
                         <Body>
-                            <Form>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='Ad'
@@ -139,7 +174,7 @@ export default class KayitGuncelle extends Component {
                                 </Item>
 
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                                    <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
                                     <TextInputMask style={styles.Inputs1}
                                         placeholder="Telefon Giriniz..."
                                         placeholderTextColor="#efefef"
@@ -154,16 +189,36 @@ export default class KayitGuncelle extends Component {
 
                                 </Item>
                                 <Item regular style={styles.Inputs}>
+                                    <Icon active name='md-alarm' color='#fff' />
+                                    <TextInputMask style={styles.Inputs1}
+                                        autoCapitalize="characters"
+                                        placeholder="Mobil Kod..."
+                                        placeholderTextColor="#efefef"
+                                        keyboardType="name-phone-pad"
+                                        //   onChangeText={(value) => this.setState({ plaka: value })}
+                                        value={this.state.plaka}
+                                        underlineColorAndroid="transparent"
+
+                                        refInput={ref => { this.input = ref }}
+                                        onChangeText={(mobilKodFormatted, mobilextracted) => {
+                                            this.setState({ mobilKod: mobilKodFormatted })
+                                          //  console.log(mobilKodFormatted)
+                                          //  console.log(mobilextracted)
+                                        }}
+                                    //  mask={"[00000000]-[0000]-[0000]-[0000]-[000000000000]"}
+                                    />
+                                </Item>
+                                <Item regular style={styles.Inputs}>
                                     <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='Şifre '
                                         // keyboardType="email-address"
                                         placeholderTextColor="#efefef"
+                                        secureTextEntry={true}
+                                        textContentType="password"
                                         onChangeText={(value) => this.setState({ Sifre: value })}
                                         value={this.state.Sifre}
                                         underlineColorAndroid="transparent" />
                                 </Item>
-
-                            </Form>
                         </Body>
 
                         <Button block danger style={styles.mb15} onPress={() => this._btnKayit()}>
@@ -218,7 +273,8 @@ const styles = StyleSheet.create({
         borderColor: 'black',
     },
     Inputs1: {
-
+        alignSelf: 'center',
+        height: 40,
         borderRadius: 5,
         marginBottom: 10,
         width: '90%',
@@ -260,4 +316,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
 
     },
+    spinnerTextStyle: {
+        color: '#FFF'
+      },
 })
