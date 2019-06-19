@@ -257,7 +257,7 @@ export default class PlakaEkle extends Component {
     }
     componentDidMount = async () => {
         const Id = await getStorage('userId');
-        this.setState({ userId: Id })
+      //  this.setState({ userId: Id })
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();

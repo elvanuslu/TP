@@ -178,6 +178,17 @@ export const getPlakaList = (userId) => {
     console.log('getPlaka Hata oluştu', error);
   }
 }
+
+export const getPaymentTypes = async () => {
+  try {
+   
+    const URL = define_api_url + `GetPaymentTypes`;
+    return fetch(URL, { method: 'GET' })
+      .then((res) => res.json())
+  } catch (error) {
+    console.log('GetPaymentTypes Hata: ' + error);
+  }
+}
 export const getSatisPuanGecmisi = async (userId) => {
   try {
     let userID = userId.trim();

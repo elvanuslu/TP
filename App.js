@@ -24,6 +24,7 @@ import Harita from './src/Harita/Harita';
 import EnYakinIstasyon from './src/EnYakinIstasyon';
 import Yardim from './src/Yardim';
 import KampanyaSec from './src/Satis/Kampanya';
+import PlakaDuzenle from './src/PlakaEkle/PlakaDuzenle';
 
 
 const Drawer = createDrawerNavigator({
@@ -45,6 +46,7 @@ const Drawer = createDrawerNavigator({
   Harita: { screen: Harita },
   Yardim:{ screen: Yardim},
   KampanyaSec: { screen: KampanyaSec},
+  PlakaDuzenle: { screen: PlakaDuzenle},
 },
   {
     initialRouteName: "login",
@@ -71,6 +73,7 @@ const AppNavigator = createStackNavigator({
   EnYakinIstasyon: { screen: EnYakinIstasyon },
   Yardim: { screen : Yardim},
   KampanyaSec:{ screen: KampanyaSec},
+  PlakaDuzenle: { screen: PlakaDuzenle},
 },
   {
     initialRouteName: "Drawer",

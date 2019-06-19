@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Switch, CheckBox, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, campaignDetailList } from '../Service/FetchUser';
-
+import { getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, campaignDetailList } from '../Service/FetchUser';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const k1 = require("../../assets/Resim.png");
 const logo = require("../../assets/logoKirmiz.png");
@@ -38,17 +38,20 @@ export default class Satis extends Component {
             PlakaName: '',
             fulle: false,
             SwitchOnValueHolder: false,
+            OdemeTipleri: [],
             OdemeTipi: undefined,
             OdemeLabel: '',
             PompaNo: undefined,
             KuponKodu: '',
             Tutar: undefined,
-            userId:undefined,
+            userId: undefined,
+            loading: false,
         }
     }
 
     _campaignDetailList = async () => {
         try {
+            this.setState({ loading: true })
             const Id = await getStorage('userId');
             if (this.state.istasyonselectedId != undefined) { //istasyon
                 if (this.state.PlakaSelectId != undefined) { // Plaka
@@ -58,17 +61,19 @@ export default class Satis extends Component {
 
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
                                     this.props.navigation.navigate("KampanyaSec");
-                                    campaignDetailList(this.state.istasyonselectedId,this.state.selected2,this.state.OdemeTipi,'',Id,'',this.state.KuponKodu,0,this.state.PlakaSelectId )
-                                    .then((res)=>{
-                                        console.log('Kapmanya = '+ JSON.stringify(res));
-                                    })
+                                    campaignDetailList(this.state.istasyonselectedId, this.state.selected2, this.state.OdemeTipi, '', Id, '', this.state.KuponKodu, 0, this.state.PlakaSelectId)
+                                        .then((res) => {
+                                            console.log('Kapmanya = ' + JSON.stringify(res));
+                                            this.setState({ loading: false })
+                                        })
                                 }
                                 else {
                                     if (this.state.Tutar !== undefined) { // Tutar 
-                                        campaignDetailList(this.state.istasyonselectedId,this.state.selected2,this.state.OdemeTipi,this.state.Tutar,Id,'',this.state.KuponKodu,0,this.state.PlakaSelectId )
-                                        .then((res)=>{
-                                            console.log('Kapmanya = '+ JSON.stringify(res));
-                                        })
+                                        campaignDetailList(this.state.istasyonselectedId, this.state.selected2, this.state.OdemeTipi, this.state.Tutar, Id, '', this.state.KuponKodu, 0, this.state.PlakaSelectId)
+                                            .then((res) => {
+                                                console.log('Kapmanya = ' + JSON.stringify(res));
+                                                this.setState({ loading: false })
+                                            })
                                     }
                                     else {
                                         Alert.alert('Hata!', 'Tutar Girilmedi!');
@@ -170,6 +175,24 @@ export default class Satis extends Component {
             }
         )
     }
+    _getPaymentTypes()  {
+        try {
+            getPaymentTypes()
+                .then((res) => {
+                    alert(JSON.stringify(res))
+                    this.setState({ OdemeTipleri: res, loading: false })
+                    console.log('Odeme Tipleri: ' + JSON.stringify(OdemeTipleri))
+                })
+                .catch(e => {
+                    alert(e);
+                })
+                .finally
+                    this.setState({  loading: false })
+                
+        } catch (error) {
+            Alert.alert('getGetPaymentTypes Hata', error)
+        }
+    }
     onYakitTipiValueChange(value: string) {
         this.setState({
             yakitTipi: value
@@ -183,12 +206,13 @@ export default class Satis extends Component {
             //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
-                  //  console.log('Res= ' + JSON.stringify(res))
+                    //  console.log('Res= ' + JSON.stringify(res))
                     this.setState({ Plaka: res });
-                    for (let index = 0; index < res.length; index++) {
-                        const element = res[index];
-                        console.log('Yeni Array= ' + JSON.stringify(element))
-                    }
+                    /*    for (let index = 0; index < res.length; index++) {
+                            const element = res[index];
+                           // console.log('Yeni Array= ' + JSON.stringify(element))
+                        }
+                        */
                     //  alert('Plaka= '+this.state.Plaka[0].bm_musteriaraciid+' - '+this.state.Plaka[0].bm_plaka);
                 })
                 .catch(e => {
@@ -256,6 +280,7 @@ export default class Satis extends Component {
         this._retrieveKullanici();
         this._getYakitTipleri();
         this._getPlakaListesi();
+        this._getPaymentTypes();
     }
 
     render() {
@@ -283,6 +308,13 @@ export default class Satis extends Component {
                         />
                         <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
+                </View>
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Yükleniyor...'}
+                        textStyle={styles.spinnerTextStyle}
+                    />
                 </View>
                 <View style={styles.containerOrta}>
                     <Content>
@@ -346,7 +378,7 @@ export default class Satis extends Component {
                                     placeholderIconColor="#007aff"
                                     selectedValue={this.state.selected2}
                                     onValueChange={this.onValueChange2.bind(this)}>
-                                    {  // Burada Kaldık...
+                                    {
                                         this.state.Plaka.map((item, key) => (
                                             //  console.log("ttip: " + item.bm_yakittipiadi),
                                             //  console.log("ttip: " + item.bm_yakittipiid),
@@ -389,8 +421,14 @@ export default class Satis extends Component {
                                     placeholderIconColor="#007aff"
                                     selectedValue={this.state.OdemeTipi}
                                     onValueChange={this.onOdemeTipi.bind(this)}>
-                                    <Picker.Item label="Nakit" value="1" />
-                                    <Picker.Item label="Card" value="2" />
+                                    {
+                                        this.state.OdemeTipleri.map((item, key) => (
+                                            <Picker.Item
+                                                label={item.Name}
+                                                value={item.Value}
+                                                key={item.Value} />)
+                                        )
+                                    }
                                 </Picker>
                             </Item>
                             <View style={styles.switchcontainer}>
@@ -570,5 +608,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 5,
+    },
+    spinnerTextStyle: {
+        color: '#FFF'
     },
 });

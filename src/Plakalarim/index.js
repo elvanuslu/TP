@@ -75,7 +75,10 @@ export default class Plakalarim extends Component {
             loading: false,
         }
     }
-
+    GetItem(item) {
+      //  alert('calıstı')
+        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item });
+    }
     _getPlakaList = async () => {
         try {
             const uId = await getStorage('userId');
@@ -83,7 +86,7 @@ export default class Plakalarim extends Component {
             getPlakaList(uId)
                 .then((res) => {
                     this.setState({ listViewData: res, loading: false })
-                    //  console.log(JSON.stringify(res))
+                     // console.log(JSON.stringify(this.state.listViewData))
                 })
                 .catch((error) => {
                     Alert.alert(
@@ -175,25 +178,28 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem   >
+                                            <TouchableOpacity style={{width:'100%'}} onPress={() => this.GetItem(data.bm_plaka)}>
 
-                                            <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
-                                                <Left>
-                                                    <Text style={styles.txtArac}>{data.bm_marka}</Text>
+                                                <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
+                                                    <Left>
+                                                        <Text style={styles.txtArac}>{data.bm_marka}</Text>
 
-                                                </Left>
-                                                <Body>
-                                                    <Text style={styles.txtArac}>{data.bm_plaka}</Text>
-                                                </Body>
-                                                <Right style={{ marginRight: 10 }}>
-                                                    <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
-                                                </Right>
-                                            </View>
+                                                    </Left>
+                                                    <Body>
+                                                        <Text style={styles.txtArac}>{data.bm_plaka}</Text>
+                                                    </Body>
+                                                    <Right style={{ marginRight: 10 }}>
+                                                        <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
+                                                    </Right>
+                                                </View>
+
+                                            </TouchableOpacity>
                                         </ListItem>}
                                     renderLeftHiddenRow={data =>
                                         <Content style={{ flexDirection: 'row' }}>
                                             <Button
                                                 full
-                                                onPress={() => alert(data.bm_plaka)}
+                                                onPress={() => this.GetItem(data.bm_plaka)}
                                                 style={{
                                                     backgroundColor: "#ec971f",
                                                     flex: 1,
