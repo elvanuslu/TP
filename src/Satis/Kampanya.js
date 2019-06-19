@@ -53,6 +53,9 @@ export default class KampanyaSec extends Component {
     _btnDevam=()=>{
         alert('devam');
     }
+    GetItem(item){
+        this.props.navigation.navigate('OzetBilgi',{'Id':item});
+    }
     render() {
         return (
             <Container style={styles.container}>
