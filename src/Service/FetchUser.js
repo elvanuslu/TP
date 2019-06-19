@@ -58,6 +58,15 @@ export const getUserInfo = (name, pass) => {
 
 export const campaignDetailList =(istasyonid,yakittipiid,gecerliodemetipi,tutarTL,contactId,kartId,kampanyakuponuId,fraudIn,plaka)=>{
   try {
+    console.log('istasyonid '+istasyonid)
+    console.log('yakittipiid '+yakittipiid)
+    console.log('gecerliodemetipi '+gecerliodemetipi)
+    console.log('tutarTL ' +tutarTL)
+    console.log('contactId '+contactId)
+    console.log('kartId '+kartId)
+    console.log('kampanyakuponuId' +kampanyakuponuId)
+    console.log('fraudIn '+fraudIn)
+    console.log('plaka '+plaka)
     const URL = define_api_url + `TP_CampaignDetailList`;
     return fetch(URL,
       {

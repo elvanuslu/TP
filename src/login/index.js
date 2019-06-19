@@ -116,10 +116,10 @@ export default class login extends Component {
       SwitchOnValueHolder: value
     })
     if (value == true) {
-      Alert.alert("Switch is On.");
+      //Alert.alert("Switch is On.");
     }
     else {
-      Alert.alert("Switch is Off.");
+      //Alert.alert("Switch is Off.");
     }
 
   }

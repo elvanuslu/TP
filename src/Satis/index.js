@@ -41,13 +41,15 @@ export default class Satis extends Component {
             OdemeTipi: undefined,
             OdemeLabel: '',
             PompaNo: undefined,
-            KuponKodu: undefined,
+            KuponKodu: '',
             Tutar: undefined,
+            userId:undefined,
         }
     }
 
-    _campaignDetailList = () => {
+    _campaignDetailList = async () => {
         try {
+            const Id = await getStorage('userId');
             if (this.state.istasyonselectedId != undefined) { //istasyon
                 if (this.state.PlakaSelectId != undefined) { // Plaka
                     if (this.state.selected2 != undefined) { // Yakıt
@@ -55,13 +57,18 @@ export default class Satis extends Component {
                             if (this.state.PompaNo != undefined) { // Pompa No 
 
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
-                                    //  campaignDetailList()
-                                    alert('Ödeme Devam1')
+                                    this.props.navigation.navigate("KampanyaSec");
+                                    campaignDetailList(this.state.istasyonselectedId,this.state.selected2,this.state.OdemeTipi,'',Id,'',this.state.KuponKodu,0,this.state.PlakaSelectId )
+                                    .then((res)=>{
+                                        console.log('Kapmanya = '+ JSON.stringify(res));
+                                    })
                                 }
                                 else {
                                     if (this.state.Tutar !== undefined) { // Tutar 
-                                        //  campaignDetailList()
-                                        alert('Ödeme Devam2')
+                                        campaignDetailList(this.state.istasyonselectedId,this.state.selected2,this.state.OdemeTipi,this.state.Tutar,Id,'',this.state.KuponKodu,0,this.state.PlakaSelectId )
+                                        .then((res)=>{
+                                            console.log('Kapmanya = '+ JSON.stringify(res));
+                                        })
                                     }
                                     else {
                                         Alert.alert('Hata!', 'Tutar Girilmedi!');
@@ -176,8 +183,12 @@ export default class Satis extends Component {
             //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
-                    console.log('Res= ' + JSON.stringify(res))
+                  //  console.log('Res= ' + JSON.stringify(res))
                     this.setState({ Plaka: res });
+                    for (let index = 0; index < res.length; index++) {
+                        const element = res[index];
+                        console.log('Yeni Array= ' + JSON.stringify(element))
+                    }
                     //  alert('Plaka= '+this.state.Plaka[0].bm_musteriaraciid+' - '+this.state.Plaka[0].bm_plaka);
                 })
                 .catch(e => {
@@ -335,14 +346,14 @@ export default class Satis extends Component {
                                     placeholderIconColor="#007aff"
                                     selectedValue={this.state.selected2}
                                     onValueChange={this.onValueChange2.bind(this)}>
-                                    {
-                                        this.state.yakitTipleri.map((item, key) => (
+                                    {  // Burada Kaldık...
+                                        this.state.Plaka.map((item, key) => (
                                             //  console.log("ttip: " + item.bm_yakittipiadi),
                                             //  console.log("ttip: " + item.bm_yakittipiid),
                                             <Picker.Item
-                                                label={item.bm_yakittipiadi}
-                                                value={item.bm_yakittipiid}
-                                                key={item.bm_yakittipiid} />)
+                                                label={item.bm_yakittipiadi_1}
+                                                value={item.bm_yakitcinsiid_1}
+                                                key={item.bm_yakitcinsiid_1} />)
                                         )
                                     }
                                 </Picker>
@@ -378,8 +389,8 @@ export default class Satis extends Component {
                                     placeholderIconColor="#007aff"
                                     selectedValue={this.state.OdemeTipi}
                                     onValueChange={this.onOdemeTipi.bind(this)}>
-                                    <Picker.Item label="Nakit" value="Nakit" />
-                                    <Picker.Item label="Card" value="Card" />
+                                    <Picker.Item label="Nakit" value="1" />
+                                    <Picker.Item label="Card" value="2" />
                                 </Picker>
                             </Item>
                             <View style={styles.switchcontainer}>
@@ -419,6 +430,19 @@ export default class Satis extends Component {
         );
     }
 }
+/*
+{
+    "bm_istasyonid": "df827eaa-214b-e911-836a-000c29289d89",
+    "bm_yakittipiid": "0161929d-0f4a-e911-836a-000c29289d89",
+    "bm_gecerliodemetipi": "1",
+    "TutarTL": 0,
+    "ContactId": "f9abd025-258c-e911-838d-000c29289d89",
+    "bm_kartId": "",
+    "bm_kampanyakuponuId": "",
+    "FraudIn": 0,
+    "Plaka": "34 Ar 345"
+  }
+  */
 
 const styles = StyleSheet.create({
     ImageShow: {
