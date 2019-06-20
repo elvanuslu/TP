@@ -33,6 +33,7 @@ export default class Satis extends Component {
             longitudeDelta: 0.0421,
             istasyonselectedId: undefined,
             istasyonName: '',
+            IstasyonAdi: '',
             datas: [],
             PlakaSelectId: undefined,
             PlakaName: '',
@@ -46,6 +47,8 @@ export default class Satis extends Component {
             Tutar: undefined,
             userId: undefined,
             loading: false,
+            YakitAdi: undefined,
+            OdemeAdi: undefined,
         }
     }
 
@@ -60,50 +63,122 @@ export default class Satis extends Component {
                             if (this.state.PompaNo != undefined) { // Pompa No 
 
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
-                                    this.props.navigation.navigate("KampanyaSec");
+                                    /*    
+                                         */
                                     campaignDetailList(this.state.istasyonselectedId, this.state.selected2, this.state.OdemeTipi, '', Id, '', this.state.KuponKodu, 0, this.state.PlakaSelectId)
                                         .then((res) => {
-                                            console.log('Kapmanya = ' + JSON.stringify(res));
-                                            this.setState({ loading: false })
+                                            //  console.log('Kampanya = ' + JSON.stringify(res));
+                                            this.setState({ loading: false });
+                                            //  console.log('Durumu= ' + this.state.loading);
+                                            if (res.status == false) {
+                                                Alert.alert(
+                                                    'Durum Bilgi!',
+                                                    res.message,
+                                                    [
+                                                        { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                    ],
+                                                    { cancelable: true },
+                                                );
+                                            }
+                                            //   else 
+                                            {
+                                                this.props.navigation.navigate("KampanyaSec", {
+                                                    'Istasyon': this.state.istasyonselectedId,
+                                                    'IstasyonAdi': this.state.IstasyonAdi,
+                                                    'Plaka': this.state.PlakaSelectId,
+                                                    'PlakaName': this.state.PlakaName,
+                                                    'Yakit': this.state.selected2,
+                                                    'YakitAdi': this.state.YakitAdi,
+                                                    'OdemeTipi': this.state.OdemeTipi,
+                                                    'OdemeAdi': this.state.OdemeAdi,
+                                                    'PompaNo': this.state.PompaNo,
+                                                    'KuponKodu': this.state.KuponKodu,
+                                                });
+                                            }
                                         })
+                                        .catch((error) => Alert.alert('Hata!', error))
+                                        .finally(
+                                            this.setState({ loading: false })
+                                        )
                                 }
                                 else {
-                                    if (this.state.Tutar !== undefined) { // Tutar 
+                                    if (this.state.Tutar != undefined) { // Tutar 
+
                                         campaignDetailList(this.state.istasyonselectedId, this.state.selected2, this.state.OdemeTipi, this.state.Tutar, Id, '', this.state.KuponKodu, 0, this.state.PlakaSelectId)
                                             .then((res) => {
-                                                console.log('Kapmanya = ' + JSON.stringify(res));
                                                 this.setState({ loading: false })
-                                            })
+                                                console.log('Kapmanya = ' + JSON.stringify(res));
+                                                if (res.status == false) {
+                                                    Alert.alert(
+                                                        'Durum Bilgi!',
+                                                        res.message,
+                                                        [
+                                                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                        ],
+                                                        { cancelable: true },
+                                                    );
+                                                }
+                                                //else 
+                                                {
+                                                    this.props.navigation.navigate("KampanyaSec", {
+                                                        'Istasyon': this.state.istasyonselectedId,
+                                                        'IstasyonAdi': this.state.IstasyonAdi,
+                                                        'Plaka': this.state.PlakaSelectId,
+                                                        'PlakaName': this.state.PlakaName,
+                                                        'Yakit': this.state.selected2,
+                                                        'YakitAdi': this.state.YakitAdi,
+                                                        'OdemeTipi': this.state.OdemeTipi,
+                                                        'OdemeAdi': this.state.OdemeAdi,
+                                                        'PompaNo': this.state.PompaNo,
+                                                        'KuponKodu': this.state.KuponKodu,
+                                                        'Tutar': this.state.Tutar,
+
+                                                    });
+                                                }
+                                            }).catch((error) => Alert.alert('Hata!', error))
+                                            .finally(
+                                                this.setState({ loading: false })
+                                            )
                                     }
                                     else {
+                                        this.setState({ loading: false })
                                         Alert.alert('Hata!', 'Tutar Girilmedi!');
                                     }
                                 }
 
                             }
                             else {
+                                this.setState({ loading: false })
                                 Alert.alert('Hata!', 'Pompa Numarası Girilmedi!');
                             }
                         }
                         else {
+                            this.setState({ loading: false })
                             Alert.alert('Hata!', 'Ödeme Tipi Seçilmedi!');
                         }
 
                     }
                     else {
+                        this.setState({ loading: false })
                         Alert.alert('Hata!', 'Yakıt Seçilmedi!');
                     }
                 }
                 else {
+                    this.setState({ loading: false })
                     Alert.alert('Hata!', 'Plaka Seçilmedi!');
                 }
 
             }
             else {
+                this.setState({ loading: false })
                 Alert.alert('Hata!', 'Istasyon Seçilmedi!');
             }
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert('Hata!', error);
+        }
+        finally {
+            this.setState({ loading: false })
         }
     }
     ShowAlert = (value) => {
@@ -125,7 +200,8 @@ export default class Satis extends Component {
     onPlaka(value, label) {
         this.setState({
             PlakaSelectId: value,
-            PlakaName: label
+            PlakaName: label,
+            PlakaName: this.state.Plaka.find(p => p.bm_musteriaraciid === value).bm_plaka,
         },
             () => {
                 console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
@@ -136,13 +212,17 @@ export default class Satis extends Component {
         console.log('Id= ' + val);
     }
     onIstasyonName(value, label) {
+
         this.setState(
             {
                 istasyonselectedId: value,
-                istasyonName: label
+                istasyonName: label,
+                IstasyonAdi: this.state.datas.find(branch => branch.AccountId === value).name,
             },
             () => {
-                console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId)
+
+                console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
+
             }
         )
     }
@@ -156,39 +236,40 @@ export default class Satis extends Component {
         this.setState(
             {
                 selected2: value,
-                labelName: label
+                labelName: label,
+                YakitAdi: this.state.yakitTipleri.find(p => p.bm_yakittipiid === value).bm_yakittipiadi,
             },
             () => {
-                console.log('YakıtId: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+                console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
             }
         )
     }
     onOdemeTipi(value, label) {
-
         this.setState(
             {
                 OdemeTipi: value,
-                OdemeLabel: label
+                OdemeLabel: label,
+                OdemeAdi: this.state.OdemeTipleri.find(p => p.Value === value).Name,
             },
             () => {
-                console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeLabel)
+                console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
             }
         )
     }
-    _getPaymentTypes()  {
+    _getPaymentTypes() {
         try {
             getPaymentTypes()
                 .then((res) => {
-                 //   alert(JSON.stringify(res))
+                    //   alert(JSON.stringify(res))
                     this.setState({ OdemeTipleri: res, loading: false })
-                    console.log('Odeme Tipleri: ' + JSON.stringify(OdemeTipleri))
+                    //  console.log('Odeme Tipleri: ' + JSON.stringify(this.state.OdemeTipleri))
                 })
                 .catch(e => {
-                    alert(e);
+                    Alert.alert('Hata' + e);
                 })
                 .finally
-                    this.setState({  loading: false })
-                
+            this.setState({ loading: false })
+
         } catch (error) {
             Alert.alert('getGetPaymentTypes Hata', error)
         }
@@ -228,7 +309,7 @@ export default class Satis extends Component {
                 this.setState({
                     yakitTipleri: res,
                 });
-                // console.log("Yakit" + ("log Yakit" + JSON.stringify(this.state.yakitTipleri)));
+                console.log("Yakitlog Yakit" + JSON.stringify(this.state.yakitTipleri));
                 // console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
             })
             .catch(e => {
@@ -257,7 +338,7 @@ export default class Satis extends Component {
                         error: null,
                     });
                     this._getLatLon();
-                    console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                    //console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({ error: error.message }),
                 { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -275,7 +356,7 @@ export default class Satis extends Component {
 
 
     componentDidMount() {
-        console.log('Did Mount');
+        //  console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();
         this._getYakitTipleri();
@@ -331,13 +412,14 @@ export default class Satis extends Component {
                                     selectedValue={this.state.istasyonselectedId}
                                     onValueChange={this.onIstasyonName.bind(this)}>
                                     {
-                                        this.state.datas.map((item, key) => (
-                                            // console.log("ttip: " + item.name),
-                                            // console.log("ttip: " + item.AccountId),
+                                        this.state.datas.map((item, itemIndex) => (
+                                            //   console.log("ttip: " + item.name),
+                                            //   console.log("ttip: " + item.AccountId),
+
                                             <Picker.Item
                                                 label={item.name}
                                                 value={item.AccountId}
-                                                key={item.AccountId} />)
+                                                key={itemIndex} />)
                                         )
                                     }
                                 </Picker>
@@ -379,13 +461,15 @@ export default class Satis extends Component {
                                     selectedValue={this.state.selected2}
                                     onValueChange={this.onValueChange2.bind(this)}>
                                     {
-                                        this.state.Plaka.map((item, key) => (
+                                        this.state.yakitTipleri.map((item, key) => (
                                             //  console.log("ttip: " + item.bm_yakittipiadi),
                                             //  console.log("ttip: " + item.bm_yakittipiid),
                                             <Picker.Item
-                                                label={item.bm_yakittipiadi_1}
-                                                value={item.bm_yakitcinsiid_1}
-                                                key={item.bm_yakitcinsiid_1} />)
+                                                label={item.bm_yakittipiadi}
+                                                value={item.bm_yakittipiid}
+                                                //  label={item.bm_yakittipiadi_1}
+                                                //  value={item.bm_yakitcinsiid_1}
+                                                key={item.bm_yakittipiid} />)
                                         )
                                     }
                                 </Picker>
@@ -453,10 +537,10 @@ export default class Satis extends Component {
 
                             </View>
 
-                            <View style={{ marginTop: 15 }}>
-                                <Text style={styles.txtYazi}>Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
+                            <View >
+                                <Text style={styles.textYazi}>*Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
 
-                                <Button block danger style={{ marginTop: 30, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>
+                                <Button block danger style={{ marginTop: 10, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>
                                     <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>DEVAM</Text>
                                 </Button>
 
@@ -483,6 +567,15 @@ export default class Satis extends Component {
   */
 
 const styles = StyleSheet.create({
+    textYazi: {
+        color: 'red',
+        fontSize: 10,
+        textAlign: 'left',
+        marginLeft: 30,
+        marginTop: 10,
+        marginBottom: 10,
+        fontFamily: "Myriadpro-Regular",
+    },
     ImageShow: {
         width: 30, height: 25, resizeMode: 'contain'
     },
@@ -499,10 +592,11 @@ const styles = StyleSheet.create({
     },
     switcText: {
         alignSelf: 'flex-end',
-        fontSize: 12,
-        fontWeight: '300',
+        fontSize: 14,
+        // fontWeight: '300',
         color: 'gray',
         marginRight: 5,
+        fontFamily: "Myriadpro-Regular",
     },
     txtYazi: {
         marginTop: -10,

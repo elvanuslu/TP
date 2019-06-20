@@ -48,15 +48,101 @@ export default class KampanyaSec extends Component {
             kullaniciId: undefined,
             datam: [],
             loading: false,
+          
+
+            Istasyon: undefined,
+            Plaka: undefined,
+            Yakit: undefined,
+            OdemeTipi: undefined,
+            PompaNo: undefined,
+            KuponKodu: undefined,
+            Tutar: undefined,
+
+            Istasyonold: undefined,
+            Plakaold: undefined,
+            Yakitold: undefined,
+            Odemeold: undefined,
+            PompaNoold: undefined,
+            KuponKoduold: undefined,
+            Tutarold: undefined,
         }
     }
-    _btnDevam=()=>{
-        alert('devam');
+    _btnDevam = (item) => {
+        this.props.navigation.navigate("OzetBilgi",{'Parametre':this.props.navigation.state.params,'KampanyaId':item});
     }
-    GetItem(item){
-        this.props.navigation.navigate('OzetBilgi',{'Id':item});
+    GetItem(item) {
+        this.props.navigation.navigate("OzetBilgi", {
+            'Id': item,
+            'Istasyon': this.state.istasyonselectedId,
+            'Plaka': this.state.PlakaSelectId,
+            'Yakit': this.state.selected2,
+            'OdemeTipi': this.state.OdemeTipi,
+            'PompaNo': this.state.PompaNo,
+            'KuponKodu': this.state.KuponKodu,
+            'Tutar': this.state.Tutar,
+        });
+    }
+    componentDidMount() {
+      console.log('Props= '+JSON.stringify(this.props));
+      console.log("Prms= "+( this.props.navigation.state.params.Istasyon))
+    }
+    onGetParams = () => {
+        const Istasyon = this.props.navigation.getParam('Istasyon', '');
+        const Plaka = this.props.navigation.getParam('Plaka', '');
+        const Yakit = this.props.navigation.getParam('Yakit', '');
+        const OdemeTipi = this.props.navigation.getParam('OdemeTipi', '');
+        const PompaNo = this.props.navigation.getParam('PompaNo', '');
+        const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
+        const Tutar = this.props.navigation.getParam('Tutar', '');
+        var degisiklik = false;
+      //  console.log('Station = '+ Istasyon +' => '+ this.state.Istasyonold);
+        if (Istasyon != this.state.Istasyonold) {
+            degisiklik = true;
+             this.setState({ Istasyonold: Istasyon })
+        }
+        if (Plaka != this.state.Plaka) {
+            degisiklik = true;
+            this.setState({ Plakaold: Plaka })
+        }
+        if (Yakit != this.state.Yakitold) {
+            degisiklik = true;
+             this.setState({ Yakitold: Yakit})
+        }
+        if (OdemeTipi != this.state.OdemeTipi) {
+            degisiklik = true;
+            this.setState({ OdemeTipi: PompaNo})
+        }
+        if (PompaNo != this.state.PompaNoold) {
+            degisiklik = true
+            this.setState({ PompaNoold: PompaNo })
+        }
+        if (KuponKodu != this.state.KuponKoduold) {
+            degisiklik = true;
+        this.setState({ KuponKoduold: KuponKodu })
+        }
+        if (Tutar != this.state.Tutarold){
+            degisiklik = true;
+            this.setState({ Tutarold: Tutar })
+        }
+        console.log('degisiklik: '+degisiklik);
+        // this.setState({ Tutarold: Tutar, degisiklik: true })
+       /* if (degisiklik==true) {
+            this.setState({
+                Tutarold: Tutar,
+                KuponKoduold: KuponKodu,
+                PompaNoold: PompaNo,
+                OdemeTipi: PompaNo,
+                Yakitold: Yakit,
+                Plakaold: Plaka,
+                Istasyonold: Istasyon,
+            });
+            degisiklik=false;
+            console.log('Parametreler ' + Istasyon + ' ,' + Plaka + ' ,' + Yakit + ' ,' + OdemeTipi + ' ,' + PompaNo + ' ,' + KuponKodu + ' ,' + Tutar)
+        }
+        */
     }
     render() {
+      //  this.onGetParams();
         return (
             <Container style={styles.container}>
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
@@ -98,9 +184,9 @@ export default class KampanyaSec extends Component {
                                     </Body>
                                 </CardItem>
                                 <CardItem footer >
-                                <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5,width:'100%' }} onPress={() => this._btnDevam()}>
-                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>SEÇ VE DEVAM ET</Text>
-                                </Button>
+                                    <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5, width: '100%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
+                                        <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>SEÇ VE DEVAM ET</Text>
+                                    </Button>
                                 </CardItem>
                             </Card>
 
@@ -114,7 +200,23 @@ export default class KampanyaSec extends Component {
     }
 
 }
+/*
+{
 
+  "bm_istasyonid": "DF827EAA-214B-E911-836A-000C29289D89",
+
+  "bm_yakittipiid": "0361929D-0F4A-E911-836A-000C29289D89",
+
+  "bm_gecerliodemetipi": "1",
+
+  "TutarTL": 500,
+
+  "ContactId": "45319CA5-248C-E911-838D-000C29289D89",
+
+  "Plaka": "93FDDDE4-DB90-E911-838F-000C29289D89"
+
+}
+*/
 const styles = StyleSheet.create({
     mb15: {
         borderRadius: 5,
@@ -148,6 +250,6 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         marginBottom: 10,
-        borderRadius:10,
+        borderRadius: 10,
     },
 })

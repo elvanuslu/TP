@@ -22,17 +22,17 @@ export default class Yardim extends Component {
     }
     _getYardim = async () => {
         try {
-            this.setState({ loading:true })
+            this.setState({ loading: true })
             getSSS(4)
                 .then((response) => {
-                    this.setState({ datam: response,loading:false })
-                   // console.log(JSON.stringify(response))
+                    this.setState({ datam: response, loading: false })
+                    // console.log(JSON.stringify(response))
                 })
-                .catch((error)=>{
-                    Alert.alert('Servis Hatası!',error)
+                .catch((error) => {
+                    Alert.alert('Servis Hatası!', error)
                 })
         } catch (error) {
-                Alert.alert('Hata Oluştu!',error)
+            Alert.alert('Hata Oluştu!', error)
         }
     }
     componentDidMount() {
@@ -74,7 +74,7 @@ export default class Yardim extends Component {
                                     <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 5 }}>
-                                    <Text style={{margin:10}}>{item.bm_uzunaciklama}</Text>
+                                    <Text style={styles.txtYazi}>{item.bm_uzunaciklama}</Text>
                                 </CardItem>
                             </Card>
 
@@ -93,8 +93,14 @@ const styles = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF'
     },
-
-
+    txtYazi: {
+        color: 'black',
+        fontSize: 12,
+        //  fontWeight:'bold',
+        textAlign: 'left',
+        margin: 10,
+        fontFamily: "Myriadpro-Regular",
+    },
     container: {
         flex: 1,
         //  flexDirection: 'column',
@@ -116,6 +122,6 @@ const styles = StyleSheet.create({
         marginRight: 15,
         marginBottom: 20,
         marginTop: 15,
-        borderRadius:10,
+        borderRadius: 10,
     },
 })

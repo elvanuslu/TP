@@ -15,36 +15,56 @@ const odeme = require("../../assets/odemeTutar.png");
 const kampanya = require("../../assets/kapmpanyakirmizi.png");
 
 
+
+
 export default class OzetBilgi extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            kullanici: '',
-            selected2: undefined,
-            yakitTipi: undefined,
-            yakitTipiDeger: undefined,
-            yakitTipleri: [],
-            Istasyon: [],
-            Plaka: [],
-            labelName: '',
-            istasyonselectedId: undefined,
-            istasyonName: '',
-            datas: [],
-            PlakaSelectId: undefined,
-            PlakaName: '',
-            fulle: false,
-            SwitchOnValueHolder: false,
-            OdemeTipleri: [],
-            OdemeTipi: undefined,
-            OdemeLabel: '',
-            PompaNo: undefined,
-            KuponKodu: '',
-            Tutar: undefined,
             userId: undefined,
             loading: false,
+
+            oldId: undefined,
+            Istasyon: undefined,
+            Plaka: undefined,
+            Yakit: undefined,
+            OdemeTipi: undefined,
+            PompaNo: undefined,
+            KuponKodu: undefined,
+            Tutar: undefined,
+
+            Istasyonold: undefined,
+            Plakaold: undefined,
+            Yakitold: undefined,
+            Odemeold: undefined,
+            PompaNoold: undefined,
+            KuponKoduold: undefined,
+            Tutarold: undefined,
+        }
+    }
+    componentDidMount() {
+        // alert('Paraös = ' + JSON.stringify(this.props.navigation.state.params));
+    }
+    onGetParams = () => {
+        var Id = this.props.navigation.getParam('KampanyaId', '');
+        if (Id !== this.state.oldId) {
+            this.setState({
+                oldId: Id,
+                Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
+                Plaka: this.props.navigation.state.params.Parametre.PlakaName,
+                Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
+                OdemeTipi: this.props.navigation.state.params.Parametre.OdemeAdi,
+                PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
+                KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
+                Tutar: this.props.navigation.state.params.Parametre.Tutar
+
+            })
+            console.log('Paramsiz= ' + Id + ' -- ' + JSON.stringify(this.props.navigation.state.params));
+            console.log('Name ' + this.state.Tutar)
         }
     }
     render() {
+        this.onGetParams();
         return (
             <Container style={styles.container}>
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
@@ -55,7 +75,7 @@ export default class OzetBilgi extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title style={{ color: '#fff' }}>Satış</Title>
+                        <Title style={{ color: '#fff' }}>Satış Bilgi</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
@@ -63,8 +83,112 @@ export default class OzetBilgi extends Component {
                         </Button>
                     </Right>
                 </Header>
+                <View style={styles.container1}>
+                    <View>
+                        <Image style={styles.logo} source={require('../../assets/tplogo.png')}
+                        />
+                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                    </View>
+                </View>
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Yükleniyor...'}
+                        textStyle={styles.spinnerTextStyle}
+                    />
+                </View>
                 <View style={styles.containerOrta}>
-                 
+                    <Content>
+                        <Card style={styles.cardmb}>
+                            <CardItem header>
+                                <Text style={styles.textBaslik}>Satış Özeti</Text>
+                            </CardItem>
+                            <CardItem >
+                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                <Left>
+                                    <Text style={styles.txtYazi}>İstasyon </Text>
+                                </Left>
+                                <Right>
+                                    <Text style={styles.txtYazi1}>{this.state.Istasyon}</Text>
+                                </Right>
+
+
+                            </CardItem>
+                            <CardItem>
+                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={plaka}></Image>
+
+                                <Left>
+                                    <Text style={styles.txtYazi}>Plaka </Text>
+                                </Left>
+                                <Right>
+                                    <Text style={styles.txtYazi1}>{this.state.Plaka}</Text>
+                                </Right>
+
+
+                            </CardItem>
+                            <CardItem>
+                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                <Left>
+                                    <Text style={styles.txtYazi}>Yakıt </Text>
+                                </Left>
+                                <Right>
+                                    <Text style={styles.txtYazi1}>{this.state.Yakit}</Text>
+                                </Right>
+
+
+                            </CardItem>
+                            <CardItem>
+                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pmpa}></Image>
+                                <Left>
+                                    <Text style={styles.txtYazi}>Pompa No </Text>
+                                </Left>
+                                <Right>
+                                    <Text style={styles.txtYazi1}>{this.state.PompaNo}</Text>
+                                </Right>
+                            </CardItem>
+                            <CardItem>
+                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={kampanya}></Image>
+                                <Left>
+                                    <Text style={styles.txtYazi}>Kupon Kodu </Text>
+                                </Left>
+                                <Right>
+                                    <Text style={styles.txtYazi1}>{this.state.KuponKodu}</Text>
+                                </Right>
+
+
+                            </CardItem>
+                            <CardItem>
+                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+
+                                <Left>
+                                    <Text style={styles.txtYazi}>Ödeme Tipi </Text>
+                                </Left>
+                                <Right>
+                                    <Text style={styles.txtYazi1}>{this.state.OdemeTipi}</Text>
+                                </Right>
+
+
+                            </CardItem>
+                            <CardItem>
+                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+
+                                <Left>
+                                    <Text style={styles.txtYazi}>Tutar </Text>
+                                </Left>
+                                <Right>
+                                    <Text style={styles.txtYazi1}>{
+                                        this.state.Tutar == undefined ? 0 : this.state.Tutar} TL</Text>
+                                </Right>
+
+
+                            </CardItem>
+                            <CardItem footer >
+                                <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5, width: '100%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
+                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>TAMAM</Text>
+                                </Button>
+                            </CardItem>
+                        </Card>
+                    </Content>
                 </View>
 
             </Container>
@@ -74,6 +198,39 @@ export default class OzetBilgi extends Component {
 
 
 const styles = StyleSheet.create({
+    textBaslik: {
+        color: 'red',
+        fontSize: 18,
+        //  fontWeight:'bold',
+        textAlign: 'center',
+        marginLeft: 5,
+        marginRight: 5,
+        fontFamily: "Myriadpro-Bold",
+        marginBottom: 10,
+        marginTop: 15,
+    },
+    txtYazi: {
+        color: 'black',
+        fontSize: 14,
+        //  fontWeight:'bold',
+        textAlign: 'left',
+        marginLeft: 15,
+        marginRight: 40,
+        fontFamily: "Myriadpro-Bold",
+    },
+    txtYazi1: {
+        color: 'gray',
+        fontSize: 12,
+        textAlign: 'left',
+        fontFamily: "Myriadpro-Bold",
+    },
+    cardmb: {
+        marginTop: 15,
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 10,
+        borderRadius: 10,
+    },
     ImageShow: {
         width: 30, height: 25, resizeMode: 'contain'
     },
@@ -95,15 +252,7 @@ const styles = StyleSheet.create({
         color: 'gray',
         marginRight: 5,
     },
-    txtYazi: {
-        marginTop: -10,
-        marginLeft: 35,
-        marginRight: 30,
-        textAlign: 'left',
-        color: 'red',
-        fontSize: 14,
-        marginBottom: -25,
-    },
+
     container: {
         flex: 1,
 
