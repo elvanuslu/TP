@@ -26,7 +26,7 @@ export default class Yardim extends Component {
             getSSS(4)
                 .then((response) => {
                     this.setState({ datam: response,loading:false })
-                    console.log(JSON.stringify(response))
+                   // console.log(JSON.stringify(response))
                 })
                 .catch((error)=>{
                     Alert.alert('Servis Hatası!',error)

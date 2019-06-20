@@ -62,7 +62,7 @@ export default class KampanyaSec extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate('hesabim')}>
+                        <Button transparent onPress={() => this.props.navigation.navigate('Satis')}>
                             <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>

@@ -179,7 +179,7 @@ export default class Satis extends Component {
         try {
             getPaymentTypes()
                 .then((res) => {
-                    alert(JSON.stringify(res))
+                 //   alert(JSON.stringify(res))
                     this.setState({ OdemeTipleri: res, loading: false })
                     console.log('Odeme Tipleri: ' + JSON.stringify(OdemeTipleri))
                 })
