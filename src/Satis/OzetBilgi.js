@@ -5,6 +5,7 @@ import { Switch, CheckBox, Form, Input, Item, Picker, Title, Left, Right, Button
 
 import { getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, campaignDetailList } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { thisTypeAnnotation } from '@babel/types';
 
 const k1 = require("../../assets/Resim.png");
 const logo = require("../../assets/logoKirmiz.png");
@@ -42,11 +43,39 @@ export default class OzetBilgi extends Component {
             Tutarold: undefined,
         }
     }
+
+    componentWillReceiveProps(nextProps) {
+        console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
+        this.setState({
+            Istasyon: nextProps.navigation.state.params.Parametre.IstasyonAdi,
+            Plaka: nextProps.navigation.state.params.Parametre.PlakaName,
+            Yakit: nextProps.navigation.state.params.Parametre.YakitAdi,
+            OdemeTipi: nextProps.navigation.state.params.Parametre.OdemeAdi,
+            PompaNo: nextProps.navigation.state.params.Parametre.PompaNo,
+            KuponKodu: nextProps.navigation.state.params.Parametre.KuponKodu,
+            Tutar: nextProps.navigation.state.params.Parametre.Tutar
+
+        })
+        if (this.props.Istasyon !== nextProps.Istasyon) {
+            console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
+            // this.setState({ reset : true })
+        }
+    }
+    componentDidUpdate(prevProps) {
+       // console.log('OzetBilgi...' + JSON.stringify(prevProps))
+       
+        if (prevProps.isFocused !== this.props.isFocused) {
+            alert('Testing...')
+        }
+    }
     componentDidMount() {
-        // alert('Paraös = ' + JSON.stringify(this.props.navigation.state.params));
+        console.clear();
+        console.log('Paraös = ' + JSON.stringify(this.props));
+        this.onGetParams();
     }
     onGetParams = () => {
         var Id = this.props.navigation.getParam('KampanyaId', '');
+     //   console.log('Name ' + Id)
         if (Id !== this.state.oldId) {
             this.setState({
                 oldId: Id,
@@ -59,12 +88,26 @@ export default class OzetBilgi extends Component {
                 Tutar: this.props.navigation.state.params.Parametre.Tutar
 
             })
-            console.log('Paramsiz= ' + Id + ' -- ' + JSON.stringify(this.props.navigation.state.params));
-            console.log('Name ' + this.state.Tutar)
+          //  console.log('Paramsiz= ' + Id + ' -- ' + JSON.stringify(this.props.navigation.state.params));
+          //  console.log('Name ' + this.state.Tutar)
         }
+        /*
+        else if(Id===''){
+            this.setState({
+                Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
+                Plaka: this.props.navigation.state.params.Parametre.PlakaName,
+                Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
+                OdemeTipi: this.props.navigation.state.params.Parametre.OdemeAdi,
+                PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
+                KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
+                Tutar: this.props.navigation.state.params.Parametre.Tutar
+            })
+            console.log('Paramsiz= ' + JSON.stringify(this.props.navigation.state.params));
+        }
+    */
     }
     render() {
-        this.onGetParams();
+        //this.onGetParams();
         return (
             <Container style={styles.container}>
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
@@ -184,7 +227,7 @@ export default class OzetBilgi extends Component {
                             </CardItem>
                             <CardItem footer >
                                 <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5, width: '100%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
-                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>TAMAM</Text>
+                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>YAKIT AL</Text>
                                 </Button>
                             </CardItem>
                         </Card>

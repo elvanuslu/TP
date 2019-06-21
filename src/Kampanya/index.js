@@ -87,7 +87,7 @@ export default class kampanya extends Component {
                         renderItem={({ item }) =>
                             <Card key={item.bm_kampanyaid} style={styles.cardmb}>
                                 <CardItem header>
-                                    <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
+                                    <Text style={styles.txtYazi1}>{item.bm_mobiladi}</Text>
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 5 }}>
                                     <Body>
@@ -96,8 +96,10 @@ export default class kampanya extends Component {
                                         </TouchableOpacity>
                                     </Body>
                                 </CardItem>
+                                <CardItem footer>
+                                    <Text style={styles.txtYazi}>{item.bm_aciklama.slice(0,140)}...</Text>
+                                </CardItem>
                             </Card>
-
                         }
                         keyExtractor={(item, index) => index.toString()}
                     />
@@ -109,6 +111,22 @@ export default class kampanya extends Component {
 }
 
 const styles = StyleSheet.create({
+    txtYazi: {
+        color: 'gray',
+        fontSize: 10,
+        textAlign: 'left',
+        marginLeft: 15,
+        marginRight: 10,
+        fontFamily: "Myriadpro-Regular",
+    },
+    txtYazi1: {
+        color: 'red',
+        fontSize: 12,
+        textAlign: 'left',
+        marginLeft: 15,
+        marginRight: 10,
+        fontFamily: "Myriadpro-Bold",
+    },
     spinnerTextStyle: {
         color: '#FFF'
     },

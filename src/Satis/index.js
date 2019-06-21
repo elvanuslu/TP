@@ -19,6 +19,7 @@ export default class Satis extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            
             kullanici: '',
             selected2: undefined,
             yakitTipi: undefined,
@@ -63,47 +64,39 @@ export default class Satis extends Component {
                             if (this.state.PompaNo != undefined) { // Pompa No 
 
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
-                                    /*    
-                                         */
-                                    campaignDetailList(this.state.istasyonselectedId, this.state.selected2, this.state.OdemeTipi, '', Id, '', this.state.KuponKodu, 0, this.state.PlakaSelectId)
-                                        .then((res) => {
-                                            //  console.log('Kampanya = ' + JSON.stringify(res));
-                                            this.setState({ loading: false });
-                                            //  console.log('Durumu= ' + this.state.loading);
-                                            if (res.status == false) {
-                                                Alert.alert(
-                                                    'Durum Bilgi!',
-                                                    res.message,
-                                                    [
-                                                        { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                                                    ],
-                                                    { cancelable: true },
-                                                );
-                                            }
-                                            //   else 
-                                            {
-                                                this.props.navigation.navigate("KampanyaSec", {
-                                                    'Istasyon': this.state.istasyonselectedId,
-                                                    'IstasyonAdi': this.state.IstasyonAdi,
-                                                    'Plaka': this.state.PlakaSelectId,
-                                                    'PlakaName': this.state.PlakaName,
-                                                    'Yakit': this.state.selected2,
-                                                    'YakitAdi': this.state.YakitAdi,
-                                                    'OdemeTipi': this.state.OdemeTipi,
-                                                    'OdemeAdi': this.state.OdemeAdi,
-                                                    'PompaNo': this.state.PompaNo,
-                                                    'KuponKodu': this.state.KuponKodu,
-                                                });
-                                            }
-                                        })
-                                        .catch((error) => Alert.alert('Hata!', error))
-                                        .finally(
-                                            this.setState({ loading: false })
-                                        )
+                                    this.props.navigation.navigate("KampanyaSec", {
+                                        'Istasyon': this.state.istasyonselectedId,
+                                        'IstasyonAdi': this.state.IstasyonAdi,
+                                        'Plaka': this.state.PlakaSelectId,
+                                        'PlakaName': this.state.PlakaName,
+                                        'Yakit': this.state.selected2,
+                                        'YakitAdi': this.state.YakitAdi,
+                                        'OdemeTipi': this.state.OdemeTipi,
+                                        'OdemeAdi': this.state.OdemeAdi,
+                                        'PompaNo': this.state.PompaNo,
+                                        'KuponKodu': this.state.KuponKodu,
+                                        'Tutar': 0,
+                                    });
+                                  
                                 }
                                 else {
                                     if (this.state.Tutar != undefined) { // Tutar 
+                                        this.props.navigation.navigate("KampanyaSec", {
+                                            'Istasyon': this.state.istasyonselectedId,
+                                            'IstasyonAdi': this.state.IstasyonAdi,
+                                            'Plaka': this.state.PlakaSelectId,
+                                            'PlakaName': this.state.PlakaName,
+                                            'Yakit': this.state.selected2,
+                                            'YakitAdi': this.state.YakitAdi,
+                                            'OdemeTipi': this.state.OdemeTipi,
+                                            'OdemeAdi': this.state.OdemeAdi,
+                                            'PompaNo': this.state.PompaNo,
+                                            'KuponKodu': this.state.KuponKodu,
+                                            'Tutar': this.state.Tutar,
 
+                                        });
+                                    
+                                        /*
                                         campaignDetailList(this.state.istasyonselectedId, this.state.selected2, this.state.OdemeTipi, this.state.Tutar, Id, '', this.state.KuponKodu, 0, this.state.PlakaSelectId)
                                             .then((res) => {
                                                 this.setState({ loading: false })
@@ -120,25 +113,13 @@ export default class Satis extends Component {
                                                 }
                                                 //else 
                                                 {
-                                                    this.props.navigation.navigate("KampanyaSec", {
-                                                        'Istasyon': this.state.istasyonselectedId,
-                                                        'IstasyonAdi': this.state.IstasyonAdi,
-                                                        'Plaka': this.state.PlakaSelectId,
-                                                        'PlakaName': this.state.PlakaName,
-                                                        'Yakit': this.state.selected2,
-                                                        'YakitAdi': this.state.YakitAdi,
-                                                        'OdemeTipi': this.state.OdemeTipi,
-                                                        'OdemeAdi': this.state.OdemeAdi,
-                                                        'PompaNo': this.state.PompaNo,
-                                                        'KuponKodu': this.state.KuponKodu,
-                                                        'Tutar': this.state.Tutar,
-
-                                                    });
+                                                    
                                                 }
                                             }).catch((error) => Alert.alert('Hata!', error))
                                             .finally(
                                                 this.setState({ loading: false })
                                             )
+                                            */
                                     }
                                     else {
                                         this.setState({ loading: false })
@@ -195,7 +176,7 @@ export default class Satis extends Component {
     }
     onChecked = () => {
         this.setState({ fulle: this.state.fulle == true ? false : true })
-        console.log('fulle ' + this.state.fulle);
+      //  console.log('fulle ' + this.state.fulle);
     }
     onPlaka(value, label) {
         this.setState({
@@ -204,7 +185,7 @@ export default class Satis extends Component {
             PlakaName: this.state.Plaka.find(p => p.bm_musteriaraciid === value).bm_plaka,
         },
             () => {
-                console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
+         //       console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
             })
     }
     onIstasyonId(val: string) {
@@ -221,7 +202,7 @@ export default class Satis extends Component {
             },
             () => {
 
-                console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
+               // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
 
             }
         )
@@ -240,7 +221,7 @@ export default class Satis extends Component {
                 YakitAdi: this.state.yakitTipleri.find(p => p.bm_yakittipiid === value).bm_yakittipiadi,
             },
             () => {
-                console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
+              //  console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
             }
         )
     }
@@ -252,7 +233,7 @@ export default class Satis extends Component {
                 OdemeAdi: this.state.OdemeTipleri.find(p => p.Value === value).Name,
             },
             () => {
-                console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
+               // console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
             }
         )
     }

@@ -89,7 +89,7 @@ export default class login extends Component {
           });
         }
         else {
-          console.log("Kayıt else=>" + res);
+         // console.log("Kayıt else=>" + res);
           this.setState({ userId: res.contactid });
           this._storeData();
           Toast.show({
