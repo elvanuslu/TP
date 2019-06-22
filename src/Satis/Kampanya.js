@@ -65,27 +65,53 @@ export default class KampanyaSec extends Component {
             PompaNoold: undefined,
             KuponKoduold: undefined,
             Tutarold: undefined,
+
+            birimFiyat: undefined,
+            indirimliFiyat: undefined,
+            indirimOrani: undefined,
+            alimmiktariLT: undefined,
+            kazanilanPuan: undefined,
+            puanTLkarsiligi: undefined,
+            harcananPuan: undefined,
+            harcananPuanTL: undefined,
+
+
         }
     }
     _btnDevam = (item) => {
         this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item });
     }
-    /*
-    this.props.navigation.navigate("KampanyaSec", {
-        'Istasyon': this.state.istasyonselectedId,
-        'IstasyonAdi': this.state.IstasyonAdi,
-        'Plaka': this.state.PlakaSelectId,
-        'PlakaName': this.state.PlakaName,
-        'Yakit': this.state.selected2,
-        'YakitAdi': this.state.YakitAdi,
-        'OdemeTipi': this.state.OdemeTipi,
-        'OdemeAdi': this.state.OdemeAdi,
-        'PompaNo': this.state.PompaNo,
-        'KuponKodu': this.state.KuponKodu,
-        'Tutar': this.state.Tutar,
+    _btnDevamKampanyali = (item) => {
+        var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
+        console.log('Secim ==> ' + Secilen.alinmmiktariLT + ' item= ' + item + ' Datam ' + JSON.stringify(this.state.datam));
 
-    });
-    */
+        this.setState({
+            birimFiyat: Secilen.TavsiyeEdilenfiyati,
+            indirimliFiyat: Secilen.indirimlifiyati,
+            indirimOrani: Secilen.indirimorani,
+            alimmiktariLT: Secilen.alinmmiktariLT,
+            kazanilanPuan: Secilen.KazanilanPuan,
+            puanTLkarsiligi: Secilen.kazanilanpuantl,
+            harcananPuan: Secilen.harcananpuan,
+            harcananPuanTL: Secilen.harcananpuantl,
+        });
+/*
+        console.log('birimFiyat: ' + Secilen.TavsiyeEdilenfiyati)
+        console.log('indirimliFiyat: ' + Secilen.indirimlifiyati)
+        console.log('indirimOrani: ' + Secilen.indirimorani)
+        console.log('alimmiktariLT: ' + Secilen.alinmmiktariLT)
+        console.log('kazanilanPuan: ' + Secilen.KazanilanPuan)
+        console.log('puanTLkarsiligi:' + Secilen.kazanilanpuantl)
+        console.log('harcananPuan: ' + Secilen.harcananpuan)
+        console.log('harcananPuanTL: ' + Secilen.harcananpuantl)
+*/
+      this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,
+      'birimFiyat':Secilen.TavsiyeEdilenfiyati,'indirimliFiyat':Secilen.indirimlifiyati,'indirimOrani':Secilen.indirimorani,
+      'alimmiktariLT':Secilen.alinmmiktariLT,'kazanilanPuan':Secilen.KazanilanPuan,'puanTLkarsiligi': Secilen.kazanilanpuantl,
+      'harcananPuan': Secilen.harcananpuan,'harcananPuanTL': Secilen.harcananpuantl
+     });
+    }
+
     componentWillUnmount() {
         this.setState({ loading: false });
     }
@@ -97,7 +123,7 @@ export default class KampanyaSec extends Component {
         const PompaNo = this.props.navigation.getParam('PompaNo', '');
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
-        console.log('Istasyonum = ' + JSON.stringify(this.props));
+        //  console.log('Istasyonum = ' + JSON.stringify(this.props));
         this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params });
         /*
                 this.props.navigation.navigate("OzetBilgi", {
@@ -123,8 +149,8 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.KuponKodu,
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
-                    //console.log('Gelen Kampanya = ' + JSON.stringify(res));
-                    //  console.log('Durumu= ' + this.state.loading);
+                    console.log('Gelen Kampanya = ' + JSON.stringify(res));
+
                     if (res.status == false) {
                         this.setState({ datam: null, loading: false });
                         Alert.alert(
@@ -138,7 +164,12 @@ export default class KampanyaSec extends Component {
 
                     }
                     else {
-                        this.setState({ datam: res, loading: false });
+                        this.setState({
+                            datam: res,
+                            loading: false
+                        });
+
+
                     }
                 })
                 .catch((error) => Alert.alert('Hata!', error))
@@ -177,21 +208,21 @@ export default class KampanyaSec extends Component {
     }
     */
     componentWillReceiveProps(nextProps) {
-        console.log('Kapmanya  2.Data= ' + JSON.stringify(nextProps))
+        //  console.log('Kapmanya  2.Data= ' + JSON.stringify(nextProps))
         this._campaignDetails(nextProps);
         if (this.props.Istasyon !== nextProps.Istasyon) {
-          //  console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
+            //  console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
             // this.setState({ reset : true })
         }
     }
     componentDidUpdate(prevProps) {
-        console.log('Testing...' + JSON.stringify(prevProps))
+        //     console.log('Testing...' + JSON.stringify(prevProps))
         if (prevProps.isFocused !== this.props.isFocused) {
             alert('Testing...')
         }
     }
     componentDidMount = async () => {
-        console.log('Props= ' + JSON.stringify(this.props));
+        //      console.log('Props= ' + JSON.stringify(this.props));
         //   console.log("Prms= " + (this.props.navigation.state.params.Istasyon))
         const Id = await getStorage('userId');
         this.setState({ kullaniciId: Id });
@@ -294,12 +325,53 @@ export default class KampanyaSec extends Component {
                                 </CardItem>
                                 <CardItem footer >
                                     <View style={{ flex: 1, flexDirection: 'column' }}>
-                                        <Text style={styles.textBaslik}>{item.bm_kampanyaadi.slice(0, 150)}...</Text>
+                                       
+                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>Birim Fiyat: {item.TavsiyeEdilenfiyati} TL</Text>
+
+                                            </Left>
+                                            <Right>
+                                                <Text style={styles.txtFiyatlar}>İndirimli Fiyat: {item.indirimlifiyati} TL</Text>
+                                            </Right>
+
+                                        </View>
+                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>İndirim Oranı: %{item.indirimorani}</Text>
+                                            </Left>
+
+                                            <Right>
+                                                <Text style={styles.txtFiyatlar}>Alım Miktarı: {item.alinmmiktariLT} LT</Text>
+                                            </Right>
+
+                                        </View>
+                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>Kazanılan Puan: {item.KazanilanPuan}</Text>
+                                            </Left>
+
+                                            <Right>
+
+                                                <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {item.kazanilanpuantl} TL</Text>
+                                            </Right>
+
+                                        </View>
+
+                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>Harcanan Puan: {item.harcananpuan} </Text>
+                                            </Left>
+                                            <Right>
+                                                <Text style={styles.txtFiyatlar}>Harcanan Puan TL: {item.harcananpuantl} TL</Text>
+                                            </Right>
+
+                                        </View>
                                         <View style={{ flex: 1, flexDirection: 'row' }}>
-                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
+                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevamKampanyali(item.bm_kampanyaId)}>
                                                 <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYA SEÇ</Text>
                                             </Button>
-                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
+                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaId)}>
                                                 <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
                                             </Button>
                                         </View>
@@ -339,8 +411,15 @@ export default class KampanyaSec extends Component {
 const styles = StyleSheet.create({
     textBaslik: {
         color: 'gray',
-        fontSize: 12,
+        fontSize: 11,
         //  fontWeight:'bold',
+        textAlign: 'left',
+        fontFamily: "FontAwesome",
+
+    },
+    txtFiyatlar: {
+        color: 'gray',
+        fontSize: 11,
         textAlign: 'left',
         fontFamily: "FontAwesome",
 

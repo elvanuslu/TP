@@ -56,19 +56,19 @@ export const getUserInfo = (name, pass) => {
     .then((res) => res.json())
 }
 
-export const campaignDetailList =(istasyonid,yakittipiid,gecerliodemetipi,tutarTL,contactId,kampanyakuponuId,plaka)=>{
+export const campaignDetailList = (istasyonid, yakittipiid, gecerliodemetipi, tutarTL, contactId, kampanyakuponuId, plaka) => {
   try {
-    
-    console.log('istasyonid '+istasyonid)
-    console.log('yakittipiid '+yakittipiid)
-    console.log('gecerliodemetipi '+gecerliodemetipi)
-    console.log('tutarTL ' +tutarTL)
-    console.log('contactId '+contactId)
 
-    console.log('kampanyakuponuId' +kampanyakuponuId)
+    console.log('istasyonid ' + istasyonid)
+    console.log('yakittipiid ' + yakittipiid)
+    console.log('gecerliodemetipi ' + gecerliodemetipi)
+    console.log('tutarTL ' + tutarTL)
+    console.log('contactId ' + contactId)
 
-    console.log('plaka '+plaka)
-    
+    console.log('kampanyakuponuId' + kampanyakuponuId)
+
+    console.log('plaka ' + plaka)
+
     const URL = define_api_url + `TP_CampaignDetailList`;
     return fetch(URL,
       {
@@ -92,8 +92,46 @@ export const campaignDetailList =(istasyonid,yakittipiid,gecerliodemetipi,tutarT
     console.log(error);
   }
 }
+export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, UrunId, PresetTutari, OdemeSatisTipi, KuponKodu, TavsiyeEdilenfiyati,
+  istasyonfiyati, indirimlifiyati, alimtutari, alinmmiktariLT, indirimorani, KazanilanPuan, harcananpuan, kazanilanpuantl, harcananpuantl) => {
+  try {
+    const URL = define_api_url + `TP_SalesStart`;
+    return fetch(URL,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          IstasyonId: IstasyonId,
+          ContactId: ContactId,
+          KampanyaId: KampanyaId,
+          PompaNo: PompaNo,
+          Plaka: Plaka,
+          UrunId: UrunId,
+          PresetTutari: PresetTutari,
+          OdemeSatisTipi: OdemeSatisTipi,
+          KuponKodu: KuponKodu,
+          TavsiyeEdilenfiyati: TavsiyeEdilenfiyati,
+          istasyonfiyati: istasyonfiyati,
+          indirimlifiyati: indirimlifiyati,
+          alimtutari: alimtutari,
+          alinmmiktariLT: alinmmiktariLT,
+          indirimorani: indirimorani,
+          KazanilanPuan: KazanilanPuan,
+          harcananpuan: harcananpuan,
+          kazanilanpuantl: kazanilanpuantl,
+          harcananpuantl: harcananpuantl,
+        })
+      })
+      .then((res) => res.json())
+  } catch (error) {
+
+  }
+}
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni, mobilkod) => {
- // console.log('kod: ' + mobilkod)
+  // console.log('kod: ' + mobilkod)
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
@@ -181,7 +219,7 @@ export const getPlakaList = (userId) => {
 
 export const getPaymentTypes = async () => {
   try {
-   
+
     const URL = define_api_url + `GetPaymentTypes`;
     return fetch(URL, { method: 'GET' })
       .then((res) => res.json())
@@ -266,9 +304,11 @@ export const SendPasswordByEmailAfterChangedPsw = async (eposta) => {
   try {
     const URL = define_api_url + `SendPasswordByEmailAfterChangedPsw?eMailAddress1=${eposta}`;
     return fetch(URL,
-      { method: 'POST'})
-      .then((res) =>{ res.json()
-        console.log('1SendPasswordByEmailAfterChangedPsw: ' + JSON.stringify(res))})
+      { method: 'POST' })
+      .then((res) => {
+        res.json()
+        console.log('1SendPasswordByEmailAfterChangedPsw: ' + JSON.stringify(res))
+      })
       .catch((error) => console.log('SendPasswordByEmailAfterChangedPsw: ' + error))
   } catch (error) {
     console.log('SendPasswordByEmailAfterChangedPsw: ' + error);

@@ -3,9 +3,8 @@ import React, { Component } from 'react';
 import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Switch, CheckBox, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, campaignDetailList } from '../Service/FetchUser';
+import { SatisBaslat, getStorage, } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { thisTypeAnnotation } from '@babel/types';
 
 const k1 = require("../../assets/Resim.png");
 const logo = require("../../assets/logoKirmiz.png");
@@ -14,8 +13,6 @@ const plaka = require("../../assets/plakaKirmizi.png");
 const pmpa = require("../../assets/pompaKirmizi.png");
 const odeme = require("../../assets/odemeTutar.png");
 const kampanya = require("../../assets/kapmpanyakirmizi.png");
-
-
 
 
 export default class OzetBilgi extends Component {
@@ -41,9 +38,40 @@ export default class OzetBilgi extends Component {
             PompaNoold: undefined,
             KuponKoduold: undefined,
             Tutarold: undefined,
+
+            birimFiyat: undefined,
+            indirimliFiyat: undefined,
+            indirimOrani: undefined,
+            alimmiktariLT: undefined,
+            kazanilanPuan: undefined,
+            puanTLkarsiligi: undefined,
+            harcananPuan: undefined,
+            harcananPuanTL: undefined,
+            KampanyaId: undefined,
         }
     }
 
+    _SatisBaslat = async () => {
+        try {
+            alert('Id =');
+            this.setState({ loading: true });
+            const contactId = await getStorage('userId');
+            alert('Id ='+ contactId);
+            if (contactId !== null) {
+                SatisBaslat(this.state.Istasyon, contactId, this.state.KampanyaId, this.state.PompaNo, this.state.Plaka, this.state.Yakit,
+                    '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat, '', this.state.indirimliFiyat, this.state.Tutar,
+                    this.state.alimmiktariLT, this.state.indirimOrani, this.state.kazanilanPuan, this.state.harcananPuan,
+                    this.state.puanTLkarsiligi, this.state.harcananPuanTL)
+                    .then((res) => {
+                        this.setState({ loading: false });
+                        console.log('Satış Başlat: ' + JSON.stringify(res));
+                        if(res.status===false){}
+                    })
+            }
+        } catch (error) {
+            Alert.alert('Hata Oluştu!', error);
+        }
+    }
     componentWillReceiveProps(nextProps) {
         console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
         this.setState({
@@ -53,7 +81,17 @@ export default class OzetBilgi extends Component {
             OdemeTipi: nextProps.navigation.state.params.Parametre.OdemeAdi,
             PompaNo: nextProps.navigation.state.params.Parametre.PompaNo,
             KuponKodu: nextProps.navigation.state.params.Parametre.KuponKodu,
-            Tutar: nextProps.navigation.state.params.Parametre.Tutar
+            Tutar: nextProps.navigation.state.params.Parametre.Tutar,
+
+            birimFiyat: nextProps.navigation.state.params.birimFiyat,
+            indirimliFiyat: nextProps.navigation.state.params.indirimliFiyat,
+            indirimOrani: nextProps.navigation.state.params.indirimOrani,
+            alimmiktariLT: nextProps.navigation.state.params.alimmiktariLT,
+            kazanilanPuan: nextProps.navigation.state.params.kazanilanPuan,
+            puanTLkarsiligi: nextProps.navigation.state.params.puanTLkarsiligi,
+            harcananPuan: nextProps.navigation.state.params.harcananPuan,
+            harcananPuanTL: nextProps.navigation.state.params.harcananPuanTL,
+            KampanyaId: nextProps.navigation.state.params.KampanyaId,
 
         })
         if (this.props.Istasyon !== nextProps.Istasyon) {
@@ -62,8 +100,8 @@ export default class OzetBilgi extends Component {
         }
     }
     componentDidUpdate(prevProps) {
-       // console.log('OzetBilgi...' + JSON.stringify(prevProps))
-       
+        // console.log('OzetBilgi...' + JSON.stringify(prevProps))
+
         if (prevProps.isFocused !== this.props.isFocused) {
             alert('Testing...')
         }
@@ -75,22 +113,32 @@ export default class OzetBilgi extends Component {
     }
     onGetParams = () => {
         var Id = this.props.navigation.getParam('KampanyaId', '');
-         console.log('Name ' + this.props.navigation.state.params.Parametre.IstasyonAdi)
-      //  if (Id !== this.state.oldId) {
-            this.setState({
-                oldId: Id,
-                Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
-                Plaka: this.props.navigation.state.params.Parametre.PlakaName,
-                Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
-                OdemeTipi: this.props.navigation.state.params.Parametre.OdemeAdi,
-                PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
-                KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
-                Tutar: this.props.navigation.state.params.Parametre.Tutar
+        // console.log('Name ' + this.props.navigation.state.params.Parametre.IstasyonAdi)
+        //  if (Id !== this.state.oldId) {
+        this.setState({
+            oldId: Id,
+            Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
+            Plaka: this.props.navigation.state.params.Parametre.PlakaName,
+            Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
+            OdemeTipi: this.props.navigation.state.params.Parametre.OdemeAdi,
+            PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
+            KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
+            Tutar: this.props.navigation.state.params.Parametre.Tutar,
 
-            })
-          //  console.log('Paramsiz= ' + Id + ' -- ' + JSON.stringify(this.props.navigation.state.params));
-          //  console.log('Name ' + this.state.Tutar)
-     //   }
+            birimFiyat: this.props.navigation.state.params.birimFiyat,
+            indirimliFiyat: this.props.navigation.state.params.indirimliFiyat,
+            indirimOrani: this.props.navigation.state.params.indirimOrani,
+            alimmiktariLT: this.props.navigation.state.params.alimmiktariLT,
+            kazanilanPuan: this.props.navigation.state.params.kazanilanPuan,
+            puanTLkarsiligi: this.props.navigation.state.params.puanTLkarsiligi,
+            harcananPuan: this.props.navigation.state.params.harcananPuan,
+            harcananPuanTL: this.props.navigation.state.params.harcananPuanTL,
+            KampanyaId: this.props.navigation.state.params.KampanyaId,
+
+        })
+        console.log('Paramsiz= ' + JSON.stringify(this.props.navigation.state.TavsiyeEdilenfiyati));
+        //  console.log('Name ' + this.state.Tutar)
+        //   }
         /*
         else if(Id===''){
             this.setState({
@@ -146,87 +194,126 @@ export default class OzetBilgi extends Component {
                             <CardItem header>
                                 <Text style={styles.textBaslik}>Satış Özeti</Text>
                             </CardItem>
-                            <CardItem >
-                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
-                                <Left>
-                                    <Text style={styles.txtYazi}>İstasyon </Text>
-                                </Left>
-                                <Right>
-                                    <Text style={styles.txtYazi1}>{this.state.Istasyon}</Text>
-                                </Right>
+                            <CardItem item>
+                                <View style={{ flex: 1, flexDirection: 'column' }}>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>İstasyon </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>{this.state.Istasyon}</Text>
+                                        </Right>
 
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={plaka}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Plaka </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>{this.state.Plaka}</Text>
+                                        </Right>
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Yakıt </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>{this.state.Yakit}</Text>
+                                        </Right>
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pmpa}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Pompa No </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>{this.state.PompaNo}</Text>
+                                        </Right>
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={kampanya}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Kupon Kodu </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>{this.state.KuponKodu}</Text>
+                                        </Right>
 
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Ödeme Tipi </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>{this.state.OdemeTipi}</Text>
+                                        </Right>
+                                    </View>
+
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Tutar </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>{
+                                                this.state.Tutar == undefined ? 0 : this.state.Tutar} TL</Text>
+                                        </Right>
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyat} TL</Text>
+
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>İndirimli Fiyat: {this.state.indirimliFiyat} TL</Text>
+                                        </Right>
+
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>İndirim Oranı: %{this.state.indirimOrani}</Text>
+                                        </Left>
+
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>Alım Miktarı: {this.state.alimmiktariLT} LT</Text>
+                                        </Right>
+
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Kazanılan Puan: {this.state.kazanilanPuan}</Text>
+                                        </Left>
+
+                                        <Right>
+
+                                            <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl} TL</Text>
+                                        </Right>
+
+                                    </View>
+
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Harcanan Puan: {this.state.harcananPuan} </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>Harcanan Puan TL: {this.state.harcananPuanTL} TL</Text>
+                                        </Right>
+
+                                    </View>
+
+                                </View>
                             </CardItem>
-                            <CardItem>
-                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={plaka}></Image>
-
-                                <Left>
-                                    <Text style={styles.txtYazi}>Plaka </Text>
-                                </Left>
-                                <Right>
-                                    <Text style={styles.txtYazi1}>{this.state.Plaka}</Text>
-                                </Right>
-
-
-                            </CardItem>
-                            <CardItem>
-                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
-                                <Left>
-                                    <Text style={styles.txtYazi}>Yakıt </Text>
-                                </Left>
-                                <Right>
-                                    <Text style={styles.txtYazi1}>{this.state.Yakit}</Text>
-                                </Right>
-
-
-                            </CardItem>
-                            <CardItem>
-                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pmpa}></Image>
-                                <Left>
-                                    <Text style={styles.txtYazi}>Pompa No </Text>
-                                </Left>
-                                <Right>
-                                    <Text style={styles.txtYazi1}>{this.state.PompaNo}</Text>
-                                </Right>
-                            </CardItem>
-                            <CardItem>
-                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={kampanya}></Image>
-                                <Left>
-                                    <Text style={styles.txtYazi}>Kupon Kodu </Text>
-                                </Left>
-                                <Right>
-                                    <Text style={styles.txtYazi1}>{this.state.KuponKodu}</Text>
-                                </Right>
-
-
-                            </CardItem>
-                            <CardItem>
-                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
-
-                                <Left>
-                                    <Text style={styles.txtYazi}>Ödeme Tipi </Text>
-                                </Left>
-                                <Right>
-                                    <Text style={styles.txtYazi1}>{this.state.OdemeTipi}</Text>
-                                </Right>
-
-
-                            </CardItem>
-                            <CardItem>
-                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
-
-                                <Left>
-                                    <Text style={styles.txtYazi}>Tutar </Text>
-                                </Left>
-                                <Right>
-                                    <Text style={styles.txtYazi1}>{
-                                        this.state.Tutar == undefined ? 0 : this.state.Tutar} TL</Text>
-                                </Right>
-
-
-                            </CardItem>
-                            <CardItem footer >
-                                <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5, width: '100%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
+                            <CardItem footer>
+                                <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5, width: '100%' }} onPress={() => this._SatisBaslat()}>
                                     <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>YAKIT AL</Text>
                                 </Button>
                             </CardItem>
@@ -241,9 +328,16 @@ export default class OzetBilgi extends Component {
 
 
 const styles = StyleSheet.create({
+    txtFiyatlar: {
+        color: 'gray',
+        fontSize: 11,
+        textAlign: 'left',
+        fontFamily: "FontAwesome",
+
+    },
     textBaslik: {
         color: 'red',
-        fontSize: 18,
+        fontSize: 16,
         //  fontWeight:'bold',
         textAlign: 'center',
         marginLeft: 5,
