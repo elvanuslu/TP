@@ -44,7 +44,6 @@ const datas = [
 export default class KampanyaSec extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             kullaniciId: undefined,
             datam: [],
@@ -90,7 +89,7 @@ export default class KampanyaSec extends Component {
     componentWillUnmount() {
         this.setState({ loading: false });
     }
-    _git(){
+    _git() {
         const Istasyon = this.props.navigation.getParam('Istasyon', '');
         const Plaka = this.props.navigation.getParam('Plaka', '');
         const Yakit = this.props.navigation.getParam('Yakit', '');
@@ -98,24 +97,24 @@ export default class KampanyaSec extends Component {
         const PompaNo = this.props.navigation.getParam('PompaNo', '');
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
-        console.log('Istasyonum = '+ JSON.stringify(this.props));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params});
-/*
-        this.props.navigation.navigate("OzetBilgi", {
-            'Istasyon': this.state.istasyonselectedId,
-            'Plaka': this.state.PlakaSelectId,
-            'Yakit': this.state.selected2,
-            'OdemeTipi': this.state.OdemeTipi,
-            'PompaNo': this.state.PompaNo,
-            'KuponKodu': this.state.KuponKodu,
-            'Tutar': this.state.Tutar,
-        });
-        */
-      
+        console.log('Istasyonum = ' + JSON.stringify(this.props));
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params });
+        /*
+                this.props.navigation.navigate("OzetBilgi", {
+                    'Istasyon': this.state.istasyonselectedId,
+                    'Plaka': this.state.PlakaSelectId,
+                    'Yakit': this.state.selected2,
+                    'OdemeTipi': this.state.OdemeTipi,
+                    'PompaNo': this.state.PompaNo,
+                    'KuponKodu': this.state.KuponKodu,
+                    'Tutar': this.state.Tutar,
+                });
+                */
+
     }
     _campaignDetails = (myProp) => {
         try {
-            console.log('Propsss= '+ JSON.stringify(myProp));
+            console.log('Propsss= ' + JSON.stringify(myProp));
             campaignDetailList(myProp.navigation.state.params.Istasyon,
                 myProp.navigation.state.params.Yakit,
                 myProp.navigation.state.params.OdemeTipi,
@@ -124,10 +123,10 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.KuponKodu,
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
-                    console.log('Gelen Kampanya = ' + JSON.stringify(res));
+                    //console.log('Gelen Kampanya = ' + JSON.stringify(res));
                     //  console.log('Durumu= ' + this.state.loading);
                     if (res.status == false) {
-                        this.setState({datam:null, loading: false });
+                        this.setState({ datam: null, loading: false });
                         Alert.alert(
                             'Durum Bilgi!',
                             res.message,
@@ -136,11 +135,11 @@ export default class KampanyaSec extends Component {
                             ],
                             { cancelable: true },
                         );
-                       
+
                     }
-                  else{
-                    this.setState({ datam: res, loading: false });
-                  }
+                    else {
+                        this.setState({ datam: res, loading: false });
+                    }
                 })
                 .catch((error) => Alert.alert('Hata!', error))
                 .finally(
@@ -181,7 +180,7 @@ export default class KampanyaSec extends Component {
         console.log('Kapmanya  2.Data= ' + JSON.stringify(nextProps))
         this._campaignDetails(nextProps);
         if (this.props.Istasyon !== nextProps.Istasyon) {
-            console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
+          //  console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
             // this.setState({ reset : true })
         }
     }
@@ -192,7 +191,7 @@ export default class KampanyaSec extends Component {
         }
     }
     componentDidMount = async () => {
-          console.log('Props= ' + JSON.stringify(this.props));
+        console.log('Props= ' + JSON.stringify(this.props));
         //   console.log("Prms= " + (this.props.navigation.state.params.Istasyon))
         const Id = await getStorage('userId');
         this.setState({ kullaniciId: Id });
@@ -290,9 +289,7 @@ export default class KampanyaSec extends Component {
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 10 }}>
                                     <Body>
-                                        <TouchableOpacity style={styles.logo} onPress={() => this.GetItem(item.bm_kampanyaid)}>
-                                            <Image style={styles.logo} source={{ uri: item.bm_pictureurl }} />
-                                        </TouchableOpacity>
+                                        <Image style={styles.logo} source={{ uri: item.bm_pictureurl }} />
                                     </Body>
                                 </CardItem>
                                 <CardItem footer >
@@ -302,7 +299,7 @@ export default class KampanyaSec extends Component {
                                             <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
                                                 <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYA SEÇ</Text>
                                             </Button>
-                                            <Button block danger style={{ marginTop: 5,  marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
+                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaid)}>
                                                 <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
                                             </Button>
                                         </View>
@@ -340,13 +337,13 @@ export default class KampanyaSec extends Component {
 }
 */
 const styles = StyleSheet.create({
-    textBaslik:{
+    textBaslik: {
         color: 'gray',
         fontSize: 12,
         //  fontWeight:'bold',
         textAlign: 'left',
         fontFamily: "FontAwesome",
-        
+
     },
     mb15: {
         borderRadius: 5,

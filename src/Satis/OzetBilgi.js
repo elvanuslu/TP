@@ -75,8 +75,8 @@ export default class OzetBilgi extends Component {
     }
     onGetParams = () => {
         var Id = this.props.navigation.getParam('KampanyaId', '');
-     //   console.log('Name ' + Id)
-        if (Id !== this.state.oldId) {
+         console.log('Name ' + this.props.navigation.state.params.Parametre.IstasyonAdi)
+      //  if (Id !== this.state.oldId) {
             this.setState({
                 oldId: Id,
                 Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
@@ -90,7 +90,7 @@ export default class OzetBilgi extends Component {
             })
           //  console.log('Paramsiz= ' + Id + ' -- ' + JSON.stringify(this.props.navigation.state.params));
           //  console.log('Name ' + this.state.Tutar)
-        }
+     //   }
         /*
         else if(Id===''){
             this.setState({
