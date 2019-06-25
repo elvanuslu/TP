@@ -56,7 +56,7 @@ export default class OzetBilgi extends Component {
             alert('Id =');
             this.setState({ loading: true });
             const contactId = await getStorage('userId');
-            alert('Id ='+ contactId);
+            alert('Id =' + contactId);
             if (contactId !== null) {
                 SatisBaslat(this.state.Istasyon, contactId, this.state.KampanyaId, this.state.PompaNo, this.state.Plaka, this.state.Yakit,
                     '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat, '', this.state.indirimliFiyat, this.state.Tutar,
@@ -65,7 +65,7 @@ export default class OzetBilgi extends Component {
                     .then((res) => {
                         this.setState({ loading: false });
                         console.log('Satış Başlat: ' + JSON.stringify(res));
-                        if(res.status===false){}
+                        if (res.status === false) { }
                     })
             }
         } catch (error) {
@@ -264,52 +264,52 @@ export default class OzetBilgi extends Component {
                                                 this.state.Tutar == undefined ? 0 : this.state.Tutar} TL</Text>
                                         </Right>
                                     </View>
-                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
-                                        <Left>
-                                            <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyat} TL</Text>
+                                    <View>
+                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                            <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyat} TL</Text>
 
-                                        </Left>
-                                        <Right>
-                                            <Text style={styles.txtFiyatlar}>İndirimli Fiyat: {this.state.indirimliFiyat} TL</Text>
-                                        </Right>
+                                            </Left>
+                                            <Right>
+                                                <Text style={styles.txtFiyatlar}>İndirimli Fiyat: {this.state.indirimliFiyat} TL</Text>
+                                            </Right>
 
+                                        </View>
+                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                            <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>İndirim Oranı: %{this.state.indirimOrani}</Text>
+                                            </Left>
+
+                                            <Right>
+                                                <Text style={styles.txtFiyatlar}>Alım Miktarı: {this.state.alimmiktariLT} LT</Text>
+                                            </Right>
+
+                                        </View>
+                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                            <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>Kazanılan Puan: {this.state.kazanilanPuan}</Text>
+                                            </Left>
+
+                                            <Right>
+
+                                                <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl} TL</Text>
+                                            </Right>
+
+                                        </View>
+                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                            <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>Harcanan Puan: {this.state.harcananPuan} </Text>
+                                            </Left>
+                                            <Right>
+                                                <Text style={styles.txtFiyatlar}>Harcanan Puan TL: {this.state.harcananPuanTL} TL</Text>
+                                            </Right>
+
+                                        </View>
                                     </View>
-                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
-                                        <Left>
-                                            <Text style={styles.txtFiyatlar}>İndirim Oranı: %{this.state.indirimOrani}</Text>
-                                        </Left>
-
-                                        <Right>
-                                            <Text style={styles.txtFiyatlar}>Alım Miktarı: {this.state.alimmiktariLT} LT</Text>
-                                        </Right>
-
-                                    </View>
-                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
-                                        <Left>
-                                            <Text style={styles.txtFiyatlar}>Kazanılan Puan: {this.state.kazanilanPuan}</Text>
-                                        </Left>
-
-                                        <Right>
-
-                                            <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl} TL</Text>
-                                        </Right>
-
-                                    </View>
-
-                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
-                                        <Left>
-                                            <Text style={styles.txtFiyatlar}>Harcanan Puan: {this.state.harcananPuan} </Text>
-                                        </Left>
-                                        <Right>
-                                            <Text style={styles.txtFiyatlar}>Harcanan Puan TL: {this.state.harcananPuanTL} TL</Text>
-                                        </Right>
-
-                                    </View>
-
                                 </View>
                             </CardItem>
                             <CardItem footer>
@@ -328,6 +328,10 @@ export default class OzetBilgi extends Component {
 
 
 const styles = StyleSheet.create({
+    hidden: {
+        width: 0,
+        height: 0,
+    },
     txtFiyatlar: {
         color: 'gray',
         fontSize: 11,
