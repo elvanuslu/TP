@@ -170,7 +170,7 @@ export default class login extends Component {
                 </View>
 
                 <Switch
-                  onValueChange={(value) => this.ShowAlert(value)}
+                  onValueChange={(value) => ''}
                   style={{ marginBottom: 0 }}
                   value={this.state.SwitchOnValueHolder} />
               </View>

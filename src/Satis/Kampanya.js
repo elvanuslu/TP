@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Alert, ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { List, Switch, CheckBox, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { getYakitTipi, getPlakaList, getStorage, campaignDetailList } from '../Service/FetchUser';
+import { SatisBaslat, getYakitTipi, getPlakaList, getStorage, campaignDetailList } from '../Service/FetchUser';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -78,6 +78,49 @@ export default class KampanyaSec extends Component {
 
         }
     }
+    _kampanyaliSatisBaslat = async () => {
+        try {
+            //    alert('Id =');
+            this.setState({ loading: true });
+            const contactId = await getStorage('userId');
+            //     alert('Id =' + contactId);
+            if (contactId !== null) {
+                SatisBaslat(this.props.navigation.state.params.Istasyon, contactId,
+                    this.state.datam.bm_kampanyaId,
+                    this.props.navigation.state.params.PompaNo,
+                    this.props.navigation.state.params.Plaka,
+                    this.props.navigation.state.params.Yakit,
+                    this.props.navigation.state.params.Tutar,
+                    this.props.navigation.state.params.OdemeTipi,
+                    this.props.navigation.state.params.KuponKodu,
+                    this.state.birimFiyat,
+                    '',
+                    this.state.indirimliFiyat,
+                    this.props.navigation.state.params.Tutar,
+                    this.state.alimmiktariLT,
+                    this.state.indirimOrani,
+                    this.state.kazanilanPuan,
+                    this.state.harcananPuan,
+                    this.state.puanTLkarsiligi,
+                    this.state.harcananPuanTL)
+                    .then((res) => {
+                        this.setState({ loading: false });
+                        console.log('Satış Başlat: ' + JSON.stringify(res));
+                        if (res.status === false) {
+                            Alert.alert('Hata Oluştu!', res.message);
+                            this.setState({ loading: false })
+                        }
+                    })
+                    .catch(error => {
+                        Alert.alert('Hata Oluştu!', error);
+                    })
+                    .finally
+                this.setState({ loading: false })
+            }
+        } catch (error) {
+            Alert.alert('Hata Oluştu!', error);
+        }
+    }
     _btnDevam = (item) => {
         this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item });
     }
@@ -95,21 +138,23 @@ export default class KampanyaSec extends Component {
             harcananPuan: Secilen.harcananpuan,
             harcananPuanTL: Secilen.harcananpuantl,
         });
-/*
-        console.log('birimFiyat: ' + Secilen.TavsiyeEdilenfiyati)
-        console.log('indirimliFiyat: ' + Secilen.indirimlifiyati)
-        console.log('indirimOrani: ' + Secilen.indirimorani)
-        console.log('alimmiktariLT: ' + Secilen.alinmmiktariLT)
-        console.log('kazanilanPuan: ' + Secilen.KazanilanPuan)
-        console.log('puanTLkarsiligi:' + Secilen.kazanilanpuantl)
-        console.log('harcananPuan: ' + Secilen.harcananpuan)
-        console.log('harcananPuanTL: ' + Secilen.harcananpuantl)
-*/
-      this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,
-      'birimFiyat':Secilen.TavsiyeEdilenfiyati,'indirimliFiyat':Secilen.indirimlifiyati,'indirimOrani':Secilen.indirimorani,
-      'alimmiktariLT':Secilen.alinmmiktariLT,'kazanilanPuan':Secilen.KazanilanPuan,'puanTLkarsiligi': Secilen.kazanilanpuantl,
-      'harcananPuan': Secilen.harcananpuan,'harcananPuanTL': Secilen.harcananpuantl
-     });
+        /*
+                console.log('birimFiyat: ' + Secilen.TavsiyeEdilenfiyati)
+                console.log('indirimliFiyat: ' + Secilen.indirimlifiyati)
+                console.log('indirimOrani: ' + Secilen.indirimorani)
+                console.log('alimmiktariLT: ' + Secilen.alinmmiktariLT)
+                console.log('kazanilanPuan: ' + Secilen.KazanilanPuan)
+                console.log('puanTLkarsiligi:' + Secilen.kazanilanpuantl)
+                console.log('harcananPuan: ' + Secilen.harcananpuan)
+                console.log('harcananPuanTL: ' + Secilen.harcananpuantl)
+        */
+        this._kampanyaliSatisBaslat();
+        this.props.navigation.navigate("OzetBilgi", {
+            'Parametre': this.props.navigation.state.params, 'KampanyaId': item,
+            'birimFiyat': Secilen.TavsiyeEdilenfiyati, 'indirimliFiyat': Secilen.indirimlifiyati, 'indirimOrani': Secilen.indirimorani,
+            'alimmiktariLT': Secilen.alinmmiktariLT, 'kazanilanPuan': Secilen.KazanilanPuan, 'puanTLkarsiligi': Secilen.kazanilanpuantl,
+            'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl
+        });
     }
 
     componentWillUnmount() {
@@ -325,7 +370,7 @@ export default class KampanyaSec extends Component {
                                 </CardItem>
                                 <CardItem footer >
                                     <View style={{ flex: 1, flexDirection: 'column' }}>
-                                       
+
                                         <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                             <Left>
                                                 <Text style={styles.txtFiyatlar}>Birim Fiyat: {item.TavsiyeEdilenfiyati} TL</Text>

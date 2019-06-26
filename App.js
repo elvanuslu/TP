@@ -26,9 +26,11 @@ import Yardim from './src/Yardim';
 import KampanyaSec from './src/Satis/Kampanya';
 import PlakaDuzenle from './src/PlakaEkle/PlakaDuzenle';
 import OzetBilgi from './src/Satis/OzetBilgi';
+import Kodec from './src/yenikayit/codec';
 
 
 const Drawer = createDrawerNavigator({
+  Kodec:{ screen: Kodec},
   login: { screen: login },
   kampanya: { screen: kampanya },
   kampanyadetay: { screen: kampanyadetay },

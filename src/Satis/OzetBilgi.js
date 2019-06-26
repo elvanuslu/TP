@@ -48,6 +48,8 @@ export default class OzetBilgi extends Component {
             harcananPuan: undefined,
             harcananPuanTL: undefined,
             KampanyaId: undefined,
+
+
         }
     }
 
@@ -265,57 +267,57 @@ export default class OzetBilgi extends Component {
                                         </Right>
                                     </View>
                                     <View>
-                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                            <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
-                                            <Left>
-                                                <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyat} TL</Text>
+                                        <View style={[styles.containerKapmayali, this.state.birimFiyat ? styles.hidden : styles.containerKapmayali]}>
+                                            <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                                <Left>
+                                                    <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyat} TL</Text>
 
-                                            </Left>
-                                            <Right>
-                                                <Text style={styles.txtFiyatlar}>İndirimli Fiyat: {this.state.indirimliFiyat} TL</Text>
-                                            </Right>
+                                                </Left>
+                                                <Right>
+                                                    <Text style={styles.txtFiyatlar}>İndirimli Fiyat: {this.state.indirimliFiyat} TL</Text>
+                                                </Right>
 
-                                        </View>
-                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                            <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
-                                            <Left>
-                                                <Text style={styles.txtFiyatlar}>İndirim Oranı: %{this.state.indirimOrani}</Text>
-                                            </Left>
+                                            </View>
+                                            <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                                <Left>
+                                                    <Text style={styles.txtFiyatlar}>İndirim Oranı: %{this.state.indirimOrani}</Text>
+                                                </Left>
 
-                                            <Right>
-                                                <Text style={styles.txtFiyatlar}>Alım Miktarı: {this.state.alimmiktariLT} LT</Text>
-                                            </Right>
+                                                <Right>
+                                                    <Text style={styles.txtFiyatlar}>Alım Miktarı: {this.state.alimmiktariLT} LT</Text>
+                                                </Right>
 
-                                        </View>
-                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                            <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
-                                            <Left>
-                                                <Text style={styles.txtFiyatlar}>Kazanılan Puan: {this.state.kazanilanPuan}</Text>
-                                            </Left>
+                                            </View>
+                                            <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                                <Left>
+                                                    <Text style={styles.txtFiyatlar}>Kazanılan Puan: {this.state.kazanilanPuan}</Text>
+                                                </Left>
 
-                                            <Right>
+                                                <Right>
 
-                                                <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl} TL</Text>
-                                            </Right>
+                                                    <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl} TL</Text>
+                                                </Right>
 
-                                        </View>
-                                        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                            <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
-                                            <Left>
-                                                <Text style={styles.txtFiyatlar}>Harcanan Puan: {this.state.harcananPuan} </Text>
-                                            </Left>
-                                            <Right>
-                                                <Text style={styles.txtFiyatlar}>Harcanan Puan TL: {this.state.harcananPuanTL} TL</Text>
-                                            </Right>
+                                            </View>
+                                            <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                                <Left>
+                                                    <Text style={styles.txtFiyatlar}>Harcanan Puan: {this.state.harcananPuan} </Text>
+                                                </Left>
+                                                <Right>
+                                                    <Text style={styles.txtFiyatlar}>Harcanan Puan TL: {this.state.harcananPuanTL} TL</Text>
+                                                </Right>
 
+                                            </View>
                                         </View>
                                     </View>
                                 </View>
                             </CardItem>
                             <CardItem footer>
-                                <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5, width: '100%' }} onPress={() => this._SatisBaslat()}>
-                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>YAKIT AL</Text>
-                                </Button>
+
                             </CardItem>
                         </Card>
                     </Content>
@@ -325,12 +327,17 @@ export default class OzetBilgi extends Component {
         )
     }
 }
-
+/*
+ <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5, width: '100%' }} onPress={() => this._SatisBaslat()}>
+                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>YAKIT AL</Text>
+                                </Button>
+*/
 
 const styles = StyleSheet.create({
-    hidden: {
-        width: 0,
-        height: 0,
+    containerKapmayali: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 10,
     },
     txtFiyatlar: {
         color: 'gray',

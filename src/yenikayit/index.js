@@ -169,15 +169,21 @@ export default class yenikayit extends Component {
                                                    // console.log('responseData='+ response)
                                                     this.setState({ loading: false })
                                                     if (responseData.status == true) {
+                                                        this.props.navigation.navigate("Kodec");
+                                                        /*
                                                         Alert.alert(
                                                             'Kayıt İşlemi!',
                                                             responseData.message,
                                                             [
 
-                                                                { text: 'Tamam', onPress: () =>  this.props.navigation.navigate("login") },
+                                                                { text: 'Tamam', onPress: () => { 
+
+                                                                    this.props.navigation.navigate("Kodec");
+                                                                } },
                                                             ],
                                                             { cancelable: true },
                                                         );
+                                                        */
                                                         // console.log("response: " + JSON.stringify(responseData)) 
                                                     }
                                                     else{
@@ -371,8 +377,8 @@ export default class yenikayit extends Component {
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(formatted, extracted) => {
                                             this.setState({ tel: formatted })
-                                            //  console.log(formatted)
-                                            // console.log(extracted)
+                                              console.log(formatted)
+                                             console.log(extracted)
                                         }}
                                         mask={"0 [000] [000] [00] [00]"}
                                     />
@@ -402,7 +408,7 @@ export default class yenikayit extends Component {
                                             console.log(formatted)
                                             console.log(extracted)
                                         }}
-                                        mask={"[00] [AAa] [0000]"}
+                                       // mask={"[00] [AAa] [0000]"}
                                     />
                                 </Item>
                                 <Item picker style={styles.Inputs}>

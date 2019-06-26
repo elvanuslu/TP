@@ -130,6 +130,29 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
 
   }
 }
+export const CheckActivation =(ContactId,ActivationContent)=>{
+  try {
+    const URL = define_api_url + `CheckActivation`;
+    console.log('URL= '+ URL);
+    console.log('ContactId= '+ ContactId);
+    console.log('ActivationContent= '+ ActivationContent);
+    return fetch(URL,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ContactId: ContactId,
+          ActivationContent: ActivationContent,
+        }),
+      })
+      .then((res) => res.json())
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni, mobilkod) => {
   // console.log('kod: ' + mobilkod)
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
@@ -164,6 +187,7 @@ export const getContact = (userId) => {
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
+
 export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod) => {
   console.log('mobilkod' + mobilKod);
   //  const URL = `http://85.105.103.4:8096/PutContact`;
