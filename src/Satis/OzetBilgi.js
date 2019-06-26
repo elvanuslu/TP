@@ -109,7 +109,7 @@ export default class OzetBilgi extends Component {
         }
     }
     componentDidMount() {
-        console.clear();
+       // console.clear();
         console.log('Paraös = ' + JSON.stringify(this.props));
         this.onGetParams();
     }
@@ -267,9 +267,10 @@ export default class OzetBilgi extends Component {
                                         </Right>
                                     </View>
                                     <View>
-                                        <View style={[styles.containerKapmayali, this.state.birimFiyat ? styles.hidden : styles.containerKapmayali]}>
+                                        {console.log(' this.props.navigation.state.params.birimFiyat '+  this.props.navigation.state.params.birimFiyat)}
+                                        <View style={[styles.containerKapmayali, this.props.navigation.state.params.birimFiyat ? styles.containerKapmayali:styles.hidden]}>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                                <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={pompa}></Image>
                                                 <Left>
                                                     <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyat} TL</Text>
 
@@ -280,7 +281,7 @@ export default class OzetBilgi extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                                <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={logo}></Image>
                                                 <Left>
                                                     <Text style={styles.txtFiyatlar}>İndirim Oranı: %{this.state.indirimOrani}</Text>
                                                 </Left>
@@ -291,7 +292,7 @@ export default class OzetBilgi extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                                <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={logo}></Image>
                                                 <Left>
                                                     <Text style={styles.txtFiyatlar}>Kazanılan Puan: {this.state.kazanilanPuan}</Text>
                                                 </Left>
@@ -303,7 +304,7 @@ export default class OzetBilgi extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                                <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={logo}></Image>
                                                 <Left>
                                                     <Text style={styles.txtFiyatlar}>Harcanan Puan: {this.state.harcananPuan} </Text>
                                                 </Left>
@@ -328,15 +329,21 @@ export default class OzetBilgi extends Component {
     }
 }
 /*
+style={[styles.containerKapmayali, this.state.birimFiyat ? styles.hidden : styles.containerKapmayali]}
  <Button block danger style={{ marginTop: 5, marginLeft: 5, marginRight: 5, width: '100%' }} onPress={() => this._SatisBaslat()}>
                                     <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>YAKIT AL</Text>
                                 </Button>
 */
 
 const styles = StyleSheet.create({
+    Resim:{
+        width: 20, 
+        height: 20, 
+        resizeMode: 'contain'
+    },
     containerKapmayali: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         marginTop: 10,
     },
     txtFiyatlar: {

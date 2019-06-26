@@ -36,7 +36,7 @@ export default class hesabim extends Component {
     render() {
         const { navigation } = this.props;
         const otherParam = navigation.getParam('Data', '');
-        console.log("Datam=>" + otherParam.firstname + " " + otherParam.lastname)
+        //console.log("Datam=>" + otherParam.firstname + " " + otherParam.lastname)
         return (
             <Container style={styles.container}>
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />

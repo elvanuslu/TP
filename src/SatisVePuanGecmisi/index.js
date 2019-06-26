@@ -83,8 +83,11 @@ export default class SatisVePuanGecmisi extends Component {
             const uId = await getStorage('userId');
             getSatisPuanGecmisi(uId)
                 .then((res) => {
-                    console.log('Res= ' + JSON.stringify(res))
-                    this.setState({ listViewData: res });
+                    if(res.status!=false){
+                    console.log('Res= ' + JSON.stringify(res.responsePompaIslemiModel))
+                    this.setState({ listViewData: res.responsePompaIslemiModel });
+                    }
+                
                 })
                 .catch((error) => alert(error))
         } catch (error) {

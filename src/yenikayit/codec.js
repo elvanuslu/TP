@@ -6,8 +6,8 @@ import Icon1 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import TextInputMask from 'react-native-text-input-mask';
-import AsyncStorage from '@react-native-community/async-storage';
-import {CheckActivation, getYakitTipi, MusteriKayit } from '../Service/FetchUser';
+
+import { checkActivation, getYakitTipi, MusteriKayit, getStorage, setStorage } from '../Service/FetchUser';
 
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
@@ -21,32 +21,62 @@ export default class Kodec extends Component {
         super(props)
         this.state = {
             user: undefined,
-            SmsDegeri:undefined,
+            SmsDegeri: undefined,
         }
     }
-    _Aktivasyon= async ()=>{
+    componentWillReceiveProps(nextProps) {
+        console.log('NextProps ' + JSON.stringify(nextProps));
+        const Id = this.props.navigation.state.params.Id;
+        this.setState({ user: Id });
+    }
+    componentDidMount() {
+        console.log('NextProps ' + JSON.stringify(this.props));
+        const Id = this.props.navigation.state.params.Id;
+        this.setState({ user: Id });
+    }
+    _Aktivasyon(){
         try {
-         const Id = await getStorage('userId');
-         console.log('Id = '+ Id+ ' SmS= '+this.state.SmsDegeri)
-            CheckActivation(Id,this.state.SmsDegeri).then((res)=>{
-                console.log('CheckAktivation '+JSON.stringify(res));
-                if(res.status===true){
-                    Alert.alert(
-                        'Kayıt İşlemi!',
-                        'Aktivasyon Başarılı...',
-                        [
+            console.log('Id = ' + this.state.user + ' SmS= ' + this.state.SmsDegeri)           
+            checkActivation(this.state.user, this.state.SmsDegeri)
+                .then((res) => {
+                    console.log('CheckAktivation ' + JSON.stringify(res));
+                    if (res.status === true) 
+                    {
+                        
+                        Alert.alert(
+                            'Kayıt İşlemi!',
+                            'Aktivasyon Başarılı...',
+                            [
+                                {
+                                    text: 'Tamam', onPress: () => {
+                                        setStorage('userId',this.state.user)
+                                        this.props.navigation.navigate("hesabim");
+                                    }
+                                },
+                            ],
+                            { cancelable: true },
+                        );
 
-                            { text: 'Tamam', onPress: () => { 
 
-                                this.props.navigation.navigate("hesabim");
-                            } },
-                        ],
-                        { cancelable: true },
-                    );
+                    }
+                    else{
+                        Alert.alert(
+                            'Kayıt İşlemi!',
+                            'Aktivasyon Hatası...',
+                            [
+                                {
+                                    text: 'Tamam', onPress: () => {
+
+                                        ''
+                                    }
+                                },
+                            ],
+                            { cancelable: true },
+                        );
+                    }
+                })
                 
-
-                }
-            })
+            console.log('Ret Degeri = ' + this.state.SmsDegeri);
         } catch (error) {
             Alert.alert('Hata Oluştu', error);
         }
@@ -62,7 +92,7 @@ export default class Kodec extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title style={{ color: '#fff' }}>Yeni Kayıt</Title>
+                        <Title style={{ color: '#fff' }}>Kod Giriniz</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
@@ -80,8 +110,8 @@ export default class Kodec extends Component {
 
                 <View style={styles.containerOrta}>
                     <Text style={styles.txtYaz}>Lütfen Sms ile gelen Kodu giriniz...</Text>
-                    <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
-                        <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={odeme}></Image>
+                    <Item regular style={styles.Inputs1} >
+                        <Image style={styles.ImageShow} source={odeme}></Image>
                         <Input placeholder='Sms Kodunuzu Giriniz...'
                             keyboardType="decimal-pad"
                             placeholderTextColor="#efefef"
@@ -89,8 +119,8 @@ export default class Kodec extends Component {
                             value={this.state.SmsDegeri}
                             underlineColorAndroid="transparent" />
                     </Item>
-                    <View>
-                    <Button block danger style={styles.mb15} onPress={() => this._Aktivasyon()}>
+                    <View >
+                        <Button block danger style={styles.mb15} onPress={() => this._Aktivasyon()}>
                             <Text style={styles.buttonText}>KAYIT OL</Text>
                         </Button>
                     </View>
@@ -99,8 +129,6 @@ export default class Kodec extends Component {
         )
     }
 }
-
-
 
 const styles = StyleSheet.create({
     ImageShow: {
@@ -129,6 +157,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         backgroundColor: 'transparent',
+        marginTop: 15,
     },
     containerBottom: {
         flex: 2,
@@ -170,6 +199,9 @@ const styles = StyleSheet.create({
         width: '90%',
         //color:'black',
         borderColor: 'black',
+        marginTop: 10,
+        marginLeft: 30,
+        marginRight: 30,
     },
     switchcontainer: {
         flexDirection: 'row',
@@ -192,11 +224,13 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         marginRight: 30,
         width: '90%',
+       
     },
     buttonText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: '800',
+       
     },
     comboItem: {
         marginRight: 40,

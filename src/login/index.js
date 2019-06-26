@@ -92,11 +92,12 @@ export default class login extends Component {
          // console.log("Kayıt else=>" + res);
           this.setState({ userId: res.contactid });
           this._storeData();
-          Toast.show({
+       /*   Toast.show({
             text: "Giriş Başarılı!\n",
             buttonText: "Okay",
             type: 'success',
           })
+          */
           this.props.navigation.navigate("hesabim", { Data: res });
           this.setState({
             error: false,

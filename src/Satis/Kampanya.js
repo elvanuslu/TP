@@ -17,29 +17,7 @@ const plaka = require("../../assets/plakaKirmizi.png");
 const pmpa = require("../../assets/pompaKirmizi.png");
 const odeme = require("../../assets/odemeTutar.png");
 const kampanya = require("../../assets/kapmpanyakirmizi.png");
-const datas = [
-    {
-        bm_kampanyaid: 1,
-        bm_pictureurl: k2,
-        bm_kisaaciklama1: "Kumar Pratik",
-        bm_kisaaciklama: "Its time to build a difference . .",
-        time: "3:43 pm"
-    },
-    {
-        bm_kampanyaid: 2,
-        bm_pictureurl: k1,
-        bm_kisaaciklama1: "Kumar Sanket",
-        bm_kisaaciklama: "One needs courage to be happy and smiling all time . . ",
-        time: "1:12 pm"
-    },
-    {
-        bm_kampanyaid: 3,
-        bm_pictureurl: k3,
-        bm_kisaaciklama1: "Kumar Sanket",
-        bm_kisaaciklama: "One needs courage to be happy and smiling all time . . ",
-        time: "1:12 pm"
-    },
-];
+
 
 export default class KampanyaSec extends Component {
     constructor(props) {
@@ -110,6 +88,9 @@ export default class KampanyaSec extends Component {
                             Alert.alert('Hata Oluştu!', res.message);
                             this.setState({ loading: false })
                         }
+                        else{
+                            Alert.alert('İşlem Başarılı',res.message+ ' Yakıt Alabilirsiniz...');
+                        }
                     })
                     .catch(error => {
                         Alert.alert('Hata Oluştu!', error);
@@ -122,7 +103,8 @@ export default class KampanyaSec extends Component {
         }
     }
     _btnDevam = (item) => {
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item });
+        console.log('Devam Parametre= '+JSON.stringify(this.props.navigation.state.params));
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,'birimFiyat':undefined });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
@@ -169,7 +151,7 @@ export default class KampanyaSec extends Component {
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
         //  console.log('Istasyonum = ' + JSON.stringify(this.props));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params });
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params,'birimFiyat':undefined });
         /*
                 this.props.navigation.navigate("OzetBilgi", {
                     'Istasyon': this.state.istasyonselectedId,

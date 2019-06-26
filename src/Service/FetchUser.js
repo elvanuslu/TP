@@ -130,12 +130,13 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
 
   }
 }
-export const CheckActivation =(ContactId,ActivationContent)=>{
+export const checkActivation = (contactId, activationContent) => {
+  console.log('ContactId= ' + contactId);
+  console.log('ActivationContent= ' + activationContent);
+
   try {
     const URL = define_api_url + `CheckActivation`;
-    console.log('URL= '+ URL);
-    console.log('ContactId= '+ ContactId);
-    console.log('ActivationContent= '+ ActivationContent);
+    console.log('URL= ' + URL);
     return fetch(URL,
       {
         method: 'POST',
@@ -144,8 +145,8 @@ export const CheckActivation =(ContactId,ActivationContent)=>{
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ContactId: ContactId,
-          ActivationContent: ActivationContent,
+          ContactId: contactId,
+          ActivationContent: activationContent,
         }),
       })
       .then((res) => res.json())

@@ -7,7 +7,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getYakitTipi, MusteriKayit } from '../Service/FetchUser';
+import { getYakitTipi, MusteriKayit, setStorage } from '../Service/FetchUser';
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -152,7 +152,7 @@ export default class yenikayit extends Component {
         try {
             if (this.state.SozlesmeOkudum === true && this.state.KampanyaDuyurular === true) {
 
-               // console.log('Adı: ' + this.state.Adi.length);
+                // console.log('Adı: ' + this.state.Adi.length);
                 if (this.state.Adi.length >= 3) {
                     if (this.state.Soyadi.length >= 3) {
                         if (this.state.eposta !== '') {
@@ -162,14 +162,15 @@ export default class yenikayit extends Component {
                                         if (this.state.Sifre === this.state.Sifre2) {
                                             this.setState({ loading: true })
                                             MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
-                                                this.state.Sifre, this.state.plaka, this.state.selected2,this.state.selected2,
-                                                this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum,this.state.mobilKod)
+                                                this.state.Sifre, this.state.plaka, this.state.selected2, this.state.selected2,
+                                                this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum, this.state.mobilKod)
                                                 .then((responseData) => {
-                                                   // let response =JSON.stringify(responseData);
-                                                   // console.log('responseData='+ response)
+                                                    let response = JSON.stringify(responseData);
+                                                    console.log('responseData=' + response)
                                                     this.setState({ loading: false })
                                                     if (responseData.status == true) {
-                                                        this.props.navigation.navigate("Kodec");
+                                                        setStorage('kullaniciId', responseData.message);
+                                                        this.props.navigation.navigate("Kodec",{'Id':responseData.message});
                                                         /*
                                                         Alert.alert(
                                                             'Kayıt İşlemi!',
@@ -186,16 +187,16 @@ export default class yenikayit extends Component {
                                                         */
                                                         // console.log("response: " + JSON.stringify(responseData)) 
                                                     }
-                                                    else{
+                                                    else {
                                                         Alert.alert(
                                                             'Kayıt İşlemi!',
                                                             responseData.message,
                                                             [
 
-                                                                { text: 'Tamam', onPress: () =>  console.log('False') },
+                                                                { text: 'Tamam', onPress: () => console.log('False') },
                                                             ],
                                                             { cancelable: true },
-                                                        ); 
+                                                        );
                                                     }
                                                 })
                                                 .catch((err) => {
@@ -302,7 +303,7 @@ export default class yenikayit extends Component {
         } catch (error) {
             this.setState({ loading: false })
             console.log('hata oluştu: ' + error);
-        } finally{
+        } finally {
             this.setState({ loading: false })
         }
     }
@@ -377,8 +378,8 @@ export default class yenikayit extends Component {
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(formatted, extracted) => {
                                             this.setState({ tel: formatted })
-                                              console.log(formatted)
-                                             console.log(extracted)
+                                          //  console.log(formatted)
+                                          //  console.log(extracted)
                                         }}
                                         mask={"0 [000] [000] [00] [00]"}
                                     />
@@ -398,17 +399,17 @@ export default class yenikayit extends Component {
                                         placeholder="Plaka Giriniz..."
                                         placeholderTextColor="#efefef"
                                         keyboardType="name-phone-pad"
-                                     //   onChangeText={(value) => this.setState({ plaka: value })}
+                                        //   onChangeText={(value) => this.setState({ plaka: value })}
                                         value={this.state.plaka}
                                         underlineColorAndroid="transparent"
 
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(formatted, extracted) => {
                                             this.setState({ plaka: formatted })
-                                            console.log(formatted)
-                                            console.log(extracted)
+                                          //  console.log(formatted)
+                                          //  console.log(extracted)
                                         }}
-                                       // mask={"[00] [AAa] [0000]"}
+                                    // mask={"[00] [AAa] [0000]"}
                                     />
                                 </Item>
                                 <Item picker style={styles.Inputs}>

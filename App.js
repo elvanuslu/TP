@@ -27,9 +27,11 @@ import KampanyaSec from './src/Satis/Kampanya';
 import PlakaDuzenle from './src/PlakaEkle/PlakaDuzenle';
 import OzetBilgi from './src/Satis/OzetBilgi';
 import Kodec from './src/yenikayit/codec';
+import AnaSayfa from './src/AnaSayfa/AnaSayfa';
 
 
 const Drawer = createDrawerNavigator({
+  AnaSayfa:{ screen: AnaSayfa},
   Kodec:{ screen: Kodec},
   login: { screen: login },
   kampanya: { screen: kampanya },

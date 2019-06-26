@@ -21,7 +21,7 @@ export default class SideBar extends Component {
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
-                    <Button block transparent style={styles.mb15}  onPress={() => this.props.navigation.navigate("hesabim")}>
+                    <Button block transparent style={styles.mb15}  onPress={() => this.props.navigation.navigate("AnaSayfa")}>
                         <Image
                             style={styles.button}
                             source={require('../../assets/anasayfa.png')}
