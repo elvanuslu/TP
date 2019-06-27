@@ -1,14 +1,16 @@
 
 import React, { Component } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity } from 'react-native';
+import { BackHandler, Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity } from 'react-native';
 import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import { getUserInfo } from '../Service/FetchUser';
 export default class login extends Component {
-  constructor() {
-    super();
+  _didFocusSubscription;
+  _willBlurSubscription;
+  constructor(props) {
+    super(props);
     this.state = {
       switch1Value: true,
       UserName: 'asu@test.com',
@@ -19,24 +21,31 @@ export default class login extends Component {
       loading: false,
       SwitchOnValueHolder: false,
     }
+    this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
+      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+    );
   }
-  /*
-  componentDidMount = () => {
-    fetch('http://10.200.202.174:81/GetContactAccess?EMailAddress1=asu@test.com&bm_sifre=123456', {
-      method: 'GET'
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          data: responseJson
-        })
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  componentDidMount() {
+    this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
+      BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
+    );
   }
-  */
+  onBackButtonPressAndroid = () => {
+    if (this.isSelectionModeEnabled()) {
+      this.disableSelectionMode();
+      console.log('selection is true');
+      return true;
+    } else {
+      console.log('selection is false');
+      return false;
+    }
+  };
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
+    console.log('remove component')
+  }
   _storeData = async () => {
     try {
       // console.log("usr="+this.state.userId);
@@ -47,7 +56,7 @@ export default class login extends Component {
       console.log("Err=" + error);
     }
   };
- isAvailable () {
+  isAvailable() {
     const timeout = new Promise((resolve, reject) => {
       setTimeout(reject, 3000, 'Request timed out');
     });
@@ -89,16 +98,17 @@ export default class login extends Component {
           });
         }
         else {
-         // console.log("Kayıt else=>" + res);
+          // console.log("Kayıt else=>" + res);
           this.setState({ userId: res.contactid });
           this._storeData();
-       /*   Toast.show({
-            text: "Giriş Başarılı!\n",
-            buttonText: "Okay",
-            type: 'success',
-          })
-          */
-          this.props.navigation.navigate("hesabim", { Data: res });
+          /*   Toast.show({
+               text: "Giriş Başarılı!\n",
+               buttonText: "Okay",
+               type: 'success',
+             })
+             */
+          this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
+          console.log('Push');
           this.setState({
             error: false,
             username: ''

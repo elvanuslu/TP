@@ -35,7 +35,7 @@ export default class KayitGuncelle extends Component {
             yakitTipleri: [],
             selected2: undefined,
             labelName: '',
-            mobilKod: '',
+            mobilKod: undefined,
             mobilKodFormatted: '',
             mobilextracted: '',
         }
@@ -56,6 +56,7 @@ export default class KayitGuncelle extends Component {
                         eposta: res.emailaddress1,
                         tel: res.mobilephone,
                         Sifre: res.bm_sifre,
+                        mobilKod: res.bm_mobilkod,
                     });
                 }
             }).catch(error => console.log(error));
@@ -93,23 +94,21 @@ export default class KayitGuncelle extends Component {
             //   alert('kayit'+this.state.kullanici)
             musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre, this.state.mobilKod)
                 .then((responseData) => {
-                    
                     Alert.alert(
                         'Düzenleme!',
                         responseData.message,
                         [
-            
-                          { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                         ],
                         { cancelable: true },
-                      );
-                      this.setState({
+                    );
+                    this.setState({
                         loading: false,
-                      });
-                      this.setState({ loading: false })
-                  //  Alert.alert('Düzenleme Başarılı.', responseData.message)
-                   // console.log("response: " + JSON.stringify(responseData))
-                    
+                    });
+                    this.setState({ loading: false })
+                    //  Alert.alert('Düzenleme Başarılı.', responseData.message)
+                    // console.log("response: " + JSON.stringify(responseData))
+
                 })
                 .catch((err) => { Alert.alert('Hata.', err) });
         } catch (error) {
@@ -156,39 +155,40 @@ export default class KayitGuncelle extends Component {
                     </View>
                     <Content style={{ backgroundColor: '#fff' }}>
                         <Body>
-                                <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='Ad'
-                                        onChangeText={(value) => this.setState({ Adi: value })}
-                                        value={this.state.Adi}
-                                        placeholderTextColor="#efefef"
-                                        underlineColorAndroid="transparent" />
-                                </Item>
-                                <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='Soyad'
-                                        onChangeText={(value) => this.setState({ Soyadi: value })}
-                                        value={this.state.Soyadi}
-                                        placeholderTextColor="#efefef"
-                                        underlineColorAndroid="transparent" />
-                                </Item>
+                            <Item regular style={styles.Inputs}>
+                                <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                                <Input placeholder='Ad'
+                                    onChangeText={(value) => this.setState({ Adi: value })}
+                                    value={this.state.Adi}
+                                    placeholderTextColor="#efefef"
+                                    underlineColorAndroid="transparent" />
+                            </Item>
+                            <Item regular style={styles.Inputs}>
+                                <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                                <Input placeholder='Soyad'
+                                    onChangeText={(value) => this.setState({ Soyadi: value })}
+                                    value={this.state.Soyadi}
+                                    placeholderTextColor="#efefef"
+                                    underlineColorAndroid="transparent" />
+                            </Item>
 
-                                <Item regular style={styles.Inputs}>
-                                    <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
-                                    <TextInputMask style={styles.Inputs1}
-                                        placeholder="Telefon Giriniz..."
-                                        placeholderTextColor="#efefef"
-                                        keyboardType="phone-pad"
-                                        refInput={ref => { this.input = ref }}
-                                        value={this.state.tel}
-                                        onChangeText={(formatted, extracted) => {
-                                            this.setState({ tel: formatted })
-                                        }}
-                                        mask={"0 [000] [000] [00] [00]"}
-                                    />
+                            <Item regular style={styles.Inputs}>
+                                <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
+                                <TextInputMask style={styles.Inputs1}
+                                    placeholder="Telefon Giriniz..."
+                                    placeholderTextColor="#efefef"
+                                    keyboardType="phone-pad"
+                                    refInput={ref => { this.input = ref }}
+                                    value={this.state.tel}
+                                    onChangeText={(formatted, extracted) => {
+                                        this.setState({ tel: formatted })
+                                    }}
+                                    mask={"0 [000] [000] [00] [00]"}
+                                />
 
-                                </Item>
-                                <Item regular style={styles.Inputs}>
+                            </Item>
+                            
+                                 <Item regular style={[styles.Inputs, this.state.mobilKod? styles.Inputs: styles.hidden]>
                                     <Icon active name='md-alarm' color='#fff' />
                                     <TextInputMask style={styles.Inputs1}
                                         autoCapitalize="characters"
@@ -202,23 +202,24 @@ export default class KayitGuncelle extends Component {
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(mobilKodFormatted, mobilextracted) => {
                                             this.setState({ mobilKod: mobilKodFormatted })
-                                          //  console.log(mobilKodFormatted)
-                                          //  console.log(mobilextracted)
+                                            //  console.log(mobilKodFormatted)
+                                            //  console.log(mobilextracted)
                                         }}
                                     //  mask={"[00000000]-[0000]-[0000]-[0000]-[000000000000]"}
                                     />
                                 </Item>
-                                <Item regular style={styles.Inputs}>
-                                    <Icon active name='key' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='Şifre '
-                                        // keyboardType="email-address"
-                                        placeholderTextColor="#efefef"
-                                        secureTextEntry={true}
-                                        textContentType="password"
-                                        onChangeText={(value) => this.setState({ Sifre: value })}
-                                        value={this.state.Sifre}
-                                        underlineColorAndroid="transparent" />
-                                </Item>
+                      
+                            <Item regular style={styles.Inputs}>
+                                <Icon active name='key' underlayColor='#2089dc' color='#fff' />
+                                <Input placeholder='Şifre '
+                                    // keyboardType="email-address"
+                                    placeholderTextColor="#efefef"
+                                    secureTextEntry={true}
+                                    textContentType="password"
+                                    onChangeText={(value) => this.setState({ Sifre: value })}
+                                    value={this.state.Sifre}
+                                    underlineColorAndroid="transparent" />
+                            </Item>
                         </Body>
 
                         <Button block danger style={styles.mb15} onPress={() => this._btnKayit()}>
@@ -233,6 +234,10 @@ export default class KayitGuncelle extends Component {
 
 
 const styles = StyleSheet.create({
+    hidden: {
+        width: 0,
+        height: 0,
+    },
     container: {
         flex: 1,
     },
@@ -318,5 +323,5 @@ const styles = StyleSheet.create({
     },
     spinnerTextStyle: {
         color: '#FFF'
-      },
+    },
 })

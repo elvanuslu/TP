@@ -18,7 +18,9 @@ const pmpa = require("../../assets/pompaKirmizi.png");
 const odeme = require("../../assets/odemeTutar.png");
 const kampanya = require("../../assets/kapmpanyakirmizi.png");
 
-
+/*
+bm_kampanyaId":"00000000-0000-0000-0000-000000000000"
+*/
 export default class KampanyaSec extends Component {
     constructor(props) {
         super(props);
@@ -130,7 +132,7 @@ export default class KampanyaSec extends Component {
                 console.log('harcananPuan: ' + Secilen.harcananpuan)
                 console.log('harcananPuanTL: ' + Secilen.harcananpuantl)
         */
-        this._kampanyaliSatisBaslat();
+       // this._kampanyaliSatisBaslat();
         this.props.navigation.navigate("OzetBilgi", {
             'Parametre': this.props.navigation.state.params, 'KampanyaId': item,
             'birimFiyat': Secilen.TavsiyeEdilenfiyati, 'indirimliFiyat': Secilen.indirimlifiyati, 'indirimOrani': Secilen.indirimorani,
@@ -350,9 +352,9 @@ export default class KampanyaSec extends Component {
                                         <Image style={styles.logo} source={{ uri: item.bm_pictureurl }} />
                                     </Body>
                                 </CardItem>
-                                <CardItem footer >
-                                    <View style={{ flex: 1, flexDirection: 'column' }}>
-
+                                <CardItem item >
+                               { console.log('Kapmya Id= '+ item.bm_kampanyaId)}
+                                <View style={styles.containerKapmayali}>
                                         <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                             <Left>
                                                 <Text style={styles.txtFiyatlar}>Birim Fiyat: {item.TavsiyeEdilenfiyati} TL</Text>
@@ -404,6 +406,7 @@ export default class KampanyaSec extends Component {
                                         </View>
                                     </View>
                                 </CardItem>
+                             
                             </Card>
 
                         }
@@ -436,6 +439,11 @@ export default class KampanyaSec extends Component {
 }
 */
 const styles = StyleSheet.create({
+    containerKapmayali: {
+        flex: 1,
+        flexDirection: 'column',
+        marginTop: 1,
+    },
     textBaslik: {
         color: 'gray',
         fontSize: 11,

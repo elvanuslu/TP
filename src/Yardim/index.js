@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem } from 'native-base';
+import {Content, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem } from 'native-base';
 
 import { getSSS } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -45,7 +45,7 @@ export default class Yardim extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate('hesabim')}>
+                        <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
                             <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
@@ -74,7 +74,10 @@ export default class Yardim extends Component {
                                     <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 5 }}>
-                                    <Text style={styles.txtYazi}>{item.bm_uzunaciklama}</Text>
+                                    <Content>
+                                        <Text style={styles.txtYazi}>{item.bm_uzunaciklama}</Text>
+                                    </Content>
+
                                 </CardItem>
                             </Card>
 

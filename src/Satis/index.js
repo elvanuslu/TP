@@ -351,7 +351,7 @@ export default class Satis extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
                             <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
