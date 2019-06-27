@@ -48,7 +48,7 @@ export default class AnaSayfa extends Component {
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flex: 1, flexDirection: "column" }}>
-                        <View style={{ flex: 1, flexDirection: 'row',backgroundColor:'#fff' }}>
+                        <View style={{ flex: 2, flexDirection: 'row'}}>
                             <Left style={{marginLeft:20}}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("Satis")}>
                                     <Image style={styles.button} source={require('../../assets/yakitalldpi.png')} />
@@ -101,18 +101,19 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 1,
+        flex: 2,
         backgroundColor: 'transparent',
 
     },
     containerOrta: {
-        flex: 4,
+        flex: 6,
         backgroundColor: 'transparent',
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 4,
+        flex: 5,
         backgroundColor: 'transparent',
+      //  marginTop:30,
     },
     welcome: {
         fontSize: 20,
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
 
     button: {
         resizeMode: 'contain',
-        width:110,
+        width:90,
 
         //  marginRight: 30,
         //  marginLeft: 30,

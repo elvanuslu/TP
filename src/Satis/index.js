@@ -521,7 +521,7 @@ export default class Satis extends Component {
                             <View >
                                 <Text style={styles.textYazi}>*Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
 
-                                <Button block danger style={{ marginTop: 10, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>
+                                <Button block danger style={{ marginTop: 5, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>
                                     <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>DEVAM</Text>
                                 </Button>
 
@@ -598,7 +598,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     containerOrta: {
-        flex: 8,
+        flex: 6,
         backgroundColor: '#fff',
     },
     containerBottom: {
@@ -681,8 +681,8 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
         borderRightWidth: 1,
         borderWidth: 1,
-        borderColor: 'black',
         borderRadius: 5,
+        height:40,
     },
     spinnerTextStyle: {
         color: '#FFF'

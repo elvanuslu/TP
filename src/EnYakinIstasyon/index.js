@@ -88,14 +88,14 @@ export default class EnYakinIstasyon extends Component {
                         </Button>
                     </Right>
                 </Header>
-
-                <View style={styles.containerOrta}>
-                    <View >
+                <View style={styles.container1} >
                         <Image style={styles.logo} source={require('../../assets/tplogo.png')}
                         />
                         <Image style={{ width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
-                    <View style={{marginBottom:10,marginTop:-130}} >
+                <View style={styles.containerOrta}>
+                 
+                    <View style={{marginBottom:10,marginTop:-10}} >
                         <FlatList
                             data={this.state.listViewData}
                             renderItem={({ item }) =>
@@ -143,12 +143,10 @@ const styles = StyleSheet.create({
     },
     container1: {
         flex: 2,
-        backgroundColor: 'yellow',
-        alignItems: 'center',
-        marginBottom: 5,
+        backgroundColor: 'transparent',
     },
     containerOrta: {
-        flex: 6,
+        flex: 8,
         backgroundColor: 'transparent',
         //alignItems: 'center',
         //justifyContent: 'center',
@@ -162,7 +160,7 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         //  width: 150,
-        height: '35%',
+        height: '60%',
         resizeMode: 'contain',
         marginBottom: 5,
         alignSelf: 'center',

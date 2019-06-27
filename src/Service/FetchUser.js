@@ -299,6 +299,12 @@ export const getCardById = (Id) => {
   }
 }
 export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka, kartId) => {
+  console.log('contactId'+contactId)
+  console.log('plaka'+plaka)
+  console.log('yakit1'+yakit1)
+  console.log('yakit2'+yakit2)
+  console.log('marka'+marka)
+  console.log('kartId'+kartId)
   try {
     const URL = define_api_url + `PostBm_MusteriArac`;
     return fetch(URL,

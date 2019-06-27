@@ -413,9 +413,9 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 1,
+        flex: 2,
         backgroundColor: 'transparent',
-        marginBottom: 20,
+       // marginBottom: 20,
     },
     containerOrta: {
         flex: 8,

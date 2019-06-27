@@ -73,11 +73,12 @@ export default class Plakalarim extends Component {
             basic: true,
             listViewData: [],
             loading: false,
+            kartId:undefined,
         }
     }
-    GetItem(item) {
-      //  alert('calıstı')
-        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item });
+    GetItem(item,kart) {
+      console.log('Plaka = '+ item+ ' Kart = '+ kart);
+        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item,'KartId': kart });
     }
     _getPlakaList = async () => {
         try {
@@ -161,9 +162,7 @@ export default class Plakalarim extends Component {
                         <View >
                             <Content style={{ marginLeft: 15, marginTop: 15, marginRight: 15, width: '100%', }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <View >
-                                        <Text style={styles.txtHeader}>Araçlar</Text>
-                                    </View>
+                                   
                                     <View >
                                         <Text style={styles.txtHeader}>Plakalar</Text>
                                     </View>
@@ -178,16 +177,14 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem   >
-                                            <TouchableOpacity style={{width:'100%'}} onPress={() => this.GetItem(data.bm_plaka)}>
+                                            <TouchableOpacity style={{width:'100%'}} onPress={() => this.GetItem(data.bm_plaka,data.bm_musterikartiid)}>
 
-                                                <View style={{ flex: 1, flexDirection: 'row', marginBottom: 10 }}>
+                                                <View style={{ flex: 1, flexDirection: 'row', }}>
                                                     <Left>
-                                                        <Text style={styles.txtArac}>{data.bm_marka}</Text>
+                                                    <Text style={styles.txtArac}>{data.bm_plaka}</Text>
 
                                                     </Left>
-                                                    <Body>
-                                                        <Text style={styles.txtArac}>{data.bm_plaka}</Text>
-                                                    </Body>
+                                                   
                                                     <Right style={{ marginRight: 10 }}>
                                                         <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
                                                     </Right>
@@ -199,7 +196,7 @@ export default class Plakalarim extends Component {
                                         <Content style={{ flexDirection: 'row' }}>
                                             <Button
                                                 full
-                                                onPress={() => this.GetItem(data.bm_plaka)}
+                                                onPress={() => this.GetItem(data.bm_plaka,data.bm_musterikartiid)}
                                                 style={{
                                                     backgroundColor: "#ec971f",
                                                     flex: 1,
@@ -248,7 +245,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        flex: 1,
+        flex: 2,
         backgroundColor: 'transparent',
         // alignItems: 'center',
     },
@@ -263,7 +260,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     containerBottom: {
-        flex: 8,
+        flex: 7,
         backgroundColor: 'transparent',
         marginBottom: 10,
         //     alignItems: 'center',
@@ -296,7 +293,7 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         // width: '100%',
-        height: '90%',
+        height: '80%',
         resizeMode: 'contain',
         marginBottom: 5,
     },

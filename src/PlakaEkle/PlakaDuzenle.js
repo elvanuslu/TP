@@ -42,6 +42,16 @@ export default class PlakaDuzenle extends Component {
 
         }
     }
+    async componentWillReceiveProps(nextProps){
+        const uId = await getStorage('userId');
+        const _plaka = this.props.navigation.getParam('PlakaId', '');
+        const _card = this.props.navigation.getParam('KartId', '');
+        this.setState({plaka1:_plaka});
+        this._getAracMarkaList();
+        this._getYakitTipi();
+        this._getCard();
+        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Kart= ' + _card);
+    }
     _getPlaka = async () => {
         try {
             const uId = await getStorage('userId');
@@ -75,10 +85,13 @@ export default class PlakaDuzenle extends Component {
     componentDidMount = async () => {
         const uId = await getStorage('userId');
         const _plaka = this.props.navigation.getParam('PlakaId', '');
+        const _card = this.props.navigation.getParam('KartId', '');
+        //this.setState({cardSelected: _card});
+        this.setState({plaka1:_plaka});
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
-        console.log('mPlaka = ' + _plaka+' Id= '+uId);
+        console.log('mPlaka = ' + _plaka + ' Id= ' + uId, ' Kart= ' + _card);
     }
     convertTextToUpperCase = () => {
         var text = this.state.plaka2;
@@ -254,9 +267,7 @@ export default class PlakaDuzenle extends Component {
                         <Image style={{ marginBottom: 5, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-                <View style={styles.containerOrta}>
-                    <Image style={styles.banner} source={k1} />
-                </View>
+
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <Spinner
@@ -293,20 +304,12 @@ export default class PlakaDuzenle extends Component {
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                             <Item regular style={styles.Inputs2}>
                                 <Image style={{ width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
-                                <TextInputMask style={styles.Inputs1}
-                                    autoCapitalize="characters"
-                                    placeholder="Plaka Giriniz..."
+                                <Input placeholder='Plaka Giriniz...'
+                                   
                                     placeholderTextColor="#efefef"
-                                    keyboardType="name-phone-pad"
-                                    refInput={ref => { this.input = ref }}
-                                    onChangeText={(formatted, extracted) => {
-                                        this.setState({ plaka1: formatted })
-                                        // console.log(formatted)
-                                        // console.log(extracted)
-                                    }}
-                                    mask={"[00] [AAa] [0000]"}
-                                />
-
+                                    onChangeText={(value) => this.setState({ plaka1: value })}
+                                    value={this.state.plaka1}
+                                    underlineColorAndroid="transparent" />
                             </Item>
 
                         </View>
@@ -389,33 +392,34 @@ export default class PlakaDuzenle extends Component {
                         </View>
                     </Form>
                 </View>
-                <View style={styles.container}>
 
-                </View>
             </Container>
         );
     }
 }
 
-
+/*
+ <View style={styles.containerOrta}>
+                    <Image style={styles.banner} source={k1} />
+                </View>
+*/
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
     container1: {
-        flex: 1,
+        flex: 2,
         backgroundColor: 'transparent',
         alignItems: 'center',
-        marginBottom: 30,
     },
     containerOrta: {
-        flex: 5,
+        flex: 3,
         backgroundColor: 'transparent',
-        marginBottom: 10,
+
     },
     containerBottom: {
-        flex: 5,
-        backgroundColor: '#fff',
+        flex: 3,
+        backgroundColor: 'transparent',
         alignItems: 'center',
         flexDirection: 'column',
         justifyContent: 'center'
@@ -444,14 +448,14 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         // width: '100%',
-        height: 70,
+        height: '70%',
         resizeMode: 'contain',
         marginBottom: 5,
     },
     banner: {
         // marginTop: 2,
         width: '100%',
-        height: 220,
+        height: 100,
         resizeMode: 'contain',
         marginBottom: 5,
     },

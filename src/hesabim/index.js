@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     containerOrta: {
-        flex: 5,
+        flex: 6,
         backgroundColor: 'transparent',
         //alignItems: 'center',
     },

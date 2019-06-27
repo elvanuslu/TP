@@ -25,6 +25,7 @@ export default class PlakaEkle extends Component {
             plaka2: '',
             plaka3: '',
             yakitTipi: undefined,
+            yakitTipi2: undefined,
             araba: '--Seçiniz--',
             arabaId: undefined,
             markalar: [],
@@ -90,6 +91,11 @@ export default class PlakaEkle extends Component {
     onYakitTipiValueChange(value: string) {
         this.setState({
             yakitTipi: value
+        });
+    }
+    onYakitTipi2ValueChange(value: string) {
+        this.setState({
+            yakitTipi2: value
         });
     }
     onArabaValueChange(value, label) {
@@ -186,14 +192,14 @@ export default class PlakaEkle extends Component {
         }
     }
     _mKayit = () => {
-        alert('calıştı'+this.state.plaka1);
+        alert('calıştı' + this.state.plaka1);
     }
     _Kaydet() {
         try {
 
             this.setState({ loading: true })
             if (this.state.plaka1 != undefined) {
-            
+
                 postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected)
                     .then((responseData) => {
                         // let response = JSON.stringify(responseData);
@@ -257,7 +263,7 @@ export default class PlakaEkle extends Component {
     }
     componentDidMount = async () => {
         const Id = await getStorage('userId');
-      //  this.setState({ userId: Id })
+        //  this.setState({ userId: Id })
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
@@ -265,8 +271,15 @@ export default class PlakaEkle extends Component {
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
         return (
-            <Container style={styles.container}>
 
+            <Container style={styles.container}>
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Lütfen Bekleyiniz...'}
+                        textStyle={styles.spinnerTextStyle}
+                    />
+                </View>
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim")}>
@@ -284,49 +297,38 @@ export default class PlakaEkle extends Component {
                 </Header>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')}
-                        />
-                        <Image style={{ marginBottom: 5, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
+                        <Image style={{ marginBottom: 5, marginLeft: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-                <View style={styles.containerOrta}>
-                    <Image style={styles.banner} source={k1} />
-                </View>
+               
                 <View style={styles.containerBottom}>
-                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <Spinner
-                            visible={this.state.loading}
-                            textContent={'Lütfen Bekleyiniz...'}
-                            textStyle={styles.spinnerTextStyle}
-                        />
-                    </View>
-                    <Form>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-                            <Item picker style={styles.Inputs2}>
+                    <View style={{  alignItems: 'center', justifyContent: 'center',flexDirection:'column' }}>
+                    <Item picker style={styles.Inputs2}>
                                 <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
-
-                                <Picker borderWidt='1' borderColor='black'
+                                <Picker style={styles.Inputs2} borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
-                                    placeholder="Kart Seç..."
+                                    placeholder="Araç Marka/model..."
                                     placeholderStyle={{ color: "#bfc6ea" }}
                                     placeholderIconColor="#007aff"
-                                    selectedValue={this.state.cardSelected}
-                                    onValueChange={this.onCardChange.bind(this)}>
+                                    selectedValue={this.state.araba}
+                                    onValueChange={this.onArabaValueChange.bind(this)}>
                                     {
-                                        this.state.card.map((item, key) => (
+                                        this.state.markalar.map((item, key) => (
                                             <Picker.Item
-                                                label={item.bm_kartno}
-                                                value={item.bm_kartid}
-                                                key={item.bm_kartid} />)
-                                        )
+                                                label={item.bm_adi}
+                                                value={item.bm_aracmarkasiid}
+                                                key={item.bm_aracmarkasiid}
+                                            />
+                                        ))
                                     }
                                 </Picker>
                             </Item>
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-                            <Item regular style={styles.Inputs2}>
+
+                       
+                        <Item regular style={styles.Inputs2}>
                                 <Image style={{ width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
                                 <TextInputMask style={styles.Inputs1}
                                     autoCapitalize="characters"
@@ -339,13 +341,10 @@ export default class PlakaEkle extends Component {
                                         // console.log(formatted)
                                         // console.log(extracted)
                                     }}
-                                    mask={"[00] [AAa] [0000]"}
+                                   // mask={"[00] [AAa] [0000]"}
                                 />
 
                             </Item>
-
-                        </View>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                             <Item picker style={styles.Inputs2}>
                                 <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
@@ -394,28 +393,6 @@ export default class PlakaEkle extends Component {
                                     }
                                 </Picker>
                             </Item>
-                            <Item picker style={styles.Inputs2}>
-                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
-                                <Picker style={styles.Inputs2} borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Araç Marka/model..."
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.araba}
-                                    onValueChange={this.onArabaValueChange.bind(this)}>
-                                    {
-                                        this.state.markalar.map((item, key) => (
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_aracmarkasiid}
-                                                key={item.bm_aracmarkasiid}
-                                            />
-                                        ))
-                                    }
-                                </Picker>
-                            </Item>
                             <View>
                                 <TouchableOpacity onPress={() => this._Kaydet()}>
                                     <Image
@@ -424,11 +401,8 @@ export default class PlakaEkle extends Component {
                                     />
                                 </TouchableOpacity>
                             </View>
-                        </View>
-                    </Form>
-                </View>
-                <View style={styles.container}>
 
+                    </View>
                 </View>
             </Container>
         );
@@ -439,25 +413,21 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-
+        backgroundColor: 'transparent',
     },
     container1: {
-        flex: 1,
+        flex: 2,
         backgroundColor: 'transparent',
         alignItems: 'center',
-        marginBottom: 30,
     },
     containerOrta: {
-        flex: 5,
+        flex: 2,
         backgroundColor: 'transparent',
-        marginBottom: 10,
+
     },
     containerBottom: {
-        flex: 5,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        flexDirection: 'column',
-        justifyContent: 'center'
+        flex: 4,
+        backgroundColor: 'transparent',
 
     },
     welcome: {
@@ -474,7 +444,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
         borderRadius: 5,
-        marginBottom: 5,
+       // marginBottom: 5,
         marginTop: 5,
         width: 100,
         //color:'black',
@@ -483,16 +453,18 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         // width: '100%',
-        height: 70,
+        height: '70%',
         resizeMode: 'contain',
-        marginBottom: 5,
+        marginBottom: 10,
+        alignItems: 'center',
     },
     banner: {
         // marginTop: 2,
         width: '100%',
-        height: 220,
-        resizeMode: 'contain',
+        height: '100%',
+        resizeMode:'stretch',
         marginBottom: 5,
+        overflow:'hidden',
     },
     switchcontainer: {
         flexDirection: 'row',
@@ -551,8 +523,9 @@ const styles = StyleSheet.create({
         marginRight: 30,
         borderRadius: 5,
         marginBottom: 10,
-        height: 50,
-        width: 300,
+        marginTop:10,
+        height: 40,
+        width: '70%',
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,

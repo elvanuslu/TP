@@ -126,19 +126,7 @@ export default class SatisVePuanDetay extends Component {
                                 <Text>{this.state.data.bm_toplamtutar} TL</Text>
                             </Right>
                         </ListItem>
-                        <ListItem icon>
-                            <Left>
-                                <Button style={{ backgroundColor: "#fff", alignItems: 'center' }}>
-                                    <Image style={{ width: 22, resizeMode: 'contain', }} source={require('../../assets/tparalogo.png')} />
-                                </Button>
-                            </Left>
-                            <Body>
-                                <Text>T-Para:</Text>
-                            </Body>
-                            <Right>
-                                <Text>5TP</Text>
-                            </Right>
-                        </ListItem>
+                       
                         <ListItem icon>
                             <Left>
                                 <Button style={{ backgroundColor: "#fff" }}>
