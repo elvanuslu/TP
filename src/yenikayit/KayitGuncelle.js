@@ -112,7 +112,7 @@ export default class KayitGuncelle extends Component {
         // console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
         getContact(this.state.kullanici)
             .then((res) => {
-                // console.log('Kontakte: ' + JSON.stringify(res));
+                console.log('Kontakte: ' + JSON.stringify(res));
                 if (res.contactid !== undefined) {
                     this.setState({
                         Adi: res.firstname,
@@ -122,6 +122,12 @@ export default class KayitGuncelle extends Component {
                         Sifre: res.bm_sifre,
                         mobilKod: res.bm_mobilkod,
                         mobilgrupadi: res.bm_mobilgrupadi,
+                        Cinsiyet: res.gendercode,
+                        MedeniDurum: res.familystatuscode,
+                        chosenDate: res.birthdate,
+                        Adres: res.address1_line1,
+                        Sehir: res.bm_sehirid,
+                        Ilce: res.bm_ilceid,
                     });
                 }
             }).catch(error => console.log(error));
@@ -261,7 +267,11 @@ export default class KayitGuncelle extends Component {
                                     mask={"0 [000] [000] [00] [00]"} />
 
                             </Item>
-                            <Item regular style={[styles.Inputs, this.state.mobilKod !== undefined ? styles.Inputs : styles.hidden]}>
+
+                            <Text style={[styles.Inputs, this.state.mobilKod !== undefined ? styles.Inputs : styles.hidden]}>
+                                {this.state.mobilgrupadi}
+                            </Text>
+                            <Item regular style={[styles.Inputs, this.state.mobilKod === undefined ? styles.Inputs : styles.hidden]}>
                                 <Icon active name='md-alarm' color='#fff' />
                                 <Input placeholder='Mobil Kodunuz...'
                                     onChangeText={(value) => this.setState({ mobilKod: value })}

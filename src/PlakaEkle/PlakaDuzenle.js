@@ -15,7 +15,7 @@ const plaka = require("../../assets/plakaKirmizi.png");
 const pmpa = require("../../assets/pompaKirmizi.png");
 const araba = require("../../assets/araba.png");
 
-import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, MusteriKayit } from '../Service/FetchUser';
+import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, putMusteriAraci } from '../Service/FetchUser';
 
 
 export default class PlakaDuzenle extends Component {
@@ -237,8 +237,45 @@ export default class PlakaDuzenle extends Component {
             );
         }
     }
+    _putMusteriAraci = async () =>{
+        try {
+            this.setState({ loading: false })
+            const Id = await getStorage('userId');
+            putMusteriAraci(Id,this.state.plaka1,this.state.selected2,this.state.selected3,this.state.araba,this.state.cardSelected)
+            .then((ret)=>{
+                this.setState({ loading: false })
+                  let response = JSON.stringify(ret);
+                  if (ret.status === true) {
+                    Alert.alert(
+                        'Araç Düzenleme!',
+                        ret.message,
+                        [
+
+                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim") },
+                        ],
+                        { cancelable: true },
+                    );
+                    // console.log("response: " + JSON.stringify(responseData)) 
+                }
+                else {
+                    Alert.alert(
+                        'Araç Düzenleme!',
+                        ret.message,
+                        [
+
+                            { text: 'Tamam', onPress: () => console.log('False') },
+                        ],
+                        { cancelable: true },
+                    );
+                }
+            })
+        } catch (error) {
+            this.setState({ loading: false })
+            Alert.alert('Hata Oluştu!', error);
+        }
+    }
     _Duzenle = () => {
-        alert('Düzenle');
+        this._putMusteriAraci();
     }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />

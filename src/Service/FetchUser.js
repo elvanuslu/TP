@@ -193,12 +193,12 @@ export const getContact = (userId) => {
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
-export const getCitybyId = (Id)=>{
+export const getCitybyId = (Id) => {
   const URL = define_api_url + `GetCountyByCityId?cityId=${Id}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
-export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod,Adres,Dogum,Sehir,Ilce,MedeniDurum,Cinsiyet) => {
+export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod, Adres, Dogum, Sehir, Ilce, MedeniDurum, Cinsiyet) => {
   console.log('mobilkod' + mobilKod);
   console.log('Adres' + Adres);
   console.log('Dogum' + Dogum);
@@ -318,6 +318,39 @@ export const getCardById = (Id) => {
     console.log('getCardById= ' + error);
   }
 }
+export const putMusteriAraci = async (contactId, plaka, yakit1, yakit2, marka, kartId) => {
+  try {
+    console.log('contactId' + contactId)
+    console.log('plaka' + plaka)
+    console.log('yakit1' + yakit1)
+    console.log('yakit2' + yakit2)
+    console.log('marka' + marka)
+
+    const URL = define_api_url + `PutBm_MusteriAraci`;
+    return fetch(URL,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bm_aracmarkaid: marka,
+          bm_yakitcinsiid_1: yakit1,
+          bm_yakitcinsiid_2: yakit2,
+          bm_plaka: plaka,
+          bm_aracmodel: '',
+          bm_musterikartiid: kartId,
+          contactId: contactId,
+        }),
+      })
+      .then((res) => res.json())
+      .catch((error) => console.log('putMusteriArac: ' + error))
+
+  } catch (error) {
+    console.log('putMusteriArac: ' + error);
+  }
+}
 export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) => {
   console.log('contactId' + contactId)
   console.log('plaka' + plaka)
@@ -340,7 +373,7 @@ export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) =
           bm_yakitcinsiid_2: yakit2,
           bm_plaka: plaka,
           bm_aracmodel: '',
-         // bm_musterikartiid: kartId,
+          // bm_musterikartiid: kartId,
           contactId: contactId,
         }),
       })
