@@ -63,9 +63,9 @@ export default class KayitGuncelle extends Component {
         this._retrieveKullanici();
     }
     componentDidMount() {
-        this._retrieveKullanici();
         this._getCity();
         this._getCitybyId();
+        this._retrieveKullanici();
     }
     onSehir(value, label) {
 
@@ -124,7 +124,7 @@ export default class KayitGuncelle extends Component {
                         mobilgrupadi: res.bm_mobilgrupadi,
                         Cinsiyet: res.gendercode,
                         MedeniDurum: res.familystatuscode,
-                        chosenDate: res.birthdate,
+                        chosenDate: Date( res.birthdate),
                         Adres: res.address1_line1,
                         Sehir: res.bm_sehirid,
                         Ilce: res.bm_ilceid,
@@ -268,7 +268,7 @@ export default class KayitGuncelle extends Component {
 
                             </Item>
 
-                            <Text style={[styles.Inputs, this.state.mobilKod !== undefined ? styles.Inputs : styles.hidden]}>
+                            <Text style={[styles.Inputsleft, this.state.mobilKod !== undefined ? styles.Inputsleft : styles.hidden]}>
                                 {this.state.mobilgrupadi}
                             </Text>
                             <Item regular style={[styles.Inputs, this.state.mobilKod === undefined ? styles.Inputs : styles.hidden]}>
@@ -279,8 +279,6 @@ export default class KayitGuncelle extends Component {
                                     placeholderTextColor="#efefef"
                                     underlineColorAndroid="transparent" />
                             </Item>
-
-                            {console.log('this.state.mobilKod ' + this.state.mobilKod)}
 
                             <Item regular style={styles.Inputst}>
                                 <TextInput
@@ -358,6 +356,7 @@ export default class KayitGuncelle extends Component {
                                     <Picker.Item label="Evli" value="2" />
                                 </Picker>
                             </Item>
+                            {console.log('this.state.MedeniDurum ' + this.state.MedeniDurum)}
                             <Item picker style={styles.pickerInputs}>
                                 <Icon active name='person' color='#fff' />
                                 <Picker borderColor='black'
@@ -376,13 +375,16 @@ export default class KayitGuncelle extends Component {
                                     <Picker.Item label="Erkek" value="1" />
                                     <Picker.Item label="Kadın" value="2" />
                                 </Picker>
+                               
                             </Item>
 
-                            <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: 320, marginLeft: 40, marginBottom: 10 }}>
+                            <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: 320, marginLeft: 40, marginBottom: 10,borderLeftWidth:1,borderTopWidth:1,borderLeftWidth:1,borderRightWidth:1,borderRadius:5,borderColor:'black' }}>
+                            <Icon name="ios-calendar" style={{ color: '#fff' }} />
                                 <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
                                     defaultDate={new Date(2019, 5, 4)}
                                     minimumDate={new Date(1900, 1, 1)}
                                     maximumDate={new Date(2050, 12, 31)}
+                                    format="DD-MM-YYYY"
                                     locale={"tr"}
                                     timeZoneOffsetInMinutes={undefined}
                                     modalTransparent={false}
@@ -396,8 +398,9 @@ export default class KayitGuncelle extends Component {
 
                                 />
                                 <Text>
-                                    {this.state.chosenDate.toString().substr(4, 12)}
+                                  
                                 </Text>
+                               
                             </Item>
                             <Item regular style={styles.Inputs}>
                                 <Icon active name='key' underlayColor='#2089dc' color='#fff' />
@@ -460,6 +463,15 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     Inputs: {
+        marginLeft: 40,
+        marginRight: 40,
+        borderRadius: 5,
+        marginBottom: 10,
+        height: 50,
+        borderColor: 'black',
+    },
+    Inputsleft: {
+        alignSelf:'flex-start',
         marginLeft: 40,
         marginRight: 40,
         borderRadius: 5,
