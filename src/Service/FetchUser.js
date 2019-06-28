@@ -183,15 +183,29 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
 
 
 }
+export const getCityList = () => {
+  const URL = define_api_url + `GetCityList`;
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
+}
 export const getContact = (userId) => {
   const URL = define_api_url + `GetContactByContactId?ContactId=${userId}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
-
-export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod) => {
+export const getCitybyId = (Id)=>{
+  const URL = define_api_url + `GetCountyByCityId?cityId=${Id}`;
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
+}
+export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod,Adres,Dogum,Sehir,Ilce,MedeniDurum,Cinsiyet) => {
   console.log('mobilkod' + mobilKod);
-  //  const URL = `http://85.105.103.4:8096/PutContact`;
+  console.log('Adres' + Adres);
+  console.log('Dogum' + Dogum);
+  console.log('Sehir' + Sehir);
+  console.log('Ilce' + Ilce);
+  console.log('MedeniDurum' + MedeniDurum);
+  console.log('Cinsiyet' + Cinsiyet);
   const URL = define_api_url + `PutContact`;
   return fetch(URL,
     {
@@ -208,7 +222,13 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
         mobilePhone: MobilePhone,
         bm_sifre: BMsifre,
         bm_kvkizni: true,
-        bm_mobilkod: mobilKod
+        bm_mobilkod: mobilKod,
+        address1_line1: Adres,
+        birthdate: Dogum,
+        familystatuscode: MedeniDurum,
+        bm_sehirid: Sehir,
+        bm_ilceid: Ilce,
+        gendercode: Cinsiyet,
 
       }),
     })
@@ -298,13 +318,13 @@ export const getCardById = (Id) => {
     console.log('getCardById= ' + error);
   }
 }
-export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka, kartId) => {
-  console.log('contactId'+contactId)
-  console.log('plaka'+plaka)
-  console.log('yakit1'+yakit1)
-  console.log('yakit2'+yakit2)
-  console.log('marka'+marka)
-  console.log('kartId'+kartId)
+export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) => {
+  console.log('contactId' + contactId)
+  console.log('plaka' + plaka)
+  console.log('yakit1' + yakit1)
+  console.log('yakit2' + yakit2)
+  console.log('marka' + marka)
+
   try {
     const URL = define_api_url + `PostBm_MusteriArac`;
     return fetch(URL,
@@ -320,7 +340,7 @@ export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka, k
           bm_yakitcinsiid_2: yakit2,
           bm_plaka: plaka,
           bm_aracmodel: '',
-          bm_musterikartiid: kartId,
+         // bm_musterikartiid: kartId,
           contactId: contactId,
         }),
       })

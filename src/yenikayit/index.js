@@ -170,7 +170,7 @@ export default class yenikayit extends Component {
                                                     this.setState({ loading: false })
                                                     if (responseData.status == true) {
                                                         setStorage('kullaniciId', responseData.message);
-                                                        this.props.navigation.navigate("Kodec",{'Id':responseData.message});
+                                                        this.props.navigation.navigate("Kodec", { 'Id': responseData.message });
                                                         /*
                                                         Alert.alert(
                                                             'Kayıt İşlemi!',
@@ -378,8 +378,8 @@ export default class yenikayit extends Component {
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(formatted, extracted) => {
                                             this.setState({ tel: formatted })
-                                          //  console.log(formatted)
-                                          //  console.log(extracted)
+                                            //  console.log(formatted)
+                                            //  console.log(extracted)
                                         }}
                                         mask={"0 [000] [000] [00] [00]"}
                                     />
@@ -406,8 +406,8 @@ export default class yenikayit extends Component {
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(formatted, extracted) => {
                                             this.setState({ plaka: formatted })
-                                          //  console.log(formatted)
-                                          //  console.log(extracted)
+                                            //  console.log(formatted)
+                                            //  console.log(extracted)
                                         }}
                                     // mask={"[00] [AAa] [0000]"}
                                     />

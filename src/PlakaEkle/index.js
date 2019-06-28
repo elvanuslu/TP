@@ -200,7 +200,7 @@ export default class PlakaEkle extends Component {
             this.setState({ loading: true })
             if (this.state.plaka1 != undefined) {
 
-                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected)
+                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba,)
                     .then((responseData) => {
                         // let response = JSON.stringify(responseData);
                         // console.log('responseData=' + responseData.status)
@@ -263,7 +263,7 @@ export default class PlakaEkle extends Component {
     }
     componentDidMount = async () => {
         const Id = await getStorage('userId');
-        //  this.setState({ userId: Id })
+         this.setState({ userId: Id })
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();

@@ -1,13 +1,13 @@
 
 import React, { Component } from 'react';
-import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import { Picker, Icon, Form, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
+import { Alert, TextInput, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { DatePicker, Picker, Icon, Form, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon2 from "react-native-vector-icons";
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getContact, musteriGuncelle } from '../Service/FetchUser';
+import { getContact, musteriGuncelle, getCityList, getCitybyId } from '../Service/FetchUser';
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -38,17 +38,81 @@ export default class KayitGuncelle extends Component {
             mobilKod: undefined,
             mobilKodFormatted: '',
             mobilextracted: '',
+            Sehir: undefined,
+            Sehirler: [],
+            MedeniDurum: undefined,
+            mobilgrupadi: undefined,
+            Cinsiyet: undefined,
+            Adres: undefined,
+            Ilce: undefined,
+            IlceList: [],
+            chosenDate: new Date(),
         }
+        this.setDate = this.setDate.bind(this);
+    }
+    setDate(newDate) {
+        this.setState({ chosenDate: newDate });
+        console.log('Tarih= ' + this.state.chosenDate);
+        //  var date = new Date(newDate) //.toDateString("dd-MM-YYY");
+        // var formattedDate = new Date(date);
+        // var Yeni = formattedDate.getDay() + "." + formattedDate.getMonth() + "." + formattedDate.getYear();
+        // console.log('Tarih 2= ' + Yeni);
+
+    }
+    componentWillReceiveProps(nextProps) {
+        this._retrieveKullanici();
     }
     componentDidMount() {
         this._retrieveKullanici();
+        this._getCity();
+        this._getCitybyId();
+    }
+    onSehir(value, label) {
+
+        this.setState(
+            {
+                Sehir: value,
+                labelName: label
+            },
+            () => {
+                this._getCitybyId();
+                console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
+            }
+        )
+    }
+    onIlce(value, label) {
+
+        this.setState(
+            {
+                Ilce: value,
+                labelName: label
+            },
+            () => {
+                console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
+            }
+        )
+    }
+    _getCitybyId = () => {
+        try {
+            getCitybyId(this.state.Sehir)
+                .then((res) => {
+                    //   console.log('İlçe= '+ JSON.stringify(res));
+                    if (this.state.Sehir !== undefined) {
+                        this.setState({
+                            IlceList: res,
+                        })
+                    }
+                })
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
     }
     _getUserInfo(userID) {
 
-        console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
+        // console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
         getContact(this.state.kullanici)
             .then((res) => {
-                console.log('Kontakte: ' + res.contacid);
+                // console.log('Kontakte: ' + JSON.stringify(res));
                 if (res.contactid !== undefined) {
                     this.setState({
                         Adi: res.firstname,
@@ -57,9 +121,22 @@ export default class KayitGuncelle extends Component {
                         tel: res.mobilephone,
                         Sifre: res.bm_sifre,
                         mobilKod: res.bm_mobilkod,
+                        mobilgrupadi: res.bm_mobilgrupadi,
                     });
                 }
             }).catch(error => console.log(error));
+    }
+    _getCity = async () => {
+        try {
+            getCityList()
+                .then((res) => {
+                    this.setState({
+                        Sehirler: res,
+                    })
+                })
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
     }
     _retrieveKullanici = async () => {
         try {
@@ -86,13 +163,11 @@ export default class KayitGuncelle extends Component {
             }
         )
     }
-
-
     _btnKayit() {
         try {
             this.setState({ loading: true });
             //   alert('kayit'+this.state.kullanici)
-            musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre, this.state.mobilKod)
+            musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre, this.state.mobilKod, this.state.Adres, this.state.chosenDate, this.state.Sehir, this.state.Ilce, this.state.MedeniDurum, this.state.Cinsiyet)
                 .then((responseData) => {
                     Alert.alert(
                         'Düzenleme!',
@@ -183,32 +258,137 @@ export default class KayitGuncelle extends Component {
                                     onChangeText={(formatted, extracted) => {
                                         this.setState({ tel: formatted })
                                     }}
-                                    mask={"0 [000] [000] [00] [00]"}
-                                />
+                                    mask={"0 [000] [000] [00] [00]"} />
 
                             </Item>
-                            
-                                 <Item regular style={[styles.Inputs, this.state.mobilKod? styles.Inputs: styles.hidden]>
-                                    <Icon active name='md-alarm' color='#fff' />
-                                    <TextInputMask style={styles.Inputs1}
-                                        autoCapitalize="characters"
-                                        placeholder="Mobil Kod..."
-                                        placeholderTextColor="#efefef"
-                                        keyboardType="name-phone-pad"
-                                        //   onChangeText={(value) => this.setState({ plaka: value })}
-                                        value={this.state.plaka}
-                                        underlineColorAndroid="transparent"
+                            <Item regular style={[styles.Inputs, this.state.mobilKod !== undefined ? styles.Inputs : styles.hidden]}>
+                                <Icon active name='md-alarm' color='#fff' />
+                                <Input placeholder='Mobil Kodunuz...'
+                                    onChangeText={(value) => this.setState({ mobilKod: value })}
+                                    value={this.state.mobilKod}
+                                    placeholderTextColor="#efefef"
+                                    underlineColorAndroid="transparent" />
+                            </Item>
 
-                                        refInput={ref => { this.input = ref }}
-                                        onChangeText={(mobilKodFormatted, mobilextracted) => {
-                                            this.setState({ mobilKod: mobilKodFormatted })
-                                            //  console.log(mobilKodFormatted)
-                                            //  console.log(mobilextracted)
-                                        }}
-                                    //  mask={"[00000000]-[0000]-[0000]-[0000]-[000000000000]"}
-                                    />
-                                </Item>
-                      
+                            {console.log('this.state.mobilKod ' + this.state.mobilKod)}
+
+                            <Item regular style={styles.Inputst}>
+                                <TextInput
+                                    placeholder='Adresinizi Giriniz...'
+                                    style={{ height: 60, flex: 1, }}
+                                    multiline={true}
+                                    numberOfLines={4}
+                                    onChangeText={(text) => this.setState({ Adres: text })}
+                                    value={this.state.Adres}
+                                />
+                            </Item>
+
+                            <Item picker style={styles.pickerInputs}>
+                                <Icon active name='person' color='#fff' />
+                                <Picker borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="Şehirler..."
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.Sehir}
+                                    onValueChange={this.onSehir.bind(this)}>
+                                    {
+                                        this.state.Sehirler.map((item, key) => (
+                                            // console.log("Sehirler: " + item.bm_sehirid),
+                                            // console.log("Sehirler: " + item.bm_adi),
+                                            <Picker.Item
+                                                label={item.bm_adi}
+                                                value={item.bm_sehirid}
+                                                key={item.bm_sehirid} />)
+                                        )
+                                    }
+                                </Picker>
+                            </Item>
+                            <Item picker style={styles.pickerInputs}>
+                                <Icon active name='person' color='#fff' />
+                                <Picker borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="İlçe..."
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.Ilce}
+                                    onValueChange={this.onIlce.bind(this)}>
+                                    {
+                                        this.state.IlceList.map((item, key) => (
+                                            // console.log("Sehirler: " + item.bm_sehirid),
+                                            // console.log("Sehirler: " + item.bm_adi),
+                                            <Picker.Item
+                                                label={item.bm_adi}
+                                                value={item.bm_ilceid}
+                                                key={item.bm_ilceid} />)
+                                        )
+                                    }
+                                </Picker>
+                            </Item>
+                            <Item picker style={styles.pickerInputs}>
+                                <Icon active name='person' color='#fff' />
+                                <Picker borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="Medeni Durumunuz..."
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.MedeniDurum}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        this.setState({ MedeniDurum: itemValue })
+                                    }>
+
+                                    <Picker.Item label="Seçiniz" value="Sec" />
+                                    <Picker.Item label="Bekar" value="1" />
+                                    <Picker.Item label="Evli" value="2" />
+                                </Picker>
+                            </Item>
+                            <Item picker style={styles.pickerInputs}>
+                                <Icon active name='person' color='#fff' />
+                                <Picker borderColor='black'
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    style={{ width: undefined }}
+                                    placeholder="Cinsiyetiniz..."
+                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderIconColor="#007aff"
+                                    selectedValue={this.state.Cinsiyet}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        this.setState({ Cinsiyet: itemValue })
+                                    }>
+
+                                    <Picker.Item label="Seçiniz" value="Sec" />
+                                    <Picker.Item label="Erkek" value="1" />
+                                    <Picker.Item label="Kadın" value="2" />
+                                </Picker>
+                            </Item>
+
+                            <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: 320, marginLeft: 40, marginBottom: 10 }}>
+                                <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
+                                    defaultDate={new Date(2019, 5, 4)}
+                                    minimumDate={new Date(1900, 1, 1)}
+                                    maximumDate={new Date(2050, 12, 31)}
+                                    locale={"tr"}
+                                    timeZoneOffsetInMinutes={undefined}
+                                    modalTransparent={false}
+                                    animationType={"fade"}
+                                    androidMode={"spinner"}
+                                    placeHolderText="Doğum Tarihinizi Giriniz..."
+                                    textStyle={{ color: "green" }}
+                                    placeHolderTextStyle={{ color: "#d3d3d3" }}
+                                    onDateChange={this.setDate}
+                                    disabled={false}
+
+                                />
+                                <Text>
+                                    {this.state.chosenDate.toString().substr(4, 12)}
+                                </Text>
+                            </Item>
                             <Item regular style={styles.Inputs}>
                                 <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                                 <Input placeholder='Şifre '
@@ -231,7 +411,7 @@ export default class KayitGuncelle extends Component {
         );
     }
 }
-
+// Date: {this.state.chosenDate.toString().substr(4, 12)}
 
 const styles = StyleSheet.create({
     hidden: {
@@ -277,6 +457,28 @@ const styles = StyleSheet.create({
         height: 50,
         borderColor: 'black',
     },
+    Inputst: {
+        marginLeft: 40,
+        marginRight: 40,
+        borderRadius: 5,
+        marginBottom: 10,
+        height: 70,
+        borderColor: 'black',
+    },
+    pickerInputs: {
+        marginLeft: 40,
+        marginRight: 40,
+        borderRadius: 5,
+        marginBottom: 10,
+        height: 50,
+        borderColor: 'black',
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderWidth: 1,
+
+    },
+
     Inputs1: {
         alignSelf: 'center',
         height: 40,
@@ -296,7 +498,6 @@ const styles = StyleSheet.create({
     switcText: {
         textAlign: 'right',
         fontSize: 12,
-        fontWeight: '300',
         color: 'gray',
         marginRight: 5,
     },
