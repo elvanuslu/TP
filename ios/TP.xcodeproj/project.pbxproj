@@ -1554,7 +1554,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.elvanuslu.TP;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.elvanuslu.TP";
 				PRODUCT_NAME = TP;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1581,7 +1581,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.elvanuslu.TP;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.elvanuslu.TP";
 				PRODUCT_NAME = TP;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1617,7 +1617,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TP-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.elvanuslu.TP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1655,7 +1655,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TP-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.elvanuslu.TP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -1692,7 +1692,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TP-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.elvanuslu.TP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TP-tvOS.app/TP-tvOS";
@@ -1729,7 +1729,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TP-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.elvanuslu.TP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TP-tvOS.app/TP-tvOS";

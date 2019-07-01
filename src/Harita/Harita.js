@@ -293,8 +293,4 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginBottom: 5,
     },
-
-
-
-
 })

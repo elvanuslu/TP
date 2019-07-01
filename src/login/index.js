@@ -60,7 +60,7 @@ export default class login extends Component {
     const timeout = new Promise((resolve, reject) => {
       setTimeout(reject, 3000, 'Request timed out');
     });
-    const request = fetch('http://85.105.103.4');
+    const request = fetch('http://85.105.103.4:8096');
     return Promise
       .race([timeout, request])
       .then(response => '')
