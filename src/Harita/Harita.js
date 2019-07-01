@@ -180,14 +180,14 @@ export default class Harita extends Component {
                 </View>
                 <View>
                     <Footer>
-                        <FooterTab>
+                        <FooterTab style={{backgroundColor:'red',color:'#fff'}}>
                             <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
                                 <Icon active={this.state.tab1} name="map" />
-                                <Text>Harita</Text>
+                                <Text style={{color: 'white'}}>Harita</Text>
                             </Button>
                             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
                                 <Icon active={this.state.tab2} name="contact" />
-                                <Text>Liste</Text>
+                                <Text style={{color: 'white'}}>Liste</Text>
                             </Button>
                          
                         </FooterTab>

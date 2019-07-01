@@ -29,22 +29,22 @@ export default class EnYakinIstasyon extends Component {
     }
     toggleTab1() {
         this.setState({
-          tab1: true,
-          tab2: false,
-          tab3: false,
-          tab4: false
+            tab1: true,
+            tab2: false,
+            tab3: false,
+            tab4: false
         });
         this.props.navigation.navigate("Harita");
-      }
-      toggleTab2() {
+    }
+    toggleTab2() {
         this.setState({
-          tab1: false,
-          tab2: true,
-          tab3: false,
-          tab4: false
+            tab1: false,
+            tab2: true,
+            tab3: false,
+            tab4: false
         });
         this.props.navigation.navigate("EnYakinIstasyon")
-      }
+    }
     _getData() {
         getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
             this.setState({ listViewData: res });
@@ -88,7 +88,7 @@ export default class EnYakinIstasyon extends Component {
 
     }
     GetItem(item) {
-        console.log('item='+item);
+        console.log('item=' + item);
         this.props.navigation.navigate("Harita", { Id: item });
     }
     render() {
@@ -111,13 +111,13 @@ export default class EnYakinIstasyon extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container1} >
-                        <Image style={styles.logo} source={require('../../assets/tplogo.png')}
-                        />
-                        <Image style={{ width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
-                    </View>
+                    <Image style={styles.logo} source={require('../../assets/tplogo.png')}
+                    />
+                    <Image style={{ width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                </View>
                 <View style={styles.containerOrta}>
-                 
-                    <View style={{marginBottom:10,marginTop:-10}} >
+
+                    <View style={{ marginBottom: 10, marginTop: -10 }} >
                         <FlatList
                             data={this.state.listViewData}
                             renderItem={({ item }) =>
@@ -134,9 +134,9 @@ export default class EnYakinIstasyon extends Component {
                                                     <Text style={styles.txt2}>{item.Adres.trim()}</Text>
                                                 </View>
                                                 <View style={{ width: '100%', flexDirection: 'row', marginTop: -10, marginLeft: 30 }}>
-                                                    {item.yikama == true ? (<Image style={{ width: 50,height:50, resizeMode: 'contain', marginLeft: 2, marginRight: 5, marginTop: 0, }} source={tmis} />) : false}
-                                                    {item.yagdegisimi == true ? (<Image style={{ width: 30,height:30, resizeMode: 'contain', marginLeft: 5,  marginTop: 10, }} source={yagdegisim} />) : false}
-                                                    {item.bankamatik == true ? (<Image style={{ width: 30,height:30, resizeMode: 'contain', marginLeft: 5,  marginTop: 10, }} source={bankamatik} />) : false}
+                                                    {item.yikama == true ? (<Image style={{ width: 50, height: 50, resizeMode: 'contain', marginLeft: 2, marginRight: 5, marginTop: 0, }} source={tmis} />) : false}
+                                                    {item.yagdegisimi == true ? (<Image style={{ width: 30, height: 30, resizeMode: 'contain', marginLeft: 5, marginTop: 10, }} source={yagdegisim} />) : false}
+                                                    {item.bankamatik == true ? (<Image style={{ width: 30, height: 30, resizeMode: 'contain', marginLeft: 5, marginTop: 10, }} source={bankamatik} />) : false}
                                                 </View>
                                             </Body>
                                             <Right style={{ height: 80, width: 50 }}>
@@ -155,16 +155,16 @@ export default class EnYakinIstasyon extends Component {
                 </View>
                 <View>
                     <Footer>
-                        <FooterTab>
+                        <FooterTab style={{ backgroundColor: 'red',   }}>
                             <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
                                 <Icon active={this.state.tab1} name="map" />
-                                <Text>Harita</Text>
+                                <Text style={{color: 'white'}}>Harita</Text>
                             </Button>
                             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
                                 <Icon active={this.state.tab2} name="contact" />
-                                <Text>Liste</Text>
+                                <Text style={{color: 'white'}}>Liste</Text>
                             </Button>
-                         
+
                         </FooterTab>
                     </Footer>
 
