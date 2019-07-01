@@ -90,8 +90,8 @@ export default class KampanyaSec extends Component {
                             Alert.alert('Hata Oluştu!', res.message);
                             this.setState({ loading: false })
                         }
-                        else{
-                            Alert.alert('İşlem Başarılı',res.message+ ' Yakıt Alabilirsiniz...');
+                        else {
+                            Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
                         }
                     })
                     .catch(error => {
@@ -105,8 +105,8 @@ export default class KampanyaSec extends Component {
         }
     }
     _btnDevam = (item) => {
-        console.log('Devam Parametre= '+JSON.stringify(this.props.navigation.state.params));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,'birimFiyat':undefined });
+        console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item, 'birimFiyat': undefined });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
@@ -132,7 +132,7 @@ export default class KampanyaSec extends Component {
                 console.log('harcananPuan: ' + Secilen.harcananpuan)
                 console.log('harcananPuanTL: ' + Secilen.harcananpuantl)
         */
-       // this._kampanyaliSatisBaslat();
+        // this._kampanyaliSatisBaslat();
         this.props.navigation.navigate("OzetBilgi", {
             'Parametre': this.props.navigation.state.params, 'KampanyaId': item,
             'birimFiyat': Secilen.TavsiyeEdilenfiyati, 'indirimliFiyat': Secilen.indirimlifiyati, 'indirimOrani': Secilen.indirimorani,
@@ -153,7 +153,7 @@ export default class KampanyaSec extends Component {
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
         //  console.log('Istasyonum = ' + JSON.stringify(this.props));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params,'birimFiyat':undefined });
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyat': undefined });
         /*
                 this.props.navigation.navigate("OzetBilgi", {
                     'Istasyon': this.state.istasyonselectedId,
@@ -258,58 +258,62 @@ export default class KampanyaSec extends Component {
         this._campaignDetails(this.props);
     }
     onGetParams = () => {
-        const Istasyon = this.props.navigation.getParam('Istasyon', '');
-        const Plaka = this.props.navigation.getParam('Plaka', '');
-        const Yakit = this.props.navigation.getParam('Yakit', '');
-        const OdemeTipi = this.props.navigation.getParam('OdemeTipi', '');
-        const PompaNo = this.props.navigation.getParam('PompaNo', '');
-        const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
-        const Tutar = this.props.navigation.getParam('Tutar', '');
-        var degisiklik = false;
-        console.log('Station = ' + Istasyon + ' => ' + this.state.Istasyonold);
-        if (Istasyon != this.state.Istasyonold) {
-            degisiklik = true;
-            this.setState({ Istasyonold: Istasyon })
+        try {
+            const Istasyon = this.props.navigation.getParam('Istasyon', '');
+            const Plaka = this.props.navigation.getParam('Plaka', '');
+            const Yakit = this.props.navigation.getParam('Yakit', '');
+            const OdemeTipi = this.props.navigation.getParam('OdemeTipi', '');
+            const PompaNo = this.props.navigation.getParam('PompaNo', '');
+            const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
+            const Tutar = this.props.navigation.getParam('Tutar', '');
+            var degisiklik = false;
+            console.log('Station = ' + Istasyon + ' => ' + this.state.Istasyonold);
+            if (Istasyon != this.state.Istasyonold) {
+                degisiklik = true;
+                this.setState({ Istasyonold: Istasyon })
+            }
+
+            if (Plaka != this.state.Plaka) {
+                degisiklik = true;
+                this.setState({ Plakaold: Plaka })
+            }
+
+            if (Yakit != this.state.Yakitold) {
+                degisiklik = true;
+                this.setState({ Yakitold: Yakit })
+            }
+
+            if (OdemeTipi != this.state.Odemeold) {
+                degisiklik = true;
+                this.setState({ Odemeold: PompaNo })
+            }
+
+            if (PompaNo != this.state.PompaNoold) {
+                degisiklik = true
+                this.setState({ PompaNoold: PompaNo })
+            }
+
+            if (KuponKodu != this.state.KuponKoduold) {
+                degisiklik = true;
+                this.setState({ KuponKoduold: KuponKodu })
+            }
+
+            if (Tutar != this.state.Tutarold) {
+                degisiklik = true;
+                this.setState({ Tutarold: Tutar })
+            }
+
+            console.log('degisiklik: ' + degisiklik);
+            if (degisiklik === true) {
+                this._campaignDetails();
+                degisiklik = false;
+            }
+            else alert('değiklikdurum ' + degisiklik);
+
+
+        } catch (error) {
+            Alert.alert('Hata', error);
         }
-
-        if (Plaka != this.state.Plaka) {
-            degisiklik = true;
-            this.setState({ Plakaold: Plaka })
-        }
-
-        if (Yakit != this.state.Yakitold) {
-            degisiklik = true;
-            this.setState({ Yakitold: Yakit })
-        }
-
-        if (OdemeTipi != this.state.Odemeold) {
-            degisiklik = true;
-            this.setState({ Odemeold: PompaNo })
-        }
-
-        if (PompaNo != this.state.PompaNoold) {
-            degisiklik = true
-            this.setState({ PompaNoold: PompaNo })
-        }
-
-        if (KuponKodu != this.state.KuponKoduold) {
-            degisiklik = true;
-            this.setState({ KuponKoduold: KuponKodu })
-        }
-
-        if (Tutar != this.state.Tutarold) {
-            degisiklik = true;
-            this.setState({ Tutarold: Tutar })
-        }
-
-        console.log('degisiklik: ' + degisiklik);
-        if (degisiklik === true) {
-            this._campaignDetails();
-            degisiklik = false;
-        }
-        else alert('değiklikdurum ' + degisiklik);
-
-
     }
 
     render() {
@@ -353,8 +357,8 @@ export default class KampanyaSec extends Component {
                                     </Body>
                                 </CardItem>
                                 <CardItem item >
-                               { console.log('Kapmya Id= '+ item.bm_kampanyaId)}
-                                <View style={styles.containerKapmayali}>
+                                    {console.log('Kapmya Id= ' + item.bm_kampanyaId)}
+                                    <View style={styles.containerKapmayali}>
                                         <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                             <Left>
                                                 <Text style={styles.txtFiyatlar}>Birim Fiyat: {item.TavsiyeEdilenfiyati} TL</Text>
@@ -406,7 +410,7 @@ export default class KampanyaSec extends Component {
                                         </View>
                                     </View>
                                 </CardItem>
-                             
+
                             </Card>
 
                         }

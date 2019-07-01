@@ -200,7 +200,7 @@ export default class PlakaEkle extends Component {
             this.setState({ loading: true })
             if (this.state.plaka1 != undefined) {
 
-                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba,)
+                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba)
                     .then((responseData) => {
                         // let response = JSON.stringify(responseData);
                         // console.log('responseData=' + responseData.status)
@@ -263,7 +263,7 @@ export default class PlakaEkle extends Component {
     }
     componentDidMount = async () => {
         const Id = await getStorage('userId');
-         this.setState({ userId: Id })
+        this.setState({ userId: Id })
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
@@ -301,106 +301,106 @@ export default class PlakaEkle extends Component {
                         <Image style={{ marginBottom: 5, marginLeft: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-               
+
                 <View style={styles.containerBottom}>
-                    <View style={{  alignItems: 'center', justifyContent: 'center',flexDirection:'column' }}>
-                    <Item picker style={styles.Inputs2}>
-                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
-                                <Picker style={styles.Inputs2} borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Araç Marka/model..."
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.araba}
-                                    onValueChange={this.onArabaValueChange.bind(this)}>
-                                    {
-                                        this.state.markalar.map((item, key) => (
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_aracmarkasiid}
-                                                key={item.bm_aracmarkasiid}
-                                            />
-                                        ))
-                                    }
-                                </Picker>
-                            </Item>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                        <Item picker style={styles.Inputs2}>
+                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
+                            <Picker style={styles.Inputs2} borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Araç Marka/model..."
+                                placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.araba}
+                                onValueChange={this.onArabaValueChange.bind(this)}>
+                                {
+                                    this.state.markalar.map((item, key) => (
+                                        <Picker.Item
+                                            label={item.bm_adi}
+                                            value={item.bm_aracmarkasiid}
+                                            key={item.bm_aracmarkasiid}
+                                        />
+                                    ))
+                                }
+                            </Picker>
+                        </Item>
 
-                       
+
                         <Item regular style={styles.Inputs2}>
-                                <Image style={{ width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
-                                <TextInputMask style={styles.Inputs1}
-                                    autoCapitalize="characters"
-                                    placeholder="Plaka Giriniz..."
-                                    placeholderTextColor="#efefef"
-                                    keyboardType="name-phone-pad"
-                                    refInput={ref => { this.input = ref }}
-                                    onChangeText={(formatted, extracted) => {
-                                        this.setState({ plaka1: formatted })
-                                        // console.log(formatted)
-                                        // console.log(extracted)
-                                    }}
-                                   // mask={"[00] [AAa] [0000]"}
+                            <Image style={{ width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
+                            <TextInputMask style={styles.Inputs1}
+                                autoCapitalize="characters"
+                                placeholder="Plaka Giriniz..."
+                                placeholderTextColor="#efefef"
+                                keyboardType="name-phone-pad"
+                                refInput={ref => { this.input = ref }}
+                                onChangeText={(formatted, extracted) => {
+                                    this.setState({ plaka1: formatted })
+                                    // console.log(formatted)
+                                    // console.log(extracted)
+                                }}
+                            // mask={"[00] [AAa] [0000]"}
+                            />
+
+                        </Item>
+                        <Item picker style={styles.Inputs2}>
+                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+
+                            <Picker borderWidt='1' borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Yakıt Tipi"
+                                placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.selected2}
+                                onValueChange={this.onValueChange2.bind(this)}>
+                                {
+                                    this.state.yakitlst.map((item, key) => (
+                                        //  console.log("ttip: " + item.bm_yakittipiadi),
+                                        //  console.log("ttip: " + item.bm_yakittipiid),
+                                        <Picker.Item
+                                            label={item.bm_yakittipiadi}
+                                            value={item.bm_yakittipiid}
+                                            key={item.bm_yakittipiid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+                        <Item picker style={styles.Inputs2}>
+                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+
+                            <Picker borderWidt='1' borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Yakıt Tipi"
+                                placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.selected3}
+                                onValueChange={this.onValueChange3.bind(this)}>
+                                {
+                                    this.state.yakitlst.map((item, key) => (
+                                        //  console.log("ttip: " + item.bm_yakittipiadi),
+                                        //  console.log("ttip: " + item.bm_yakittipiid),
+                                        <Picker.Item
+                                            label={item.bm_yakittipiadi}
+                                            value={item.bm_yakittipiid}
+                                            key={item.bm_yakittipiid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+                        <View>
+                            <TouchableOpacity onPress={() => this._Kaydet()}>
+                                <Image
+                                    style={styles.button}
+                                    source={require('../../assets/plakaekle.png')}
                                 />
-
-                            </Item>
-                            <Item picker style={styles.Inputs2}>
-                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-
-                                <Picker borderWidt='1' borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.selected2}
-                                    onValueChange={this.onValueChange2.bind(this)}>
-                                    {
-                                        this.state.yakitlst.map((item, key) => (
-                                            //  console.log("ttip: " + item.bm_yakittipiadi),
-                                            //  console.log("ttip: " + item.bm_yakittipiid),
-                                            <Picker.Item
-                                                label={item.bm_yakittipiadi}
-                                                value={item.bm_yakittipiid}
-                                                key={item.bm_yakittipiid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item picker style={styles.Inputs2}>
-                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-
-                                <Picker borderWidt='1' borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.selected3}
-                                    onValueChange={this.onValueChange3.bind(this)}>
-                                    {
-                                        this.state.yakitlst.map((item, key) => (
-                                            //  console.log("ttip: " + item.bm_yakittipiadi),
-                                            //  console.log("ttip: " + item.bm_yakittipiid),
-                                            <Picker.Item
-                                                label={item.bm_yakittipiadi}
-                                                value={item.bm_yakittipiid}
-                                                key={item.bm_yakittipiid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <View>
-                                <TouchableOpacity onPress={() => this._Kaydet()}>
-                                    <Image
-                                        style={styles.button}
-                                        source={require('../../assets/plakaekle.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
+                            </TouchableOpacity>
+                        </View>
 
                     </View>
                 </View>
@@ -444,7 +444,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
         borderRadius: 5,
-       // marginBottom: 5,
+        // marginBottom: 5,
         marginTop: 5,
         width: 100,
         //color:'black',
@@ -462,9 +462,9 @@ const styles = StyleSheet.create({
         // marginTop: 2,
         width: '100%',
         height: '100%',
-        resizeMode:'stretch',
+        resizeMode: 'stretch',
         marginBottom: 5,
-        overflow:'hidden',
+        overflow: 'hidden',
     },
     switchcontainer: {
         flexDirection: 'row',
@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
         marginRight: 30,
         borderRadius: 5,
         marginBottom: 10,
-        marginTop:10,
+        marginTop: 10,
         height: 40,
         width: '70%',
         borderTopWidth: 1,

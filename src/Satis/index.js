@@ -19,7 +19,7 @@ export default class Satis extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+
             kullanici: '',
             selected2: undefined,
             yakitTipi: undefined,
@@ -77,7 +77,7 @@ export default class Satis extends Component {
                                         'KuponKodu': this.state.KuponKodu,
                                         'Tutar': 0,
                                     });
-                                  
+
                                 }
                                 else {
                                     if (this.state.Tutar != undefined) { // Tutar 
@@ -95,7 +95,7 @@ export default class Satis extends Component {
                                             'Tutar': this.state.Tutar,
 
                                         });
-                                    
+
                                         /*
                                         campaignDetailList(this.state.istasyonselectedId, this.state.selected2, this.state.OdemeTipi, this.state.Tutar, Id, '', this.state.KuponKodu, 0, this.state.PlakaSelectId)
                                             .then((res) => {
@@ -176,7 +176,7 @@ export default class Satis extends Component {
     }
     onChecked = () => {
         this.setState({ fulle: this.state.fulle == true ? false : true })
-      //  console.log('fulle ' + this.state.fulle);
+        //  console.log('fulle ' + this.state.fulle);
     }
     onPlaka(value, label) {
         this.setState({
@@ -185,7 +185,7 @@ export default class Satis extends Component {
             PlakaName: this.state.Plaka.find(p => p.bm_musteriaraciid === value).bm_plaka,
         },
             () => {
-         //       console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
+                //       console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
             })
     }
     onIstasyonId(val: string) {
@@ -202,7 +202,7 @@ export default class Satis extends Component {
             },
             () => {
 
-               // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
+                // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
 
             }
         )
@@ -221,7 +221,7 @@ export default class Satis extends Component {
                 YakitAdi: this.state.yakitTipleri.find(p => p.bm_yakittipiid === value).bm_yakittipiadi,
             },
             () => {
-              //  console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
+                //  console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
             }
         )
     }
@@ -233,7 +233,7 @@ export default class Satis extends Component {
                 OdemeAdi: this.state.OdemeTipleri.find(p => p.Value === value).Name,
             },
             () => {
-               // console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
+                // console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
             }
         )
     }
@@ -281,11 +281,12 @@ export default class Satis extends Component {
                     alert(e);
                 })
         } catch (error) {
-            alert('Genel Hata' + error);
+            Alert.alert('Hata', error);
         }
     }
     _getYakitTipleri() {
-        getYakitTipi()
+        try {
+            getYakitTipi()
             .then((res) => {
                 this.setState({
                     yakitTipleri: res,
@@ -296,6 +297,9 @@ export default class Satis extends Component {
             .catch(e => {
                 console.log("hata: " + e);
             });
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
     }
     _retrieveKullanici = async () => {
         try {
@@ -306,7 +310,7 @@ export default class Satis extends Component {
 
             }
         } catch (error) {
-            // Error retrieving data
+            Alert.alert('Hata', error);
         }
     };
     _getLocation = async () => {
@@ -325,14 +329,18 @@ export default class Satis extends Component {
                 { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
             );
         } catch (error) {
-
+            Alert.alert('Hata', error);
         }
     }
     _getLatLon = async () => {
-        await getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
-            this.setState({ datas: res });
-            //   console.log('res= ' + JSON.stringify(this.state.datas));
-        })
+        try {
+            await getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
+                this.setState({ datas: res });
+                //   console.log('res= ' + JSON.stringify(this.state.datas));
+            })
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
     }
 
 
@@ -682,7 +690,7 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         borderWidth: 1,
         borderRadius: 5,
-        height:40,
+        height: 40,
     },
     spinnerTextStyle: {
         color: '#FFF'

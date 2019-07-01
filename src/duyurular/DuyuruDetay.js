@@ -45,7 +45,8 @@ export default class DuyuruDetay extends Component {
     }
 
     _getDuyuruListesi = async () => {
-        const uId = await getStorage('userId');
+      try {
+        const uId = await getStorage('userId'); 
         //   console.log('mount'+uId)
         getDuyuruListByUser(uId)
             .then((res) => {
@@ -53,6 +54,9 @@ export default class DuyuruDetay extends Component {
                 // console.log(JSON.stringify(res));
             })
             .catch((error) => alert(error))
+      } catch (error) {
+        Alert.alert('Hata Oluştu',error);  
+      } 
     }
     render() {
         const animating = this.state.loading

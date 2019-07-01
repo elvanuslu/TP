@@ -42,18 +42,22 @@ export default class Duyurular extends Component {
         }
     }
     componentDidMount() {
-        console.log('mount')
+       // console.log('mount')
         this._getDuyuruListesi();
     }
     _getDuyuruListesi= async ()=> {
+      try {
         const uId = await getStorage('userId');
-     //   console.log('mount'+uId)
-        getDuyuruListByUser(uId )
-            .then((res) => {
-                this.setState({ data: res, loading: false });
-                //console.log(JSON.stringify(res));
-            })
-            .catch((error) => alert(error))
+        //   console.log('mount'+uId)
+           getDuyuruListByUser(uId )
+               .then((res) => {
+                   this.setState({ data: res, loading: false });
+                   //console.log(JSON.stringify(res));
+               })
+               .catch((error) => alert(error))
+      } catch (error) {
+        Alert.alert('Hata', error);
+      }
     }
     onPressAndGo(Id,url,aciklama,aciklama2) {
         /*console.log('duyuru Id='+Id);

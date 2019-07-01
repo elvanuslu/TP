@@ -40,64 +40,72 @@ export default class Harita extends Component {
             tab2: false,
             tab3: true,
             tab4: false
-      
+
         }
-      
+
     }
     toggleTab1() {
         this.setState({
-          tab1: true,
-          tab2: false,
-          tab3: false,
-          tab4: false
+            tab1: true,
+            tab2: false,
+            tab3: false,
+            tab4: false
         });
-      }
-      toggleTab2() {
+    }
+    toggleTab2() {
         this.setState({
-          tab1: false,
-          tab2: true,
-          tab3: false,
-          tab4: false
+            tab1: false,
+            tab2: true,
+            tab3: false,
+            tab4: false
         });
         this.props.navigation.navigate("EnYakinIstasyon")
-      }
-      toggleTab3() {
+    }
+    toggleTab3() {
         this.setState({
-          tab1: false,
-          tab2: false,
-          tab3: true,
-          tab4: false
-        });
-      }
-      toggleTab4() {
-        this.setState({
-          tab1: false,
-          tab2: false,
-          tab3: false,
-          tab4: true
+            tab1: false,
+            tab2: false,
+            tab3: true,
+            tab4: false
         });
     }
-    
+    toggleTab4() {
+        this.setState({
+            tab1: false,
+            tab2: false,
+            tab3: false,
+            tab4: true
+        });
+    }
+
     _getData() {
-        getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
-            this.setState({ datas: res });
-            console.log('Konumlar= ' + JSON.stringify(this.state.datas));
-        })
+        try {
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
+                this.setState({ datas: res });
+                console.log('Konumlar= ' + JSON.stringify(this.state.datas));
+            })
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
     }
     componentWillReceiveProps(nextProps) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    error: null,
-                });
-                this._getData();
-                //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-            },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
+        try {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        error: null,
+                    });
+                    this._getData();
+                    //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                },
+                (error) => this.setState({ error: error.message }),
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            );
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
     }
     componentDidMount() {
         navigator.geolocation.getCurrentPosition(
@@ -180,16 +188,16 @@ export default class Harita extends Component {
                 </View>
                 <View>
                     <Footer>
-                        <FooterTab style={{backgroundColor:'red',color:'#fff'}}>
+                        <FooterTab style={{ backgroundColor: 'red', color: '#fff' }}>
                             <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
                                 <Icon active={this.state.tab1} name="map" />
-                                <Text style={{color: 'white'}}>Harita</Text>
+                                <Text style={{ color: 'white' }}>Harita</Text>
                             </Button>
                             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
                                 <Icon active={this.state.tab2} name="contact" />
-                                <Text style={{color: 'white'}}>Liste</Text>
+                                <Text style={{ color: 'white' }}>Liste</Text>
                             </Button>
-                         
+
                         </FooterTab>
                     </Footer>
 

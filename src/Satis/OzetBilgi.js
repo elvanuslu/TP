@@ -189,6 +189,7 @@ export default class OzetBilgi extends Component {
         this.onGetParams();
     }
     onGetParams = () => {
+       try {
         var Id = this.props.navigation.getParam('KampanyaId', '');
         console.log('Kapmapnya ID=' + Id + ' this.props.navigation.state.params.KampanyaId= ' + this.props.navigation.state.params.KampanyaId);
         // console.log('Name ' + this.props.navigation.state.params.Parametre.IstasyonAdi)
@@ -245,23 +246,11 @@ export default class OzetBilgi extends Component {
 
             })
         }
-        console.log('Paramsiz= ' + JSON.stringify(this.props.navigation.state.TavsiyeEdilenfiyati));
-        //  console.log('Name ' + this.state.Tutar)
-        //   }
-        /*
-        else if(Id===''){
-            this.setState({
-                Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
-                Plaka: this.props.navigation.state.params.Parametre.PlakaName,
-                Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
-                OdemeTipi: this.props.navigation.state.params.Parametre.OdemeAdi,
-                PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
-                KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
-                Tutar: this.props.navigation.state.params.Parametre.Tutar
-            })
-            console.log('Paramsiz= ' + JSON.stringify(this.props.navigation.state.params));
-        }
-    */
+      //  console.log('Paramsiz= ' + JSON.stringify(this.props.navigation.state.TavsiyeEdilenfiyati));
+
+       } catch (error) {
+        Alert.alert('Hata', error);
+       }
     }
     render() {
         //this.onGetParams();

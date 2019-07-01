@@ -45,11 +45,15 @@ export default class kampanya extends Component {
         this._getKampanyaListesi();
     }
     _getKampanyaListesi() {
-        getKampanyaListesi()
-            .then((res) => {
-                this.setState({ datam: res, loading: false });
-                //   console.log(res);
-            });
+        try {
+            getKampanyaListesi()
+                .then((res) => {
+                    this.setState({ datam: res, loading: false });
+                    //   console.log(res);
+                });
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
     }
     GetItem(item) {
         // Alert.alert(item);
@@ -97,7 +101,7 @@ export default class kampanya extends Component {
                                     </Body>
                                 </CardItem>
                                 <CardItem footer>
-                                    <Text style={styles.txtYazi}>{item.bm_aciklama.slice(0,140)}...</Text>
+                                    <Text style={styles.txtYazi}>{item.bm_aciklama.slice(0, 140)}...</Text>
                                 </CardItem>
                             </Card>
                         }

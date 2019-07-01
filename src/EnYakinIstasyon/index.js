@@ -46,10 +46,14 @@ export default class EnYakinIstasyon extends Component {
         this.props.navigation.navigate("EnYakinIstasyon")
     }
     _getData() {
+       try {
         getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
             this.setState({ listViewData: res });
             console.log('res= ' + JSON.stringify(this.state.listViewData));
         })
+       } catch (error) {
+        Alert.alert('Hata', error);
+       }
     }
     /*
     componentDidMount() {

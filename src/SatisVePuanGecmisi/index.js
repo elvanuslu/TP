@@ -100,7 +100,7 @@ export default class SatisVePuanGecmisi extends Component {
         newData.splice(rowId, 1);
         this.setState({ listViewData: newData });
     }
-    //Burda Kaldık....
+   
     onPressAndGo(Id) {
        // console.log(Id);
        // setStorage('pompaId', Id);

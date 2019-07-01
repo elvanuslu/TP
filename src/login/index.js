@@ -70,52 +70,56 @@ export default class login extends Component {
       });
   }
   handleSubmit() {
-    this.setState({ loading: true })
-    this.isAvailable();
-    getUserInfo(this.state.UserName, this.state.Pass)
-      .then((res) => {
-        this.setState({ userId: res.contactid, loading: false });
-        //      console.log("stateUserId=>" + this.state.userId);
-        if (res.contactid === undefined) {
+    try {
+      this.setState({ loading: true })
+      this.isAvailable();
+      getUserInfo(this.state.UserName, this.state.Pass)
+        .then((res) => {
+          this.setState({ userId: res.contactid, loading: false });
+          //      console.log("stateUserId=>" + this.state.userId);
+          if (res.contactid === undefined) {
 
-          /*    Toast.show({
-                text: "Hata\n" + res,
-                buttonText: "Okay",
-                type: 'danger'
-              })
-            */
-          Alert.alert(
-            'Hata!',
-            res,
-            [
+            /*    Toast.show({
+                  text: "Hata\n" + res,
+                  buttonText: "Okay",
+                  type: 'danger'
+                })
+              */
+            Alert.alert(
+              'Hata!',
+              res,
+              [
 
-              { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-            ],
-            { cancelable: true },
-          );
-          this.setState({
-            error: 'User not found',
-          });
-        }
-        else {
-          // console.log("Kayıt else=>" + res);
-          this.setState({ userId: res.contactid });
-          this._storeData();
-          /*   Toast.show({
-               text: "Giriş Başarılı!\n",
-               buttonText: "Okay",
-               type: 'success',
-             })
-             */
-          this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
-          console.log('Push');
-          this.setState({
-            error: false,
-            username: ''
-          })
-        }
-      }).catch(error => this.setState({ error, isLoading: false }));
+                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+              ],
+              { cancelable: true },
+            );
+            this.setState({
+              error: 'User not found',
+            });
+          }
+          else {
+            // console.log("Kayıt else=>" + res);
+            this.setState({ userId: res.contactid });
+            this._storeData();
+            /*   Toast.show({
+                 text: "Giriş Başarılı!\n",
+                 buttonText: "Okay",
+                 type: 'success',
+               })
+               */
+            this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
+            console.log('Push');
+            this.setState({
+              error: false,
+              username: ''
+            })
+          }
+        }).catch(error => this.setState({ error, isLoading: false }));
 
+    } catch (error) {
+      Alert.alert('Hata', error);
+    }
   }
   toggleSwitch1 = (value) => {
     this.setState({ switch1Value: value })
