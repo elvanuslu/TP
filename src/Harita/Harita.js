@@ -36,15 +36,55 @@ export default class Harita extends Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
             datas: [],
+            tab1: false,
+            tab2: false,
+            tab3: true,
+            tab4: false
+      
         }
+      
     }
+    toggleTab1() {
+        this.setState({
+          tab1: true,
+          tab2: false,
+          tab3: false,
+          tab4: false
+        });
+      }
+      toggleTab2() {
+        this.setState({
+          tab1: false,
+          tab2: true,
+          tab3: false,
+          tab4: false
+        });
+        this.props.navigation.navigate("EnYakinIstasyon")
+      }
+      toggleTab3() {
+        this.setState({
+          tab1: false,
+          tab2: false,
+          tab3: true,
+          tab4: false
+        });
+      }
+      toggleTab4() {
+        this.setState({
+          tab1: false,
+          tab2: false,
+          tab3: false,
+          tab4: true
+        });
+    }
+    
     _getData() {
         getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
             this.setState({ datas: res });
             console.log('Konumlar= ' + JSON.stringify(this.state.datas));
         })
     }
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
@@ -53,7 +93,7 @@ export default class Harita extends Component {
                     error: null,
                 });
                 this._getData();
-           //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
             },
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -68,7 +108,7 @@ export default class Harita extends Component {
                     error: null,
                 });
                 this._getData();
-           //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
             },
             (error) => this.setState({ error: error.message }),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -106,7 +146,7 @@ export default class Harita extends Component {
                             longitude: this.state.longitude, //29.045486,
                             latitudeDelta: 0.0922,
                             longitudeDelta: 0.0421,
-                            
+
                         }}>
                         <MapView.Marker coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
                             Image={{ pin }}
@@ -130,7 +170,7 @@ export default class Harita extends Component {
                                             flexDirection: 'column'
                                         }} >
                                         <ImageBackground source={logoFull} style={{ width: 85, height: 88, resizeMode: 'contain' }}>
-                                                <Text style={styles.txtHeader}>{data.name.trim()}</Text>
+                                            <Text style={styles.txtHeader}>{data.name.trim()}</Text>
                                         </ImageBackground>
                                     </View>
                                 </View>
@@ -138,7 +178,22 @@ export default class Harita extends Component {
                         ))}
                     </MapView>
                 </View>
+                <View>
+                    <Footer>
+                        <FooterTab>
+                            <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
+                                <Icon active={this.state.tab1} name="map" />
+                                <Text>Harita</Text>
+                            </Button>
+                            <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
+                                <Icon active={this.state.tab2} name="contact" />
+                                <Text>Liste</Text>
+                            </Button>
+                         
+                        </FooterTab>
+                    </Footer>
 
+                </View>
             </Container>
         );
     }
@@ -181,8 +236,8 @@ navigator.geolocation.getCurrentPosition(
 
 const styles = StyleSheet.create({
     txtHeader: {
-       // marginLeft: 5,
-      // textAlign:'left',
+        // marginLeft: 5,
+        // textAlign:'left',
         marginTop: 10,
         fontFamily: 'Myriadpro-Bold',
         fontSize: 8,
@@ -195,7 +250,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Myriadpro-Regular',
         fontSize: 8,
         color: '#fff',
-       // alignSelf: 'center',
+        // alignSelf: 'center',
     },
     map: {
         flex: 6,

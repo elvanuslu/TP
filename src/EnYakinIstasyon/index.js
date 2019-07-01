@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import {
+    Footer,
+    FooterTab,
     List,
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
 } from 'native-base';
@@ -21,8 +23,28 @@ export default class EnYakinIstasyon extends Component {
         this.state = {
             userName: '',
             listViewData: [],
+            tab1: false,
+            tab2: false,
         }
     }
+    toggleTab1() {
+        this.setState({
+          tab1: true,
+          tab2: false,
+          tab3: false,
+          tab4: false
+        });
+        this.props.navigation.navigate("Harita");
+      }
+      toggleTab2() {
+        this.setState({
+          tab1: false,
+          tab2: true,
+          tab3: false,
+          tab4: false
+        });
+        this.props.navigation.navigate("EnYakinIstasyon")
+      }
     _getData() {
         getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
             this.setState({ listViewData: res });
@@ -130,6 +152,22 @@ export default class EnYakinIstasyon extends Component {
                             keyExtractor={(item, index) => index.toString()}
                         />
                     </View>
+                </View>
+                <View>
+                    <Footer>
+                        <FooterTab>
+                            <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
+                                <Icon active={this.state.tab1} name="map" />
+                                <Text>Harita</Text>
+                            </Button>
+                            <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
+                                <Icon active={this.state.tab2} name="contact" />
+                                <Text>Liste</Text>
+                            </Button>
+                         
+                        </FooterTab>
+                    </Footer>
+
                 </View>
             </Container>
         );
