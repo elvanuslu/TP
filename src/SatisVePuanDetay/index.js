@@ -27,18 +27,22 @@ export default class SatisVePuanDetay extends Component {
 
     _getSatisPuanDetay = async (pompaId) => {
         try {
+            this.setState({ loading: true })
             const uId = await getStorage('userId');
             // const pompaId = await getStorage('pompaId');
             
             getSatisPuanDetay(pompaId)
                 .then((res) => {
                     //console.log('res= '+JSON.stringify(res))
-                    this.setState({ data: res })
+                    this.setState({ data: res,loading:false })
                     console.log('Data=' + JSON.stringify(this.state.data));
                 })
                 .catch((error) => alert(error))
         } catch (error) {
             alert('Hata Oluştu ' + error)
+        }
+        finally{
+            this.setState({ loading: false })
         }
     }
 

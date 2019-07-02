@@ -9,29 +9,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
-const datas = [
-    {
-        Id: 1,
-        img: k2,
-        text: "Kumar Pratik",
-        note: "Its time to build a difference . .",
-        time: "3:43 pm"
-    },
-    {
-        Id: 2,
-        img: k1,
-        text: "Kumar Sanket",
-        note: "One needs courage to be happy and smiling all time . . ",
-        time: "1:12 pm"
-    },
-    {
-        Id: 3,
-        img: k3,
-        text: "Kumar Sanket",
-        note: "One needs courage to be happy and smiling all time . . ",
-        time: "1:12 pm"
-    },
-];
+
 export default class kampanya extends Component {
     constructor() {
         super();
@@ -41,11 +19,26 @@ export default class kampanya extends Component {
             loading: true
         }
     }
+    isAvailable() {
+        const timeout = new Promise((resolve, reject) => {
+          setTimeout(reject, 5000, 'Zaman aşımı');
+        });
+        const request = fetch('http://85.105.103.4:8096');
+        return Promise
+          .race([timeout, request])
+          .then(response => '')
+          .catch(error => {
+            Alert.alert('Bağlantı Hatası','İnternet bağlantınızı kontrol edin.')
+            this.setState({ loading: false })
+          });
+      }
     componentDidMount() {
         this._getKampanyaListesi();
     }
     _getKampanyaListesi() {
         try {
+            this.isAvailable();
+            this.setState({ loading: true })
             getKampanyaListesi()
                 .then((res) => {
                     this.setState({ datam: res, loading: false });
@@ -53,6 +46,9 @@ export default class kampanya extends Component {
                 });
         } catch (error) {
             Alert.alert('Hata', error);
+        }
+        finally{
+            this.setState({ loading: false })
         }
     }
     GetItem(item) {

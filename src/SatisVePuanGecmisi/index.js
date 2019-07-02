@@ -80,6 +80,7 @@ export default class SatisVePuanGecmisi extends Component {
     }
     _getSatisVePuanGecmisi = async () => {
         try {
+            this.setState({ loading: true })
             const uId = await getStorage('userId');
             getSatisPuanGecmisi(uId)
                 .then((res) => {
@@ -87,11 +88,14 @@ export default class SatisVePuanGecmisi extends Component {
                     console.log('Res= ' + JSON.stringify(res.responsePompaIslemiModel))
                     this.setState({ listViewData: res.responsePompaIslemiModel });
                     }
-                
+                    this.setState({ loading: false })
                 })
                 .catch((error) => alert(error))
         } catch (error) {
             alert(error);
+        }
+        finally{
+            this.setState({ loading: false })
         }
     }
     deleteRow(secId, rowId, rowMap) {

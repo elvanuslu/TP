@@ -5,7 +5,7 @@ const define_api_url = "http://85.105.103.4:8096/";
 
 export const isAvailable = () => {
   const timeout = new Promise((resolve, reject) => {
-    setTimeout(reject, 3000, 'Request timed out');
+    setTimeout(reject, 4000, 'Request timed out');
   });
   const request = fetch(define_api_url);
   return Promise
@@ -93,8 +93,33 @@ export const campaignDetailList = (istasyonid, yakittipiid, gecerliodemetipi, tu
   }
 }
 export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, UrunId, PresetTutari, OdemeSatisTipi, KuponKodu, TavsiyeEdilenfiyati,
-  istasyonfiyati, indirimlifiyati, alimtutari, alinmmiktariLT, indirimorani, KazanilanPuan, harcananpuan, kazanilanpuantl, harcananpuantl) => {
+  istasyonfiyati, indirimlifiyati, alimtutari, alinmmiktariLT, indirimorani, KazanilanPuan, harcananpuan, kazanilanpuantl, harcananpuantl
+  ,katkiOrani,bayikatkiorani,isortagikatkiorani,isortagiid) => {
   try {
+    console.log('IstasyonId '+ IstasyonId);
+    console.log('ContactId '+ ContactId);
+    console.log('KampanyaId '+ KampanyaId);
+    console.log('PompaNo '+ PompaNo);
+    console.log('Plaka '+ Plaka);
+    console.log('UrunId '+ UrunId);
+    console.log('PresetTutari '+ PresetTutari);
+    console.log('OdemeSatisTipi '+ OdemeSatisTipi);
+    console.log('KuponKodu '+ KuponKodu);
+    console.log('TavsiyeEdilenfiyati '+ TavsiyeEdilenfiyati);
+    console.log('istasyonfiyati '+ istasyonfiyati);
+    console.log('indirimlifiyati '+ indirimlifiyati);
+    console.log('alimtutari '+ alimtutari);
+    console.log('alinmmiktariLT '+ alinmmiktariLT);
+    console.log('indirimorani '+ indirimorani);
+    console.log('KazanilanPuan '+ KazanilanPuan);
+    console.log('harcananpuan '+ harcananpuan);
+    console.log('kazanilanpuantl '+ kazanilanpuantl);
+    console.log('harcananpuantl '+ harcananpuantl);
+    console.log('katkiOrani '+ katkiOrani);
+    console.log('bayikatkiorani '+ bayikatkiorani);
+    console.log('isortagikatkiorani '+ isortagikatkiorani);
+    console.log('isortagiid '+ isortagiid);
+
     const URL = define_api_url + `TP_SalesStart`;
     return fetch(URL,
       {
@@ -123,6 +148,10 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
           harcananpuan: harcananpuan,
           kazanilanpuantl: kazanilanpuantl,
           harcananpuantl: harcananpuantl,
+          katkiorani:katkiOrani,
+          bayikatkiorani: bayikatkiorani,
+          isortagikatkiorani: isortagikatkiorani,
+          isortagiid: isortagiid,
         })
       })
       .then((res) => res.json())
@@ -131,8 +160,8 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
   }
 }
 export const checkActivation = (contactId, activationContent) => {
-  console.log('ContactId= ' + contactId);
-  console.log('ActivationContent= ' + activationContent);
+ // console.log('ContactId= ' + contactId);
+ // console.log('ActivationContent= ' + activationContent);
 
   try {
     const URL = define_api_url + `CheckActivation`;
@@ -199,13 +228,14 @@ export const getCitybyId = (Id) => {
     .then((res) => res.json())
 }
 export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod, Adres, Dogum, Sehir, Ilce, MedeniDurum, Cinsiyet) => {
-  console.log('mobilkod' + mobilKod);
+ /* console.log('mobilkod' + mobilKod);
   console.log('Adres' + Adres);
   console.log('Dogum' + Dogum);
   console.log('Sehir' + Sehir);
   console.log('Ilce' + Ilce);
   console.log('MedeniDurum' + MedeniDurum);
   console.log('Cinsiyet' + Cinsiyet);
+  */
   const URL = define_api_url + `PutContact`;
   return fetch(URL,
     {
@@ -352,12 +382,12 @@ export const putMusteriAraci = async (contactId, plaka, yakit1, yakit2, marka, k
   }
 }
 export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) => {
-  console.log('contactId' + contactId)
+/*  console.log('contactId' + contactId)
   console.log('plaka' + plaka)
   console.log('yakit1' + yakit1)
   console.log('yakit2' + yakit2)
   console.log('marka' + marka)
-
+*/
   try {
     const URL = define_api_url + `PostBm_MusteriArac`;
     return fetch(URL,
@@ -405,6 +435,7 @@ export const getDuyuruListByUser = (userId) => {
 }
 export const getSSS = (durum) => {
   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=${durum}`;
+  console.log('URL '+ URL);
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }

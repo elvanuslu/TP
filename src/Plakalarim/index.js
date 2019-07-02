@@ -16,50 +16,6 @@ const Duzenle = require("../../assets/duzenle.png");
 const Sil = require("../../assets/sil.png");
 const cizgi = require("../../assets/cizgi.png");
 
-const datas = [
-    {
-        Id: '34-AP-3434',
-        img: k1,
-        text: "Benzin",
-        note: "Eğitimlerde ve danışmanlık çalışmalarında sıklıkla konuyla ilgili bağlantı soruluyor. Ben de tüm Çevik Süreçler (Agile Frameworks) için faydalı olduğunu düşündüğüm bağlantıları (links) bir araya getirerek sizinle paylaşmaya karar verdim.",
-        time: "BMW"
-    },
-    {
-        Id: '34-NH-3435',
-        img: k2,
-        text: "Dizel",
-        note: "This article contains an exclusive series of Rules of Thumb to provide insight of the common Agile issues to the Agile enthusiasts. These rules are grouped in four phases of Agile journey - understand, adopt, transform, and scale. These rules do not give you ready-made answers but allow you to get deeper understanding of the topic with do's and dont's. List of rules will continue to grow, hence, visit these article regularly.  ",
-        time: "AUDI"
-    },
-    {
-        Id: '34-ELV-34',
-        img: k1,
-        text: "Kurşunsuz 95",
-        note: "Enjoy these agile pills with no side effects to cure your issues. If you find these healthy then please leave your comments and recommend more rules that you normally apply in your Agile journey. More to come...",
-        time: "MERCEDES"
-    },
-    {
-        Id: '35-AH-35',
-        img: k1,
-        text: "LPG",
-        note: "Eğitimlerde ve danışmanlık çalışmalarında sıklıkla konuyla ilgili bağlantı soruluyor. Ben de tüm Çevik Süreçler (Agile Frameworks) için faydalı olduğunu düşündüğüm bağlantıları (links) bir araya getirerek sizinle paylaşmaya karar verdim.",
-        time: "FIAT"
-    },
-    {
-        Id: '35-AHM-343',
-        img: k2,
-        text: "LPG",
-        note: "This article contains an exclusive series of Rules of Thumb to provide insight of the common Agile issues to the Agile enthusiasts. These rules are grouped in four phases of Agile journey - understand, adopt, transform, and scale. These rules do not give you ready-made answers but allow you to get deeper understanding of the topic with do's and dont's. List of rules will continue to grow, hence, visit these article regularly.  ",
-        time: "PANDA"
-    },
-    {
-        Id: '06-NH-3435',
-        img: k1,
-        text: "Benzin",
-        note: "Enjoy these agile pills with no side effects to cure your issues. If you find these healthy then please leave your comments and recommend more rules that you normally apply in your Agile journey. More to come...",
-        time: "KUŞ"
-    },
-];
 export default class Plakalarim extends Component {
     constructor() {
         super();
@@ -73,23 +29,39 @@ export default class Plakalarim extends Component {
             basic: true,
             listViewData: [],
             loading: false,
-            kartId:undefined,
+            kartId: undefined,
         }
     }
-    GetItem(item,kart) {
-      console.log('Plaka = '+ item+ ' Kart = '+ kart);
-        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item,'KartId': kart });
+    isAvailable() {
+        const timeout = new Promise((resolve, reject) => {
+            setTimeout(reject, 5000, 'Zaman aşımı');
+        });
+        const request = fetch('http://85.105.103.4:8096');
+        return Promise
+            .race([timeout, request])
+            .then(response => '')
+            .catch(error => {
+                Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
+                this.setState({ loading: false })
+            });
+    }
+    GetItem(item, kart) {
+        console.log('Plaka = ' + item + ' Kart = ' + kart);
+        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'KartId': kart });
     }
     _getPlakaList = async () => {
         try {
+            this.isAvailable();
+            this.setState({ loading: true })
             const uId = await getStorage('userId');
-            console.log('plaka User Id = ' + uId)
+            // console.log('plaka User Id = ' + uId)
             getPlakaList(uId)
                 .then((res) => {
                     this.setState({ listViewData: res, loading: false })
-                     // console.log(JSON.stringify(this.state.listViewData))
+                    // console.log(JSON.stringify(this.state.listViewData))
                 })
                 .catch((error) => {
+                    this.setState({ loading: false })
                     Alert.alert(
                         'Servis Hatası!',
                         error,
@@ -108,6 +80,9 @@ export default class Plakalarim extends Component {
                 ],
                 { cancelable: true },
             );
+        }
+        finally {
+            this.setState({ loading: false })
         }
     }
     componentDidMount() {
@@ -162,7 +137,7 @@ export default class Plakalarim extends Component {
                         <View >
                             <Content style={{ marginLeft: 15, marginTop: 15, marginRight: 15, width: '100%', }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                   
+
                                     <View >
                                         <Text style={styles.txtHeader}>Plakalar</Text>
                                     </View>
@@ -177,14 +152,14 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem   >
-                                            <TouchableOpacity style={{width:'100%'}} onPress={() => this.GetItem(data.bm_plaka,data.bm_musterikartiid)}>
+                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_musterikartiid)}>
 
                                                 <View style={{ flex: 1, flexDirection: 'row', }}>
                                                     <Left>
-                                                    <Text style={styles.txtArac}>{data.bm_plaka}</Text>
+                                                        <Text style={styles.txtArac}>{data.bm_plaka}</Text>
 
                                                     </Left>
-                                                   
+
                                                     <Right style={{ marginRight: 10 }}>
                                                         <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
                                                     </Right>
@@ -196,7 +171,7 @@ export default class Plakalarim extends Component {
                                         <Content style={{ flexDirection: 'row' }}>
                                             <Button
                                                 full
-                                                onPress={() => this.GetItem(data.bm_plaka,data.bm_musterikartiid)}
+                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_musterikartiid)}
                                                 style={{
                                                     backgroundColor: "#ec971f",
                                                     flex: 1,

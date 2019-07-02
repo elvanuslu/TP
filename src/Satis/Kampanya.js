@@ -110,7 +110,8 @@ export default class KampanyaSec extends Component {
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
-        console.log('Secim ==> ' + Secilen.alinmmiktariLT + ' item= ' + item + ' Datam ' + JSON.stringify(this.state.datam));
+        console.log('Seçilen=> '+ JSON.stringify(Secilen));
+      //  console.log('Secim ==> ' + Secilen.alinmmiktariLT + ' item= ' + item + ' Datam ' + JSON.stringify(this.state.datam));
 
         this.setState({
             birimFiyat: Secilen.TavsiyeEdilenfiyati,
@@ -122,22 +123,13 @@ export default class KampanyaSec extends Component {
             harcananPuan: Secilen.harcananpuan,
             harcananPuanTL: Secilen.harcananpuantl,
         });
-        /*
-                console.log('birimFiyat: ' + Secilen.TavsiyeEdilenfiyati)
-                console.log('indirimliFiyat: ' + Secilen.indirimlifiyati)
-                console.log('indirimOrani: ' + Secilen.indirimorani)
-                console.log('alimmiktariLT: ' + Secilen.alinmmiktariLT)
-                console.log('kazanilanPuan: ' + Secilen.KazanilanPuan)
-                console.log('puanTLkarsiligi:' + Secilen.kazanilanpuantl)
-                console.log('harcananPuan: ' + Secilen.harcananpuan)
-                console.log('harcananPuanTL: ' + Secilen.harcananpuantl)
-        */
-        // this._kampanyaliSatisBaslat();
+      
         this.props.navigation.navigate("OzetBilgi", {
             'Parametre': this.props.navigation.state.params, 'KampanyaId': item,
             'birimFiyat': Secilen.TavsiyeEdilenfiyati, 'indirimliFiyat': Secilen.indirimlifiyati, 'indirimOrani': Secilen.indirimorani,
             'alimmiktariLT': Secilen.alinmmiktariLT, 'kazanilanPuan': Secilen.KazanilanPuan, 'puanTLkarsiligi': Secilen.kazanilanpuantl,
-            'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl
+            'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl,'katkiorani': Secilen.katkiorani,'bayikatkiorani':Secilen.bayikatkiorani,
+            'isortagikatkiorani': Secilen.isortagikatkiorani,'isortagiid': Secilen.isortagiid
         });
     }
 

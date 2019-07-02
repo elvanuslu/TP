@@ -65,7 +65,7 @@ export default class login extends Component {
       .race([timeout, request])
       .then(response => '')
       .catch(error => {
-        alert('Bağlantı Hatası...')
+        Alert.alert('Bağlantı Hatası','İnternet bağlantınızı kontrol edin.')
         this.setState({ loading: false })
       });
   }

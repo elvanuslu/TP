@@ -20,7 +20,7 @@ export default class kampanyadetay extends Component {
             pictureurl: '',
             Aciklama: '',
             loading: true,
-            oldId:'',
+            oldId: '',
         }
 
     }
@@ -28,8 +28,21 @@ export default class kampanyadetay extends Component {
         loading: false
     }), 4000)
 
-
+    isAvailable() {
+        const timeout = new Promise((resolve, reject) => {
+            setTimeout(reject, 5000, 'Zaman aşımı');
+        });
+        const request = fetch('http://85.105.103.4:8096');
+        return Promise
+            .race([timeout, request])
+            .then(response => '')
+            .catch(error => {
+                Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
+                this.setState({ loading: false })
+            });
+    }
     componentDidMount() {
+   
         const itemId = this.props.navigation.getParam('Id');
         //   Alert.alert('Mount');
         if (itemId !== undefined)
@@ -38,7 +51,7 @@ export default class kampanyadetay extends Component {
     componentWillReceiveProps() {
         try {
             const itemId = this.props.navigation.getParam('Id');
-         //   Alert.alert('props');
+            //   Alert.alert('props');
             if (itemId !== undefined)
                 this._getKampanyaDetay(itemId);
         } catch (error) {
@@ -47,7 +60,8 @@ export default class kampanyadetay extends Component {
 
     }
     _getKampanyaDetay(ItemId) {
-        this.setState({loading:true})
+        this.isAvailable();
+        this.setState({ loading: true })
         // Alert.alert(ItemId);
         getKampanyaDetayList(ItemId)
             .then((res) => {
@@ -59,7 +73,7 @@ export default class kampanyadetay extends Component {
                     pictureurl: res.bm_pictureurl,
                     Aciklama: res.bm_aciklama,
                     loading: false,
-                   
+
                 });
 
                 console.log(res);
@@ -70,32 +84,32 @@ export default class kampanyadetay extends Component {
         const animating = this.state.loading;
         const { navigation } = this.props;
         const itemId = navigation.getParam('Id', '');
-        
-        if (itemId !== this.state.oldId){
-            console.log('KampanyaId= ' + itemId+' Old Id= '+this.state.oldId);
+
+        if (itemId !== this.state.oldId) {
+            console.log('KampanyaId= ' + itemId + ' Old Id= ' + this.state.oldId);
             this._getKampanyaDetay(itemId);
-            this.setState({oldId: itemId})
+            this.setState({ oldId: itemId })
         }
         return (
             <Container style={styles.container}>
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("kampanya")}>
-                            <Icon name="arrow-back" style={{color:'#fff'}} />
+                            <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
-                    <Title style={{color:'#fff'}}>Kampanya Detay</Title>
+                        <Title style={{ color: '#fff' }}>Kampanya Detay</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" style={{color:'#fff'}}/>
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
                 <ScrollView>
                     <View style={styles.container}>
-                        <View style={{ flexDirection: 'column', justifyContent: 'center',alignItems:'center' }}>
+                        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                             <Spinner
                                 visible={this.state.loading}
                                 textContent={'Yükleniyor...'}
@@ -132,8 +146,8 @@ export default class kampanyadetay extends Component {
 const styles = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF'
-      },
-   
+    },
+
     activityIndicator: {
         flex: 1,
         justifyContent: 'center',

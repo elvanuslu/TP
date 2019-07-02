@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import { Switch, CheckBox, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
+import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import { getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, campaignDetailList } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -20,7 +20,7 @@ export default class Satis extends Component {
         super(props);
         this.state = {
 
-            kullanici: '',
+            kullanici: undefined,
             selected2: undefined,
             yakitTipi: undefined,
             yakitTipiDeger: undefined,
@@ -50,6 +50,7 @@ export default class Satis extends Component {
             loading: false,
             YakitAdi: undefined,
             OdemeAdi: undefined,
+
         }
     }
 
@@ -190,7 +191,7 @@ export default class Satis extends Component {
     }
     onIstasyonId(val: string) {
         this.setState({ istasyonselectedId: val });
-        console.log('Id= ' + val);
+        // console.log('Id= ' + val);
     }
     onIstasyonName(value, label) {
 
@@ -239,6 +240,7 @@ export default class Satis extends Component {
     }
     _getPaymentTypes() {
         try {
+            this.setState({ loading: true })
             getPaymentTypes()
                 .then((res) => {
                     //   alert(JSON.stringify(res))
@@ -247,9 +249,10 @@ export default class Satis extends Component {
                 })
                 .catch(e => {
                     Alert.alert('Hata' + e);
+                    this.setState({ loading: false })
                 })
-                .finally
-            this.setState({ loading: false })
+                .finally(
+                    this.setState({ loading: false }))
 
         } catch (error) {
             Alert.alert('getGetPaymentTypes Hata', error)
@@ -262,48 +265,61 @@ export default class Satis extends Component {
         //  console.log("Yakıt Tipi: " + this.state.yakitTipi);
         // console.log("Yakit Val: " + this.state.yakitTipiDeger);
     }
+    isAvailable() {
+        const timeout = new Promise((resolve, reject) => {
+            setTimeout(reject, 5000, 'Zaman aşımı');
+        });
+        const request = fetch('http://85.105.103.4:8096');
+        return Promise
+            .race([timeout, request])
+            .then(response => '')
+            .catch(error => {
+                Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
+                this.setState({ loading: false })
+            });
+    }
+    //------------------------------------------------
     _getPlakaListesi = async () => {
         try {
+            this.setState({ loading: true })
             const uId = await getStorage('userId');
             //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
                     //  console.log('Res= ' + JSON.stringify(res))
-                    this.setState({ Plaka: res });
-                    /*    for (let index = 0; index < res.length; index++) {
-                            const element = res[index];
-                           // console.log('Yeni Array= ' + JSON.stringify(element))
-                        }
-                        */
-                    //  alert('Plaka= '+this.state.Plaka[0].bm_musteriaraciid+' - '+this.state.Plaka[0].bm_plaka);
+                    this.setState({ Plaka: res, loading: false });
                 })
                 .catch(e => {
-                    alert(e);
+                    Alert.alert('Hata', e);
                 })
+                .finally(this.setState({ loading: false }))
         } catch (error) {
             Alert.alert('Hata', error);
         }
     }
     _getYakitTipleri() {
         try {
+            this.setState({ loading: true })
             getYakitTipi()
-            .then((res) => {
-                this.setState({
-                    yakitTipleri: res,
-                });
-                //console.log("Yakitlog Yakit" + JSON.stringify(this.state.yakitTipleri));
-                // console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
-            })
-            .catch(e => {
-                console.log("hata: " + e);
-            });
+                .then((res) => {
+                    this.setState({
+                        yakitTipleri: res,
+                        loading: false,
+                    });
+                    //console.log("Yakitlog Yakit" + JSON.stringify(this.state.yakitTipleri));
+                    // console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
+                })
+                .catch(e => {
+                    console.log("hata: " + e);
+                }).finally(this.setState({ loading: false }))
+
         } catch (error) {
             Alert.alert('Hata', error);
         }
     }
     _retrieveKullanici = async () => {
         try {
-            const value = await AsyncStorage.getItem('userId');
+            const value = await getStorage('userId');
             if (value !== null) {
                 this.setState({ kullanici: value });
                 console.log("UserId " + this.state.kullanici);
@@ -315,12 +331,14 @@ export default class Satis extends Component {
     };
     _getLocation = async () => {
         try {
+            this.setState({ loading: true })
             await navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                         error: null,
+                        loading: false,
                     });
                     this._getLatLon();
                     //console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
@@ -334,17 +352,22 @@ export default class Satis extends Component {
     }
     _getLatLon = async () => {
         try {
+            this.setState({ loading: true })
             await getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
-                this.setState({ datas: res });
+                this.setState({ datas: res, loading: false });
                 //   console.log('res= ' + JSON.stringify(this.state.datas));
             })
         } catch (error) {
             Alert.alert('Hata', error);
         }
+        finally {
+            this.setState({ loading: false })
+        }
     }
 
 
     componentDidMount() {
+        this.isAvailable();
         //  console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();

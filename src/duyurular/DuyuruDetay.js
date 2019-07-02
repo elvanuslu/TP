@@ -45,18 +45,22 @@ export default class DuyuruDetay extends Component {
     }
 
     _getDuyuruListesi = async () => {
-      try {
-        const uId = await getStorage('userId'); 
-        //   console.log('mount'+uId)
-        getDuyuruListByUser(uId)
-            .then((res) => {
-                this.setState({ data: res, loading: false });
-                // console.log(JSON.stringify(res));
-            })
-            .catch((error) => alert(error))
-      } catch (error) {
-        Alert.alert('Hata Oluştu',error);  
-      } 
+        try {
+            this.setState({ loading: true })
+            const uId = await getStorage('userId');
+            //   console.log('mount'+uId)
+            getDuyuruListByUser(uId)
+                .then((res) => {
+                    this.setState({ data: res, loading: false });
+                    // console.log(JSON.stringify(res));
+                })
+                .catch((error) => alert(error))
+        } catch (error) {
+            Alert.alert('Hata Oluştu', error);
+        }
+        finally {
+            this.setState({ loading: false })
+        }
     }
     render() {
         const animating = this.state.loading
@@ -70,7 +74,7 @@ export default class DuyuruDetay extends Component {
             console.log('mId= ' + itemId + ' Old Id= ' + this.state.oldId);
             // this._getDuyuruListesi(itemId);
             this.setState({
-                loading:true,
+                loading: true,
                 oldId: itemId,
                 url: 'http://85.105.103.4:8096' + url, Aciklama: aciklama, Aciklama2: aciklama2
             })

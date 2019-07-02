@@ -7,7 +7,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getYakitTipi, MusteriKayit, setStorage } from '../Service/FetchUser';
+import { getYakitTipi, MusteriKayit, setStorage, getSSS } from '../Service/FetchUser';
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -124,8 +124,8 @@ export default class yenikayit extends Component {
         this.setState({
             yakitTipi: value
         });
-        console.log("Yakıt Tipi: " + this.state.yakitTipi);
-        console.log("Yakit Val: " + this.state.yakitTipiDeger);
+        //   console.log("Yakıt Tipi: " + this.state.yakitTipi);
+        //   console.log("Yakit Val: " + this.state.yakitTipiDeger);
     }
     onArabaValueChange(value: string) {
         this.setState({
@@ -136,20 +136,25 @@ export default class yenikayit extends Component {
         );
     }
     _getYakitTipleri() {
+        this.setState({ loading: true })
         getYakitTipi()
             .then((res) => {
                 this.setState({
                     yakitTipleri: res,
+                    loading: false,
                 });
                 //        console.log("Yakit" + ("log Yakit" + JSON.stringify(this.state.yakitTipleri)));
                 //        console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
             })
             .catch(e => {
                 console.log("hata: " + e);
-            });
+                this.setState({ loading: false })
+            }).finally(
+                this.setState({ loading: false }))
     }
     _btnKayit() {
         try {
+            this.setState({ loading: true })
             if (this.state.SozlesmeOkudum === true && this.state.KampanyaDuyurular === true) {
 
                 // console.log('Adı: ' + this.state.Adi.length);
@@ -166,11 +171,12 @@ export default class yenikayit extends Component {
                                                 this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum, this.state.mobilKod)
                                                 .then((responseData) => {
                                                     let response = JSON.stringify(responseData);
-                                                    console.log('responseData=' + response)
+                                                   // console.log('responseData=' + response)
                                                     this.setState({ loading: false })
                                                     if (responseData.status == true) {
                                                         setStorage('kullaniciId', responseData.message);
                                                         this.props.navigation.navigate("Kodec", { 'Id': responseData.message });
+                                                        
                                                         /*
                                                         Alert.alert(
                                                             'Kayıt İşlemi!',
@@ -188,6 +194,7 @@ export default class yenikayit extends Component {
                                                         // console.log("response: " + JSON.stringify(responseData)) 
                                                     }
                                                     else {
+                                                        this.setState({ loading: false })
                                                         Alert.alert(
                                                             'Kayıt İşlemi!',
                                                             responseData.message,
@@ -304,6 +311,24 @@ export default class yenikayit extends Component {
             this.setState({ loading: false })
             console.log('hata oluştu: ' + error);
         } finally {
+            this.setState({ loading: false })
+        }
+    }
+    _getSozlesme = () => {
+        try {
+            this.setState({ loading: true })
+            getSSS(3)
+                .then((response) => {
+                   // console.log('Response0 ' + response[0].bm_uzunaciklama + '   Ret= ' + JSON.stringify(response));
+                    this.setState({ loading: false })
+                    Alert.alert('Sözleşme', response[0].bm_uzunaciklama);
+                })
+                .catch((error) => {
+                    Alert.alert('Servis Hatası!', error)
+                    this.setState({ loading: false })
+                })
+        } catch (error) {
+            Alert.alert('Hata Oluştu!', error)
             this.setState({ loading: false })
         }
     }
@@ -483,7 +508,9 @@ export default class yenikayit extends Component {
 
                         <View style={styles.switchcontainer}>
                             <View style={{ alignContent: 'center' }}>
-                                <Text style={styles.switcText}>Sözleşmeyi Okudum Onaylıyorum</Text>
+                                <TouchableOpacity onPress={() => this._getSozlesme()}>
+                                    <Text style={styles.switcText}>Sözleşmeyi Okudum Onaylıyorum</Text>
+                                </TouchableOpacity>
                             </View>
 
                             <Switch
@@ -493,7 +520,7 @@ export default class yenikayit extends Component {
                         </View>
                         <View style={styles.switchcontainer}>
                             <View style={{ alignContent: 'center', marginBottom: 5 }}>
-                                <Text style={styles.switcText}>Kampanya ve duyurular için benimle{"\n"}iletişime geçilmesine izin veriyorum</Text>
+                                <Text style={styles.switcText1}>Kampanya ve duyurular için benimle{"\n"}iletişime geçilmesine izin veriyorum</Text>
                             </View>
 
                             <Switch
@@ -585,6 +612,15 @@ const styles = StyleSheet.create({
         fontWeight: '300',
         color: 'gray',
         marginRight: 5,
+        textDecorationLine: 'underline',
+    },
+    switcText1: {
+        textAlign: 'right',
+        fontSize: 12,
+        fontWeight: '300',
+        color: 'gray',
+        marginRight: 5,
+
     },
     mb15: {
         borderRadius: 5,

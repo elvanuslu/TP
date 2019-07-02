@@ -45,15 +45,33 @@ export default class EnYakinIstasyon extends Component {
         });
         this.props.navigation.navigate("EnYakinIstasyon")
     }
+    isAvailable() {
+        const timeout = new Promise((resolve, reject) => {
+          setTimeout(reject, 3000, 'Request timed out');
+        });
+        const request = fetch('http://85.105.103.4:8096');
+        return Promise
+          .race([timeout, request])
+          .then(response => '')
+          .catch(error => {
+            Alert.alert('Bağlantı Hatası','İnternet bağlantınızı kontrol edin.')
+            this.setState({ loading: false })
+          });
+      }
     _getData() {
-       try {
-        getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
-            this.setState({ listViewData: res });
-            console.log('res= ' + JSON.stringify(this.state.listViewData));
-        })
-       } catch (error) {
-        Alert.alert('Hata', error);
-       }
+        try {
+            this.isAvailable();
+            this.setState({ loading: true })
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
+                this.setState({ listViewData: res, loading: false });
+                // console.log('res= ' + JSON.stringify(this.state.listViewData));
+            })
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
+        finally{
+            this.setState({ loading: false })
+        }
     }
     /*
     componentDidMount() {
@@ -74,13 +92,14 @@ export default class EnYakinIstasyon extends Component {
     */
     componentWillMount() {
         var self = this;
-
+        this.setState({ loading: true })
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     error: null,
+                    loading:false,
                 });
                 this._getData();
                 console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
@@ -159,14 +178,14 @@ export default class EnYakinIstasyon extends Component {
                 </View>
                 <View>
                     <Footer>
-                        <FooterTab style={{ backgroundColor: 'red',   }}>
+                        <FooterTab style={{ backgroundColor: 'red', }}>
                             <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
                                 <Icon active={this.state.tab1} name="map" />
-                                <Text style={{color: 'white'}}>Harita</Text>
+                                <Text style={{ color: 'white' }}>Harita</Text>
                             </Button>
                             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
                                 <Icon active={this.state.tab2} name="contact" />
-                                <Text style={{color: 'white'}}>Liste</Text>
+                                <Text style={{ color: 'white' }}>Liste</Text>
                             </Button>
 
                         </FooterTab>

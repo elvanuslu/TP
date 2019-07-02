@@ -28,9 +28,11 @@ import PlakaDuzenle from './src/PlakaEkle/PlakaDuzenle';
 import OzetBilgi from './src/Satis/OzetBilgi';
 import Kodec from './src/yenikayit/codec';
 import AnaSayfa from './src/AnaSayfa/AnaSayfa';
+import Sozlesme from './src/Yardim/Sozlesme';
 
 
 const Drawer = createDrawerNavigator({
+  Sozlesme:{ screen: Sozlesme},
   AnaSayfa:{ screen: AnaSayfa},
   Kodec:{ screen: Kodec},
   login: { screen: login },
@@ -53,6 +55,7 @@ const Drawer = createDrawerNavigator({
   KampanyaSec: { screen: KampanyaSec},
   PlakaDuzenle: { screen: PlakaDuzenle},
   OzetBilgi :{ screen: OzetBilgi},
+
 },
   {
     initialRouteName: "login",
@@ -81,6 +84,7 @@ const AppNavigator = createStackNavigator({
   KampanyaSec:{ screen: KampanyaSec},
   PlakaDuzenle: { screen: PlakaDuzenle},
   OzetBilgi: { screen: OzetBilgi},
+  Sozlesme:{ screen: Sozlesme},
 },
   {
     initialRouteName: "Drawer",

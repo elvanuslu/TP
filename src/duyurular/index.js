@@ -9,29 +9,7 @@ const k1 = require("../../assets/resim1.png");
 const k2 = require("../../assets/Resim2.png");
 const k3 = require("../../assets/image3.png");
 const k4 = require("../../assets/Duyuru1.png");
-const datas = [
-    {
-        Id: 1,
-        img: k1,
-        text: "Yeni TP Extra Dizel",
-        note: "  Türkiye Petrolleri İnsan Kaynakları Grup Müdürü Çağla Bürümlü almış oldukları ödül hakkında şunları söyledi:. ",
-        time: "3:43 pm"
-    },
-    {
-        Id: 2,
-        img: k2,
-        text: "Online Satış Dönemi Başladı",
-        note: "This article contains an exclusive series of Rules of Thumb to provide insight of the common Agile issues to the Agile enthusiasts. These rules are grouped in four phases of Agile journey - understand, adopt, transform, and scale. These rules do not give you ready-made answers but allow you to get deeper understanding of the topic with do's and dont's. List of rules will continue to grow, hence, visit these article regularly.  ",
-        time: "1:12 pm"
-    },
-    {
-        Id: 3,
-        img: k1,
-        text: "TP Benzin",
-        note: "Enjoy these agile pills with no side effects to cure your issues. If you find these healthy then please leave your comments and recommend more rules that you normally apply in your Agile journey. More to come...",
-        time: "1:12 pm"
-    },
-];
+
 export default class Duyurular extends Component {
     constructor() {
         super();
@@ -47,6 +25,7 @@ export default class Duyurular extends Component {
     }
     _getDuyuruListesi= async ()=> {
       try {
+        this.setState({ loading: true })
         const uId = await getStorage('userId');
         //   console.log('mount'+uId)
            getDuyuruListByUser(uId )
@@ -57,6 +36,9 @@ export default class Duyurular extends Component {
                .catch((error) => alert(error))
       } catch (error) {
         Alert.alert('Hata', error);
+      }
+      finally{
+        this.setState({ loading: false })
       }
     }
     onPressAndGo(Id,url,aciklama,aciklama2) {

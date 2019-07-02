@@ -80,22 +80,28 @@ export default class Harita extends Component {
 
     _getData() {
         try {
+            this.setState({ loading: true })
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
-                this.setState({ datas: res });
+                this.setState({ datas: res, loading:false });
                 console.log('Konumlar= ' + JSON.stringify(this.state.datas));
             })
         } catch (error) {
             Alert.alert('Hata', error);
         }
+        finally{
+            this.setState({ loading: false })
+        }
     }
     componentWillReceiveProps(nextProps) {
         try {
+            this.setState({ loading: true })
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                         error: null,
+                        loading:false,
                     });
                     this._getData();
                     //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
@@ -106,14 +112,19 @@ export default class Harita extends Component {
         } catch (error) {
             Alert.alert('Hata', error);
         }
+        finally{
+            this.setState({ loading: false })
+        }
     }
     componentDidMount() {
+        this.setState({ loading: true })
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     error: null,
+                    loading:false,
                 });
                 this._getData();
                 //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);

@@ -110,6 +110,7 @@ export default class PlakaEkle extends Component {
     }
     _getAracMarkaList = async () => {
         try {
+            this.setState({ loading: true })
             getAracMarkaList()
                 .then((res) => {
                     this.setState({ markalar: res, loading: false })
@@ -134,6 +135,9 @@ export default class PlakaEkle extends Component {
                 ],
                 { cancelable: true },
             );
+        }
+        finally {
+            this.setState({ loading: false })
         }
     }
     _getYakitTipi = async () => {
@@ -194,23 +198,32 @@ export default class PlakaEkle extends Component {
     _mKayit = () => {
         alert('calıştı' + this.state.plaka1);
     }
+    isAvailable() {
+        const timeout = new Promise((resolve, reject) => {
+            setTimeout(reject, 5000, 'Zaman aşımı');
+        });
+        const request = fetch('http://85.105.103.4:8096');
+        return Promise
+            .race([timeout, request])
+            .then(response => '')
+            .catch(error => {
+                Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
+                this.setState({ loading: false })
+            });
+    }
     _Kaydet() {
         try {
-
+            this.isAvailable();
             this.setState({ loading: true })
             if (this.state.plaka1 != undefined) {
-
                 postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba)
                     .then((responseData) => {
-                        // let response = JSON.stringify(responseData);
-                        // console.log('responseData=' + responseData.status)
                         this.setState({ loading: false })
                         if (responseData.status === true) {
                             Alert.alert(
                                 'Araç Kayıt!',
                                 responseData.message,
                                 [
-
                                     { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim") },
                                 ],
                                 { cancelable: true },
@@ -262,6 +275,7 @@ export default class PlakaEkle extends Component {
         }
     }
     componentDidMount = async () => {
+        this.isAvailable();
         const Id = await getStorage('userId');
         this.setState({ userId: Id })
         this._getAracMarkaList();
