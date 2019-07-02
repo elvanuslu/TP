@@ -65,6 +65,7 @@ export default class kampanyadetay extends Component {
         // Alert.alert(ItemId);
         getKampanyaDetayList(ItemId)
             .then((res) => {
+                console.log('Kampanya Detay Listesi: ' +JSON.stringify(res))
                 this.setState({
                     kampanyaid: res.bm_kampanyaid,
                     kampanyaadi: res.bm_kampanyaadi,

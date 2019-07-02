@@ -338,7 +338,7 @@ export default class yenikayit extends Component {
                 <StatusBar style={{ color: '#fff' }} barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("login")}>
                             <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>

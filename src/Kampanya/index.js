@@ -6,6 +6,7 @@ import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardIt
 import { getKampanyaListesi } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
@@ -41,6 +42,7 @@ export default class kampanya extends Component {
             this.setState({ loading: true })
             getKampanyaListesi()
                 .then((res) => {
+            
                     this.setState({ datam: res, loading: false });
                     //   console.log(res);
                 });

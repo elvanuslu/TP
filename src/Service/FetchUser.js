@@ -135,7 +135,7 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
           PompaNo: PompaNo,
           Plaka: Plaka,
           UrunId: UrunId,
-          PresetTutari: PresetTutari,
+          PresetTutari: alimtutari,
           OdemeSatisTipi: OdemeSatisTipi,
           KuponKodu: KuponKodu,
           TavsiyeEdilenfiyati: TavsiyeEdilenfiyati,
