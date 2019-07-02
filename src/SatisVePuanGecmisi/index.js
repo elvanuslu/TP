@@ -7,6 +7,8 @@ import {
 } from 'native-base';
 import { getSatisPuanGecmisi, getStorage, setStorage } from '../Service/FetchUser';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
@@ -73,6 +75,7 @@ export default class SatisVePuanGecmisi extends Component {
             araba: undefined,
             basic: true,
             listViewData: [],
+            loading:false,
         }
     }
     componentDidMount() {
@@ -139,7 +142,13 @@ export default class SatisVePuanGecmisi extends Component {
                 <View style={styles.containerOrta}>
                     <Image style={styles.banner} source={k1} />
                 </View>
-
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Yükleniyor...'}
+                        textStyle={styles.spinnerTextStyle}
+                    />
+                </View>
 
                 <View style={styles.containerBottom}>
                     <Content style={{ backgroundColor: 'transparent' }}>

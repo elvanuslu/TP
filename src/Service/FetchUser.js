@@ -102,7 +102,7 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
     console.log('PompaNo '+ PompaNo);
     console.log('Plaka '+ Plaka);
     console.log('UrunId '+ UrunId);
-    console.log('PresetTutari '+ PresetTutari);
+    console.log('PresetTutari '+ alimtutari);
     console.log('OdemeSatisTipi '+ OdemeSatisTipi);
     console.log('KuponKodu '+ KuponKodu);
     console.log('TavsiyeEdilenfiyati '+ TavsiyeEdilenfiyati);

@@ -55,6 +55,8 @@ export default class KampanyaSec extends Component {
             harcananPuan: undefined,
             harcananPuanTL: undefined,
 
+            IstasyonFiyati: undefined,
+
 
         }
     }
@@ -122,6 +124,7 @@ export default class KampanyaSec extends Component {
             puanTLkarsiligi: Secilen.kazanilanpuantl,
             harcananPuan: Secilen.harcananpuan,
             harcananPuanTL: Secilen.harcananpuantl,
+            IstasyonFiyati: Secilen.istasyonfiyati,
         });
       
         this.props.navigation.navigate("OzetBilgi", {
@@ -129,7 +132,7 @@ export default class KampanyaSec extends Component {
             'birimFiyat': Secilen.TavsiyeEdilenfiyati, 'indirimliFiyat': Secilen.indirimlifiyati, 'indirimOrani': Secilen.indirimorani,
             'alimmiktariLT': Secilen.alinmmiktariLT, 'kazanilanPuan': Secilen.KazanilanPuan, 'puanTLkarsiligi': Secilen.kazanilanpuantl,
             'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl,'katkiorani': Secilen.katkiorani,'bayikatkiorani':Secilen.bayikatkiorani,
-            'isortagikatkiorani': Secilen.isortagikatkiorani,'isortagiid': Secilen.isortagiid
+            'isortagikatkiorani': Secilen.isortagikatkiorani,'isortagiid': Secilen.isortagiid,'istasyonfiyati': Secilen.istasyonfiyati,
         });
     }
 

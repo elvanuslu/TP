@@ -346,6 +346,20 @@ export default class Satis extends Component {
                 (error) => this.setState({ error: error.message }),
                 { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
             );
+            this.watchID = navigator.geolocation.watchPosition((position) => {
+                //Will give you the location on location change
+                  console.log('watch '+JSON.stringify(position));
+                //  alert(JSON.stringify(position));
+                  const currentLongitude = JSON.stringify(position.coords.longitude);
+                  //getting the Longitude from the location json
+                  const currentLatitude = JSON.stringify(position.coords.latitude);
+                  //getting the Latitude from the location json
+                 this.setState({ currentLongitude:currentLongitude });
+                 //Setting state Longitude to re re-render the Longitude Text
+                 this.setState({ currentLatitude:currentLatitude });
+                 //Setting state Latitude to re re-render the Longitude Text
+                 this.setState({ loading: false })
+              });
         } catch (error) {
             Alert.alert('Hata', error);
         }
@@ -365,7 +379,16 @@ export default class Satis extends Component {
         }
     }
 
-
+componentWillReceiveProps(nextProps){
+    console.log('recievr Props')
+    this.isAvailable();
+    //  console.log('Did Mount');
+    this._getLocation();
+    this._retrieveKullanici();
+    this._getYakitTipleri();
+    this._getPlakaListesi();
+    this._getPaymentTypes();
+}
     componentDidMount() {
         this.isAvailable();
         //  console.log('Did Mount');

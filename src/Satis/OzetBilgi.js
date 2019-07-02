@@ -56,6 +56,7 @@ export default class OzetBilgi extends Component {
             bayikatkiorani: undefined,
             isortagikatkiorani: undefined,
             isortagiid: undefined,
+            istasyonfiyati: undefined,
 
         }
     }
@@ -125,13 +126,15 @@ export default class OzetBilgi extends Component {
             console.log('this.state.BayiKatkiOranı ' + this.state.bayikatkiorani);
             console.log('this.state.IsOrtagıKatkıOranı ' + this.state.isortagikatkiorani);
             console.log('this.state.isOrtgaıId ' + this.state.isortagiid);
+            console.log('this.state.istasyonfiyati ' + this.state.istasyonfiyati);
+            
 
             this.setState({ loading: true });
 
             //     alert('Id =' + contactId);
             if (contactId !== null) {
                 SatisBaslat(this.state.IstasyonId, contactId, this.state.KampanyaId, this.state.PompaNo, this.state.PlakaId, this.state.YakitId,
-                    '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat, '', this.state.indirimliFiyat, this.state.Tutar,
+                    '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat,this.state.istasyonfiyati, this.state.indirimliFiyat, this.state.Tutar,
                     this.state.alimmiktariLT, this.state.indirimOrani, this.state.kazanilanPuan, this.state.harcananPuan,
                     this.state.puanTLkarsiligi, this.state.harcananPuanTL,this.state.katkiorani,this.state.bayikatkiorani,
                     this.state.isortagikatkiorani,this.state.isortagiid)
@@ -165,7 +168,7 @@ export default class OzetBilgi extends Component {
             PlakaId: nextProps.navigation.state.params.Parametre.Plaka,
             Yakit: nextProps.navigation.state.params.Parametre.YakitAdi,
             YakitId: nextProps.navigation.state.params.Parametre.Yakit,
-            OdemeTipi: nextProps.navigation.state.params.Parametre.OdemeAdi,
+            OdemeTipi: nextProps.navigation.state.params.Parametre.OdemeTipi,
             PompaNo: nextProps.navigation.state.params.Parametre.PompaNo,
             KuponKodu: nextProps.navigation.state.params.Parametre.KuponKodu,
             Tutar: nextProps.navigation.state.params.Parametre.Tutar,
@@ -185,6 +188,7 @@ export default class OzetBilgi extends Component {
             isortagikatkiorani: nextProps.navigation.state.params.isortagikatkiorani,
             isortagiid: nextProps.navigation.state.params.isortagiid,
 
+            istasyonfiyati: nextProps.navigation.state.params.istasyonfiyati,
         })
         if (this.props.Istasyon !== nextProps.Istasyon) {
             console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
@@ -218,7 +222,7 @@ export default class OzetBilgi extends Component {
                     PlakaId: this.props.navigation.state.params.Parametre.Plaka,
                     Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
                     YakitId: this.props.navigation.state.params.Parametre.Yakit,
-                    OdemeTipi: this.props.navigation.state.params.Parametre.OdemeAdi,
+                    OdemeTipi: this.props.navigation.state.params.Parametre.OdemeTipi,
                     PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
                     Tutar: this.props.navigation.state.params.Parametre.Tutar,
@@ -237,6 +241,7 @@ export default class OzetBilgi extends Component {
                     bayikatkiorani: this.props.navigation.state.params.bayikatkiorani,
                     isortagikatkiorani: this.props.navigation.state.params.isortagikatkiorani,
                     isortagiid: this.props.navigation.state.params.isortagiid,
+                    istasyonfiyati: this.props.navigation.state.params.istasyonfiyati,
 
                 })
             }
@@ -249,10 +254,12 @@ export default class OzetBilgi extends Component {
                     PlakaId: this.props.navigation.state.params.Parametre.Plaka,
                     Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
                     YakitId: this.props.navigation.state.params.Parametre.Yakit,
-                    OdemeTipi: this.props.navigation.state.params.Parametre.OdemeAdi,
+                    OdemeTipi: this.props.navigation.state.params.Parametre.OdemeTipi,
                     PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
                     Tutar: this.props.navigation.state.params.Parametre.Tutar,
+
+                    istasyonfiyati: tthis.props.navigation.state.params.Parametre.istasyonfiyati,
 
                     birimFiyat: 0,
                     indirimliFiyat: 0,

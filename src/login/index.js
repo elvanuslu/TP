@@ -13,8 +13,8 @@ export default class login extends Component {
     super(props);
     this.state = {
       switch1Value: true,
-      UserName: 'asu@test.com',
-      Pass: '123456',
+      UserName: undefined, //'asu@test.com',
+      Pass: undefined,//'123456',
       userId: '',
       error: '',
       isLoading: false,
@@ -29,6 +29,20 @@ export default class login extends Component {
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
+    navigator.geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        //getting the Longitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        //getting the Latitude from the location json
+      },
+      (error) => alert(error.message),
+      {
+        enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
+      }
+    );
+
   }
   onBackButtonPressAndroid = () => {
     if (this.isSelectionModeEnabled()) {
@@ -65,7 +79,7 @@ export default class login extends Component {
       .race([timeout, request])
       .then(response => '')
       .catch(error => {
-        Alert.alert('Bağlantı Hatası','İnternet bağlantınızı kontrol edin.')
+        Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
         this.setState({ loading: false })
       });
   }
@@ -73,49 +87,62 @@ export default class login extends Component {
     try {
       this.setState({ loading: true })
       this.isAvailable();
-      getUserInfo(this.state.UserName, this.state.Pass)
-        .then((res) => {
-          this.setState({ userId: res.contactid, loading: false });
-          //      console.log("stateUserId=>" + this.state.userId);
-          if (res.contactid === undefined) {
-
-            /*    Toast.show({
-                  text: "Hata\n" + res,
-                  buttonText: "Okay",
-                  type: 'danger'
-                })
-              */
-            Alert.alert(
-              'Hata!',
-              res,
-              [
-
-                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-              ],
-              { cancelable: true },
-            );
-            this.setState({
-              error: 'User not found',
-            });
-          }
-          else {
-            // console.log("Kayıt else=>" + res);
-            this.setState({ userId: res.contactid });
-            this._storeData();
-            /*   Toast.show({
-                 text: "Giriş Başarılı!\n",
-                 buttonText: "Okay",
-                 type: 'success',
-               })
-               */
-            this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
-            console.log('Push');
-            this.setState({
-              error: false,
-              username: ''
-            })
-          }
-        }).catch(error => this.setState({ error, isLoading: false }));
+      if (this.state.UserName !== undefined) {
+        if (this.state.Pass !== undefined) {
+          getUserInfo(this.state.UserName, this.state.Pass)
+          .then((res) => {
+            this.setState({ userId: res.contactid, loading: false });
+            //      console.log("stateUserId=>" + this.state.userId);
+            if (res.contactid === undefined) {
+  
+              /*    Toast.show({
+                    text: "Hata\n" + res,
+                    buttonText: "Okay",
+                    type: 'danger'
+                  })
+                */
+              Alert.alert(
+                'Hata!',
+                res,
+                [
+  
+                  { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                ],
+                { cancelable: true },
+              );
+              this.setState({
+                error: 'User not found',
+              });
+            }
+            else {
+              // console.log("Kayıt else=>" + res);
+              this.setState({ userId: res.contactid });
+              this._storeData();
+              /*   Toast.show({
+                   text: "Giriş Başarılı!\n",
+                   buttonText: "Okay",
+                   type: 'success',
+                 })
+                 */
+              this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
+              console.log('Push');
+              this.setState({
+                error: false,
+                username: ''
+              })
+            }
+          }).catch(error => this.setState({ error, isLoading: false }));
+        }
+        else {
+          this.setState({ loading: false })
+          Alert.alert('Hata', 'Şifre boş bırakılamaz.')
+        }
+      }
+      else {
+        this.setState({ loading: false })
+        Alert.alert('Hata', 'Kullanıcı Adı boş bırakılamaz.')
+      }
+     
 
     } catch (error) {
       Alert.alert('Hata', error);
