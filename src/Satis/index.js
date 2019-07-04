@@ -53,7 +53,26 @@ export default class Satis extends Component {
 
         }
     }
-
+    _getGps() {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.setState({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                error: null,
+                loading: false,
+            });
+          },
+          (error) => alert(error.message),
+          {
+            enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
+          }
+        );
+      }
+      componentDidUpdate() {
+        if (this.state.latitude === undefined)
+          this._getGps();
+      }
     _campaignDetailList = async () => {
         try {
             this.setState({ loading: true })

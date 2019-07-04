@@ -20,10 +20,31 @@ export default class login extends Component {
       isLoading: false,
       loading: false,
       SwitchOnValueHolder: false,
+      latlon: undefined,
     }
     this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
       BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
+  }
+  _getGps() {
+    navigator.geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        //getting the Longitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        //getting the Latitude from the location json
+        this.setState({ latlon: position.coords.longitude });
+      },
+      (error) => alert(error.message),
+      {
+        enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
+      }
+    );
+  }
+  componentDidUpdate() {
+    if (this.state.latlon === undefined)
+      this._getGps();
   }
   componentDidMount() {
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
@@ -44,6 +65,7 @@ export default class login extends Component {
     );
 
   }
+ 
   onBackButtonPressAndroid = () => {
     if (this.isSelectionModeEnabled()) {
       this.disableSelectionMode();
@@ -72,7 +94,7 @@ export default class login extends Component {
   };
   isAvailable() {
     const timeout = new Promise((resolve, reject) => {
-      setTimeout(reject, 3000, 'Request timed out');
+      setTimeout(reject, 10000, 'Request timed out');
     });
     const request = fetch('http://85.105.103.4:8096');
     return Promise
@@ -90,48 +112,48 @@ export default class login extends Component {
       if (this.state.UserName !== undefined) {
         if (this.state.Pass !== undefined) {
           getUserInfo(this.state.UserName, this.state.Pass)
-          .then((res) => {
-            this.setState({ userId: res.contactid, loading: false });
-            //      console.log("stateUserId=>" + this.state.userId);
-            if (res.contactid === undefined) {
-  
-              /*    Toast.show({
-                    text: "Hata\n" + res,
-                    buttonText: "Okay",
-                    type: 'danger'
-                  })
-                */
-              Alert.alert(
-                'Hata!',
-                res,
-                [
-  
-                  { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                ],
-                { cancelable: true },
-              );
-              this.setState({
-                error: 'User not found',
-              });
-            }
-            else {
-              // console.log("Kayıt else=>" + res);
-              this.setState({ userId: res.contactid });
-              this._storeData();
-              /*   Toast.show({
-                   text: "Giriş Başarılı!\n",
-                   buttonText: "Okay",
-                   type: 'success',
-                 })
-                 */
-              this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
-            //  console.log('Push');
-              this.setState({
-                error: false,
-                username: ''
-              })
-            }
-          }).catch(error => this.setState({ error, isLoading: false }));
+            .then((res) => {
+              this.setState({ userId: res.contactid, loading: false });
+              //      console.log("stateUserId=>" + this.state.userId);
+              if (res.contactid === undefined) {
+
+                /*    Toast.show({
+                      text: "Hata\n" + res,
+                      buttonText: "Okay",
+                      type: 'danger'
+                    })
+                  */
+                Alert.alert(
+                  'Hata!',
+                  res,
+                  [
+
+                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                  ],
+                  { cancelable: true },
+                );
+                this.setState({
+                  error: 'User not found',
+                });
+              }
+              else {
+                // console.log("Kayıt else=>" + res);
+                this.setState({ userId: res.contactid });
+                this._storeData();
+                /*   Toast.show({
+                     text: "Giriş Başarılı!\n",
+                     buttonText: "Okay",
+                     type: 'success',
+                   })
+                   */
+                this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
+                //  console.log('Push');
+                this.setState({
+                  error: false,
+                  username: ''
+                })
+              }
+            }).catch(error => this.setState({ error, isLoading: false }));
         }
         else {
           this.setState({ loading: false })
@@ -142,7 +164,7 @@ export default class login extends Component {
         this.setState({ loading: false })
         Alert.alert('Hata', 'Kullanıcı Adı boş bırakılamaz.')
       }
-     
+
 
     } catch (error) {
       Alert.alert('Hata', error);
