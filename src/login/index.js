@@ -125,7 +125,7 @@ export default class login extends Component {
                  })
                  */
               this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
-              console.log('Push');
+            //  console.log('Push');
               this.setState({
                 error: false,
                 username: ''

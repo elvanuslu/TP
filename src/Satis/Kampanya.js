@@ -232,7 +232,7 @@ export default class KampanyaSec extends Component {
     }
     */
     componentWillReceiveProps(nextProps) {
-        //  console.log('Kapmanya  2.Data= ' + JSON.stringify(nextProps))
+          console.log('Kapmanya recive 2.Data= ' + JSON.stringify(nextProps))
         this._campaignDetails(nextProps);
         if (this.props.Istasyon !== nextProps.Istasyon) {
             //  console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
@@ -246,7 +246,7 @@ export default class KampanyaSec extends Component {
         }
     }
     componentDidMount = async () => {
-        //      console.log('Props= ' + JSON.stringify(this.props));
+              console.log('Props= ' + JSON.stringify(this.props));
         //   console.log("Prms= " + (this.props.navigation.state.params.Istasyon))
         const Id = await getStorage('userId');
         this.setState({ kullaniciId: Id });

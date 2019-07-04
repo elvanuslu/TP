@@ -259,7 +259,7 @@ export default class OzetBilgi extends Component {
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
                     Tutar: this.props.navigation.state.params.Parametre.Tutar,
 
-                    istasyonfiyati: tthis.props.navigation.state.params.Parametre.istasyonfiyati,
+                    istasyonfiyati: this.props.navigation.state.params.Parametre.istasyonfiyati,
 
                     birimFiyat: 0,
                     indirimliFiyat: 0,
