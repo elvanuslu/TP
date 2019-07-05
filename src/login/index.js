@@ -36,13 +36,14 @@ export default class login extends Component {
         //getting the Latitude from the location json
         this.setState({ latlon: position.coords.longitude });
       },
-      (error) => alert(error.message),
+      (error) => '',//alert(error.message),
       {
-        enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
+        enableHighAccuracy: true, timeout: 20000, maximumAge:1000
       }
     );
   }
   componentDidUpdate() {
+    console.log('this.state.latlon '+this.state.latlon)
     if (this.state.latlon === undefined)
       this._getGps();
   }
@@ -60,7 +61,7 @@ export default class login extends Component {
       },
       (error) => alert(error.message),
       {
-        enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
+        enableHighAccuracy: true, timeout: 20000, maximumAge:1000
       }
     );
 

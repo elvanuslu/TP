@@ -25,6 +25,7 @@ export default class EnYakinIstasyon extends Component {
             listViewData: [],
             tab1: false,
             tab2: false,
+            error: null,
         }
     }
     toggleTab1() {
@@ -62,7 +63,7 @@ export default class EnYakinIstasyon extends Component {
         try {
             this.isAvailable();
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 25).then((res) => {
                 this.setState({ listViewData: res, loading: false });
                 // console.log('res= ' + JSON.stringify(this.state.listViewData));
             })
@@ -105,7 +106,7 @@ export default class EnYakinIstasyon extends Component {
                 console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
             },
             (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            {enableHighAccuracy: true, timeout: 20000, maximumAge:1000 },
         );
         this._getData();
 

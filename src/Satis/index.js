@@ -65,7 +65,7 @@ export default class Satis extends Component {
           },
           (error) => alert(error.message),
           {
-            enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
+            enableHighAccuracy: true, timeout: 20000, maximumAge:1000
           }
         );
       }
@@ -363,7 +363,7 @@ export default class Satis extends Component {
                     //console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({ error: error.message }),
-                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+                {enableHighAccuracy: true, timeout: 20000, maximumAge:1000},
             );
             this.watchID = navigator.geolocation.watchPosition((position) => {
                 //Will give you the location on location change

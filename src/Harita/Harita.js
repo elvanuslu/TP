@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { getIstasyonWithLatLon } from '../Service/FetchUser';
 
 import MapView, { PROVIDER_GOOGLE, MAP_TYPES } from 'react-native-maps';
+import { showLocation, Popup } from 'react-native-map-link'
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -39,8 +40,10 @@ export default class Harita extends Component {
             tab1: false,
             tab2: false,
             tab3: true,
-            tab4: false
-
+            tab4: false,
+            isVisible: false,
+            hedefLat: undefined,
+            hedefLon: undefined,
         }
 
     }
@@ -81,14 +84,15 @@ export default class Harita extends Component {
     _getData() {
         try {
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
-                this.setState({ datas: res, loading:false });
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 25).then((res) => {
+                this.setState({ datas: res, loading: false });
                 console.log('Konumlar= ' + JSON.stringify(this.state.datas));
+                //_showLocation();
             })
         } catch (error) {
             Alert.alert('Hata', error);
         }
-        finally{
+        finally {
             this.setState({ loading: false })
         }
     }
@@ -101,18 +105,18 @@ export default class Harita extends Component {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                         error: null,
-                        loading:false,
+                        loading: false,
                     });
                     this._getData();
                     //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({ error: error.message }),
-                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+                {enableHighAccuracy: true, timeout: 20000, maximumAge:1000},
             );
         } catch (error) {
             Alert.alert('Hata', error);
         }
-        finally{
+        finally {
             this.setState({ loading: false })
         }
     }
@@ -124,14 +128,31 @@ export default class Harita extends Component {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     error: null,
-                    loading:false,
+                    loading: false,
                 });
                 this._getData();
                 //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
             },
             (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            {enableHighAccuracy: true, timeout: 20000, maximumAge:1000 },
         );
+    }
+    _showLocation() {
+        showLocation({
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
+            sourceLatitude: this.state.latitude,  // optionally specify starting location for directions
+            sourceLongitude: this.state.longitude,  // not optional if sourceLatitude is specified
+            title: 'The White House',  // optional
+            googleForceLatLon: false,  // optionally force GoogleMaps to use the latlon for the query instead of the title
+            //googlePlaceId: 'ChIJGVtI4by3t4kRr51d_Qm_x58',  // optionally specify the google-place-id
+            // alwaysIncludeGoogle: true, // optional, true will always add Google Maps to iOS and open in Safari, even if app is not installed (default: false)
+            dialogTitle: 'Harita Seç', // optional (default: 'Open in Maps')
+            dialogMessage: 'This is the amazing dialog Message', // optional (default: 'What app would you like to use?')
+            cancelText: 'Kapat', // optional (default: 'Cancel')
+            //   appsWhiteList: ['google-maps'] // optionally you can set which apps to show (default: will show all supported apps installed on device)
+            // app: 'uber'  // optionally specify specific app to use
+        })
     }
     render() {
         <View>
@@ -158,22 +179,58 @@ export default class Harita extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container}>
+                    <Popup
+                        titleText='Harita Aç'
+                        itemText='Hangi uygulama ile açalım.'
+                        subtitleText='Hangi uygulama ile açalım.'
+                        isVisible={this.state.isVisible}
+                        onCancelPressed={() => this.setState({ isVisible: false })}
+                        onAppPressed={() => this.setState({ isVisible: false })}
+                        onBackButtonPressed={() => this.setState({ isVisible: false })}
+                        modalProps={{ // you can put all react-native-modal props inside.
+                            animationIn: 'slideInUp'
+                        }}
+                        cancelButtonText='Tamam'
+                        appsWhiteList={[ /* Array of apps (apple-maps, google-maps, etc...) that you want
+    to show in the popup, if is undefined or an empty array it will show all supported apps installed on device.*/ ]}
+                        options={{
+                            latitude: this.state.hedefLat,
+                            longitude: this.state.hedefLon,
+                            sourceLatitude: this.state.latitude,
+                            sourceLongitude: this.state.longitude,
+                            title: 'No Mans Land',
+                            googleForceLatLon: false,
+
+                            dialogTitle: 'Harita Seç',
+                            // dialogMessage: 'This is the amazing dialog Message', // optional (default: 'What app would you like to use?')
+                            cancelText: 'Kapat',
+                        }}
+                        style={{ /* Optional: you can override default style by passing your values. */ }}
+                    />
                     <MapView //provider={PROVIDER_GOOGLE}
+
                         style={styles.map}
                         initialRegion={{
                             latitude: this.state.latitude, //41.001895,
                             longitude: this.state.longitude, //29.045486,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
+                            latitudeDelta: 0.99,
+                            longitudeDelta: 0.99,
 
                         }}>
-                        <MapView.Marker coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
+                        <MapView.Marker
+                            coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
                             Image={{ pin }}
                             title="Türk Petrol" description="description">
+
                         </MapView.Marker>
+
                         {this.state.datas.map((data, i) => (
                             <MapView.Marker
                                 key={i}
+                                onPress={() => this.setState({ 
+                                    isVisible: true,
+                                    hedefLat:data.Address1_Latitude,
+                                    hedefLon:data.Address1_Longitude })}
                                 coordinate={{
                                     latitude: data.Address1_Latitude,
                                     longitude: data.Address1_Longitude
@@ -188,8 +245,8 @@ export default class Harita extends Component {
                                         style={{
                                             flexDirection: 'column'
                                         }} >
-                                        <ImageBackground source={logoFull} style={{ width: 85, height: 88, resizeMode: 'contain' }}>
-                                            <Text style={styles.txtHeader}>{data.name.trim()}</Text>
+                                        <ImageBackground source={logoFull} style={{ width: 30, height: 30, resizeMode: 'contain' }}>
+
                                         </ImageBackground>
                                     </View>
                                 </View>
