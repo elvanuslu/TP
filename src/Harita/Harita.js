@@ -220,7 +220,7 @@ export default class Harita extends Component {
                         <MapView.Marker
                             coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
                             Image={{ pin }}
-                            title="Türk Petrol" description="description">
+                            title="Benim" description="Konumum">
 
                         </MapView.Marker>
 

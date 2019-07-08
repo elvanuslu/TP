@@ -171,7 +171,7 @@ export default class yenikayit extends Component {
                                                 this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum, this.state.mobilKod)
                                                 .then((responseData) => {
                                                     let response = JSON.stringify(responseData);
-                                                   // console.log('responseData=' + response)
+                                                    console.log('responseData=' + response)
                                                     this.setState({ loading: false })
                                                     if (responseData.status == true) {
                                                         setStorage('kullaniciId', responseData.message);

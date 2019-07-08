@@ -48,17 +48,17 @@ export default class EnYakinIstasyon extends Component {
     }
     isAvailable() {
         const timeout = new Promise((resolve, reject) => {
-          setTimeout(reject, 3000, 'Request timed out');
+            setTimeout(reject, 3000, 'Request timed out');
         });
         const request = fetch('http://85.105.103.4:8096');
         return Promise
-          .race([timeout, request])
-          .then(response => '')
-          .catch(error => {
-            Alert.alert('Bağlantı Hatası','İnternet bağlantınızı kontrol edin.')
-            this.setState({ loading: false })
-          });
-      }
+            .race([timeout, request])
+            .then(response => '')
+            .catch(error => {
+                Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
+                this.setState({ loading: false })
+            });
+    }
     _getData() {
         try {
             this.isAvailable();
@@ -70,7 +70,7 @@ export default class EnYakinIstasyon extends Component {
         } catch (error) {
             Alert.alert('Hata', error);
         }
-        finally{
+        finally {
             this.setState({ loading: false })
         }
     }
@@ -100,13 +100,18 @@ export default class EnYakinIstasyon extends Component {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     error: null,
-                    loading:false,
+                    loading: false,
                 });
                 this._getData();
                 console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
             },
-            (error) => this.setState({ error: error.message }),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge:1000 },
+            (error) => this.setState({
+                error: error.message,
+                latitude: 40.802095,
+                longitude: 29.526954,
+            },
+                this._getLatLon()),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
         this._getData();
 
@@ -158,7 +163,7 @@ export default class EnYakinIstasyon extends Component {
                                                     <Text style={styles.txt2}>{item.Adres.trim()}</Text>
                                                 </View>
                                                 <View style={{ width: '100%', flexDirection: 'row', marginTop: -10, marginLeft: 30 }}>
-                                                    {item.yikama == true ? (<Image style={{ width: 50, height: 50, resizeMode: 'contain', marginLeft: 2, marginRight: 5, marginTop: 0, }} source={tmis} />) : false}
+                                                    {item.yikama == true ? (<Image style={{ width: 40, height: 40, resizeMode: 'contain', marginLeft: 2, marginRight: 5, marginTop: 0, }} source={tmis} />) : false}
                                                     {item.yagdegisimi == true ? (<Image style={{ width: 30, height: 30, resizeMode: 'contain', marginLeft: 5, marginTop: 10, }} source={yagdegisim} />) : false}
                                                     {item.bankamatik == true ? (<Image style={{ width: 30, height: 30, resizeMode: 'contain', marginLeft: 5, marginTop: 10, }} source={bankamatik} />) : false}
                                                 </View>

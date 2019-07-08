@@ -88,7 +88,7 @@ export default class SifremiUnuttum extends Component {
                             <TextInputMask style={styles.Inputs1}
                                 placeholder='E-Posta adresinizi Giriniz...'
                                 placeholderTextColor="#efefef"
-                                keyboardType="phone-pad"
+                                keyboardType="email-address"
                                 refInput={ref => { this.input = ref }}
                                 onChangeText={(formatted, extracted) => {
                                     this.setState({ eposta: formatted })

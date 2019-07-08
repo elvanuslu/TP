@@ -55,24 +55,29 @@ export default class Satis extends Component {
     }
     _getGps() {
         navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                error: null,
-                loading: false,
-            });
-          },
-          (error) => alert(error.message),
-          {
-            enableHighAccuracy: true, timeout: 20000, maximumAge:1000
-          }
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null,
+                    loading: false,
+                });
+            },
+            (error) =>  this.setState({
+                error: error.message,
+                latitude: 40.802095,
+                longitude: 29.526954,
+            },
+                this._getLatLon()),
+            {
+                enableHighAccuracy: true, timeout: 50000, maximumAge: 1000
+            }
         );
-      }
-      componentDidUpdate() {
+    }
+    componentDidUpdate() {
         if (this.state.latitude === undefined)
-          this._getGps();
-      }
+            this._getGps();
+    }
     _campaignDetailList = async () => {
         try {
             this.setState({ loading: true })
@@ -348,10 +353,10 @@ export default class Satis extends Component {
             Alert.alert('Hata', error);
         }
     };
-    _getLocation = async () => {
+    _getLocation =  () => {
         try {
             this.setState({ loading: true })
-            await navigator.geolocation.getCurrentPosition(
+             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({
                         latitude: position.coords.latitude,
@@ -360,35 +365,42 @@ export default class Satis extends Component {
                         loading: false,
                     });
                     this._getLatLon();
-                    //console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                    console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
-                (error) => this.setState({ error: error.message }),
-                {enableHighAccuracy: true, timeout: 20000, maximumAge:1000},
+                (error) => this.setState({
+                    error: error.message,
+                    latitude: 40.802095,
+                    longitude: 29.526954,
+                },
+                    this._getLatLon()),
+
+                { enableHighAccuracy: true, timeout: 50000, maximumAge: 1000 },
             );
             this.watchID = navigator.geolocation.watchPosition((position) => {
                 //Will give you the location on location change
-                  console.log('watch '+JSON.stringify(position));
+                console.log('watch ' + JSON.stringify(position));
                 //  alert(JSON.stringify(position));
-                  const currentLongitude = JSON.stringify(position.coords.longitude);
-                  //getting the Longitude from the location json
-                  const currentLatitude = JSON.stringify(position.coords.latitude);
-                  //getting the Latitude from the location json
-                 this.setState({ currentLongitude:currentLongitude });
-                 //Setting state Longitude to re re-render the Longitude Text
-                 this.setState({ currentLatitude:currentLatitude });
-                 //Setting state Latitude to re re-render the Longitude Text
-                 this.setState({ loading: false })
-              });
+                const currentLongitude = JSON.stringify(position.coords.longitude);
+                //getting the Longitude from the location json
+                const currentLatitude = JSON.stringify(position.coords.latitude);
+                //getting the Latitude from the location json
+                this.setState({ currentLongitude: currentLongitude });
+                //Setting state Longitude to re re-render the Longitude Text
+                this.setState({ currentLatitude: currentLatitude });
+                //Setting state Latitude to re re-render the Longitude Text
+                this.setState({ loading: false })
+            });
         } catch (error) {
             Alert.alert('Hata', error);
         }
     }
-    _getLatLon = async () => {
+    _getLatLon =  () => {
         try {
             this.setState({ loading: true })
-            await getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
+             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 15).then((res) => {
                 this.setState({ datas: res, loading: false });
-                //   console.log('res= ' + JSON.stringify(this.state.datas));
+               // Alert.alert('Data', JSON.stringify(this.state.datas));
+                console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
             })
         } catch (error) {
             Alert.alert('Hata', error);
@@ -398,16 +410,27 @@ export default class Satis extends Component {
         }
     }
 
-componentWillReceiveProps(nextProps){
-    console.log('recievr Props')
-    this.isAvailable();
-    //  console.log('Did Mount');
-    this._getLocation();
-    this._retrieveKullanici();
-    this._getYakitTipleri();
-    this._getPlakaListesi();
-    this._getPaymentTypes();
-}
+    componentDidUpdate() {
+        try {
+            console.log('this.state.latitude '+ this.state.latitude);
+            if (this.state.latitude === '40.792429999999996') {
+                console.log('Update');
+                this._getLocation();
+            }
+        } catch (error) {
+
+        }
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log('recievr Props')
+        this.isAvailable();
+        //  console.log('Did Mount');
+        this._getLocation();
+        this._retrieveKullanici();
+        this._getYakitTipleri();
+        this._getPlakaListesi();
+        this._getPaymentTypes();
+    }
     componentDidMount() {
         this.isAvailable();
         //  console.log('Did Mount');
