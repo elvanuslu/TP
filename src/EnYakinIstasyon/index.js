@@ -91,7 +91,8 @@ export default class EnYakinIstasyon extends Component {
         );
     }
     */
-    componentWillMount() {
+   _getCoord=()=>{
+       try {
         var self = this;
         this.setState({ loading: true })
         navigator.geolocation.getCurrentPosition(
@@ -114,7 +115,15 @@ export default class EnYakinIstasyon extends Component {
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
         this._getData();
+       } catch (error) {
+           Alert.alert('Hata!',error);
+       }
+       finally{
 
+       }
+   }
+    componentDidMount(){
+        this._getCoord();
     }
     GetItem(item) {
         console.log('item=' + item);

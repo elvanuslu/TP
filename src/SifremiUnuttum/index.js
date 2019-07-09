@@ -28,17 +28,24 @@ export default class SifremiUnuttum extends Component {
             if (this.state.eposta != undefined) {
                 SendPasswordByEmailAfterChangedPsw(this.state.eposta)
                     .then((res) => {
-
+                        console.log('Send email ' + JSON.stringify(res));
+                        this.setState({ loading: false })
                         Alert.alert('Şifre Değiştirme', res.message)
                     })
-                    .finally
-                this.setState({ loading: false })
+                    .finally(
+                        this.setState({ loading: false }))
 
             }
-            else
+            else {
+                this.setState({ loading: false });
                 Alert.alert('Hata', 'Eposta alanı boş bırakılamaz.')
+            }
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert('Hata Oluştu', error)
+        }
+        finally {
+            this.setState({ loading: false })
         }
     }
     render() {
@@ -47,18 +54,14 @@ export default class SifremiUnuttum extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="lyight-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("login")}>
                             <Icon name="arrow-back" style={{ color: '#fff' }} />
                         </Button>
                     </Left>
                     <Body>
                         <Title style={{ color: '#fff' }}>Şifremi Unuttum</Title>
                     </Body>
-                    <Right>
-                        <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" style={{ color: '#fff' }} />
-                        </Button>
-                    </Right>
+
                 </Header>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Spinner
@@ -78,16 +81,16 @@ export default class SifremiUnuttum extends Component {
                     <Image source={k1} style={styles.logo}></Image>
                 </View>
                 <View style={styles.containerAlt}>
-                    <Content style={{ backgroundColor: '#fff', width: '100%' }}>
-                        <View style={{ alignItems: 'flex-start' }}>
-                            <Text style={styles.textYazi}>Kayıtlı e-posta adresinizi ilgili alana girerek,şifrenizi{'\n'}e-posta adresinize gönderebilirsiniz.{'\n\n'} </Text>
+                    <Content style={{ backgroundColor: '#fff' }} >
+                        <View style={{ alignItems: 'flex-start'}}>
+                            <Text style={styles.textYazi}>Kayıtlı e-posta adresinizi ilgili alana girerek, şifrenizi e-posta adresinize gönderebilirsiniz.{'\n\n'} </Text>
                         </View>
 
                         <Item regular style={styles.Inputs}>
                             <Icon active name='mail' color='#fff' />
                             <TextInputMask style={styles.Inputs1}
-                                placeholder='E-Posta adresinizi Giriniz...'
-                                placeholderTextColor="#efefef"
+                                placeholder='E-Posta adresinizi giriniz'
+                                placeholderTextColor="#gray"
                                 keyboardType="email-address"
                                 refInput={ref => { this.input = ref }}
                                 onChangeText={(formatted, extracted) => {
@@ -107,6 +110,10 @@ export default class SifremiUnuttum extends Component {
                         </TouchableOpacity>
                     </Content>
                 </View>
+
+
+
+
             </Container>
         );
     }
@@ -114,32 +121,48 @@ export default class SifremiUnuttum extends Component {
 
 
 const styles = StyleSheet.create({
+    textYazi: {
+        color: 'gray',
+        fontSize: 12,
+        textAlign: 'left',
+        marginLeft: 30,
+        marginTop: 1,
+        marginBottom: 1,
+        fontFamily: "Myriadpro-Regular",
+    },
     container: {
         flex: 1,
         //  flexDirection: 'column',
     },
     container1: {
+        flex: 1,
+        //backgroundColor: 'red',
+        // backgroundColor: '#efefef',
+    },
+  
+    containerOrta: {
         flex: 2,
-        backgroundColor: '#fff',
+       // backgroundColor: 'red',
         // backgroundColor: '#efefef',
     },
     containerAlt: {
-        flex: 5,
+        flex: 3,
         alignItems: 'center',
-        marginTop: 0,
-        backgroundColor: 'yellow'
+        // marginTop: 0,
+       // backgroundColor: 'yellow',
+
 
     },
     containerOrta: {
         flex: 3,
-        backgroundColor: 'transparent',
+
         //   backgroundColor: '#efefef',
     },
     logo: {
-        width: '90%',
+        width: '100%',
         height: 222,
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 0,
+        marginRight: 0,
         //     marginBottom:10,
         resizeMode: 'contain',
     },
@@ -149,7 +172,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 5,
     },
-    textYazi: {
+    textYazi2: {
         fontSize: 14,
         color: '#757575',
         textAlign: 'left',
@@ -178,12 +201,12 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderWidth: 1,
         alignSelf: 'center',
+        height: 50,
     },
     Inputs1: {
-        alignSelf: 'center',
-        height: 30,
-        borderRadius: 5,
-        marginBottom: 10,
+          alignSelf: 'center',
+      //  height: 70,
+       
         width: '90%',
         borderColor: 'black',
     },

@@ -124,7 +124,7 @@ export default class KayitGuncelle extends Component {
                         mobilgrupadi: res.bm_mobilgrupadi,
                         Cinsiyet: res.gendercode,
                         MedeniDurum: res.familystatuscode,
-                        chosenDate: Date( res.birthdate),
+                        chosenDate: Date(res.birthdate),
                         Adres: res.address1_line1,
                         Sehir: res.bm_sehirid,
                         Ilce: res.bm_ilceid,
@@ -179,7 +179,7 @@ export default class KayitGuncelle extends Component {
                         'Düzenleme!',
                         responseData.message,
                         [
-                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("hesabim") },
                         ],
                         { cancelable: true },
                     );
@@ -223,7 +223,7 @@ export default class KayitGuncelle extends Component {
                     <View>
                         <Image style={styles.logo} source={require('../../assets/tplogo.png')}
                         />
-                        <Image style={{ marginBottom: 5, alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                        <Image style={{ marginBottom: 1, alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
@@ -235,185 +235,188 @@ export default class KayitGuncelle extends Component {
                         />
                     </View>
                     <Content style={{ backgroundColor: '#fff' }}>
-                        <Body>
-                            <Item regular style={styles.Inputs}>
-                                <Icon active name='person' underlayColor='#2089dc' color='#fff' />
-                                <Input placeholder='Ad'
-                                    onChangeText={(value) => this.setState({ Adi: value })}
-                                    value={this.state.Adi}
-                                    placeholderTextColor="#efefef"
-                                    underlineColorAndroid="transparent" />
-                            </Item>
-                            <Item regular style={styles.Inputs}>
-                                <Icon active name='person' underlayColor='#2089dc' color='#fff' />
-                                <Input placeholder='Soyad'
-                                    onChangeText={(value) => this.setState({ Soyadi: value })}
-                                    value={this.state.Soyadi}
-                                    placeholderTextColor="#efefef"
-                                    underlineColorAndroid="transparent" />
-                            </Item>
 
-                            <Item regular style={styles.Inputs}>
-                                <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
-                                <TextInputMask style={styles.Inputs1}
-                                    placeholder="Telefon Giriniz..."
-                                    placeholderTextColor="#efefef"
-                                    keyboardType="phone-pad"
-                                    refInput={ref => { this.input = ref }}
-                                    value={this.state.tel}
-                                    onChangeText={(formatted, extracted) => {
-                                        this.setState({ tel: formatted })
-                                    }}
-                                    mask={"0 [000] [000] [00] [00]"} />
+                        <Item regular style={styles.Inputs}>
+                            <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                            <Input placeholder='Ad'
+                                onChangeText={(value) => this.setState({ Adi: value })}
+                                value={this.state.Adi}
+                                //  placeholderTextColor="#efefef"
+                                underlineColorAndroid="transparent" />
+                        </Item>
+                        <Item regular style={styles.Inputs}>
+                            <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                            <Input placeholder='Soyad'
+                                onChangeText={(value) => this.setState({ Soyadi: value })}
+                                value={this.state.Soyadi}
+                                // placeholderTextColor="#efefef"
+                                underlineColorAndroid="transparent" />
+                        </Item>
 
-                            </Item>
+                        <Item regular style={styles.Inputs}>
+                            <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
+                            <TextInputMask style={styles.Inputs1}
+                                editable={false}
+                                placeholder="Telefon giriniz"
+                                // placeholderTextColor="#efefef"
+                                keyboardType="phone-pad"
+                                refInput={ref => { this.input = ref }}
+                                value={this.state.tel}
+                                onChangeText={(formatted, extracted) => {
+                                    this.setState({ tel: formatted })
+                                }}
+                                mask={"0 [000] [000] [00] [00]"} />
 
+                        </Item>
+                        <Item regular style={[styles.Inputs, this.state.mobilKod !== undefined ? styles.Inputs : styles.hidden]}>
                             <Text style={[styles.Inputsleft, this.state.mobilKod !== undefined ? styles.Inputsleft : styles.hidden]}>
                                 {this.state.mobilgrupadi}
                             </Text>
-                            <Item regular style={[styles.Inputs, this.state.mobilKod === undefined ? styles.Inputs : styles.hidden]}>
-                                <Icon active name='md-alarm' color='#fff' />
-                                <Input placeholder='Mobil Kodunuz...'
-                                    onChangeText={(value) => this.setState({ mobilKod: value })}
-                                    value={this.state.mobilKod}
-                                    placeholderTextColor="#efefef"
-                                    underlineColorAndroid="transparent" />
-                            </Item>
+                        </Item>
+                        <Item regular style={[styles.Inputs, this.state.mobilKod === undefined ? styles.Inputs : styles.hidden]}>
+                            <Icon active name='md-alarm' color='#fff' />
+                            <Input placeholder='Mobil kodunuz'
+                                keyboardType="number-pad"
+                                onChangeText={(value) => this.setState({ mobilKod: value })}
+                                value={this.state.mobilKod}
+                                //  placeholderTextColor="#efefef"
+                                underlineColorAndroid="transparent" />
+                        </Item>
 
-                            <Item regular style={styles.Inputst}>
-                                <TextInput
-                                    placeholder='Adresinizi Giriniz...'
-                                    style={{ height: 60, flex: 1, }}
-                                    multiline={true}
-                                    numberOfLines={4}
-                                    onChangeText={(text) => this.setState({ Adres: text })}
-                                    value={this.state.Adres}
-                                />
-                            </Item>
+                        <Item regular style={styles.Inputst}>
+                            <TextInput
+                                placeholder='Adresinizi Giriniz'
+                                style={{ height: 60, flex: 1, }}
+                                multiline={true}
+                                numberOfLines={4}
+                                onChangeText={(text) => this.setState({ Adres: text })}
+                                value={this.state.Adres}
+                            />
+                        </Item>
 
-                            <Item picker style={styles.pickerInputs}>
-                                <Icon active name='person' color='#fff' />
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Şehirler..."
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.Sehir}
-                                    onValueChange={this.onSehir.bind(this)}>
-                                    {
-                                        this.state.Sehirler.map((item, key) => (
-                                            // console.log("Sehirler: " + item.bm_sehirid),
-                                            // console.log("Sehirler: " + item.bm_adi),
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_sehirid}
-                                                key={item.bm_sehirid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item picker style={styles.pickerInputs}>
-                                <Icon active name='person' color='#fff' />
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="İlçe..."
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.Ilce}
-                                    onValueChange={this.onIlce.bind(this)}>
-                                    {
-                                        this.state.IlceList.map((item, key) => (
-                                            // console.log("Sehirler: " + item.bm_sehirid),
-                                            // console.log("Sehirler: " + item.bm_adi),
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_ilceid}
-                                                key={item.bm_ilceid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item picker style={styles.pickerInputs}>
-                                <Icon active name='person' color='#fff' />
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Medeni Durumunuz..."
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.MedeniDurum}
-                                    onValueChange={(itemValue, itemIndex) =>
-                                        this.setState({ MedeniDurum: itemValue })
-                                    }>
+                        <Item picker style={styles.pickerInputs}>
+                            <Icon active name='person' color='#fff' />
+                            <Picker borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Şehir"
+                                //  placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.Sehir}
+                                onValueChange={this.onSehir.bind(this)}>
+                                {
+                                    this.state.Sehirler.map((item, key) => (
+                                        // console.log("Sehirler: " + item.bm_sehirid),
+                                        // console.log("Sehirler: " + item.bm_adi),
+                                        <Picker.Item
+                                            label={item.bm_adi}
+                                            value={item.bm_sehirid}
+                                            key={item.bm_sehirid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+                        <Item picker style={styles.pickerInputs}>
+                            <Icon active name='person' color='#fff' />
+                            <Picker borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="İlçe"
+                                //   placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.Ilce}
+                                onValueChange={this.onIlce.bind(this)}>
+                                {
+                                    this.state.IlceList.map((item, key) => (
+                                        // console.log("Sehirler: " + item.bm_sehirid),
+                                        // console.log("Sehirler: " + item.bm_adi),
+                                        <Picker.Item
+                                            label={item.bm_adi}
+                                            value={item.bm_ilceid}
+                                            key={item.bm_ilceid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+                        <Item picker style={styles.pickerInputs}>
+                            <Icon active name='person' color='#fff' />
+                            <Picker borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Medeni Durumunuz"
+                                //  placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.MedeniDurum}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    this.setState({ MedeniDurum: itemValue })
+                                }>
 
-                                    <Picker.Item label="Seçiniz" value="Sec" />
-                                    <Picker.Item label="Bekar" value="1" />
-                                    <Picker.Item label="Evli" value="2" />
-                                </Picker>
-                            </Item>
-                            {console.log('this.state.MedeniDurum ' + this.state.MedeniDurum)}
-                            <Item picker style={styles.pickerInputs}>
-                                <Icon active name='person' color='#fff' />
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Cinsiyetiniz..."
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.Cinsiyet}
-                                    onValueChange={(itemValue, itemIndex) =>
-                                        this.setState({ Cinsiyet: itemValue })
-                                    }>
+                                <Picker.Item label="Seçiniz" value="Sec" />
+                                <Picker.Item label="Bekar" value="1" />
+                                <Picker.Item label="Evli" value="2" />
+                            </Picker>
+                        </Item>
+                        {console.log('this.state.MedeniDurum ' + this.state.MedeniDurum)}
+                        <Item picker style={styles.pickerInputs}>
+                            <Icon active name='person' color='#fff' />
+                            <Picker borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Cinsiyetiniz"
+                                //   placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.Cinsiyet}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    this.setState({ Cinsiyet: itemValue })
+                                }>
 
-                                    <Picker.Item label="Seçiniz" value="Sec" />
-                                    <Picker.Item label="Erkek" value="1" />
-                                    <Picker.Item label="Kadın" value="2" />
-                                </Picker>
-                               
-                            </Item>
+                                <Picker.Item label="Seçiniz" value="Sec" />
+                                <Picker.Item label="Erkek" value="1" />
+                                <Picker.Item label="Kadın" value="2" />
+                            </Picker>
 
-                            <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: 320, marginLeft: 40, marginBottom: 10,borderLeftWidth:1,borderTopWidth:1,borderLeftWidth:1,borderRightWidth:1,borderRadius:5,borderColor:'black' }}>
+                        </Item>
+
+                        <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '80%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
                             <Icon name="ios-calendar" style={{ color: '#fff' }} />
-                                <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
-                                    defaultDate={new Date(2019, 5, 4)}
-                                    minimumDate={new Date(1900, 1, 1)}
-                                    maximumDate={new Date(2050, 12, 31)}
-                                    format="DD-MM-YYYY"
-                                    locale={"tr"}
-                                    timeZoneOffsetInMinutes={undefined}
-                                    modalTransparent={false}
-                                    animationType={"fade"}
-                                    androidMode={"spinner"}
-                                    placeHolderText="Doğum Tarihinizi Giriniz..."
-                                    textStyle={{ color: "green" }}
-                                    placeHolderTextStyle={{ color: "#d3d3d3" }}
-                                    onDateChange={this.setDate}
-                                    disabled={false}
+                            <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
+                                defaultDate={new Date(2019, 5, 4)}
+                                minimumDate={new Date(1900, 1, 1)}
+                                maximumDate={new Date(2050, 12, 31)}
+                                format="DD-MM-YYYY"
+                                locale={"tr"}
+                                timeZoneOffsetInMinutes={undefined}
+                                modalTransparent={false}
+                                animationType={"fade"}
+                                androidMode={"spinner"}
+                                placeHolderText="Doğum Tarihinizi Giriniz"
+                                textStyle={{ color: "green" }}
+                                 placeHolderTextStyle={{ color: "gray" }}
+                                onDateChange={this.setDate}
+                                disabled={false}
 
-                                />
-                                <Text>
-                                  
-                                </Text>
-                               
-                            </Item>
-                            <Item regular style={styles.Inputs}>
-                                <Icon active name='key' underlayColor='#2089dc' color='#fff' />
-                                <Input placeholder='Şifre '
-                                    // keyboardType="email-address"
-                                    placeholderTextColor="#efefef"
-                                    secureTextEntry={true}
-                                    textContentType="password"
-                                    onChangeText={(value) => this.setState({ Sifre: value })}
-                                    value={this.state.Sifre}
-                                    underlineColorAndroid="transparent" />
-                            </Item>
-                        </Body>
+                            />
+                            <Text>
+
+                            </Text>
+
+                        </Item>
+                        <Item regular style={styles.Inputs}>
+                            <Icon active name='key' underlayColor='#2089dc' color='#fff' />
+                            <Input placeholder='Şifre '
+                                // keyboardType="email-address"
+                                placeholderTextColor="#efefef"
+                                secureTextEntry={true}
+                                textContentType="password"
+                                onChangeText={(value) => this.setState({ Sifre: value })}
+                                value={this.state.Sifre}
+                                underlineColorAndroid="transparent" />
+                        </Item>
+
 
                         <Button block danger style={styles.mb15} onPress={() => this._btnKayit()}>
                             <Text style={styles.buttonText}>Güncelle</Text>
@@ -435,13 +438,13 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        flex: 3,
+        flex: 1,
         backgroundColor: 'transparent',
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     containerOrta: {
-        flex: 8,
-        alignItems: 'center',
+        flex: 9,
+        // alignItems: 'center',
         backgroundColor: 'transparent',
     },
     containerBottom: {
@@ -451,9 +454,10 @@ const styles = StyleSheet.create({
     logo: {
         marginTop: 5,
         //  width: '100%',
-        height: '90%',
+        height: '100%',
         resizeMode: 'contain',
         marginBottom: 5,
+        alignSelf: 'center',
     },
     banner: {
         // marginTop: 2,
@@ -471,11 +475,14 @@ const styles = StyleSheet.create({
         borderColor: 'black',
     },
     Inputsleft: {
-        alignSelf:'flex-start',
-        marginLeft: 40,
-        marginRight: 40,
-        borderRadius: 5,
-        marginBottom: 10,
+        textAlign: 'left',
+        alignSelf: 'center',
+        marginLeft: 5,
+        marginRight: 5,
+        // color: 'gray',
+        // borderRadius: 5,
+        // marginBottom: 1,
+        marginTop: 25,
         height: 50,
         borderColor: 'black',
     },
@@ -503,9 +510,7 @@ const styles = StyleSheet.create({
 
     Inputs1: {
         alignSelf: 'center',
-        height: 40,
-        borderRadius: 5,
-        marginBottom: 10,
+      //  height: 60,
         width: '90%',
         //color:'black',
         borderColor: 'black',

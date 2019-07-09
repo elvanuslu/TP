@@ -416,17 +416,30 @@ export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) =
 }
 export const SendPasswordByEmailAfterChangedPsw = async (eposta) => {
   try {
-    const URL = define_api_url + `SendPasswordByEmailAfterChangedPsw?eMailAddress1=${eposta}`;
+    const URL = define_api_url + `SendPasswordByEmailAfterChangedPsw`;
     return fetch(URL,
-      { method: 'POST' })
-      .then((res) => {
-        res.json()
-        console.log('1SendPasswordByEmailAfterChangedPsw: ' + JSON.stringify(res))
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          eMailAddress1:eposta,
+        }),
       })
-      .catch((error) => console.log('SendPasswordByEmailAfterChangedPsw: ' + error))
+      .then((res) => res.json())
+      .catch((error) => console.log('Fetch SendPasswordByEmailAfterChangedPsw: ' + error))
+
   } catch (error) {
     console.log('SendPasswordByEmailAfterChangedPsw: ' + error);
   }
+}
+export const getIstasyonByCityId=(city, num)=>{
+  const URL = define_api_url + `TP_AccountGeographyList2?bm_ilceId=${city}&StationNumber=${num}`;
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
+    //.then((data) => { console.log("CityIdd=>" + JSON.stringify(data)) });
 }
 export const getDuyuruListByUser = (userId) => {
   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=1&contactid=${userId}`;
@@ -438,6 +451,13 @@ export const getSSS = (durum) => {
   console.log('URL '+ URL);
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
+}
+export const getAracYakitTipi = (plaka) => {
+  //console.log("getYakitTipi");
+  const URL = define_api_url + `GetBm_MusteriArac?bm_musteriaraciId=${plaka}`;
+  return fetch(URL)
+    .then((ret) => ret.json())
+  //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
 }
 export const getYakitTipi = () => {
   //console.log("getYakitTipi");

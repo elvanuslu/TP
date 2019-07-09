@@ -13,8 +13,8 @@ export default class login extends Component {
     super(props);
     this.state = {
       switch1Value: true,
-      UserName: undefined, //'asu@test.com',
-      Pass: undefined,//'123456',
+      UserName: 'asu@test.com',
+      Pass: '123456',
       userId: '',
       error: '',
       isLoading: false,
@@ -27,23 +27,28 @@ export default class login extends Component {
     );
   }
   _getGps() {
+   try {
     navigator.geolocation.getCurrentPosition(
       //Will give you the current location
       (position) => {
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        //getting the Longitude from the location json
+        const currentLongitude = (position.coords.longitude);
         const currentLatitude = JSON.stringify(position.coords.latitude);
-        //getting the Latitude from the location json
         this.setState({ latlon: position.coords.longitude });
       },
-      (error) => '',//alert(error.message),
+      (error) => console.log(error.message),
       {
-        enableHighAccuracy: true, timeout: 20000, maximumAge:1000
+        enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
       }
     );
+   } catch (error) {
+     
+   }
+   finally{
+
+   }
   }
   componentDidUpdate() {
-    console.log('this.state.latlon '+this.state.latlon)
+    console.log('this.state.latlon ' + this.state.latlon)
     if (this.state.latlon === undefined)
       this._getGps();
   }
@@ -51,22 +56,10 @@ export default class login extends Component {
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
-    navigator.geolocation.getCurrentPosition(
-      //Will give you the current location
-      (position) => {
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        //getting the Longitude from the location json
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-        //getting the Latitude from the location json
-      },
-      (error) => alert(error.message),
-      {
-        enableHighAccuracy: true, timeout: 20000, maximumAge:1000
-      }
-    );
+   this._getGps();
 
   }
- 
+
   onBackButtonPressAndroid = () => {
     if (this.isSelectionModeEnabled()) {
       this.disableSelectionMode();
@@ -203,28 +196,27 @@ export default class login extends Component {
             <View>
               <Image style={styles.logo} source={require('../../assets/tplogo.png')}
               />
-              <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '80%', height: 1, marginTop: -50 }} source={require('../../assets/cizgi.png')} />
             </View>
           </View>
 
           <View style={styles.containerOrta}>
-            <Content style={{ backgroundColor: '#fff' }}>
+   
 
               <Item regular style={styles.Inputs}>
                 <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
-                <Input placeholder='E-Posta adresinizi Giriniz...'
+                <Input placeholder='E-Posta adresinizi giriniz'
                   keyboardType="email-address"
-                  placeholderTextColor="#efefef"
+                  // placeholderTextColor="#efefef"
                   onChangeText={(value) => this.setState({ UserName: value })}
                   value={this.state.UserName}
                   underlineColorAndroid="transparent" />
               </Item>
               <Item regular style={styles.Inputs}>
                 <Icon active name='key' underlayColor='#2089dc' color='#fff' />
-                <Input placeholder='Şifrenizi Giriniz...'
+                <Input placeholder='Şifrenizi giriniz'
                   secureTextEntry={true}
                   textContentType="password"
-                  placeholderTextColor="#efefef"
+                  //  placeholderTextColor="#efefef"
                   onChangeText={(value) => this.setState({ Pass: value })}
                   value={this.state.Pass}
                   underlineColorAndroid="transparent" />
@@ -239,9 +231,6 @@ export default class login extends Component {
                   style={{ marginBottom: 0 }}
                   value={this.state.SwitchOnValueHolder} />
               </View>
-
-
-            </Content>
           </View>
           <View style={styles.containerBottom}>
 
@@ -282,16 +271,18 @@ const styles = StyleSheet.create({
 
   },
   container1: {
-    flex: 5,
+    flex: 2,
     backgroundColor: 'transparent',
-    marginBottom: 10,
+    marginBottom: 50,
   },
   containerOrta: {
-    flex: 4,
-    backgroundColor: 'transparent',
+    flex: 3,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    //alignItems: 'center',
   },
   containerBottom: {
-    flex: 6,
+    flex: 4,
     backgroundColor: 'transparent',
   },
   welcome: {
@@ -313,9 +304,9 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   logo: {
-    flexDirection: 'row',
+   // flexDirection: 'row',
     alignSelf: 'center',
-    width: 190,
+    width: '50%',
     resizeMode: 'contain',
   },
   switchcontainer: {

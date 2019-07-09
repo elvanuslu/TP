@@ -36,7 +36,7 @@ export default class SideBar extends Component {
                     <Button block transparent style={styles.mb15}  onPress={() => this.props.navigation.navigate("kampanya")}>
                     <Image
                             style={styles.button}
-                            source={require('../../assets/kampanyalar.png')}
+                            source={require('../../assets/kampanylar.png')}
                         />
                     </Button>
                     <Button block transparent style={styles.mb15}  onPress={() => this.props.navigation.navigate("Duyurular")}>

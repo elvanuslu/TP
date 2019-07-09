@@ -29,9 +29,11 @@ import OzetBilgi from './src/Satis/OzetBilgi';
 import Kodec from './src/yenikayit/codec';
 import AnaSayfa from './src/AnaSayfa/AnaSayfa';
 import Sozlesme from './src/Yardim/Sozlesme';
+import SatisIllce from './src/Satis/satisILILce';
 
 
 const Drawer = createDrawerNavigator({
+  SatisIllce:{ screen: SatisIllce},
   Sozlesme:{ screen: Sozlesme},
   AnaSayfa:{ screen: AnaSayfa},
   Kodec:{ screen: Kodec},
@@ -63,6 +65,7 @@ const Drawer = createDrawerNavigator({
   })
 
 const AppNavigator = createStackNavigator({
+  SatisIllce:{ screen: SatisIllce},
   Drawer: { screen: Drawer },
   login: { screen: login },
   kampanya: { screen: kampanya },

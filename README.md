@@ -1,2 +1,2 @@
 # TP
-Türk Petrol React Native 
+Türkiye Petrolleri React Native 

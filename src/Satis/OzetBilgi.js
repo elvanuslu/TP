@@ -146,7 +146,17 @@ export default class OzetBilgi extends Component {
                             this.setState({ loading: false })
                         }
                         else {
-                            Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
+                            Alert.alert(
+                                'İşlem Başarılı',
+                                res.message + ' Yakıt Alabilirsiniz...',
+                                [
+
+                                    { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
+                                ],
+                                { cancelable: true },
+                            );
+                           // Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
+                          //  
                         }
                     })
                     .catch(error => {
@@ -160,7 +170,7 @@ export default class OzetBilgi extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
+      //  console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
         this.setState({
             Istasyon: nextProps.navigation.state.params.Parametre.IstasyonAdi,
             IstasyonId: nextProps.navigation.state.params.Parametre.Istasyon,
@@ -204,7 +214,7 @@ export default class OzetBilgi extends Component {
     }
     componentDidMount() {
         // console.clear();
-        console.log('Paraös = ' + JSON.stringify(this.props));
+       // console.log('Paraös = ' + JSON.stringify(this.props));
         this.onGetParams();
     }
     onGetParams = () => {
