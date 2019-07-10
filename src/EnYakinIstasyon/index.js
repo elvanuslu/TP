@@ -46,19 +46,7 @@ export default class EnYakinIstasyon extends Component {
         });
         this.props.navigation.navigate("EnYakinIstasyon")
     }
-    isAvailable() {
-        const timeout = new Promise((resolve, reject) => {
-            setTimeout(reject, 3000, 'Request timed out');
-        });
-        const request = fetch('http://85.105.103.4:8096');
-        return Promise
-            .race([timeout, request])
-            .then(response => '')
-            .catch(error => {
-                Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
-                this.setState({ loading: false })
-            });
-    }
+   
     _getData() {
         try {
         //    this.isAvailable();

@@ -170,6 +170,7 @@ export default class SatisIllce extends Component {
                             if (this.state.PompaNo != undefined) { // Pompa No 
 
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
+                                    this.setState({ loading: false })
                                     this.props.navigation.navigate("KampanyaSec", {
                                         'Istasyon': this.state.istasyonselectedId,
                                         'IstasyonAdi': this.state.IstasyonAdi,
@@ -187,6 +188,7 @@ export default class SatisIllce extends Component {
                                 }
                                 else {
                                     if (this.state.Tutar != undefined) { // Tutar 
+                                        this.setState({ loading: false })
                                         this.props.navigation.navigate("KampanyaSec", {
                                             'Istasyon': this.state.istasyonselectedId,
                                             'IstasyonAdi': this.state.IstasyonAdi,
@@ -393,14 +395,17 @@ export default class SatisIllce extends Component {
                     //  console.log('Odeme Tipleri: ' + JSON.stringify(this.state.OdemeTipleri))
                 })
                 .catch(e => {
-                    Alert.alert('Hata' + e);
                     this.setState({ loading: false })
+                    Alert.alert('Hata' + e);
                 })
                 .finally(
                     this.setState({ loading: false }))
 
         } catch (error) {
             Alert.alert('getGetPaymentTypes Hata', error)
+        }
+        finally{
+            this.setState({ loading: false });
         }
     }
     onYakitTipiValueChange(value: string) {
@@ -410,19 +415,7 @@ export default class SatisIllce extends Component {
         //  console.log("Yakıt Tipi: " + this.state.yakitTipi);
         // console.log("Yakit Val: " + this.state.yakitTipiDeger);
     }
-    isAvailable() {
-        const timeout = new Promise((resolve, reject) => {
-            setTimeout(reject, 5000, 'Zaman aşımı');
-        });
-        const request = fetch('http://85.105.103.4:8096');
-        return Promise
-            .race([timeout, request])
-            .then(response => '')
-            .catch(error => {
-                Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
-                this.setState({ loading: false })
-            });
-    }
+   
     //------------------------------------------------
     _getPlakaListesi = async () => {
         try {

@@ -94,15 +94,20 @@ export default class KayitGuncelle extends Component {
     }
     _getCitybyId = () => {
         try {
-            getCitybyId(this.state.Sehir)
-                .then((res) => {
-                    //   console.log('İlçe= '+ JSON.stringify(res));
-                    if (this.state.Sehir !== undefined) {
-                        this.setState({
-                            IlceList: res,
-                        })
-                    }
-                })
+            if (this.state.Sehir !== undefined) {
+                getCitybyId(this.state.Sehir)
+                    .then((res) => {
+                        //   console.log('İlçe= '+ JSON.stringify(res));
+                        if (this.state.Sehir !== undefined) {
+                            this.setState({
+                                IlceList: res,
+                            })
+                        }
+                    })
+            }
+            else {
+                Alert.alert('Hata', 'Şehir Seçim');
+            }
         } catch (error) {
             Alert.alert('Hata', error);
         }
@@ -395,7 +400,7 @@ export default class KayitGuncelle extends Component {
                                 androidMode={"spinner"}
                                 placeHolderText="Doğum Tarihinizi Giriniz"
                                 textStyle={{ color: "green" }}
-                                 placeHolderTextStyle={{ color: "gray" }}
+                                placeHolderTextStyle={{ color: "gray" }}
                                 onDateChange={this.setDate}
                                 disabled={false}
 
@@ -510,7 +515,7 @@ const styles = StyleSheet.create({
 
     Inputs1: {
         alignSelf: 'center',
-      //  height: 60,
+        //  height: 60,
         width: '90%',
         //color:'black',
         borderColor: 'black',

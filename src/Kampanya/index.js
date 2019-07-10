@@ -20,19 +20,7 @@ export default class kampanya extends Component {
             loading: true
         }
     }
-    isAvailable() {
-        const timeout = new Promise((resolve, reject) => {
-          setTimeout(reject, 5000, 'Zaman aşımı');
-        });
-        const request = fetch('http://85.105.103.4:8096');
-        return Promise
-          .race([timeout, request])
-          .then(response => '')
-          .catch(error => {
-            Alert.alert('Bağlantı Hatası','İnternet bağlantınızı kontrol edin.')
-            this.setState({ loading: false })
-          });
-      }
+   
     componentDidMount() {
         this._getKampanyaListesi();
     }

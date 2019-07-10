@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar,Platform } from 'react-native';
 import { Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon1 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -168,7 +168,8 @@ export default class yenikayit extends Component {
                                             this.setState({ loading: true })
                                             MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
                                                 this.state.Sifre, this.state.plaka, this.state.selected2, this.state.selected2,
-                                                this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum, this.state.mobilKod)
+                                                this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum, this.state.mobilKod,
+                                                Platform.OS === 'ios'? '100000000':'100000001')
                                                 .then((responseData) => {
                                                     let response = JSON.stringify(responseData);
                                                     console.log('responseData=' + response)
@@ -321,7 +322,7 @@ export default class yenikayit extends Component {
                 .then((response) => {
                     // console.log('Response0 ' + response[0].bm_uzunaciklama + '   Ret= ' + JSON.stringify(response));
                     this.setState({ loading: false })
-                Alert.alert('Sözleşme', response[0].bm_uzunaciklama);
+                    Alert.alert('Sözleşme', response[0].bm_uzunaciklama);
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
@@ -374,7 +375,7 @@ export default class yenikayit extends Component {
                                     <Input placeholder='Adınızı giriniz'
                                         onChangeText={(value) => this.setState({ Adi: value })}
                                         value={this.state.Adi}
-                                       placeholderTextColor="gray"
+                                        placeholderTextColor="gray"
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
@@ -382,14 +383,14 @@ export default class yenikayit extends Component {
                                     <Input placeholder='Soyadınızı giriniz'
                                         onChangeText={(value) => this.setState({ Soyadi: value })}
                                         value={this.state.Soyadi}
-                                          placeholderTextColor="gray"
+                                        placeholderTextColor="gray"
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='E-posta adresi giriniz'
                                         keyboardType="email-address"
-                                          placeholderTextColor="gray"
+                                        placeholderTextColor="gray"
                                         onChangeText={(value) => this.setState({ eposta: value })}
                                         value={this.state.eposta}
                                         underlineColorAndroid="transparent" />
@@ -398,7 +399,7 @@ export default class yenikayit extends Component {
                                     <Icon active name='person' color='#fff' />
                                     <TextInputMask style={styles.Inputs1}
                                         placeholder="Telefon giriniz"
-                                         placeholderTextColor="gray"
+                                        placeholderTextColor="gray"
                                         keyboardType="phone-pad"
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(formatted, extracted) => {

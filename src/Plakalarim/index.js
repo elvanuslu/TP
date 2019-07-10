@@ -32,19 +32,7 @@ export default class Plakalarim extends Component {
             kartId: undefined,
         }
     }
-    isAvailable() {
-        const timeout = new Promise((resolve, reject) => {
-            setTimeout(reject, 5000, 'Zaman aşımı');
-        });
-        const request = fetch('http://85.105.103.4:8096');
-        return Promise
-            .race([timeout, request])
-            .then(response => '')
-            .catch(error => {
-                Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
-                this.setState({ loading: false })
-            });
-    }
+   
     GetItem(item, kart) {
         console.log('Plaka = ' + item + ' Kart = ' + kart);
         this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'KartId': kart });
@@ -96,7 +84,7 @@ export default class Plakalarim extends Component {
         this.setState({ listViewData: newData });
     }
     render() {
-        <StatusBar color='#fff' backgroundColor="blue" barStyle="light-content" />
+        <StatusBar color='#fff' barStyle="light-content" />
         return (
             <Container style={styles.container}>
 
@@ -126,7 +114,13 @@ export default class Plakalarim extends Component {
                     <Image style={styles.banner} source={k1} />
                 </View>
                 <View style={styles.containerBottom}>
-
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spinner
+                            visible={this.state.loading}
+                            textContent={'Yükleniyor...'}
+                            textStyle={styles.spinnerTextStyle}
+                        />
+                    </View>
                     <View style={styles.switchcontainer}>
                         <Button success onPress={() => this.props.navigation.navigate("PlakaEkle")}>
                             <Icon active name="add" style={{ color: "#FFF", }} />
@@ -331,9 +325,9 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     txtArac: {
-        fontSize: 12,
+        fontSize: 11,
         //  fontWeight: '100',
-        //   textAlign: 'left',
+           textAlign: 'right',
         //  alignSelf: 'flex-end'
 
 
