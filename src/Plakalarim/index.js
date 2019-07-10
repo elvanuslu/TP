@@ -51,7 +51,7 @@ export default class Plakalarim extends Component {
     }
     _getPlakaList = async () => {
         try {
-            this.isAvailable();
+           // this.isAvailable();
             this.setState({ loading: true })
             const uId = await getStorage('userId');
             // console.log('plaka User Id = ' + uId)

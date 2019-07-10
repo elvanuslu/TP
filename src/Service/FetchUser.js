@@ -537,3 +537,15 @@ export const postRequest = async (body, url) => {
   return data;
 
 }
+
+export const _handleConnectivityChange = (isConnected) => {
+ 
+  if(isConnected == true)
+    {
+      return true;
+    }
+    else
+    {
+      return false
+    }
+};

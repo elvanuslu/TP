@@ -61,7 +61,7 @@ export default class EnYakinIstasyon extends Component {
     }
     _getData() {
         try {
-            this.isAvailable();
+        //    this.isAvailable();
             this.setState({ loading: true })
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 25).then((res) => {
                 this.setState({ listViewData: res, loading: false });

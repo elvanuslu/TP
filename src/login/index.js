@@ -1,6 +1,9 @@
 
 import React, { Component } from 'react';
-import { BackHandler, Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity } from 'react-native';
+import {
+  BackHandler, Alert, KeyboardAvoidingView, NetInfo,
+  Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
+} from 'react-native';
 import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -21,31 +24,32 @@ export default class login extends Component {
       loading: false,
       SwitchOnValueHolder: false,
       latlon: undefined,
+      connection_Status: undefined,
     }
     this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
       BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
   }
   _getGps() {
-   try {
-    navigator.geolocation.getCurrentPosition(
-      //Will give you the current location
-      (position) => {
-        const currentLongitude = (position.coords.longitude);
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-        this.setState({ latlon: position.coords.longitude });
-      },
-      (error) => console.log(error.message),
-      {
-        enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
-      }
-    );
-   } catch (error) {
-     
-   }
-   finally{
+    try {
+      navigator.geolocation.getCurrentPosition(
+        //Will give you the current location
+        (position) => {
+          const currentLongitude = (position.coords.longitude);
+          const currentLatitude = JSON.stringify(position.coords.latitude);
+          this.setState({ latlon: position.coords.longitude });
+        },
+        (error) => console.log(error.message),
+        {
+          enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
+        }
+      );
+    } catch (error) {
 
-   }
+    }
+    finally {
+
+    }
   }
   componentDidUpdate() {
     console.log('this.state.latlon ' + this.state.latlon)
@@ -53,13 +57,42 @@ export default class login extends Component {
       this._getGps();
   }
   componentDidMount() {
+    this._getConn();
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
-   this._getGps();
+    this._getGps();
 
   }
+  _getConn = () => {
+    try {
+      NetInfo.isConnected.addEventListener(
+        'connectionChange',
+        this._handleConnectivityChange
+      );
+      NetInfo.isConnected.fetch().done((isConnected) => {
 
+        if (isConnected == true) {
+          this.setState({ connection_Status: "Online" })
+        }
+        else {
+          this.setState({ connection_Status: "Offline" })
+        }
+
+      });
+    } catch (error) {
+
+    }
+  }
+  _handleConnectivityChange = (isConnected) => {
+
+    if (isConnected == true) {
+      this.setState({ connection_Status: "Online" })
+    }
+    else {
+      this.setState({ connection_Status: "Offline" })
+    }
+  };
   onBackButtonPressAndroid = () => {
     if (this.isSelectionModeEnabled()) {
       this.disableSelectionMode();
@@ -72,6 +105,11 @@ export default class login extends Component {
   };
 
   componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this._handleConnectivityChange
+
+    );
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
     console.log('remove component')
@@ -95,14 +133,15 @@ export default class login extends Component {
       .race([timeout, request])
       .then(response => '')
       .catch(error => {
-        Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
         this.setState({ loading: false })
+        Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
+
       });
   }
   handleSubmit() {
     try {
       this.setState({ loading: true })
-      this.isAvailable();
+    //  this.isAvailable();
       if (this.state.UserName !== undefined) {
         if (this.state.Pass !== undefined) {
           getUserInfo(this.state.UserName, this.state.Pass)
@@ -200,37 +239,37 @@ export default class login extends Component {
           </View>
 
           <View style={styles.containerOrta}>
-   
 
-              <Item regular style={styles.Inputs}>
-                <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
-                <Input placeholder='E-Posta adresinizi giriniz'
-                  keyboardType="email-address"
-                  // placeholderTextColor="#efefef"
-                  onChangeText={(value) => this.setState({ UserName: value })}
-                  value={this.state.UserName}
-                  underlineColorAndroid="transparent" />
-              </Item>
-              <Item regular style={styles.Inputs}>
-                <Icon active name='key' underlayColor='#2089dc' color='#fff' />
-                <Input placeholder='Şifrenizi giriniz'
-                  secureTextEntry={true}
-                  textContentType="password"
-                  //  placeholderTextColor="#efefef"
-                  onChangeText={(value) => this.setState({ Pass: value })}
-                  value={this.state.Pass}
-                  underlineColorAndroid="transparent" />
-              </Item>
-              <View style={styles.switchcontainer}>
-                <View style={{ alignContent: 'center' }}>
-                  <Text style={styles.switcText}>Beni Hatırla</Text>
-                </View>
 
-                <Switch
-                  onValueChange={(value) => ''}
-                  style={{ marginBottom: 0 }}
-                  value={this.state.SwitchOnValueHolder} />
+            <Item regular style={styles.Inputs}>
+              <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
+              <Input placeholder='E-Posta adresinizi giriniz'
+                keyboardType="email-address"
+                // placeholderTextColor="#efefef"
+                onChangeText={(value) => this.setState({ UserName: value })}
+                value={this.state.UserName}
+                underlineColorAndroid="transparent" />
+            </Item>
+            <Item regular style={styles.Inputs}>
+              <Icon active name='key' underlayColor='#2089dc' color='#fff' />
+              <Input placeholder='Şifrenizi giriniz'
+                secureTextEntry={true}
+                textContentType="password"
+                //  placeholderTextColor="#efefef"
+                onChangeText={(value) => this.setState({ Pass: value })}
+                value={this.state.Pass}
+                underlineColorAndroid="transparent" />
+            </Item>
+            <View style={styles.switchcontainer}>
+              <View style={{ alignContent: 'center' }}>
+                <Text style={styles.switcText}>Beni Hatırla</Text>
               </View>
+
+              <Switch
+                onValueChange={(value) => ''}
+                style={{ marginBottom: 0 }}
+                value={this.state.SwitchOnValueHolder} />
+            </View>
           </View>
           <View style={styles.containerBottom}>
 
@@ -304,7 +343,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   logo: {
-   // flexDirection: 'row',
+    // flexDirection: 'row',
     alignSelf: 'center',
     width: '50%',
     resizeMode: 'contain',

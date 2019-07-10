@@ -38,7 +38,7 @@ export default class kampanya extends Component {
     }
     _getKampanyaListesi() {
         try {
-            this.isAvailable();
+          //  this.isAvailable();
             this.setState({ loading: true })
             getKampanyaListesi()
                 .then((res) => {

@@ -537,7 +537,7 @@ export default class SatisIllce extends Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('recievr Props')
-        this.isAvailable();
+       // this.isAvailable();
         //  console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();
@@ -546,7 +546,7 @@ export default class SatisIllce extends Component {
         this._getPaymentTypes();
     }
     componentDidMount() {
-        this.isAvailable();
+     //   this.isAvailable();
         //  console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();
