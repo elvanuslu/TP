@@ -25,14 +25,24 @@ export default class Yardim extends Component {
             this.setState({ loading: true })
             getSSS(4)
                 .then((response) => {
+                    if(response.status!==false){
                     this.setState({ datam: response, loading: false })
-                    // console.log(JSON.stringify(response))
+                     //console.log(JSON.stringify(response))
+                    }
+                    else{
+                        this.setState({ loading: false })
+                        Alert.alert('Hata!', response.message)
+                    }
                 })
                 .catch((error) => {
+                    this.setState({ loading: false })
                     Alert.alert('Servis Hatası!', error)
                 })
         } catch (error) {
             Alert.alert('Hata Oluştu!', error)
+        }
+        finally{
+            this.setState({ loading: false })
         }
     }
     componentDidMount() {

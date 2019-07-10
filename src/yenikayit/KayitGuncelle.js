@@ -97,7 +97,7 @@ export default class KayitGuncelle extends Component {
             if (this.state.Sehir !== undefined) {
                 getCitybyId(this.state.Sehir)
                     .then((res) => {
-                        //   console.log('İlçe= '+ JSON.stringify(res));
+                           console.log('İlçe= '+ JSON.stringify(res));
                         if (this.state.Sehir !== undefined) {
                             this.setState({
                                 IlceList: res,

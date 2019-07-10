@@ -26,9 +26,7 @@ export default class login extends Component {
       latlon: undefined,
       connection_Status: undefined,
     }
-    this._didFocusSubscription = props.navigation.addListener('didFocus', payload =>
-      BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-    );
+   
   }
   _getGps() {
     try {
@@ -52,11 +50,13 @@ export default class login extends Component {
     }
   }
   componentDidUpdate() {
+   
     console.log('this.state.latlon ' + this.state.latlon)
     if (this.state.latlon === undefined)
       this._getGps();
   }
   componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
     this._getConn();
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
@@ -64,6 +64,13 @@ export default class login extends Component {
     this._getGps();
 
   }
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+  }
+  handleBackPress = () => {
+    BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async
+    return true;
+  };
   _getConn = () => {
     try {
       NetInfo.isConnected.addEventListener(
@@ -312,7 +319,7 @@ const styles = StyleSheet.create({
   container1: {
     flex: 2,
     backgroundColor: 'transparent',
-    marginBottom: 50,
+    marginBottom: 60,
   },
   containerOrta: {
     flex: 3,

@@ -1,9 +1,11 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import {Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import { getDuyuruListByUser,getStorage } from '../Service/FetchUser';
+
+
 
 const k1 = require("../../assets/resim1.png");
 const k2 = require("../../assets/Resim2.png");
@@ -11,14 +13,18 @@ const k3 = require("../../assets/image3.png");
 const k4 = require("../../assets/Duyuru1.png");
 
 export default class Duyurular extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             userName: '',
             loading: false,
             data:[],
         }
     }
+   componentWillReceiveProps(nextProps){
+       console.log('Update Props'+ JSON.stringify(nextProps))
+    this._getDuyuruListesi();
+   }
     componentDidMount() {
        // console.log('mount')
         this._getDuyuruListesi();
@@ -30,8 +36,13 @@ export default class Duyurular extends Component {
         //   console.log('mount'+uId)
            getDuyuruListByUser(uId )
                .then((res) => {
+                   if(res.status!==false){
                    this.setState({ data: res, loading: false });
-                   //console.log(JSON.stringify(res));
+                  // console.log(JSON.stringify(res));
+                   }
+                   else{
+                    Alert.alert('Hata', res.message);
+                   }
                })
                .catch((error) => alert(error))
       } catch (error) {

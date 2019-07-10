@@ -456,11 +456,14 @@ export default class Satis extends Component {
     _getLatLon = () => {
         try {
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 15).then((res) => {
-                this.setState({ datas: res, loading: false });
-                // Alert.alert('Data', JSON.stringify(this.state.datas));
-                console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
-            })
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 15)
+                .then((res) => {
+                    
+                    this.setState({ datas: res, loading: false });
+                    Alert.alert('Data', JSON.stringify(res));
+                    console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
+               
+                })
         } catch (error) {
             Alert.alert('Hata', error);
         }
@@ -485,7 +488,7 @@ export default class Satis extends Component {
     }
     componentWillReceiveProps(nextProps) {
         console.log('recievr Props')
-      //  this.isAvailable();
+        //  this.isAvailable();
         //  console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();
@@ -494,7 +497,7 @@ export default class Satis extends Component {
         this._getPaymentTypes();
     }
     componentDidMount() {
-      //  this.isAvailable();
+        //  this.isAvailable();
         //  console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();
@@ -675,7 +678,7 @@ export default class Satis extends Component {
 
                         </View>
 
-                        <View style={{flex:1, marginBottom: 10 }}>
+                        <View style={{ flex: 1, marginBottom: 10 }}>
                             <Text style={styles.textYazi}>*Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
 
                             <Button block danger style={{ marginTop: 5, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>

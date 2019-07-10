@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import {getAracYakitTipi, getIstasyonByCityId, getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
+import { getAracYakitTipi, getIstasyonByCityId, getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const k1 = require("../../assets/Resim.png");
@@ -19,7 +19,6 @@ export default class SatisIllce extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
             kullanici: undefined,
             selected2: undefined,
             yakitTipi: undefined,
@@ -151,7 +150,7 @@ export default class SatisIllce extends Component {
         } catch (error) {
             Alert.alert('Hata', error);
         }
-        finally{
+        finally {
             this.setState({ loading: false })
         }
     }
@@ -291,7 +290,7 @@ export default class SatisIllce extends Component {
             PlakaSelectId: value,
             PlakaName: label,
             PlakaName: this.state.Plaka.find(p => p.bm_musteriaraciid === value).bm_plaka,
-            
+
         },
             () => {
                 this._getAracYakitTipleri(value);
@@ -299,29 +298,29 @@ export default class SatisIllce extends Component {
                 //       console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
             })
     }
-    
-    _getAracYakitTipleri=(aracId)=> {
+
+    _getAracYakitTipleri = (aracId) => {
         try {
             this.setState({ loading: true })
             getAracYakitTipi(aracId)
                 .then((res) => {
-                   // console.log("Arac Yakit " + JSON.stringify(res));
-                  
+                    // console.log("Arac Yakit " + JSON.stringify(res));
+
                     var jsonBody = [
                         {
-                          "bm_yakittipiid": res.bm_yakitcinsiid_1,
-                          "bm_yakittipiadi": res.bm_yakittipiadi_1
+                            "bm_yakittipiid": res.bm_yakitcinsiid_1,
+                            "bm_yakittipiadi": res.bm_yakittipiadi_1
                         },
                         {
-                          "bm_yakittipiid": res.bm_yakitcinsiid_2,
-                          "bm_yakittipiadi": res.bm_yakittipiadi_2
+                            "bm_yakittipiid": res.bm_yakitcinsiid_2,
+                            "bm_yakittipiadi": res.bm_yakittipiadi_2
                         },
-                      ]
-                      this.setState({
+                    ]
+                    this.setState({
                         yakitTipleri: jsonBody,
                         loading: false,
                     });
-                    console.log('Yakitlar ksonBody== '+ JSON.stringify(jsonBody));
+                    console.log('Yakitlar ksonBody== ' + JSON.stringify(jsonBody));
                 })
                 .catch(e => {
                     this.setState({ loading: false })
@@ -332,7 +331,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata', error);
         }
-        finally{
+        finally {
             this.setState({ loading: false })
         }
     }
@@ -404,7 +403,7 @@ export default class SatisIllce extends Component {
         } catch (error) {
             Alert.alert('getGetPaymentTypes Hata', error)
         }
-        finally{
+        finally {
             this.setState({ loading: false });
         }
     }
@@ -415,7 +414,7 @@ export default class SatisIllce extends Component {
         //  console.log("Yakıt Tipi: " + this.state.yakitTipi);
         // console.log("Yakit Val: " + this.state.yakitTipiDeger);
     }
-   
+
     //------------------------------------------------
     _getPlakaListesi = async () => {
         try {
@@ -514,11 +513,18 @@ export default class SatisIllce extends Component {
     _getLatLon = () => {
         try {
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 15).then((res) => {
-                this.setState({ datas: res, loading: false });
-                // Alert.alert('Data', JSON.stringify(this.state.datas));
-                console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
-            })
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude,10)
+                .then((res) => {
+                    if(status!==false){
+                    console.log('Istasyonlarım= ' + JSON.stringify(res));
+                    this.setState({ datas: res, loading: false });
+                    Alert.alert('Data', JSON.stringify(res));
+                    console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
+                    }
+                    else{
+                        Alert.alert('Hata', res.message);
+                    }
+                })
         } catch (error) {
             Alert.alert('Hata', error);
         }
@@ -530,7 +536,7 @@ export default class SatisIllce extends Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('recievr Props')
-       // this.isAvailable();
+        // this.isAvailable();
         //  console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();
@@ -539,7 +545,7 @@ export default class SatisIllce extends Component {
         this._getPaymentTypes();
     }
     componentDidMount() {
-     //   this.isAvailable();
+        //   this.isAvailable();
         //  console.log('Did Mount');
         this._getLocation();
         this._retrieveKullanici();
@@ -758,7 +764,7 @@ export default class SatisIllce extends Component {
                             <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
                                 <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
                                     <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={odeme}></Image>
-                                    <Input placeholder='Ödeme tutarı' style={{width:'90%'}}
+                                    <Input placeholder='Ödeme tutarı' style={{ width: '90%' }}
                                         keyboardType="decimal-pad"
                                         placeholderTextColor="#bfc6ea"
                                         onChangeText={(value) => this.setState({ Tutar: value })}
@@ -768,7 +774,7 @@ export default class SatisIllce extends Component {
 
                             </View>
 
-                            <View style={{flex:1,marginBottom:10}}>
+                            <View style={{ flex: 1, marginBottom: 10 }}>
                                 <Text style={styles.textYazi}>*Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
 
                                 <Button block danger style={{ marginTop: 5, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>

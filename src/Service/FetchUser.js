@@ -1,6 +1,6 @@
 import { AsyncStorage, NetInfo } from 'react-native';
-const define_api_url = "http://85.105.103.4:8096/";
-//const define_api_url = "http://213.194.120.55:8082/";
+//const define_api_url = "http://85.105.103.4:8096/";
+const define_api_url = "http://213.194.120.55:8082/";
 //const define_api_url = "http://10.200.202.174:81/";
 
 export const isAvailable = () => {
@@ -33,10 +33,10 @@ export const checkConnection = () => {
 }
 
 export const getIstasyonWithLatLon = (lat, lon, sayac) => {
-  /* console.log('lat: '+lat); 
+  console.log('lat: '+lat); 
    console.log('lon: '+lon); 
    console.log('Sayaç: '+sayac); 
-   */
+   
   try {
     const URL = define_api_url + `TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
     return fetch(URL, { method: 'GET' })
