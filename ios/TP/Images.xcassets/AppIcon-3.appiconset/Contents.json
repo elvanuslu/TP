@@ -1,57 +1,48 @@
 {
   "images" : [
     {
+      "idiom" : "iphone",
       "size" : "20x20",
-      "idiom" : "iphone",
-      "filename" : "logoYazisiz.png",
       "scale" : "2x"
     },
     {
+      "idiom" : "iphone",
       "size" : "20x20",
-      "idiom" : "iphone",
-      "filename" : "logoYazisiz-1.png",
       "scale" : "3x"
     },
     {
+      "idiom" : "iphone",
       "size" : "29x29",
-      "idiom" : "iphone",
-      "filename" : "logoYazisiz-2.png",
       "scale" : "2x"
     },
     {
+      "idiom" : "iphone",
       "size" : "29x29",
-      "idiom" : "iphone",
-      "filename" : "logoYazisiz-3.png",
       "scale" : "3x"
     },
     {
-      "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "logoYazisiz-4.png",
+      "size" : "40x40",
       "scale" : "2x"
     },
     {
-      "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "logoYazisiz-5.png",
+      "size" : "40x40",
       "scale" : "3x"
     },
     {
-      "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "logoYazisiz-6.png",
+      "size" : "60x60",
       "scale" : "2x"
     },
     {
-      "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "logoYazisiz-7.png",
+      "size" : "60x60",
       "scale" : "3x"
     },
     {
-      "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "logoYazisiz-8.png",
+      "size" : "1024x1024",
       "scale" : "1x"
     }
   ],
