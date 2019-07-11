@@ -36,6 +36,7 @@ export default class KayitGuncelle extends Component {
             selected2: undefined,
             labelName: '',
             mobilKod: undefined,
+            mobilKod2: undefined,
             mobilKodFormatted: '',
             mobilextracted: '',
             Sehir: undefined,
@@ -126,6 +127,7 @@ export default class KayitGuncelle extends Component {
                         tel: res.mobilephone,
                         Sifre: res.bm_sifre,
                         mobilKod: res.bm_mobilkod,
+                        mobilKod2:res.bm_mobilkod,
                         mobilgrupadi: res.bm_mobilgrupadi,
                         Cinsiyet: res.gendercode,
                         MedeniDurum: res.familystatuscode,
@@ -273,13 +275,14 @@ export default class KayitGuncelle extends Component {
                                 mask={"0 [000] [000] [00] [00]"} />
 
                         </Item>
-                        <Item regular style={[styles.Inputs, this.state.mobilKod !== undefined ? styles.Inputs : styles.hidden]}>
-                            <Text style={[styles.Inputsleft, this.state.mobilKod !== undefined ? styles.Inputsleft : styles.hidden]}>
+                        <Item regular style={[styles.Inputs, (this.state.mobilKod2 !== '' )? styles.Inputs : styles.hidden]}>
+                            <Text style={[styles.Inputsleft, (this.state.mobilKod2 !== '' ) ? styles.Inputsleft : styles.hidden]}>
                                 {this.state.mobilgrupadi}
                             </Text>
                         </Item>
-                        <Item regular style={[styles.Inputs, this.state.mobilKod === undefined ? styles.Inputs : styles.hidden]}>
-                            <Icon active name='md-alarm' color='#fff' />
+                        {console.log('Mobil Kod I = '+typeof this.state.mobilKod2)}
+                        <Item regular style={[styles.Input2, (   this.state.mobilKod2 === '' ) ? styles.Inputs : styles.hidden]}>
+                            <Icon  active name='md-alarm' color='#fff' />
                             <Input placeholder='Mobil kodunuz'
                                 keyboardType="number-pad"
                                 onChangeText={(value) => this.setState({ mobilKod: value })}
@@ -300,7 +303,7 @@ export default class KayitGuncelle extends Component {
                         </Item>
 
                         <Item picker style={styles.pickerInputs}>
-                            <Icon active name='person' color='#fff' />
+                            <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
@@ -323,7 +326,7 @@ export default class KayitGuncelle extends Component {
                             </Picker>
                         </Item>
                         <Item picker style={styles.pickerInputs}>
-                            <Icon active name='person' color='#fff' />
+                            <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
@@ -346,7 +349,7 @@ export default class KayitGuncelle extends Component {
                             </Picker>
                         </Item>
                         <Item picker style={styles.pickerInputs}>
-                            <Icon active name='person' color='#fff' />
+                            <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
@@ -366,7 +369,7 @@ export default class KayitGuncelle extends Component {
                         </Item>
                         {console.log('this.state.MedeniDurum ' + this.state.MedeniDurum)}
                         <Item picker style={styles.pickerInputs}>
-                            <Icon active name='person' color='#fff' />
+                            <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
@@ -387,7 +390,7 @@ export default class KayitGuncelle extends Component {
                         </Item>
 
                         <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '80%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
-                            <Icon name="ios-calendar" style={{ color: '#fff' }} />
+                            <Icon style={{marginLeft:5,}} name="md-calendar" style={{ color: '#fff' }} />
                             <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
                                 defaultDate={new Date(2019, 5, 4)}
                                 minimumDate={new Date(1900, 1, 1)}
@@ -402,9 +405,7 @@ export default class KayitGuncelle extends Component {
                                 textStyle={{ color: "green" }}
                                 placeHolderTextStyle={{ color: "gray" }}
                                 onDateChange={this.setDate}
-                                disabled={false}
-
-                            />
+                                disabled={false} />
                             <Text>
 
                             </Text>
@@ -414,7 +415,7 @@ export default class KayitGuncelle extends Component {
                             <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                             <Input placeholder='Şifre '
                                 // keyboardType="email-address"
-                                placeholderTextColor="#efefef"
+                                placeholderTextColor="gray"
                                 secureTextEntry={true}
                                 textContentType="password"
                                 onChangeText={(value) => this.setState({ Sifre: value })}
@@ -438,6 +439,7 @@ const styles = StyleSheet.create({
     hidden: {
         width: 0,
         height: 0,
+        backgroundColor:'white'
     },
     container: {
         flex: 1,
@@ -478,6 +480,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         height: 50,
         borderColor: 'black',
+    },
+    Input2: {
+        marginLeft: 40,
+        marginRight: 40,
+        borderRadius: 5,
+        marginBottom: 10,
+        height: 50,
+        borderColor: 'transparent',
     },
     Inputsleft: {
         textAlign: 'left',

@@ -620,7 +620,7 @@ export default class Satis extends Component {
 
                             <Input placeholder='Pompa No'
                                 keyboardType="number-pad"
-                                placeholderTextColor="#bfc6ea"
+                                placeholderTextColor="black"
                                 onChangeText={(value) => this.setState({ PompaNo: value })}
                                 value={this.state.PompaNo}
                                 underlineColorAndroid="transparent" />
@@ -668,9 +668,9 @@ export default class Satis extends Component {
                         <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start', backgroundColor: 'red' }}>
                             <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
                                 <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={odeme}></Image>
-                                <Input placeholder='Ödeme tutarı' style={{ width: 300 }}
+                                <Input placeholder='Ödeme tutarı' style={{backgroundColor:'transparent', width: 300,fontSize:10,color:'black' }}
                                     keyboardType="decimal-pad"
-                                    placeholderTextColor="#bfc6ea"
+                                    placeholderTextColor="black"
                                     onChangeText={(value) => this.setState({ Tutar: value })}
                                     value={this.state.Tutar}
                                     underlineColorAndroid="transparent" />

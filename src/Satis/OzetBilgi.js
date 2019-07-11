@@ -332,7 +332,7 @@ export default class OzetBilgi extends Component {
                             <CardItem item>
                                 <View style={{ flex: 1, flexDirection: 'column' }}>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>İstasyon </Text>
                                         </Left>
@@ -342,7 +342,7 @@ export default class OzetBilgi extends Component {
 
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={plaka}></Image>
+                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={plaka}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Plaka </Text>
                                         </Left>
@@ -351,7 +351,7 @@ export default class OzetBilgi extends Component {
                                         </Right>
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Yakıt </Text>
                                         </Left>
@@ -360,7 +360,7 @@ export default class OzetBilgi extends Component {
                                         </Right>
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pmpa}></Image>
+                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={pmpa}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Pompa No </Text>
                                         </Left>
@@ -369,7 +369,7 @@ export default class OzetBilgi extends Component {
                                         </Right>
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={kampanya}></Image>
+                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={kampanya}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Kupon Kodu </Text>
                                         </Left>
@@ -379,7 +379,7 @@ export default class OzetBilgi extends Component {
 
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
 
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Ödeme Tipi </Text>
@@ -390,7 +390,7 @@ export default class OzetBilgi extends Component {
                                     </View>
 
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Tutar </Text>
                                         </Left>
@@ -432,7 +432,7 @@ export default class OzetBilgi extends Component {
 
                                                 <Right>
 
-                                                    <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl} TL</Text>
+                                                    <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl?this.state.kazanilanpuantl:0} TL</Text>
                                                 </Right>
 
                                             </View>
@@ -475,6 +475,7 @@ style={[styles.containerKapmayali, this.state.birimFiyat ? styles.hidden : style
 
 const styles = StyleSheet.create({
     Resim: {
+        marginRight:5,
         width: 20,
         height: 20,
         resizeMode: 'contain'
