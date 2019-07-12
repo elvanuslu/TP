@@ -1,18 +1,22 @@
 
 import React, { Component } from 'react';
-import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import { getAracYakitTipi, getIstasyonByCityId, getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+
+
 const k1 = require("../../assets/Resim.png");
-const logo = require("../../assets/logoKirmiz.png");
-const pompa = require("../../assets/pompatabancakirmizi.png");
-const plaka = require("../../assets/plakaKirmizi.png");
-const pmpa = require("../../assets/pompaKirmizi.png");
+const logo = require("../../assets/logoGri.png");
+const pompa = require("../../assets/pompatabancaGri.png");
+const plaka = require("../../assets/plakaGri.png");
+const pmpa = require("../../assets/pompaGri.png");
 const odeme = require("../../assets/odemeTutar.png");
-const kampanya = require("../../assets/kapmpanyakirmizi.png");
+const kampanya = require("../../assets/kapmpanyaGri.png");
+const OdemeIkon = require("../../assets/ikonlar-16.png");
+
 
 
 export default class SatisIllce extends Component {
@@ -82,6 +86,9 @@ export default class SatisIllce extends Component {
         try {
             getCityList()
                 .then((res) => {
+                    // console.log('Şehirler ' + JSON.stringify(res))
+                    var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': '-Şehir Seçin-' };
+                    res.splice(0, 0, initialArr);
                     this.setState({
                         Sehirler: res,
                     })
@@ -132,26 +139,35 @@ export default class SatisIllce extends Component {
                 } catch (error) {
                     Alert.alert('Hata!', error.message);
                 }
+                finally {
+                    this.setState({ loading: false, })
+                }
             }
         )
     }
     _getCitybyId = () => {
-        try {
-            getCitybyId(this.state.Sehir)
-                .then((res) => {
-                    //   console.log('İlçe= '+ JSON.stringify(res));
-                    if (this.state.Sehir !== undefined) {
-                        this.setState({
-                            IlceList: res,
-                            loading: false,
-                        })
-                    }
-                })
-        } catch (error) {
-            Alert.alert('Hata', error);
-        }
-        finally {
-            this.setState({ loading: false })
+
+        if (this.state.Sehir !== '00000000-0000-0000-0000-000000000001') {
+            try {
+
+                getCitybyId(this.state.Sehir)
+                    .then((res) => {
+                        //  console.log('İlçe= ' + JSON.stringify(res));
+                        var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000001', 'bm_adi': '-İlçe Seçin-' };
+                        res.splice(0, 0, initialArr);
+                        if (this.state.Sehir !== undefined) {
+                            this.setState({
+                                IlceList: res,
+                                loading: false,
+                            })
+                        }
+                    })
+            } catch (error) {
+                Alert.alert('Hata', error);
+            }
+            finally {
+                this.setState({ loading: false })
+            }
         }
     }
     componentDidUpdate() {
@@ -304,9 +320,13 @@ export default class SatisIllce extends Component {
             this.setState({ loading: true })
             getAracYakitTipi(aracId)
                 .then((res) => {
-                    // console.log("Arac Yakit " + JSON.stringify(res));
+                    //   console.log("Arac Yakit " + JSON.stringify(res));
 
                     var jsonBody = [
+                        {
+                            "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
+                            "bm_yakittipiadi": '-Yakıt Tipi Seçin-'
+                        },
                         {
                             "bm_yakittipiid": res.bm_yakitcinsiid_1,
                             "bm_yakittipiadi": res.bm_yakittipiadi_1
@@ -390,8 +410,11 @@ export default class SatisIllce extends Component {
             getPaymentTypes()
                 .then((res) => {
                     //   alert(JSON.stringify(res))
+                    // console.log('Odeme Tipleri: ' + JSON.stringify(res))
+                    var initialArr = { 'Value': '-1', 'Name': '-Ödeme Tipini Seçin-' };
+                    res.splice(0, 0, initialArr);
                     this.setState({ OdemeTipleri: res, loading: false })
-                    //  console.log('Odeme Tipleri: ' + JSON.stringify(this.state.OdemeTipleri))
+
                 })
                 .catch(e => {
                     this.setState({ loading: false })
@@ -423,7 +446,9 @@ export default class SatisIllce extends Component {
             //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
-                    //  console.log('Res= ' + JSON.stringify(res))
+                    //   console.log('Res= ' + JSON.stringify(res))
+                    var initialArr = { 'bm_musteriaraciid': '00000000-0000-0000-0000-000000000001', 'bm_plaka': '-Plaka Seçin-' };
+                    res.splice(0, 0, initialArr);
                     this.setState({ Plaka: res, loading: false });
                 })
                 .catch(e => {
@@ -443,7 +468,7 @@ export default class SatisIllce extends Component {
                         yakitTipleri: res,
                         loading: false,
                     });
-                    console.log("Yakitlog Yakit" + JSON.stringify(this.state.yakitTipleri));
+                    //   console.log("Yakitlog Yakit" + JSON.stringify(this.state.yakitTipleri));
                     // console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
                 })
                 .catch(e => {
@@ -562,10 +587,10 @@ export default class SatisIllce extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
-                    <Body>
+                    <Body >
                         <Title style={{ color: '#fff' }}>Satış</Title>
                     </Body>
                     <Right>
@@ -576,8 +601,7 @@ export default class SatisIllce extends Component {
                 </Header>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/tplogo.png')}
-                        />
+                        <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
                         <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
@@ -594,14 +618,14 @@ export default class SatisIllce extends Component {
 
 
                             <Item picker style={styles.pickerInputs}>
-                                <Icon style={{marginLeft:5, }} active name='person' color='#fff' />
+                                <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                                 <Picker borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     // style={{ width: undefined }}
                                     placeholder="Şehir"
-                                    //  placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
+                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderIconColor="black"
                                     selectedValue={this.state.Sehir}
                                     onValueChange={this.onSehir.bind(this)}>
                                     {
@@ -617,14 +641,14 @@ export default class SatisIllce extends Component {
                                 </Picker>
                             </Item>
                             <Item picker style={styles.pickerInputs}>
-                                <Icon style={{marginLeft:5, }} active name='person' color='#fff' />
+                                <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                                 <Picker borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="İlçe"
-                                    //   placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
+                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderIconColor="black"
                                     selectedValue={this.state.Ilce}
                                     onValueChange={this.onIlce.bind(this)}>
                                     {
@@ -646,8 +670,8 @@ export default class SatisIllce extends Component {
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="İstasyon"
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
+                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderIconColor="black"
                                     selectedValue={this.state.istasyonselectedId}
                                     onValueChange={this.onIstasyonName.bind(this)}>
                                     {
@@ -664,14 +688,14 @@ export default class SatisIllce extends Component {
 
                             </Item>
                             <Item picker style={styles.comboItem}>
-                                <Image style={{marginLeft:5,  width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
+                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
                                 <Picker borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Plaka"
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
+                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderIconColor="black"
                                     selectedValue={this.state.PlakaSelectId}
                                     onValueChange={this.onPlaka.bind(this)}>
                                     {
@@ -687,14 +711,14 @@ export default class SatisIllce extends Component {
                                 </Picker>
                             </Item>
                             <Item picker style={styles.comboItem}>
-                                <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                                 <Picker borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "#bfc6ea" }}
-                                    placeholderIconColor="#007aff"
+                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderIconColor="black"
                                     selectedValue={this.state.selected2}
                                     onValueChange={this.onValueChange2.bind(this)}>
                                     {
@@ -716,7 +740,7 @@ export default class SatisIllce extends Component {
 
                                 <Input placeholder='Pompa No' style={{ fontSize: 15 }}
                                     keyboardType="number-pad"
-                                    placeholderTextColor="black"
+                                    placeholderTextColor="gray"
                                     onChangeText={(value) => this.setState({ PompaNo: value })}
                                     value={this.state.PompaNo}
                                     underlineColorAndroid="transparent" />
@@ -726,27 +750,27 @@ export default class SatisIllce extends Component {
 
                                 <Input placeholder='Kupon kodu' style={{ fontSize: 15, color: 'black' }}
                                     //keyboardType="phone-pad"
-                                    placeholderTextColor="black"
+                                    placeholderTextColor="gray"
                                     onChangeText={(value) => this.setState({ KuponKodu: value })}
                                     value={this.state.KuponKodu}
                                     underlineColorAndroid="transparent" />
                             </Item>
                             <Item picker style={styles.comboItem}>
                                 <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-                                <Picker borderColor='black' 
-                                 
+                                <Picker borderColor='black'
+
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Ödeme tipi seçin"
                                     placeholderStyle={{ color: "gray" }}
                                     placeholderIconColor="black"
-                                   
+
                                     selectedValue={this.state.OdemeTipi}
                                     onValueChange={this.onOdemeTipi.bind(this)}>
                                     {
                                         this.state.OdemeTipleri.map((item, key) => (
-                                            <Picker.Item 
+                                            <Picker.Item
                                                 label={item.Name}
                                                 value={item.Value}
                                                 key={item.Value} />)
@@ -765,10 +789,10 @@ export default class SatisIllce extends Component {
                             </View>
                             <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
                                 <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
-                                    <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={odeme}></Image>
+                                    <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={OdemeIkon}></Image>
                                     <Input placeholder='Ödeme tutarı' style={{ width: '90%', backgroundColor: 'transparent', fontSize: 15, color: 'black' }}
                                         keyboardType="decimal-pad"
-                                        placeholderTextColor="black"
+                                        placeholderTextColor="gray"
                                         onChangeText={(value) => this.setState({ Tutar: value })}
                                         value={this.state.Tutar}
                                         underlineColorAndroid="transparent" />
@@ -810,7 +834,7 @@ export default class SatisIllce extends Component {
 
 const styles = StyleSheet.create({
     logos: {
-        marginLeft:5, 
+        marginLeft: 5,
         width: 30, height: 30, resizeMode: 'contain'
     },
     pickerInputs: {
@@ -874,7 +898,7 @@ const styles = StyleSheet.create({
     container1: {
         flex: 1,
         backgroundColor: 'transparent',
-        marginBottom: 20,
+        marginBottom: 5,
     },
     containerOrta: {
         flex: 6,
@@ -917,8 +941,17 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 80,
         resizeMode: 'contain',
-        marginBottom: 5,
+        marginBottom: 6,
+        alignSelf:'center'
     },
+  /*  logo: {
+        marginTop: 5,
+        width: '100%',
+        height: 80,
+        resizeMode: 'contain',
+        marginBottom: 6,
+    },
+*/
     banner: {
         // marginTop: 2,
         width: '100%',

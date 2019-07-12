@@ -134,8 +134,7 @@ export default class SatisVePuanGecmisi extends Component {
                 </Header>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')}
-                        />
+                        <Image style={styles.logo} source={require('../../assets/logo.png')}/>
                         <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
@@ -278,11 +277,21 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
+        width: '100%',
+        height: 80,
+        resizeMode: 'contain',
+        marginBottom: 6,
+        alignSelf:'center'
+    },
+    /*
+    logo: {
+        marginTop: 5,
         //   width: '100%',
         height: '90%',
         resizeMode: 'contain',
-        marginBottom: 5,
+        marginBottom: 6,
     },
+    */
     banner: {
         // marginTop: 2,
         width: '100%',

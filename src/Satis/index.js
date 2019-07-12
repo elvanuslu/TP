@@ -7,12 +7,12 @@ import { getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, get
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const k1 = require("../../assets/Resim.png");
-const logo = require("../../assets/logoKirmiz.png");
-const pompa = require("../../assets/pompatabancakirmizi.png");
-const plaka = require("../../assets/plakaKirmizi.png");
-const pmpa = require("../../assets/pompaKirmizi.png");
+const logo = require("../../assets/logoGri.png");
+const pompa = require("../../assets/pompatabancaGri.png");
+const plaka = require("../../assets/plakaGri.png");
+const pmpa = require("../../assets/pompaGri.png");
 const odeme = require("../../assets/odemeTutar.png");
-const kampanya = require("../../assets/kapmpanyakirmizi.png");
+const kampanya = require("../../assets/kapmpanyaGri.png");
 
 
 export default class Satis extends Component {

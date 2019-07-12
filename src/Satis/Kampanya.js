@@ -164,7 +164,8 @@ export default class KampanyaSec extends Component {
     }
     _campaignDetails = (myProp) => {
         try {
-            console.log('Propsss= ' + JSON.stringify(myProp));
+         //   console.log('Propsss= ' + JSON.stringify(myProp));
+         this.setState({loading:true});
             campaignDetailList(myProp.navigation.state.params.Istasyon,
                 myProp.navigation.state.params.Yakit,
                 myProp.navigation.state.params.OdemeTipi,
@@ -173,6 +174,7 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.KuponKodu,
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
+                    this.setState({ datam: null, loading: false });
                     console.log('Gelen Kampanya = ' + JSON.stringify(res));
 
                     if (res.status == false) {
@@ -202,6 +204,9 @@ export default class KampanyaSec extends Component {
                 )
         } catch (error) {
             Alert.alert('Genel Hata!', error)
+        }
+        finally{
+            this.setState({loading:false});
         }
     }
     GetItem = async (item) => {

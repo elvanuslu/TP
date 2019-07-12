@@ -143,11 +143,20 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
+        width: '100%',
+        height: 80,
+        resizeMode: 'contain',
+        marginBottom: 6,
+        alignSelf:'center'
+    },
+   /* logo: {
+        marginTop: 5,
         //  width: 150,
         height: '75%',
         resizeMode: 'contain',
         marginBottom: 5,
     },
+    */
     banner: {
         // marginTop: 2,
         width: '100%',

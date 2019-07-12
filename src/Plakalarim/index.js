@@ -32,14 +32,14 @@ export default class Plakalarim extends Component {
             kartId: undefined,
         }
     }
-   
+
     GetItem(item, kart) {
         console.log('Plaka = ' + item + ' Kart = ' + kart);
         this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'KartId': kart });
     }
     _getPlakaList = async () => {
         try {
-           // this.isAvailable();
+            // this.isAvailable();
             this.setState({ loading: true })
             const uId = await getStorage('userId');
             // console.log('plaka User Id = ' + uId)
@@ -105,16 +105,13 @@ export default class Plakalarim extends Component {
                 </Header>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')}
-                        />
-                        <Image style={{ marginBottom: 5, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
+                        <Image style={{ marginBottom: 3, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-                <View style={styles.containerOrta}>
-                    <Image style={styles.banner} source={k1} />
-                </View>
+
                 <View style={styles.containerBottom}>
-                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <Spinner
                             visible={this.state.loading}
                             textContent={'Yükleniyor...'}
@@ -122,10 +119,10 @@ export default class Plakalarim extends Component {
                         />
                     </View>
                     <View style={styles.switchcontainer}>
-                        <Button success onPress={() => this.props.navigation.navigate("PlakaEkle")}>
-                            <Icon active name="add" style={{ color: "#FFF", }} />
+                        <TouchableOpacity style={{  height: 50, marginTop: 5, }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
+                            <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={require('../../assets/ikonlar-06.png')} />
                             <Text style={styles.txtYazi}>Ekle  </Text>
-                        </Button>
+                        </TouchableOpacity>
                     </View>
                     <Content style={{ backgroundColor: '#fff' }}>
                         <View >
@@ -214,9 +211,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
-        // alignItems: 'center',
+        
     },
     container2: {
         flex: 2,
@@ -261,11 +258,21 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
+        width: '100%',
+        height: 80,
+        resizeMode: 'contain',
+        marginBottom: 6,
+        alignSelf:'center'
+    },
+    /*
+    logo: {
+        marginTop: 5,
         // width: '100%',
         height: '80%',
         resizeMode: 'contain',
         marginBottom: 5,
     },
+    */
     banner: {
         // marginTop: 2,
         width: '100%',
@@ -279,6 +286,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         alignItems: 'center',
         marginBottom: 5,
+        marginTop:10,
 
     },
 
@@ -327,7 +335,7 @@ const styles = StyleSheet.create({
     txtArac: {
         fontSize: 11,
         //  fontWeight: '100',
-           textAlign: 'right',
+        textAlign: 'right',
         //  alignSelf: 'flex-end'
 
 

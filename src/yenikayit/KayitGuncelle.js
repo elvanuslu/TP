@@ -228,8 +228,7 @@ export default class KayitGuncelle extends Component {
 
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/tplogo.png')}
-                        />
+                        <Image style={styles.logo} source={require('../../assets/tplogo.png')}/>
                         <Image style={{ marginBottom: 1, alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
@@ -447,10 +446,10 @@ const styles = StyleSheet.create({
     container1: {
         flex: 1,
         backgroundColor: 'transparent',
-        // alignItems: 'center',
+        marginBottom:5
     },
     containerOrta: {
-        flex: 9,
+        flex: 5,
         // alignItems: 'center',
         backgroundColor: 'transparent',
     },
@@ -460,12 +459,21 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
+        width: '100%',
+        height: 80,
+        resizeMode: 'contain',
+        marginBottom: 5,
+        alignSelf:'center'
+    },
+   /* logo: {
+        marginTop: 5,
         //  width: '100%',
         height: '100%',
         resizeMode: 'contain',
         marginBottom: 5,
         alignSelf: 'center',
     },
+    */
     banner: {
         // marginTop: 2,
         width: '100%',

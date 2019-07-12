@@ -9,10 +9,12 @@ const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 
-const pompa = require("../../assets/pompatabancakirmizi.png");
-const plaka = require("../../assets/plakaKirmizi.png");
-const pmpa = require("../../assets/pompaKirmizi.png");
-const araba = require("../../assets/araba.png");
+const pompa = require("../../assets/pompaGri.png");
+//const pompa = require("../../assets/pompatabancakirmizi.png");
+const plaka = require("../../assets/plakaGri.png");
+//const plaka = require("../../assets/plakaKirmizi.png");
+//const pmpa = require("../../assets/pompaKirmizi.png");
+const araba = require("../../assets/arac.png");
 
 import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, MusteriKayit } from '../Service/FetchUser';
 
@@ -113,8 +115,11 @@ export default class PlakaEkle extends Component {
             this.setState({ loading: true })
             getAracMarkaList()
                 .then((res) => {
-                    this.setState({ markalar: res, loading: false })
-                    console.log(JSON.stringify(this.state.markalar))
+                    var initialArr = { 'bm_aracmarkasiid': '-1', 'bm_adi': '-Araç  Seçin-' };
+                    res.splice(0, 0, initialArr);
+                    this.setState({ markalar: res, loading: false,araba:'-Araç Seç-' })
+                    
+                   // console.log(JSON.stringify(this.state.markalar))
                 })
                 .catch((error) => {
                     Alert.alert(
@@ -144,8 +149,10 @@ export default class PlakaEkle extends Component {
         try {
             getYakitTipi()
                 .then((res) => {
-                    this.setState({ yakitlst: res, loading: false })
-                    //  console.log(JSON.stringify(res))
+                    var initialArr = { 'bm_yakittipiid': '-1', 'bm_yakittipiadi': '-Yakıt Tipi Seçin-' };
+                    res.splice(0, 0, initialArr);
+                    this.setState({ yakitlst: res, loading: false,selected2:'-Yakıt Tipi Seçin-'  })
+                      console.log('Yakıtlar '+JSON.stringify(res))
                 })
                 .catch((error) => {
                     Alert.alert(
@@ -319,13 +326,13 @@ export default class PlakaEkle extends Component {
                 <View style={styles.containerBottom}>
                     <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                         <Item picker style={styles.Inputs2}>
-                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
+                            <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
                             <Picker style={styles.Inputs2} borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Araç Marka/model..."
-                                placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderStyle={{ color: "gray" }}
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.araba}
                                 onValueChange={this.onArabaValueChange.bind(this)}>
@@ -343,11 +350,11 @@ export default class PlakaEkle extends Component {
 
 
                         <Item regular style={styles.Inputs2}>
-                            <Image style={{ width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
+                            <Image style={{marginLeft:5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
                             <TextInputMask style={styles.Inputs1}
                                 autoCapitalize="characters"
                                 placeholder="Plaka Giriniz..."
-                                placeholderTextColor="#efefef"
+                                placeholderTextColor="gray"
                                 keyboardType="name-phone-pad"
                                 refInput={ref => { this.input = ref }}
                                 onChangeText={(formatted, extracted) => {
@@ -360,14 +367,14 @@ export default class PlakaEkle extends Component {
 
                         </Item>
                         <Item picker style={styles.Inputs2}>
-                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                            <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
                             <Picker borderWidt='1' borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"
-                                placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderStyle={{ color: "gray" }}
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.selected2}
                                 onValueChange={this.onValueChange2.bind(this)}>
@@ -384,14 +391,14 @@ export default class PlakaEkle extends Component {
                             </Picker>
                         </Item>
                         <Item picker style={styles.Inputs2}>
-                            <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                            <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
                             <Picker borderWidt='1' borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"
-                                placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderStyle={{ color: "gray" }}
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.selected3}
                                 onValueChange={this.onValueChange3.bind(this)}>
@@ -430,9 +437,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
-        alignItems: 'center',
+        
     },
     containerOrta: {
         flex: 2,
@@ -466,12 +473,22 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
+        width: '100%',
+        height: 80,
+        resizeMode: 'contain',
+        marginBottom: 6,
+        alignSelf:'center'
+    },
+    /*
+    logo: {
+        marginTop: 5,
         // width: '100%',
         height: '70%',
         resizeMode: 'contain',
         marginBottom: 10,
         alignItems: 'center',
     },
+    */
     banner: {
         // marginTop: 2,
         width: '100%',
@@ -527,7 +544,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: 50,
         borderRadius: 5,
-        marginBottom: 10,
         width: '90%',
         //color:'black',
         borderColor: 'black',

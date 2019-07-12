@@ -101,26 +101,26 @@ export default class AnaSayfa extends Component {
                 </Header>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')}
-                        />
+                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
                         <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
                     <Image style={styles.banner} source={k1} />
+                    <Text style={{alignSelf:'center'}}></Text>
                 </View>
                 <View style={styles.containerBottom}>
-                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Spinner
-                        visible={this.state.loading}
-                        textContent={'Yükleniyor...'}
-                        textStyle={styles.spinnerTextStyle}
-                    />
-                </View>
-                    <View style={{ flex: 2, flexDirection: "column", backgroundColor: 'transparent', }}>
-                        <View style={{ flex: 2, flexDirection: 'row', backgroundColor: 'transparent' }}>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spinner
+                            visible={this.state.loading}
+                            textContent={'Yükleniyor...'}
+                            textStyle={styles.spinnerTextStyle}
+                        />
+                    </View>
+                    <View style={{ flex: 3, flexDirection: "column", backgroundColor: 'transparent', }}>
+                        <View style={{ flex: 2, flexDirection: 'row',marginBottom:20, backgroundColor: 'transparent' }}>
                             <Left style={{ marginLeft: 20 }}>
-                                <TouchableOpacity onPress={() =>  this.props.navigation.navigate("SatisIllce")}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisIllce")}>
                                     <Image style={styles.button} source={require('../../assets/yakitalldpi.png')} />
                                 </TouchableOpacity>
                             </Left>
@@ -171,19 +171,20 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
 
     },
     containerOrta: {
-        flex: 8,
+        flex: 3,
         backgroundColor: 'transparent',
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 6,
+        flex: 2,
         backgroundColor: 'transparent',
-        //  marginTop:30,
+        flexDirection:'row-reverse'
+       
     },
     welcome: {
         fontSize: 20,
@@ -205,11 +206,21 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
-        //  width: 150,
-        height: '80%',
+        width: '100%',
+        height: 80,
         resizeMode: 'contain',
         marginBottom: 5,
+        alignSelf:'center'
     },
+
+    /*  logo: {
+          marginTop: 5,
+          //  width: 150,
+          height: '80%',
+          resizeMode: 'contain',
+          marginBottom: 5,
+      },
+      */
     banner: {
         // marginTop: 2,
         width: '100%',
