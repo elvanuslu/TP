@@ -107,13 +107,13 @@ export default class KampanyaSec extends Component {
         }
     }
     _btnDevam = (item) => {
-        console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
+    //    console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
         this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item, 'birimFiyat': undefined });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
-        console.log('Seçilen=> '+ JSON.stringify(Secilen));
-      //  console.log('Secim ==> ' + Secilen.alinmmiktariLT + ' item= ' + item + ' Datam ' + JSON.stringify(this.state.datam));
+     //   console.log('Seçilen=> ' + JSON.stringify(Secilen));
+        //  console.log('Secim ==> ' + Secilen.alinmmiktariLT + ' item= ' + item + ' Datam ' + JSON.stringify(this.state.datam));
 
         this.setState({
             birimFiyat: Secilen.TavsiyeEdilenfiyati,
@@ -126,13 +126,13 @@ export default class KampanyaSec extends Component {
             harcananPuanTL: Secilen.harcananpuantl,
             IstasyonFiyati: Secilen.istasyonfiyati,
         });
-      
+
         this.props.navigation.navigate("OzetBilgi", {
             'Parametre': this.props.navigation.state.params, 'KampanyaId': item,
             'birimFiyat': Secilen.TavsiyeEdilenfiyati, 'indirimliFiyat': Secilen.indirimlifiyati, 'indirimOrani': Secilen.indirimorani,
             'alimmiktariLT': Secilen.alinmmiktariLT, 'kazanilanPuan': Secilen.KazanilanPuan, 'puanTLkarsiligi': Secilen.kazanilanpuantl,
-            'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl,'katkiorani': Secilen.katkiorani,'bayikatkiorani':Secilen.bayikatkiorani,
-            'isortagikatkiorani': Secilen.isortagikatkiorani,'isortagiid': Secilen.isortagiid,'istasyonfiyati': Secilen.istasyonfiyati,
+            'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl, 'katkiorani': Secilen.katkiorani, 'bayikatkiorani': Secilen.bayikatkiorani,
+            'isortagikatkiorani': Secilen.isortagikatkiorani, 'isortagiid': Secilen.isortagiid, 'istasyonfiyati': Secilen.istasyonfiyati,
         });
     }
 
@@ -164,8 +164,8 @@ export default class KampanyaSec extends Component {
     }
     _campaignDetails = (myProp) => {
         try {
-         //   console.log('Propsss= ' + JSON.stringify(myProp));
-         this.setState({loading:true});
+            //   console.log('Propsss= ' + JSON.stringify(myProp));
+            this.setState({ loading: true });
             campaignDetailList(myProp.navigation.state.params.Istasyon,
                 myProp.navigation.state.params.Yakit,
                 myProp.navigation.state.params.OdemeTipi,
@@ -175,7 +175,7 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
                     this.setState({ datam: null, loading: false });
-                    console.log('Gelen Kampanya = ' + JSON.stringify(res));
+                  //  console.log('Gelen Kampanya = ' + JSON.stringify(res));
 
                     if (res.status == false) {
                         this.setState({ datam: null, loading: false });
@@ -194,7 +194,10 @@ export default class KampanyaSec extends Component {
                             datam: res,
                             loading: false
                         });
-
+                        if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
+                        //    console.log('bmkapmanya=0')
+                            this._git();
+                        }
 
                     }
                 })
@@ -205,8 +208,8 @@ export default class KampanyaSec extends Component {
         } catch (error) {
             Alert.alert('Genel Hata!', error)
         }
-        finally{
-            this.setState({loading:false});
+        finally {
+            this.setState({ loading: false });
         }
     }
     GetItem = async (item) => {
@@ -237,7 +240,7 @@ export default class KampanyaSec extends Component {
     }
     */
     componentWillReceiveProps(nextProps) {
-          console.log('Kapmanya recive 2.Data= ' + JSON.stringify(nextProps))
+   //     console.log('Kapmanya recive 2.Data= ' + JSON.stringify(nextProps))
         this._campaignDetails(nextProps);
         if (this.props.Istasyon !== nextProps.Istasyon) {
             //  console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
@@ -251,7 +254,7 @@ export default class KampanyaSec extends Component {
         }
     }
     componentDidMount = async () => {
-              console.log('Props= ' + JSON.stringify(this.props));
+      //  console.log('Props= ' + JSON.stringify(this.props));
         //   console.log("Prms= " + (this.props.navigation.state.params.Istasyon))
         const Id = await getStorage('userId');
         this.setState({ kullaniciId: Id });
@@ -337,10 +340,10 @@ export default class KampanyaSec extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container1}>
-                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'column', alignSelf:'center' }}>
                         <Spinner
                             visible={this.state.loading}
-                            textContent={'Yükleniyor...'}
+                            textContent={'Kampanyalar kontrol ediliyor.'}
                             textStyle={styles.spinnerTextStyle}
                         />
                     </View>
@@ -492,8 +495,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     cardmb: {
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 5,
+        marginRight: 5,
         marginBottom: 10,
         borderRadius: 10,
     },

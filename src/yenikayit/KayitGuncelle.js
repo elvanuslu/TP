@@ -13,6 +13,7 @@ const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
+const odeme = require("../../assets/odemeTutar.png");
 
 export default class KayitGuncelle extends Component {
     constructor() {
@@ -389,7 +390,7 @@ export default class KayitGuncelle extends Component {
                         </Item>
 
                         <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '80%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
-                            <Icon style={{marginLeft:5,}} name="md-calendar" style={{ color: '#fff' }} />
+                            <Image style={{marginLeft:5,height:15,width:15}} source={odeme}></Image>
                             <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
                                 defaultDate={new Date(2019, 5, 4)}
                                 minimumDate={new Date(1900, 1, 1)}

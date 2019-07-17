@@ -414,23 +414,14 @@ export default class yenikayit extends Component {
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
 
-                                    <TextInputMask style={styles.Inputs1}
-                                        autoCapitalize="characters"
+                                    <Input  autoCapitalize="characters"
+                                        onChangeText={(value) => this.setState({ plaka: value.toUpperCase() })}
+                                        value={this.state.plaka.toUpperCase()}
                                         placeholder="Plaka giriniz"
                                         placeholderTextColor="gray"
-                                        keyboardType="name-phone-pad"
-                                        //   onChangeText={(value) => this.setState({ plaka: value })}
-                                        value={this.state.plaka}
-                                        underlineColorAndroid="transparent"
+                                        underlineColorAndroid="transparent" />
 
-                                        refInput={ref => { this.input = ref }}
-                                        onChangeText={(formatted, extracted) => {
-                                            this.setState({ plaka: formatted })
-                                            //  console.log(formatted)
-                                            //  console.log(extracted)
-                                        }}
-                                    // mask={"[00] [AAa] [0000]"}
-                                    />
+                                 
                                 </Item>
                                 <Item picker style={styles.Inputs}>
                                     <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
@@ -597,7 +588,7 @@ const styles = StyleSheet.create({
     Inputs1: {
         alignSelf: 'center',
         width: '90%',
-        //color:'black',
+        fontSize:16,
         borderColor: 'black',
     },
     switchcontainer: {

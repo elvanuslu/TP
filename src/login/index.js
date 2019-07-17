@@ -8,7 +8,7 @@ import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, 
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { getUserInfo } from '../Service/FetchUser';
+import { getUserInfo,setStorage,getStorage } from '../Service/FetchUser';
 export default class login extends Component {
   _didFocusSubscription;
   _willBlurSubscription;
@@ -26,7 +26,7 @@ export default class login extends Component {
       latlon: undefined,
       connection_Status: undefined,
     }
-   
+
   }
   _getGps() {
     try {
@@ -50,19 +50,24 @@ export default class login extends Component {
     }
   }
   componentDidUpdate() {
-   
+
     console.log('this.state.latlon ' + this.state.latlon)
-    if (this.state.latlon === undefined)
-      this._getGps();
+   // if (this.state.latlon === undefined)
+     // this._getGps();
   }
-  componentDidMount() {
+  componentDidMount= async() =>{
     BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
     this._getConn();
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
     this._getGps();
-
+    const Password = await getStorage('Password');
+    console.log('Password= '+Password);
+    const UserID = await getStorage('userId');
+    if(Password!==''){
+       this.setState({Pass:Password, UserName:UserID});
+    }
   }
   componentWillUnmount() {
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
@@ -131,24 +136,11 @@ export default class login extends Component {
       console.log("Err=" + error);
     }
   };
-  isAvailable() {
-    const timeout = new Promise((resolve, reject) => {
-      setTimeout(reject, 10000, 'Request timed out');
-    });
-    const request = fetch('http://85.105.103.4:8096');
-    return Promise
-      .race([timeout, request])
-      .then(response => '')
-      .catch(error => {
-        this.setState({ loading: false })
-        Alert.alert('Bağlantı Hatası', 'İnternet bağlantınızı kontrol edin.')
 
-      });
-  }
   handleSubmit() {
     try {
       this.setState({ loading: true })
-    //  this.isAvailable();
+      //  this.isAvailable();
       if (this.state.UserName !== undefined) {
         if (this.state.Pass !== undefined) {
           getUserInfo(this.state.UserName, this.state.Pass)
@@ -210,9 +202,17 @@ export default class login extends Component {
       Alert.alert('Hata', error);
     }
   }
-  toggleSwitch1 = (value) => {
+  toggleSwitch1 = async (value) => {
     this.setState({ switch1Value: value })
     console.log('Switch 1 is: ' + value)
+    if (value == true){
+     await setStorage('userId',this.state.UserName);
+     await setStorage('Password',this.state.Pass);
+    }
+    else{
+      await setStorage('userId','');
+      await setStorage('Password','');
+    }
   }
 
   ShowAlert = (value) => {
@@ -238,17 +238,11 @@ export default class login extends Component {
               textStyle={styles.spinnerTextStyle}
             />
           </View>
-          <View style={styles.container1}>
-            <View>
-              <Image style={styles.logo} source={require('../../assets/tplogo.png')}
-              />
-            </View>
+          <View style={styles.containerUst}>
+            <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
           </View>
-
           <View style={styles.containerOrta}>
-
-
-            <Item regular style={styles.Inputs}>
+          <Item regular style={styles.Inputs}>
               <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
               <Input placeholder='E-Posta adresinizi giriniz'
                 keyboardType="email-address"
@@ -273,13 +267,10 @@ export default class login extends Component {
               </View>
 
               <Switch
-                onValueChange={(value) => ''}
+                onValueChange={(value) => this.toggleSwitch1(value)}
                 style={{ marginBottom: 0 }}
-                value={this.state.SwitchOnValueHolder} />
+                value={this.state.switch1Value} />
             </View>
-          </View>
-          <View style={styles.containerBottom}>
-
             <View style={{ alignItems: 'center', flexDirection: 'column', }}>
               <TouchableOpacity onPress={() => this.handleSubmit()}>
                 <Image
@@ -302,7 +293,9 @@ export default class login extends Component {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+
+          </View>
+  
       </Container >
     );
   }
@@ -316,15 +309,15 @@ const styles = StyleSheet.create({
     flex: 1,
 
   },
-  container1: {
-    flex: 2,
+  containerUst: {
+    flex: 3,
     backgroundColor: 'transparent',
-    marginBottom: 60,
+
   },
   containerOrta: {
-    flex: 3,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
+    flex: 6,
+    backgroundColor: 'transparent',
+    justifyContent: 'flex-start',
     //alignItems: 'center',
   },
   containerBottom: {
@@ -352,8 +345,10 @@ const styles = StyleSheet.create({
   logo: {
     // flexDirection: 'row',
     alignSelf: 'center',
-    width: '50%',
+    width: '100%',
+    height:80,
     resizeMode: 'contain',
+    marginTop:5
   },
   switchcontainer: {
     flexDirection: 'row',

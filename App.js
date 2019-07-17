@@ -92,7 +92,7 @@ const AppNavigator = createStackNavigator({
   {
     initialRouteName: "Drawer",
     headerMode: "none"
-  });
+  },);
 const AppContainer = createAppContainer(AppNavigator);
 console.disableYellowBox = true;
 export default () =>

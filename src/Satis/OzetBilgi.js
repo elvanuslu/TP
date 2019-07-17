@@ -147,8 +147,8 @@ export default class OzetBilgi extends Component {
                         }
                         else {
                             Alert.alert(
-                                'İşlem Başarılı',
-                                res.message + ' Yakıt Alabilirsiniz...',
+                                'Yakıt Dolumu',
+                                res.message ,
                                 [
 
                                     { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
@@ -220,8 +220,8 @@ export default class OzetBilgi extends Component {
     onGetParams = () => {
         try {
             var Id = this.props.navigation.getParam('KampanyaId', '');
-            console.log('Kapmapnya ID=' + Id + ' this.props.navigation.state.params.KampanyaId= ' + this.props.navigation.state.params.KampanyaId);
-            // console.log('Name ' + this.props.navigation.state.params.Parametre.IstasyonAdi)
+           // console.log('Kapmapnya ID=' + Id + ' this.props.navigation.state.params.KampanyaId= ' + this.props.navigation.state.params.KampanyaId);
+             console.log('Name ' +JSON.stringify(this.props.navigation.state.params))
             //  if (Id !== this.state.oldId) {
             if (Id !== '00000000-0000-0000-0000-000000000000') {
                 this.setState({

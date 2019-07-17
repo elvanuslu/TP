@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Alert, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { getAracYakitTipi, getIstasyonByCityId, getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
+import { campaignDetailList, getAracYakitTipi, getIstasyonByCityId, getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 
@@ -97,6 +97,41 @@ export default class SatisIllce extends Component {
             Alert.alert('Hata', error);
         }
     }
+    getcampaignDetailList = async () => {
+        try {
+            const Id = await getStorage('userId');
+            campaignDetailList(this.state.istasyonselectedId, his.state.selected2, this.state.OdemeTipi, this.state.Tutar ? this.state.Tutar : 0, Id, this.state.KuponKodu, this.state.PlakaSelectId)
+                .then((res) => {
+                    if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
+                        if (this.state.SwitchOnValueHolder == true) { // Tutar 
+                            this.setState({ loading: false })
+                            this.props.navigation.navigate("OzetBilgi", {
+                                'Parametre': {
+                                    'Istasyon': this.state.istasyonselectedId,
+                                    'IstasyonAdi': this.state.IstasyonAdi,
+                                    'Plaka': this.state.PlakaSelectId,
+                                    'PlakaName': this.state.PlakaName,
+                                    'Yakit': this.state.selected2,
+                                    'YakitAdi': this.state.YakitAdi,
+                                    'OdemeTipi': this.state.OdemeTipi,
+                                    'OdemeAdi': this.state.OdemeAdi,
+                                    'PompaNo': this.state.PompaNo,
+                                    'KuponKodu': this.state.KuponKodu,
+                                    'Tutar': 0,
+                                }
+                            });
+
+                        }
+                        //    this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyat': undefined });
+                    }
+                })
+        } catch (error) {
+
+        }
+        finally {
+
+        }
+    }
     onSehir(value, label) {
 
         this.setState(
@@ -176,6 +211,7 @@ export default class SatisIllce extends Component {
     }
     _campaignDetailList = async () => {
         try {
+            //this.getcampaignDetailList();
             this.setState({ loading: true })
             const Id = await getStorage('userId');
             if (this.state.istasyonselectedId != undefined) { //istasyon
@@ -183,7 +219,7 @@ export default class SatisIllce extends Component {
                     if (this.state.selected2 != undefined) { // Yakıt
                         if (this.state.OdemeTipi != undefined) { // Ödeme Tipi
                             if (this.state.PompaNo != undefined) { // Pompa No 
-
+                                
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
                                     this.setState({ loading: false })
                                     this.props.navigation.navigate("KampanyaSec", {
@@ -381,16 +417,18 @@ export default class SatisIllce extends Component {
     }
     onValueChange2(value, label) {
 
-        this.setState(
-            {
-                selected2: value,
-                labelName: label,
-                YakitAdi: this.state.yakitTipleri.find(p => p.bm_yakittipiid === value).bm_yakittipiadi,
-            },
-            () => {
-                //  console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
-            }
-        )
+        if (value !== '00000000-0000-0000-0000-000000000001') {
+            this.setState(
+                {
+                    selected2: value,
+                    labelName: label,
+                    YakitAdi: this.state.yakitTipleri.find(p => p.bm_yakittipiid === value).bm_yakittipiadi,
+                },
+                () => {
+                    //  console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
+                }
+            )
+        }
     }
     onOdemeTipi(value, label) {
         this.setState(
@@ -600,10 +638,10 @@ export default class SatisIllce extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container1}>
-                    <View>
-                        <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
-                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
-                    </View>
+
+                    <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
+                    <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+
                 </View>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Spinner
@@ -615,8 +653,6 @@ export default class SatisIllce extends Component {
                 <View style={styles.containerOrta}>
                     <Content>
                         <Form>
-
-
                             <Item picker style={styles.pickerInputs}>
                                 <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                                 <Picker borderColor='black'
@@ -624,7 +660,7 @@ export default class SatisIllce extends Component {
                                     iosIcon={<Icon name="arrow-down" />}
                                     // style={{ width: undefined }}
                                     placeholder="Şehir"
-                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="black"
                                     selectedValue={this.state.Sehir}
                                     onValueChange={this.onSehir.bind(this)}>
@@ -647,7 +683,7 @@ export default class SatisIllce extends Component {
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="İlçe"
-                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderStyle={{ color: "blacak" }}
                                     placeholderIconColor="black"
                                     selectedValue={this.state.Ilce}
                                     onValueChange={this.onIlce.bind(this)}>
@@ -670,7 +706,7 @@ export default class SatisIllce extends Component {
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="İstasyon"
-                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="black"
                                     selectedValue={this.state.istasyonselectedId}
                                     onValueChange={this.onIstasyonName.bind(this)}>
@@ -694,7 +730,7 @@ export default class SatisIllce extends Component {
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Plaka"
-                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="black"
                                     selectedValue={this.state.PlakaSelectId}
                                     onValueChange={this.onPlaka.bind(this)}>
@@ -740,7 +776,7 @@ export default class SatisIllce extends Component {
 
                                 <Input placeholder='Pompa No' style={{ fontSize: 15 }}
                                     keyboardType="number-pad"
-                                    placeholderTextColor="gray"
+                                    placeholderTextColor="black"
                                     onChangeText={(value) => this.setState({ PompaNo: value })}
                                     value={this.state.PompaNo}
                                     underlineColorAndroid="transparent" />
@@ -750,7 +786,7 @@ export default class SatisIllce extends Component {
 
                                 <Input placeholder='Kupon kodu' style={{ fontSize: 15, color: 'black' }}
                                     //keyboardType="phone-pad"
-                                    placeholderTextColor="gray"
+                                    placeholderTextColor="black"
                                     onChangeText={(value) => this.setState({ KuponKodu: value })}
                                     value={this.state.KuponKodu}
                                     underlineColorAndroid="transparent" />
@@ -763,7 +799,7 @@ export default class SatisIllce extends Component {
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Ödeme tipi seçin"
-                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="black"
 
                                     selectedValue={this.state.OdemeTipi}
@@ -792,7 +828,7 @@ export default class SatisIllce extends Component {
                                     <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={OdemeIkon}></Image>
                                     <Input placeholder='Ödeme tutarı' style={{ width: '90%', backgroundColor: 'transparent', fontSize: 15, color: 'black' }}
                                         keyboardType="decimal-pad"
-                                        placeholderTextColor="gray"
+                                        placeholderTextColor="black"
                                         onChangeText={(value) => this.setState({ Tutar: value })}
                                         value={this.state.Tutar}
                                         underlineColorAndroid="transparent" />
@@ -898,10 +934,10 @@ const styles = StyleSheet.create({
     container1: {
         flex: 1,
         backgroundColor: 'transparent',
-        marginBottom: 5,
+        marginBottom: 15,
     },
     containerOrta: {
-        flex: 6,
+        flex: 5,
         backgroundColor: '#fff',
     },
     containerBottom: {
@@ -941,17 +977,17 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 80,
         resizeMode: 'contain',
-        marginBottom: 6,
-        alignSelf:'center'
+        marginBottom: 10,
+        alignSelf: 'center'
     },
-  /*  logo: {
-        marginTop: 5,
-        width: '100%',
-        height: 80,
-        resizeMode: 'contain',
-        marginBottom: 6,
-    },
-*/
+    /*  logo: {
+          marginTop: 5,
+          width: '100%',
+          height: 80,
+          resizeMode: 'contain',
+          marginBottom: 6,
+      },
+  */
     banner: {
         // marginTop: 2,
         width: '100%',
