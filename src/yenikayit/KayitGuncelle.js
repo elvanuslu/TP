@@ -14,6 +14,7 @@ const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 const odeme = require("../../assets/odemeTutar.png");
+const sehirIkon = require("../../assets/ikonlar-22.png");
 
 export default class KayitGuncelle extends Component {
     constructor() {
@@ -303,7 +304,7 @@ export default class KayitGuncelle extends Component {
                         </Item>
 
                         <Item picker style={styles.pickerInputs}>
-                            <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
+                        <Image style={{height:40,width:40}} source={sehirIkon}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
@@ -326,7 +327,7 @@ export default class KayitGuncelle extends Component {
                             </Picker>
                         </Item>
                         <Item picker style={styles.pickerInputs}>
-                            <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
+                        <Image style={{height:40,width:40}} source={sehirIkon}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
@@ -367,7 +368,7 @@ export default class KayitGuncelle extends Component {
                                 <Picker.Item label="Evli" value="2" />
                             </Picker>
                         </Item>
-                        {console.log('this.state.MedeniDurum ' + this.state.MedeniDurum)}
+                       
                         <Item picker style={styles.pickerInputs}>
                             <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
                             <Picker borderColor='black'
@@ -390,7 +391,8 @@ export default class KayitGuncelle extends Component {
                         </Item>
 
                         <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '80%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
-                            <Image style={{marginLeft:5,height:15,width:15}} source={odeme}></Image>
+                          
+                            <Image style={{marginLeft:5, width: 20,height:20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
                             <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
                                 defaultDate={new Date(2019, 5, 4)}
                                 minimumDate={new Date(1900, 1, 1)}

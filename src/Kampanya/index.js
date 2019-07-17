@@ -20,26 +20,25 @@ export default class kampanya extends Component {
             loading: true
         }
     }
-   
+
     componentDidMount() {
         this._getKampanyaListesi();
     }
     _getKampanyaListesi() {
         try {
-          //  this.isAvailable();
+            //  this.isAvailable();
             this.setState({ loading: true })
             getKampanyaListesi()
                 .then((res) => {
-            
+
                     this.setState({ datam: res, loading: false });
                     //   console.log(res);
                 });
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert('Hata', error);
         }
-        finally{
-            this.setState({ loading: false })
-        }
+
     }
     GetItem(item) {
         // Alert.alert(item);

@@ -46,11 +46,10 @@ export default class Duyurular extends Component {
                })
                .catch((error) => alert(error))
       } catch (error) {
+        this.setState({ loading: false })
         Alert.alert('Hata', error);
       }
-      finally{
-        this.setState({ loading: false })
-      }
+    
     }
     onPressAndGo(Id,url,aciklama,aciklama2) {
         /*console.log('duyuru Id='+Id);

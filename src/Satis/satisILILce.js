@@ -16,6 +16,7 @@ const pmpa = require("../../assets/pompaGri.png");
 const odeme = require("../../assets/odemeTutar.png");
 const kampanya = require("../../assets/kapmpanyaGri.png");
 const OdemeIkon = require("../../assets/ikonlar-16.png");
+const sehirIkon = require("../../assets/ikonlar-22.png");
 
 
 
@@ -219,7 +220,7 @@ export default class SatisIllce extends Component {
                     if (this.state.selected2 != undefined) { // Yakıt
                         if (this.state.OdemeTipi != undefined) { // Ödeme Tipi
                             if (this.state.PompaNo != undefined) { // Pompa No 
-                                
+
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
                                     this.setState({ loading: false })
                                     this.props.navigation.navigate("KampanyaSec", {
@@ -654,7 +655,7 @@ export default class SatisIllce extends Component {
                     <Content>
                         <Form>
                             <Item picker style={styles.pickerInputs}>
-                                <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
+                                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
                                 <Picker borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
@@ -677,7 +678,7 @@ export default class SatisIllce extends Component {
                                 </Picker>
                             </Item>
                             <Item picker style={styles.pickerInputs}>
-                                <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
+                                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
                                 <Picker borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}

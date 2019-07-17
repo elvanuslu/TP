@@ -58,9 +58,7 @@ export default class DuyuruDetay extends Component {
         } catch (error) {
             Alert.alert('Hata Oluştu', error);
         }
-        finally {
-            this.setState({ loading: false })
-        }
+      
     }
     render() {
         const animating = this.state.loading

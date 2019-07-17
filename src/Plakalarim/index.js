@@ -121,7 +121,7 @@ export default class Plakalarim extends Component {
                     <View style={styles.switchcontainer}>
                         <TouchableOpacity style={{  height: 50, marginTop: 5, }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
                             <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={require('../../assets/ikonlar-06.png')} />
-                            <Text style={styles.txtYazi}>Ekle  </Text>
+                            
                         </TouchableOpacity>
                     </View>
                     <Content style={{ backgroundColor: '#fff' }}>
@@ -281,12 +281,13 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     switchcontainer: {
+       
         flexDirection: 'row',
         alignSelf: 'flex-end',
         marginRight: 10,
         alignItems: 'center',
         marginBottom: 5,
-        marginTop:10,
+        marginTop:40,
 
     },
 

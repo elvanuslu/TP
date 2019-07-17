@@ -137,7 +137,7 @@ export default class KampanyaSec extends Component {
     }
 
     componentWillUnmount() {
-        this.setState({ loading: false });
+       // this.setState({ loading: false });
     }
     _git() {
         const Istasyon = this.props.navigation.getParam('Istasyon', '');
@@ -202,15 +202,11 @@ export default class KampanyaSec extends Component {
                     }
                 })
                 .catch((error) => Alert.alert('Hata!', error))
-                .finally(
-                    this.setState({ loading: false })
-                )
+                
         } catch (error) {
             Alert.alert('Genel Hata!', error)
         }
-        finally {
-            this.setState({ loading: false });
-        }
+       
     }
     GetItem = async (item) => {
         const Istasyon = this.props.navigation.getParam('Istasyon', '');

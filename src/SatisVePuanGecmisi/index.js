@@ -97,9 +97,7 @@ export default class SatisVePuanGecmisi extends Component {
         } catch (error) {
             alert(error);
         }
-        finally{
-            this.setState({ loading: false })
-        }
+        
     }
     deleteRow(secId, rowId, rowMap) {
         rowMap[`${secId}${rowId}`].props.closeRow();
@@ -138,9 +136,7 @@ export default class SatisVePuanGecmisi extends Component {
                         <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-                <View style={styles.containerOrta}>
-                    <Image style={styles.banner} source={k1} />
-                </View>
+               
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Spinner
                         visible={this.state.loading}
@@ -252,7 +248,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     containerBottom: {
-        flex: 5,
+        flex: 10 ,
         backgroundColor: 'transparent',
         // alignItems: 'center',
         //    flexDirection: 'column',

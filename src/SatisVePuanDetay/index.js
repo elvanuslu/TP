@@ -3,7 +3,7 @@ import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, St
 import {
     Switch, List, ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
 } from 'native-base';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import { getSatisPuanDetay, getStorage } from '../Service/FetchUser';
 
@@ -14,7 +14,7 @@ const k3 = require("../../assets/Kampanya-3.png");
 export default class SatisVePuanDetay extends Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             kullanici: '',
             formatted: '',
@@ -30,35 +30,36 @@ export default class SatisVePuanDetay extends Component {
             this.setState({ loading: true })
             const uId = await getStorage('userId');
             // const pompaId = await getStorage('pompaId');
-            
+
             getSatisPuanDetay(pompaId)
                 .then((res) => {
                     //console.log('res= '+JSON.stringify(res))
-                    this.setState({ data: res,loading:false })
-                    console.log('Data=' + JSON.stringify(this.state.data));
+                    this.setState({ data: res, loading: false })
+                    //   console.log('Data=' + JSON.stringify(this.state.data));
                 })
                 .catch((error) => alert(error))
         } catch (error) {
             alert('Hata Oluştu ' + error)
         }
-        finally{
-            this.setState({ loading: false })
-        }
+
     }
 
 
     componentDidMount() {
+        const { navigation } = this.props;
+        const itemId = navigation.getParam('pompaID', '');
+        this._getSatisPuanDetay(itemId);
+            this.setState({ oldId: itemId })
 
-        //this._getSatisPuanDetay();
     }
     render() {
         const { navigation } = this.props;
         const itemId = navigation.getParam('pompaID', '');
-        
-        if (itemId !== this.state.oldId){
-            console.log('mPompaId= ' + itemId+' Old Id= '+this.state.oldId);
+
+        if (itemId !== this.state.oldId) {
+            console.log('mPompaId= ' + itemId + ' Old Id= ' + this.state.oldId);
             this._getSatisPuanDetay(itemId);
-            this.setState({oldId: itemId})
+            this.setState({ oldId: itemId })
         }
         return (
             <Container style={styles.container}>
@@ -85,8 +86,12 @@ export default class SatisVePuanDetay extends Component {
                         <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-                <View style={styles.containerOrta}>
-                    <Image style={styles.banner} source={k1} />
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Yükleniyor...'}
+                        textStyle={styles.spinnerTextStyle}
+                    />
                 </View>
 
                 <View style={styles.containerBottom}>
@@ -130,7 +135,7 @@ export default class SatisVePuanDetay extends Component {
                                 <Text>{this.state.data.bm_toplamtutar} TL</Text>
                             </Right>
                         </ListItem>
-                       
+
                         <ListItem icon>
                             <Left>
                                 <Button style={{ backgroundColor: "#fff" }}>
@@ -183,8 +188,8 @@ const styles = StyleSheet.create({
     container1: {
         flex: 2,
         backgroundColor: 'transparent',
-        alignItems: 'center',
-        marginBottom: 5,
+        //alignItems: 'center',
+       // marginBottom: 5,
     },
     containerOrta: {
         flex: 4,
@@ -219,10 +224,11 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
-        //  width: 150,
-        height: '80%',
+        width: '100%',
+        height: 80,
         resizeMode: 'contain',
-        marginBottom: 5,
+        marginBottom: 6,
+        alignSelf:'center'
     },
     banner: {
         // marginTop: 2,

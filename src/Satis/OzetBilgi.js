@@ -59,16 +59,17 @@ export default class OzetBilgi extends Component {
             istasyonfiyati: undefined,
 
         }
+
     }
-    _kampanyaliSatisBaslat = async () => {
+    _kampanyaliSatisBaslat() {
         try {
 
             //    alert('Id =');
             this.setState({ loading: true });
-            const contactId = await getStorage('userId');
+
             //     alert('Id =' + contactId);
-            if (contactId !== null) {
-                SatisBaslat(this.props.navigation.state.params.Istasyon, contactId,
+            if (this.state.userId !== null) {
+                SatisBaslat(this.props.navigation.state.params.Istasyon, this.state.userId,
                     this.state.datam.bm_kampanyaId,
                     this.props.navigation.state.params.PompaNo,
                     this.props.navigation.state.params.Plaka,
@@ -87,11 +88,11 @@ export default class OzetBilgi extends Component {
                     this.state.puanTLkarsiligi,
                     this.state.harcananPuanTL)
                     .then((res) => {
-                        this.setState({ loading: false });
+
                         console.log('Satış Başlat: ' + JSON.stringify(res));
                         if (res.status === false) {
                             Alert.alert('Hata Oluştu!', res.message);
-                            this.setState({ loading: false })
+
                         }
                         else {
                             Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
@@ -101,17 +102,23 @@ export default class OzetBilgi extends Component {
                         Alert.alert('Hata Oluştu!', error);
                     })
                     .finally
-                this.setState({ loading: false })
+
             }
         } catch (error) {
             Alert.alert('Hata Oluştu!', error);
         }
+        finally {
+            console.log('finally calıstı')
+            this.setState({ loading: false });
+        }
     }
-    _SatisBaslat = async () => {
+    _SatisBaslat() {
         try {
-            const contactId = await getStorage('userId');
+
+            // const contactId = await getStorage('userId');
+            console.log('*********************************************')
             console.log('this.state.Istasyon ' + this.state.IstasyonId);
-            console.log('contactId ' + contactId);
+            console.log('contactId ' + this.state.userId);
             console.log('this.state.KampanyaId ' + this.state.KampanyaId);
             console.log('this.state.PompaNo ' + this.state.PompaNo);
             console.log('this.state.Plaka ' + this.state.PlakaId);
@@ -127,50 +134,56 @@ export default class OzetBilgi extends Component {
             console.log('this.state.IsOrtagıKatkıOranı ' + this.state.isortagikatkiorani);
             console.log('this.state.isOrtgaıId ' + this.state.isortagiid);
             console.log('this.state.istasyonfiyati ' + this.state.istasyonfiyati);
-            
+            console.log('*********************************************')
 
             this.setState({ loading: true });
 
             //     alert('Id =' + contactId);
-            if (contactId !== null) {
-                SatisBaslat(this.state.IstasyonId, contactId, this.state.KampanyaId, this.state.PompaNo, this.state.PlakaId, this.state.YakitId,
-                    '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat,this.state.istasyonfiyati, this.state.indirimliFiyat, this.state.Tutar,
+            if (this.state.userId !== null) {
+                SatisBaslat(this.state.IstasyonId, this.state.userId, this.state.KampanyaId?this.state.KampanyaId:'00000000-0000-0000-0000-000000000000', this.state.PompaNo, this.state.PlakaId, this.state.YakitId,
+                    '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat, this.state.istasyonfiyati, this.state.indirimliFiyat, this.state.Tutar,
                     this.state.alimmiktariLT, this.state.indirimOrani, this.state.kazanilanPuan, this.state.harcananPuan,
-                    this.state.puanTLkarsiligi, this.state.harcananPuanTL,this.state.katkiorani,this.state.bayikatkiorani,
-                    this.state.isortagikatkiorani,this.state.isortagiid)
+                    this.state.puanTLkarsiligi, this.state.harcananPuanTL, this.state.katkiorani, this.state.bayikatkiorani,
+                    this.state.isortagikatkiorani, this.state.isortagiid)
                     .then((res) => {
-                        this.setState({ loading: false });
-                        console.log('Satış Başlat: ' + JSON.stringify(res));
+                       
+                         console.log('Satış Başlat: ' + JSON.stringify(res));
                         if (res.status === false) {
-                            Alert.alert('Hata Oluştu!', res.message);
                             this.setState({ loading: false })
+                            Alert.alert('Hata Oluştu!', res.message);
+                            
                         }
                         else {
+                            this.setState({ loading: false })
                             Alert.alert(
                                 'Yakıt Dolumu',
-                                res.message ,
+                                res.message,
                                 [
 
                                     { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
                                 ],
                                 { cancelable: true },
                             );
-                           // Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
-                          //  
+                            // Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
+                            //  
                         }
                     })
                     .catch(error => {
+                        this.setState({ loading: false })
                         Alert.alert('Hata Oluştu!', error);
                     })
-                    .finally
-                this.setState({ loading: false })
+                
             }
         } catch (error) {
             Alert.alert('Hata Oluştu!', error);
         }
+        finally {
+            console.log('finally calıstı')
+            
+        }
     }
     componentWillReceiveProps(nextProps) {
-      //  console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
+        //  console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
         this.setState({
             Istasyon: nextProps.navigation.state.params.Parametre.IstasyonAdi,
             IstasyonId: nextProps.navigation.state.params.Parametre.Istasyon,
@@ -199,6 +212,7 @@ export default class OzetBilgi extends Component {
             isortagiid: nextProps.navigation.state.params.isortagiid,
 
             istasyonfiyati: nextProps.navigation.state.params.istasyonfiyati,
+            //loading:true,
         })
         if (this.props.Istasyon !== nextProps.Istasyon) {
             console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
@@ -212,16 +226,19 @@ export default class OzetBilgi extends Component {
             alert('Testing...')
         }
     }
-    componentDidMount() {
+    componentDidMount = async () => {
+        const contactId = await getStorage('userId');
+        this.setState({ userId: contactId });
+        console.log('state User' + this.state.userId);
         // console.clear();
-       // console.log('Paraös = ' + JSON.stringify(this.props));
+        // console.log('Paraös = ' + JSON.stringify(this.props));
         this.onGetParams();
     }
     onGetParams = () => {
         try {
             var Id = this.props.navigation.getParam('KampanyaId', '');
-           // console.log('Kapmapnya ID=' + Id + ' this.props.navigation.state.params.KampanyaId= ' + this.props.navigation.state.params.KampanyaId);
-             console.log('Name ' +JSON.stringify(this.props.navigation.state.params))
+            // console.log('Kapmapnya ID=' + Id + ' this.props.navigation.state.params.KampanyaId= ' + this.props.navigation.state.params.KampanyaId);
+            console.log('Name ' + JSON.stringify(this.props.navigation.state.params))
             //  if (Id !== this.state.oldId) {
             if (Id !== '00000000-0000-0000-0000-000000000000') {
                 this.setState({
@@ -246,7 +263,7 @@ export default class OzetBilgi extends Component {
                     harcananPuan: this.props.navigation.state.params.harcananPuan,
                     harcananPuanTL: this.props.navigation.state.params.harcananPuanTL,
                     KampanyaId: this.props.navigation.state.params.KampanyaId,
-                   
+
                     katkiorani: this.props.navigation.state.params.katkiorani,
                     bayikatkiorani: this.props.navigation.state.params.bayikatkiorani,
                     isortagikatkiorani: this.props.navigation.state.params.isortagikatkiorani,
@@ -292,7 +309,15 @@ export default class OzetBilgi extends Component {
     render() {
         //this.onGetParams();
         return (
+
             <Container style={styles.container}>
+            {console.log('loading = '+this.state.loading)}
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner style={{ backgroundColor: 'gray' }}
+                        visible={this.state.loading}
+                        textContent={'Yükleniyor...'}
+                        textStyle={styles.spinnerTextStyle} />
+                </View>
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
@@ -316,13 +341,7 @@ export default class OzetBilgi extends Component {
                         <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Spinner
-                        visible={this.state.loading}
-                        textContent={'Yükleniyor...'}
-                        textStyle={styles.spinnerTextStyle}
-                    />
-                </View>
+
                 <View style={styles.containerOrta}>
                     <Content>
                         <Card style={styles.cardmb}>
@@ -332,7 +351,7 @@ export default class OzetBilgi extends Component {
                             <CardItem item>
                                 <View style={{ flex: 1, flexDirection: 'column' }}>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>İstasyon </Text>
                                         </Left>
@@ -342,7 +361,7 @@ export default class OzetBilgi extends Component {
 
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={plaka}></Image>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={plaka}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Plaka </Text>
                                         </Left>
@@ -351,7 +370,7 @@ export default class OzetBilgi extends Component {
                                         </Right>
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Yakıt </Text>
                                         </Left>
@@ -360,7 +379,7 @@ export default class OzetBilgi extends Component {
                                         </Right>
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={pmpa}></Image>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={pmpa}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Pompa No </Text>
                                         </Left>
@@ -369,7 +388,7 @@ export default class OzetBilgi extends Component {
                                         </Right>
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={kampanya}></Image>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={kampanya}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Kupon Kodu </Text>
                                         </Left>
@@ -379,7 +398,7 @@ export default class OzetBilgi extends Component {
 
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
 
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Ödeme Tipi </Text>
@@ -390,7 +409,7 @@ export default class OzetBilgi extends Component {
                                     </View>
 
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{marginRight:5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Tutar </Text>
                                         </Left>
@@ -432,7 +451,7 @@ export default class OzetBilgi extends Component {
 
                                                 <Right>
 
-                                                    <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl?this.state.kazanilanpuantl:0} TL</Text>
+                                                    <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl ? this.state.kazanilanpuantl : 0} TL</Text>
                                                 </Right>
 
                                             </View>
@@ -475,7 +494,7 @@ style={[styles.containerKapmayali, this.state.birimFiyat ? styles.hidden : style
 
 const styles = StyleSheet.create({
     Resim: {
-        marginRight:5,
+        marginRight: 5,
         width: 20,
         height: 20,
         resizeMode: 'contain'

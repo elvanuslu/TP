@@ -39,11 +39,10 @@ export default class Yardim extends Component {
                     Alert.alert('Servis Hatası!', error)
                 })
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert('Hata Oluştu!', error)
         }
-        finally{
-            this.setState({ loading: false })
-        }
+     
     }
     componentDidMount() {
         this._getYardim();

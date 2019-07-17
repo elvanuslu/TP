@@ -9,10 +9,12 @@ import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getYakitTipi, MusteriKayit, setStorage, getSSS } from '../Service/FetchUser';
 
-const pompa = require("../../assets/pompatabancakirmizi.png");
+const pompa = require("../../assets/pompaGri.png");
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
+const sehirIkon = require("../../assets/ikonlar-22.png");
+
 
 export default class yenikayit extends Component {
     constructor() {
@@ -424,7 +426,7 @@ export default class yenikayit extends Component {
                                  
                                 </Item>
                                 <Item picker style={styles.Inputs}>
-                                    <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                    <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain', color:'black' }} source={pompa}></Image>
                                     <Picker borderColor='black'
                                         mode="dropdown"
                                         iosIcon={<Icon name="arrow-down" />}
