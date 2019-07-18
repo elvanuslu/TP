@@ -626,7 +626,7 @@ export default class SatisIllce extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Image style={{ width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
+                        <Image style={{marginLeft:-15, width: 50, height: 50, resizeMode: 'contain',}} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body >

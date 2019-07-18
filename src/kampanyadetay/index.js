@@ -42,7 +42,7 @@ export default class kampanyadetay extends Component {
             });
     }
     componentDidMount() {
-   
+
         const itemId = this.props.navigation.getParam('Id');
         //   Alert.alert('Mount');
         if (itemId !== undefined)
@@ -65,7 +65,7 @@ export default class kampanyadetay extends Component {
         // Alert.alert(ItemId);
         getKampanyaDetayList(ItemId)
             .then((res) => {
-                console.log('Kampanya Detay Listesi: ' +JSON.stringify(res))
+                console.log('Kampanya Detay Listesi: ' + JSON.stringify(res))
                 this.setState({
                     kampanyaid: res.bm_kampanyaid,
                     kampanyaadi: res.bm_kampanyaadi,
@@ -96,7 +96,7 @@ export default class kampanyadetay extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("kampanya")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>

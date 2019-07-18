@@ -1,12 +1,12 @@
 
 import React, { Component } from 'react';
-import {Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { getDuyuruListByUser,getStorage } from '../Service/FetchUser';
+import { getDuyuruListByUser, getStorage } from '../Service/FetchUser';
 
 
-
+import Spinner from 'react-native-loading-spinner-overlay';
 const k1 = require("../../assets/resim1.png");
 const k2 = require("../../assets/Resim2.png");
 const k3 = require("../../assets/image3.png");
@@ -18,64 +18,72 @@ export default class Duyurular extends Component {
         this.state = {
             userName: '',
             loading: false,
-            data:[],
+            data: [],
         }
     }
-   componentWillReceiveProps(nextProps){
-       console.log('Update Props'+ JSON.stringify(nextProps))
-    this._getDuyuruListesi();
-   }
-    componentDidMount() {
-       // console.log('mount')
+    componentWillReceiveProps(nextProps) {
+        console.log('Update Props' + JSON.stringify(nextProps))
         this._getDuyuruListesi();
     }
-    _getDuyuruListesi= async ()=> {
-      try {
-        this.setState({ loading: true })
-        const uId = await getStorage('userId');
-        //   console.log('mount'+uId)
-           getDuyuruListByUser(uId )
-               .then((res) => {
-                   if(res.status!==false){
-                   this.setState({ data: res, loading: false });
-                  // console.log(JSON.stringify(res));
-                   }
-                   else{
-                    Alert.alert('Hata', res.message);
-                   }
-               })
-               .catch((error) => alert(error))
-      } catch (error) {
-        this.setState({ loading: false })
-        Alert.alert('Hata', error);
-      }
-    
+    componentDidMount() {
+        // console.log('mount')
+        this._getDuyuruListesi();
     }
-    onPressAndGo(Id,url,aciklama,aciklama2) {
+    _getDuyuruListesi = async () => {
+        try {
+            this.setState({ loading: true })
+            const uId = await getStorage('userId');
+            //   console.log('mount'+uId)
+            getDuyuruListByUser(uId)
+                .then((res) => {
+                    if (res.status !== false) {
+                        this.setState({ data: res, loading: false });
+                         console.log(JSON.stringify(res));
+                    }
+                    else {
+                        Alert.alert('Hata', res.message);
+                    }
+                })
+                .catch((error) => alert(error))
+        } catch (error) {
+            this.setState({ loading: false })
+            Alert.alert('Hata', error);
+        }
+
+    }
+    onPressAndGo(Id, url, aciklama, aciklama2) {
         /*console.log('duyuru Id='+Id);
         console.log('duyuru url='+url);
         console.log('duyuru aciklama='+aciklama);
         console.log('duyuru aciklama2='+aciklama2);
         */
-         this.props.navigation.navigate("DuyuruDetay",{'Id': Id,
-         'url': url,'aciklama':aciklama,'aciklama2':aciklama2});
-     }
+        this.props.navigation.navigate("DuyuruDetay", {
+            'Id': Id,
+            'url': url, 'aciklama': aciklama, 'aciklama2': aciklama2
+        });
+    }
     render() {
         return (
             <Container style={styles.container}>
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Yükleniyor...'}
+                        textStyle={styles.spinnerTextStyle} />
+                </View>
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("AnaSayfa")}>
-                            <Icon name="arrow-back" style={{color:'#fff'}} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
-                    <Title style={{color:'#fff'}}>Duyurular</Title>
+                        <Title style={{ color: '#fff' }}>Duyurular</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" style={{color:'#fff'}}/>
+                            <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
@@ -92,19 +100,19 @@ export default class Duyurular extends Component {
                         renderItem={({ item }) =>
                             <Card key={item.bm_mobilcerikId} style={styles.cardmb}>
                                 <CardItem header>
-                                <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
+                                    <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 5 }}>
                                     <Body>
-                                        <TouchableOpacity style={{height:133,width:'100%',}} onPress={() => this.onPressAndGo(item.bm_mobilcerikId,item.bm_url,item.bm_kisaaciklama,item.bm_uzunaciklama)}>
-                                        
-                                        <Image style={styles.logo} source={{ uri: item.bm_url }}  />
+                                        <TouchableOpacity style={{ height: 133, width: '100%', }} onPress={() => this.onPressAndGo(item.bm_mobilcerikId, item.bm_url, item.bm_kisaaciklama, item.bm_uzunaciklama)}>
+
+                                            <Image style={styles.logo} source={{ uri: item.bm_url }} />
                                         </TouchableOpacity>
-                                       
+
                                     </Body>
                                 </CardItem>
                                 <CardItem footer>
-                                     <Text style={styles.textYazi}>{item.bm_uzunaciklama.slice(0,160)+'\n'}</Text>
+                                    <Text style={styles.textYazi}>{item.bm_uzunaciklama.slice(0, 160) + '\n'}</Text>
                                 </CardItem>
                             </Card>
                         }
@@ -137,13 +145,13 @@ const styles = StyleSheet.create({
     logo: {
         width: '100%',
         height: '100%',
-        resizeMode:'cover',
+        resizeMode: 'cover',
     },
     cardmb: {
-        marginLeft: 10,
-        marginRight: 10,
+        marginLeft: 0,
+        marginRight: 0,
         marginBottom: 10,
-        borderRadius: 5,
+        borderRadius: 10,
     },
     textYazi: {
         fontSize: 13,

@@ -458,11 +458,11 @@ export default class Satis extends Component {
             this.setState({ loading: true })
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 15)
                 .then((res) => {
-                    
+
                     this.setState({ datas: res, loading: false });
                     Alert.alert('Data', JSON.stringify(res));
                     console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
-               
+
                 })
         } catch (error) {
             Alert.alert('Hata', error);
@@ -514,7 +514,7 @@ export default class Satis extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain',  }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -668,7 +668,7 @@ export default class Satis extends Component {
                         <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start', backgroundColor: 'red' }}>
                             <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
                                 <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={odeme}></Image>
-                                <Input placeholder='Ödeme tutarı' style={{backgroundColor:'transparent', width: 300,fontSize:10,color:'black' }}
+                                <Input placeholder='Ödeme tutarı' style={{ backgroundColor: 'transparent', width: 300, fontSize: 10, color: 'black' }}
                                     keyboardType="decimal-pad"
                                     placeholderTextColor="black"
                                     onChangeText={(value) => this.setState({ Tutar: value })}

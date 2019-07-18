@@ -91,7 +91,7 @@ export default class Plakalarim extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('hesabim')}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -119,9 +119,9 @@ export default class Plakalarim extends Component {
                         />
                     </View>
                     <View style={styles.switchcontainer}>
-                        <TouchableOpacity style={{  height: 50, marginTop: 5, }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
+                        <TouchableOpacity style={{ height: 50, marginTop: 5, }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
                             <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={require('../../assets/ikonlar-06.png')} />
-                            
+
                         </TouchableOpacity>
                     </View>
                     <Content style={{ backgroundColor: '#fff' }}>
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     container1: {
         flex: 1,
         backgroundColor: 'transparent',
-        
+
     },
     container2: {
         flex: 2,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain',
         marginBottom: 6,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     /*
     logo: {
@@ -281,13 +281,13 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     switchcontainer: {
-       
+
         flexDirection: 'row',
         alignSelf: 'flex-end',
         marginRight: 10,
         alignItems: 'center',
         marginBottom: 5,
-        marginTop:40,
+        marginTop: 40,
 
     },
 

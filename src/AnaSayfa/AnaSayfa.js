@@ -70,15 +70,13 @@ export default class AnaSayfa extends Component {
         } catch (error) {
 
         }
-        finally {
-            this.setState({ loading: false })
-        }
+       
     }
     componentWillReceiveProps(nextProps) {
-        this._getGps1();
+      //  this._getGps1();
     }
     componentDidMount() {
-        this._getGps1();
+       // this._getGps1();
     }
     render() {
         return (
@@ -87,7 +85,7 @@ export default class AnaSayfa extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.goBack()}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -107,7 +105,7 @@ export default class AnaSayfa extends Component {
                 </View>
                 <View style={styles.containerOrta}>
                     <Image style={styles.banner} source={k1} />
-                    <Text style={{alignSelf:'center'}}></Text>
+                    <Text style={{ alignSelf: 'center' }}></Text>
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -118,7 +116,7 @@ export default class AnaSayfa extends Component {
                         />
                     </View>
                     <View style={{ flex: 3, flexDirection: "column", backgroundColor: 'transparent', }}>
-                        <View style={{ flex: 2, flexDirection: 'row',marginBottom:20, backgroundColor: 'transparent' }}>
+                        <View style={{ flex: 2, flexDirection: 'row', marginBottom: 20, backgroundColor: 'transparent' }}>
                             <Left style={{ marginLeft: 20 }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisIllce")}>
                                     <Image style={styles.button} source={require('../../assets/yakitalldpi.png')} />
@@ -156,9 +154,9 @@ export default class AnaSayfa extends Component {
                         </View>
                     </View>
                 </View>
-              <View style={{flex:1}}>
+                <View style={{ flex: 1 }}>
 
-              </View>
+                </View>
             </Container>
         )
     }
@@ -173,7 +171,7 @@ const styles = StyleSheet.create({
     container1: {
         flex: 2,
         backgroundColor: 'transparent',
-        marginBottom:10,
+        marginBottom: 10,
     },
     containerOrta: {
         flex: 6,
@@ -183,7 +181,7 @@ const styles = StyleSheet.create({
     containerBottom: {
         flex: 5,
         backgroundColor: 'transparent',
-        flexDirection:'row-reverse',
+        flexDirection: 'row-reverse',
     },
     welcome: {
         fontSize: 20,
@@ -209,7 +207,7 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain',
         marginBottom: 5,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
 
     /*  logo: {
@@ -221,8 +219,8 @@ const styles = StyleSheet.create({
       },
       */
     banner: {
-        alignSelf:'center',
-    
+        alignSelf: 'center',
+
         width: '100%',
         height: 220,
         resizeMode: 'contain',

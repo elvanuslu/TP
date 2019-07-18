@@ -43,7 +43,7 @@ export default class hesabim extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -67,24 +67,24 @@ export default class hesabim extends Component {
                 </View>
                 <View style={styles.containerBottom}>
 
-                    <TouchableOpacity style={{ justifyContent:'center',height: 50,width:320,marginTop:5,marginLeft:30,marginRight:30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle")}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle")}>
                         <Image style={styles.button}
                             source={require('../../assets/bilgilerimiguncelle.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ justifyContent:'center', height: 50,width:320,marginTop:5,marginLeft:30,marginRight:30, }} onPress={() => this.props.navigation.navigate("Plakalarim")}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("Plakalarim")}>
                         <Image
                             style={styles.button}
                             source={require('../../assets/araclarim.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ justifyContent:'center', height: 50,width:320,marginTop:5,marginLeft:30,marginRight:30, }} onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi")}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi")}>
                         <Image
                             style={styles.button}
                             source={require('../../assets/satisvepuan.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ height: 50,width:320,marginTop:5,marginLeft:30,marginRight:30,}} onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
+                    <TouchableOpacity style={{ height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
                         <Image style={styles.button1} source={require('../../assets/EnYakinIstasyon.png')} />
                     </TouchableOpacity>
 
@@ -147,16 +147,16 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain',
         marginBottom: 6,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
-   /* logo: {
-        marginTop: 5,
-        //  width: 150,
-        height: '75%',
-        resizeMode: 'contain',
-        marginBottom: 5,
-    },
-    */
+    /* logo: {
+         marginTop: 5,
+         //  width: 150,
+         height: '75%',
+         resizeMode: 'contain',
+         marginBottom: 5,
+     },
+     */
     banner: {
         // marginTop: 2,
         width: '100%',
@@ -176,8 +176,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: 320,
         alignItems: 'center',
-      //  marginRight: 30,
-      //  marginLeft: 30,
+        //  marginRight: 30,
+        //  marginLeft: 30,
         // marginBottom: -60,
 
 
@@ -186,8 +186,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: 320,
         height: 50,
-   // marginRight: 30,
-   //     marginLeft: 30,
+        // marginRight: 30,
+        //     marginLeft: 30,
         marginTop: 5,
 
     },

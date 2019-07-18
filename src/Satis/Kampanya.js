@@ -107,12 +107,12 @@ export default class KampanyaSec extends Component {
         }
     }
     _btnDevam = (item) => {
-    //    console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
+        //    console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
         this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item, 'birimFiyat': undefined });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
-     //   console.log('Seçilen=> ' + JSON.stringify(Secilen));
+        //   console.log('Seçilen=> ' + JSON.stringify(Secilen));
         //  console.log('Secim ==> ' + Secilen.alinmmiktariLT + ' item= ' + item + ' Datam ' + JSON.stringify(this.state.datam));
 
         this.setState({
@@ -137,7 +137,7 @@ export default class KampanyaSec extends Component {
     }
 
     componentWillUnmount() {
-       // this.setState({ loading: false });
+        // this.setState({ loading: false });
     }
     _git() {
         const Istasyon = this.props.navigation.getParam('Istasyon', '');
@@ -175,7 +175,7 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
                     this.setState({ datam: null, loading: false });
-                  //  console.log('Gelen Kampanya = ' + JSON.stringify(res));
+                    //  console.log('Gelen Kampanya = ' + JSON.stringify(res));
 
                     if (res.status == false) {
                         this.setState({ datam: null, loading: false });
@@ -195,18 +195,18 @@ export default class KampanyaSec extends Component {
                             loading: false
                         });
                         if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
-                        //    console.log('bmkapmanya=0')
+                            //    console.log('bmkapmanya=0')
                             this._git();
                         }
 
                     }
                 })
                 .catch((error) => Alert.alert('Hata!', error))
-                
+
         } catch (error) {
             Alert.alert('Genel Hata!', error)
         }
-       
+
     }
     GetItem = async (item) => {
         const Istasyon = this.props.navigation.getParam('Istasyon', '');
@@ -236,7 +236,7 @@ export default class KampanyaSec extends Component {
     }
     */
     componentWillReceiveProps(nextProps) {
-   //     console.log('Kapmanya recive 2.Data= ' + JSON.stringify(nextProps))
+        //     console.log('Kapmanya recive 2.Data= ' + JSON.stringify(nextProps))
         this._campaignDetails(nextProps);
         if (this.props.Istasyon !== nextProps.Istasyon) {
             //  console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
@@ -250,7 +250,7 @@ export default class KampanyaSec extends Component {
         }
     }
     componentDidMount = async () => {
-      //  console.log('Props= ' + JSON.stringify(this.props));
+        //  console.log('Props= ' + JSON.stringify(this.props));
         //   console.log("Prms= " + (this.props.navigation.state.params.Istasyon))
         const Id = await getStorage('userId');
         this.setState({ kullaniciId: Id });
@@ -323,7 +323,7 @@ export default class KampanyaSec extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('SatisIllce')}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -336,7 +336,7 @@ export default class KampanyaSec extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container1}>
-                    <View style={{ flexDirection: 'column', alignSelf:'center' }}>
+                    <View style={{ flexDirection: 'column', alignSelf: 'center' }}>
                         <Spinner
                             visible={this.state.loading}
                             textContent={'Kampanyalar kontrol ediliyor.'}

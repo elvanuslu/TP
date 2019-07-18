@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
-import {Content, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem } from 'native-base';
+import { Content, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem } from 'native-base';
 
 import { getSSS } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -25,11 +25,11 @@ export default class Yardim extends Component {
             this.setState({ loading: true })
             getSSS(4)
                 .then((response) => {
-                    if(response.status!==false){
-                    this.setState({ datam: response, loading: false })
-                     //console.log(JSON.stringify(response))
+                    if (response.status !== false) {
+                        this.setState({ datam: response, loading: false })
+                        //console.log(JSON.stringify(response))
                     }
-                    else{
+                    else {
                         this.setState({ loading: false })
                         Alert.alert('Hata!', response.message)
                     }
@@ -42,7 +42,7 @@ export default class Yardim extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata Oluştu!', error)
         }
-     
+
     }
     componentDidMount() {
         this._getYardim();
@@ -55,7 +55,7 @@ export default class Yardim extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>

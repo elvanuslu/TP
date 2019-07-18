@@ -140,18 +140,18 @@ export default class OzetBilgi extends Component {
 
             //     alert('Id =' + contactId);
             if (this.state.userId !== null) {
-                SatisBaslat(this.state.IstasyonId, this.state.userId, this.state.KampanyaId?this.state.KampanyaId:'00000000-0000-0000-0000-000000000000', this.state.PompaNo, this.state.PlakaId, this.state.YakitId,
+                SatisBaslat(this.state.IstasyonId, this.state.userId, this.state.KampanyaId ? this.state.KampanyaId : '00000000-0000-0000-0000-000000000000', this.state.PompaNo, this.state.PlakaId, this.state.YakitId,
                     '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat, this.state.istasyonfiyati, this.state.indirimliFiyat, this.state.Tutar,
                     this.state.alimmiktariLT, this.state.indirimOrani, this.state.kazanilanPuan, this.state.harcananPuan,
                     this.state.puanTLkarsiligi, this.state.harcananPuanTL, this.state.katkiorani, this.state.bayikatkiorani,
                     this.state.isortagikatkiorani, this.state.isortagiid)
                     .then((res) => {
-                       
-                         console.log('Satış Başlat: ' + JSON.stringify(res));
+
+                        console.log('Satış Başlat: ' + JSON.stringify(res));
                         if (res.status === false) {
                             this.setState({ loading: false })
                             Alert.alert('Hata Oluştu!', res.message);
-                            
+
                         }
                         else {
                             this.setState({ loading: false })
@@ -172,14 +172,14 @@ export default class OzetBilgi extends Component {
                         this.setState({ loading: false })
                         Alert.alert('Hata Oluştu!', error);
                     })
-                
+
             }
         } catch (error) {
             Alert.alert('Hata Oluştu!', error);
         }
         finally {
             console.log('finally calıstı')
-            
+
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -311,18 +311,18 @@ export default class OzetBilgi extends Component {
         return (
 
             <Container style={styles.container}>
-            {console.log('loading = '+this.state.loading)}
+                {console.log('loading = ' + this.state.loading)}
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Spinner style={{ backgroundColor: 'gray' }}
                         visible={this.state.loading}
-                        textContent={'Yükleniyor...'}
+                        textContent={'Bağlanıyor...'}
                         textStyle={styles.spinnerTextStyle} />
                 </View>
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("KampanyaSec")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>

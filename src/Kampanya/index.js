@@ -51,7 +51,7 @@ export default class kampanya extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                        <Image style={{marginLeft:-15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>

@@ -55,7 +55,7 @@ export default class SifremiUnuttum extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("login")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -82,7 +82,7 @@ export default class SifremiUnuttum extends Component {
                 </View>
                 <View style={styles.containerAlt}>
                     <Content style={{ backgroundColor: '#fff' }} >
-                        <View style={{ alignItems: 'flex-start'}}>
+                        <View style={{ alignItems: 'flex-start' }}>
                             <Text style={styles.textYazi}>Kayıtlı e-posta adresinizi ilgili alana girerek, şifrenizi e-posta adresinize gönderebilirsiniz.{'\n\n'} </Text>
                         </View>
 
@@ -139,17 +139,17 @@ const styles = StyleSheet.create({
         //backgroundColor: 'red',
         // backgroundColor: '#efefef',
     },
-  
+
     containerOrta: {
         flex: 2,
-       // backgroundColor: 'red',
+        // backgroundColor: 'red',
         // backgroundColor: '#efefef',
     },
     containerAlt: {
         flex: 3,
         alignItems: 'center',
         // marginTop: 0,
-       // backgroundColor: 'yellow',
+        // backgroundColor: 'yellow',
 
 
     },
@@ -204,9 +204,9 @@ const styles = StyleSheet.create({
         height: 50,
     },
     Inputs1: {
-          alignSelf: 'center',
-      //  height: 70,
-       
+        alignSelf: 'center',
+        //  height: 70,
+
         width: '90%',
         borderColor: 'black',
     },

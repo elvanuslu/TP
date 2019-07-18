@@ -100,7 +100,7 @@ export default class KayitGuncelle extends Component {
             if (this.state.Sehir !== undefined) {
                 getCitybyId(this.state.Sehir)
                     .then((res) => {
-                           console.log('İlçe= '+ JSON.stringify(res));
+                        console.log('İlçe= ' + JSON.stringify(res));
                         if (this.state.Sehir !== undefined) {
                             this.setState({
                                 IlceList: res,
@@ -129,7 +129,7 @@ export default class KayitGuncelle extends Component {
                         tel: res.mobilephone,
                         Sifre: res.bm_sifre,
                         mobilKod: res.bm_mobilkod,
-                        mobilKod2:res.bm_mobilkod,
+                        mobilKod2: res.bm_mobilkod,
                         mobilgrupadi: res.bm_mobilgrupadi,
                         Cinsiyet: res.gendercode,
                         MedeniDurum: res.familystatuscode,
@@ -184,6 +184,7 @@ export default class KayitGuncelle extends Component {
             //   alert('kayit'+this.state.kullanici)
             musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre, this.state.mobilKod, this.state.Adres, this.state.chosenDate, this.state.Sehir, this.state.Ilce, this.state.MedeniDurum, this.state.Cinsiyet)
                 .then((responseData) => {
+                    this.setState({ loading: false })
                     Alert.alert(
                         'Düzenleme!',
                         responseData.message,
@@ -192,20 +193,16 @@ export default class KayitGuncelle extends Component {
                         ],
                         { cancelable: true },
                     );
-                    this.setState({
-                        loading: false,
-                    });
-                    this.setState({ loading: false })
+
                     //  Alert.alert('Düzenleme Başarılı.', responseData.message)
                     // console.log("response: " + JSON.stringify(responseData))
 
                 })
                 .catch((err) => { Alert.alert('Hata.', err) });
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert('Hata!', error)
             console.log('hata oluştu: ' + error);
-        } finally {
-            this.setState({ loading: false })
         }
     }
     render() {
@@ -215,7 +212,7 @@ export default class KayitGuncelle extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain',  }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -230,7 +227,7 @@ export default class KayitGuncelle extends Component {
 
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/tplogo.png')}/>
+                        <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
                         <Image style={{ marginBottom: 1, alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
@@ -239,8 +236,7 @@ export default class KayitGuncelle extends Component {
                         <Spinner
                             visible={this.state.loading}
                             textContent={'Yükleniyor...'}
-                            textStyle={styles.spinnerTextStyle}
-                        />
+                            textStyle={styles.spinnerTextStyle} />
                     </View>
                     <Content style={{ backgroundColor: '#fff' }}>
 
@@ -249,7 +245,7 @@ export default class KayitGuncelle extends Component {
                             <Input placeholder='Ad'
                                 onChangeText={(value) => this.setState({ Adi: value })}
                                 value={this.state.Adi}
-                                //  placeholderTextColor="#efefef"
+                                placeholderTextColor="black"
                                 underlineColorAndroid="transparent" />
                         </Item>
                         <Item regular style={styles.Inputs}>
@@ -257,7 +253,7 @@ export default class KayitGuncelle extends Component {
                             <Input placeholder='Soyad'
                                 onChangeText={(value) => this.setState({ Soyadi: value })}
                                 value={this.state.Soyadi}
-                                // placeholderTextColor="#efefef"
+                                placeholderTextColor="black"
                                 underlineColorAndroid="transparent" />
                         </Item>
 
@@ -266,7 +262,7 @@ export default class KayitGuncelle extends Component {
                             <TextInputMask style={styles.Inputs1}
                                 editable={false}
                                 placeholder="Telefon giriniz"
-                                // placeholderTextColor="#efefef"
+                                placeholderTextColor="black"
                                 keyboardType="phone-pad"
                                 refInput={ref => { this.input = ref }}
                                 value={this.state.tel}
@@ -276,26 +272,28 @@ export default class KayitGuncelle extends Component {
                                 mask={"0 [000] [000] [00] [00]"} />
 
                         </Item>
-                        <Item regular style={[styles.Inputs, (this.state.mobilKod2 !== '' )? styles.Inputs : styles.hidden]}>
-                            <Text style={[styles.Inputsleft, (this.state.mobilKod2 !== '' ) ? styles.Inputsleft : styles.hidden]}>
+                        <Item regular style={[styles.Inputs, (this.state.mobilKod2 !== '') ? styles.Inputs : styles.hidden]}>
+                            <Text style={[styles.Inputsleft, (this.state.mobilKod2 !== '') ? styles.Inputsleft : styles.hidden]}>
                                 {this.state.mobilgrupadi}
                             </Text>
                         </Item>
-                        {console.log('Mobil Kod I = '+typeof this.state.mobilKod2)}
-                        <Item regular style={[styles.Input2, (   this.state.mobilKod2 === '' ) ? styles.Inputs : styles.hidden]}>
-                            <Icon  active name='md-alarm' color='#fff' />
+                        {console.log('Mobil Kod I = ' + typeof this.state.mobilKod2)}
+                        <Item regular style={[styles.Input2, (this.state.mobilKod2 === '') ? styles.Inputs : styles.hidden]}>
+                            <Icon active name='md-alarm' color='#fff' />
                             <Input placeholder='Mobil kodunuz'
                                 keyboardType="number-pad"
                                 onChangeText={(value) => this.setState({ mobilKod: value })}
                                 value={this.state.mobilKod}
-                                //  placeholderTextColor="#efefef"
+                                placeholderTextColor="black"
                                 underlineColorAndroid="transparent" />
                         </Item>
 
                         <Item regular style={styles.Inputst}>
                             <TextInput
                                 placeholder='Adresinizi Giriniz'
-                                style={{ height: 60, flex: 1, }}
+                                placeholderTextColor="black"
+                                placeHolderTextStyle={{ color: 'black', fontSize: 15 }}
+                                style={{ marginLeft: 5, height: 60, flex: 1, fontSize: 15, }}
                                 multiline={true}
                                 numberOfLines={4}
                                 onChangeText={(text) => this.setState({ Adres: text })}
@@ -304,13 +302,13 @@ export default class KayitGuncelle extends Component {
                         </Item>
 
                         <Item picker style={styles.pickerInputs}>
-                        <Image style={{height:40,width:40}} source={sehirIkon}></Image>
+                            <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Şehir"
-                                //  placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderTextColor="black"
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.Sehir}
                                 onValueChange={this.onSehir.bind(this)}>
@@ -327,13 +325,13 @@ export default class KayitGuncelle extends Component {
                             </Picker>
                         </Item>
                         <Item picker style={styles.pickerInputs}>
-                        <Image style={{height:40,width:40}} source={sehirIkon}></Image>
+                            <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="İlçe"
-                                //   placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderTextColor="black"
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.Ilce}
                                 onValueChange={this.onIlce.bind(this)}>
@@ -350,13 +348,13 @@ export default class KayitGuncelle extends Component {
                             </Picker>
                         </Item>
                         <Item picker style={styles.pickerInputs}>
-                            <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
+                            <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Medeni Durumunuz"
-                                //  placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderTextColor="black"
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.MedeniDurum}
                                 onValueChange={(itemValue, itemIndex) =>
@@ -368,15 +366,15 @@ export default class KayitGuncelle extends Component {
                                 <Picker.Item label="Evli" value="2" />
                             </Picker>
                         </Item>
-                       
+
                         <Item picker style={styles.pickerInputs}>
-                            <Icon style={{marginLeft:5,}} active name='person' color='#fff' />
+                            <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                             <Picker borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Cinsiyetiniz"
-                                //   placeholderStyle={{ color: "#bfc6ea" }}
+                                placeholderTextColor="black"
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.Cinsiyet}
                                 onValueChange={(itemValue, itemIndex) =>
@@ -390,9 +388,9 @@ export default class KayitGuncelle extends Component {
 
                         </Item>
 
-                        <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '80%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
-                          
-                            <Image style={{marginLeft:5, width: 20,height:20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
+                        <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '78%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
+
+                            <Image style={{ marginLeft: 5, width: 20, height: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
                             <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
                                 defaultDate={new Date(2019, 5, 4)}
                                 minimumDate={new Date(1900, 1, 1)}
@@ -404,8 +402,8 @@ export default class KayitGuncelle extends Component {
                                 animationType={"fade"}
                                 androidMode={"spinner"}
                                 placeHolderText="Doğum Tarihinizi Giriniz"
-                                textStyle={{ color: "green" }}
-                                placeHolderTextStyle={{ color: "gray" }}
+                                textStyle={{ color: "black" }}
+                                placeHolderTextStyle={{ color: "black" }}
                                 onDateChange={this.setDate}
                                 disabled={false} />
                             <Text>
@@ -417,7 +415,7 @@ export default class KayitGuncelle extends Component {
                             <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                             <Input placeholder='Şifre '
                                 // keyboardType="email-address"
-                                placeholderTextColor="gray"
+                                placeholderTextColor="black"
                                 secureTextEntry={true}
                                 textContentType="password"
                                 onChangeText={(value) => this.setState({ Sifre: value })}
@@ -441,7 +439,7 @@ const styles = StyleSheet.create({
     hidden: {
         width: 0,
         height: 0,
-        backgroundColor:'white'
+        backgroundColor: 'white'
     },
     container: {
         flex: 1,
@@ -449,7 +447,7 @@ const styles = StyleSheet.create({
     container1: {
         flex: 1,
         backgroundColor: 'transparent',
-        marginBottom:5
+        marginBottom: 5
     },
     containerOrta: {
         flex: 5,
@@ -466,17 +464,17 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain',
         marginBottom: 5,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
-   /* logo: {
-        marginTop: 5,
-        //  width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
-        marginBottom: 5,
-        alignSelf: 'center',
-    },
-    */
+    /* logo: {
+         marginTop: 5,
+         //  width: '100%',
+         height: '100%',
+         resizeMode: 'contain',
+         marginBottom: 5,
+         alignSelf: 'center',
+     },
+     */
     banner: {
         // marginTop: 2,
         width: '100%',
@@ -503,9 +501,10 @@ const styles = StyleSheet.create({
     Inputsleft: {
         textAlign: 'left',
         alignSelf: 'center',
-        marginLeft: 5,
+        marginLeft: 10,
         marginRight: 5,
-        // color: 'gray',
+        fontSize: 14,
+        color: 'black',
         // borderRadius: 5,
         // marginBottom: 1,
         marginTop: 25,

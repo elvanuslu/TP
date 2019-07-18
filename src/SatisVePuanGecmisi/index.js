@@ -67,7 +67,7 @@ export default class SatisVePuanGecmisi extends Component {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-       
+
         this.state = {
             userName: '',
             plaka: undefined,
@@ -75,7 +75,7 @@ export default class SatisVePuanGecmisi extends Component {
             araba: undefined,
             basic: true,
             listViewData: [],
-            loading:false,
+            loading: false,
         }
     }
     componentDidMount() {
@@ -87,9 +87,9 @@ export default class SatisVePuanGecmisi extends Component {
             const uId = await getStorage('userId');
             getSatisPuanGecmisi(uId)
                 .then((res) => {
-                    if(res.status!=false){
-                    console.log('Res= ' + JSON.stringify(res.responsePompaIslemiModel))
-                    this.setState({ listViewData: res.responsePompaIslemiModel });
+                    if (res.status != false) {
+                        console.log('Res= ' + JSON.stringify(res.responsePompaIslemiModel))
+                        this.setState({ listViewData: res.responsePompaIslemiModel });
                     }
                     this.setState({ loading: false })
                 })
@@ -97,7 +97,7 @@ export default class SatisVePuanGecmisi extends Component {
         } catch (error) {
             alert(error);
         }
-        
+
     }
     deleteRow(secId, rowId, rowMap) {
         rowMap[`${secId}${rowId}`].props.closeRow();
@@ -105,11 +105,11 @@ export default class SatisVePuanGecmisi extends Component {
         newData.splice(rowId, 1);
         this.setState({ listViewData: newData });
     }
-   
+
     onPressAndGo(Id) {
-       // console.log(Id);
-       // setStorage('pompaId', Id);
-        this.props.navigation.navigate("SatisVePuanDetay",{'pompaID': Id});
+        // console.log(Id);
+        // setStorage('pompaId', Id);
+        this.props.navigation.navigate("SatisVePuanDetay", { 'pompaID': Id });
     }
     render() {
         return (
@@ -118,7 +118,7 @@ export default class SatisVePuanGecmisi extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -132,11 +132,11 @@ export default class SatisVePuanGecmisi extends Component {
                 </Header>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')}/>
+                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
                         <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-               
+
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Spinner
                         visible={this.state.loading}
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     containerBottom: {
-        flex: 10 ,
+        flex: 10,
         backgroundColor: 'transparent',
         // alignItems: 'center',
         //    flexDirection: 'column',
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain',
         marginBottom: 6,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     /*
     logo: {

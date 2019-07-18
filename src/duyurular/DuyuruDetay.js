@@ -58,7 +58,7 @@ export default class DuyuruDetay extends Component {
         } catch (error) {
             Alert.alert('Hata Oluştu', error);
         }
-      
+
     }
     render() {
         const animating = this.state.loading
@@ -84,7 +84,7 @@ export default class DuyuruDetay extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("Duyurular")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>

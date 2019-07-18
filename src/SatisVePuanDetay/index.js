@@ -49,7 +49,7 @@ export default class SatisVePuanDetay extends Component {
         const { navigation } = this.props;
         const itemId = navigation.getParam('pompaID', '');
         this._getSatisPuanDetay(itemId);
-            this.setState({ oldId: itemId })
+        this.setState({ oldId: itemId })
 
     }
     render() {
@@ -67,7 +67,7 @@ export default class SatisVePuanDetay extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         flex: 2,
         backgroundColor: 'transparent',
         //alignItems: 'center',
-       // marginBottom: 5,
+        // marginBottom: 5,
     },
     containerOrta: {
         flex: 4,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain',
         marginBottom: 6,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     banner: {
         // marginTop: 2,

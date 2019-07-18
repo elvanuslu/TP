@@ -7,7 +7,7 @@ import {
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
 } from 'native-base';
 import { getIstasyonWithLatLon } from '../Service/FetchUser';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 const tmis = require("../../assets/tmis.png");
 const yoltarifi = require("../../assets/yoltarifi.png");
 const pompa = require("../../assets/pompa.png");
@@ -16,8 +16,8 @@ const bankamatik = require("../../assets/tasittanima.png");
 
 
 export default class EnYakinIstasyon extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
         this.state = {
@@ -26,6 +26,8 @@ export default class EnYakinIstasyon extends Component {
             tab1: false,
             tab2: false,
             error: null,
+            latitude: undefined,
+            longitude: undefined
         }
     }
     toggleTab1() {
@@ -46,10 +48,10 @@ export default class EnYakinIstasyon extends Component {
         });
         this.props.navigation.navigate("EnYakinIstasyon")
     }
-   
+
     _getData() {
         try {
-        //    this.isAvailable();
+            //    this.isAvailable();
             this.setState({ loading: true })
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 25).then((res) => {
                 this.setState({ listViewData: res, loading: false });
@@ -79,52 +81,56 @@ export default class EnYakinIstasyon extends Component {
         );
     }
     */
-   _getCoord=()=>{
-       try {
-        var self = this;
-        this.setState({ loading: true })
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    error: null,
+    _getCoord = () => {
+        try {
+            var self = this;
+            this.setState({ loading: true })
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        error: null,
+                        loading: false,
+                    });
+                    this._getData();
+                    console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                },
+                (error) => this.setState({
+                    error: error.message,
+                    latitude: 40.802095,
+                    longitude: 29.526954,
                     loading: false,
-                });
-                this._getData();
-                console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-            },
-            (error) => this.setState({
-                error: error.message,
-                latitude: 40.802095,
-                longitude: 29.526954,
-            },
-                this._getLatLon()),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
-        this._getData();
-       } catch (error) {
-           Alert.alert('Hata!',error);
-       }
-       finally{
+                }),
+                { enableHighAccuracy: true, timeout: 60000, maximumAge: 0 },
+            );
+            this._getData();
+        } catch (error) {
+            Alert.alert('Hata!', error);
+        }
 
-       }
-   }
-    componentDidMount(){
+    }
+
+    componentDidMount() {
+        // console.log('Property= '+JSON.stringify(this.props)); //(this.props.navigation.state.routeName));
         this._getCoord();
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log('Receive Props' + JSON.stringify(nextProps))
     }
     GetItem(item) {
         console.log('item=' + item);
         this.props.navigation.navigate("Harita", { Id: item });
     }
     render() {
+       
         return (
             <Container style={styles.container}>
                 <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -140,6 +146,12 @@ export default class EnYakinIstasyon extends Component {
                     <Image style={styles.logo} source={require('../../assets/tplogo.png')}
                     />
                     <Image style={{ width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                </View>
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Konum aranıyor...'}
+                        textStyle={styles.spinnerTextStyle} />
                 </View>
                 <View style={styles.containerOrta}>
 

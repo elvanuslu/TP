@@ -117,11 +117,12 @@ export default class PlakaEkle extends Component {
                 .then((res) => {
                     var initialArr = { 'bm_aracmarkasiid': '-1', 'bm_adi': '-Araç  Seçin-' };
                     res.splice(0, 0, initialArr);
-                    this.setState({ markalar: res, loading: false,araba:'-Araç Seç-' })
-                    
-                   // console.log(JSON.stringify(this.state.markalar))
+                    this.setState({ markalar: res, loading: false, araba: '-Araç Seç-' })
+
+                    // console.log(JSON.stringify(this.state.markalar))
                 })
                 .catch((error) => {
+                    this.setState({ loading: false })
                     Alert.alert(
                         'Araç markalar Servis Hatası!',
                         error,
@@ -132,6 +133,7 @@ export default class PlakaEkle extends Component {
                     );
                 })
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert(
                 'Hata!',
                 error,
@@ -141,20 +143,20 @@ export default class PlakaEkle extends Component {
                 { cancelable: true },
             );
         }
-        finally {
-            this.setState({ loading: false })
-        }
+
     }
     _getYakitTipi = async () => {
         try {
+            this.setState({ loading: true })
             getYakitTipi()
                 .then((res) => {
                     var initialArr = { 'bm_yakittipiid': '-1', 'bm_yakittipiadi': '-Yakıt Tipi Seçin-' };
                     res.splice(0, 0, initialArr);
-                    this.setState({ yakitlst: res, loading: false,selected2:'-Yakıt Tipi Seçin-'  })
-                      console.log('Yakıtlar '+JSON.stringify(res))
+                    this.setState({ yakitlst: res, loading: false, selected2: '-Yakıt Tipi Seçin-' })
+                    console.log('Yakıtlar ' + JSON.stringify(res))
                 })
                 .catch((error) => {
+                    this.setState({ loading: false })
                     Alert.alert(
                         'Yakıt Servis Hatası!',
                         error,
@@ -165,6 +167,7 @@ export default class PlakaEkle extends Component {
                     );
                 })
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert(
                 'Hata!',
                 error,
@@ -177,11 +180,13 @@ export default class PlakaEkle extends Component {
     }
     _getCard = async () => {
         try {
+            this.setState({ loading: true })
             const Id = await getStorage('userId');
             getCardById(Id)
                 .then((res) => {
                     this.setState({ card: res, loading: false })
                 }).catch((error) => {
+                    this.setState({ loading: false })
                     Alert.alert(
                         'getCard Servis Hatası!',
                         error,
@@ -192,6 +197,7 @@ export default class PlakaEkle extends Component {
                     );
                 })
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert(
                 'Hata!',
                 error,
@@ -220,7 +226,7 @@ export default class PlakaEkle extends Component {
     }
     _Kaydet() {
         try {
-            this.isAvailable();
+
             this.setState({ loading: true })
             if (this.state.plaka1 != undefined) {
                 postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba)
@@ -282,7 +288,7 @@ export default class PlakaEkle extends Component {
         }
     }
     componentDidMount = async () => {
-     //   this.isAvailable();
+        //   this.isAvailable();
         const Id = await getStorage('userId');
         this.setState({ userId: Id })
         this._getAracMarkaList();
@@ -304,7 +310,7 @@ export default class PlakaEkle extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -326,13 +332,13 @@ export default class PlakaEkle extends Component {
                 <View style={styles.containerBottom}>
                     <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                         <Item picker style={styles.Inputs2}>
-                            <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
                             <Picker style={styles.Inputs2} borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
-                                placeholder="Araç Marka/model..."
-                                placeholderStyle={{ color: "gray" }}
+                                placeholder="Araç Marka/model"
+                                placeholderStyle={{ color: "black" }}
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.araba}
                                 onValueChange={this.onArabaValueChange.bind(this)}>
@@ -350,11 +356,11 @@ export default class PlakaEkle extends Component {
 
 
                         <Item regular style={styles.Inputs2}>
-                            <Image style={{marginLeft:5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
+                            <Image style={{ marginLeft: 5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
                             <TextInputMask style={styles.Inputs1}
                                 autoCapitalize="characters"
-                                placeholder="Plaka Giriniz..."
-                                placeholderTextColor="gray"
+                                placeholder="Plaka Girin"
+                                placeholderTextColor="black"
                                 keyboardType="name-phone-pad"
                                 refInput={ref => { this.input = ref }}
                                 onChangeText={(formatted, extracted) => {
@@ -367,14 +373,14 @@ export default class PlakaEkle extends Component {
 
                         </Item>
                         <Item picker style={styles.Inputs2}>
-                            <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
                             <Picker borderWidt='1' borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"
-                                placeholderStyle={{ color: "gray" }}
+                                placeholderStyle={{ color: "black" }}
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.selected2}
                                 onValueChange={this.onValueChange2.bind(this)}>
@@ -391,14 +397,14 @@ export default class PlakaEkle extends Component {
                             </Picker>
                         </Item>
                         <Item picker style={styles.Inputs2}>
-                            <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
                             <Picker borderWidt='1' borderColor='black'
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"
-                                placeholderStyle={{ color: "gray" }}
+                                placeholderStyle={{ color: "black" }}
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.selected3}
                                 onValueChange={this.onValueChange3.bind(this)}>
@@ -439,7 +445,7 @@ const styles = StyleSheet.create({
     container1: {
         flex: 1,
         backgroundColor: 'transparent',
-        
+
     },
     containerOrta: {
         flex: 2,
@@ -477,7 +483,7 @@ const styles = StyleSheet.create({
         height: 80,
         resizeMode: 'contain',
         marginBottom: 6,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     /*
     logo: {

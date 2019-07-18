@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar,Platform } from 'react-native';
+import { Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, Platform } from 'react-native';
 import { Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon1 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -171,7 +171,7 @@ export default class yenikayit extends Component {
                                             MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
                                                 this.state.Sifre, this.state.plaka, this.state.selected2, this.state.selected2,
                                                 this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum, this.state.mobilKod,
-                                                Platform.OS === 'ios'? '100000000':'100000001')
+                                                Platform.OS === 'ios' ? '100000000' : '100000001')
                                                 .then((responseData) => {
                                                     let response = JSON.stringify(responseData);
                                                     console.log('responseData=' + response)
@@ -346,7 +346,7 @@ export default class yenikayit extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("login")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -374,7 +374,7 @@ export default class yenikayit extends Component {
                             <Form>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='Adınızı giriniz'
+                                    <Input placeholder='Adınızı girin'
                                         onChangeText={(value) => this.setState({ Adi: value })}
                                         value={this.state.Adi}
                                         placeholderTextColor="gray"
@@ -382,7 +382,7 @@ export default class yenikayit extends Component {
                                 </Item>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='Soyadınızı giriniz'
+                                    <Input placeholder='Soyadınızı girin'
                                         onChangeText={(value) => this.setState({ Soyadi: value })}
                                         value={this.state.Soyadi}
                                         placeholderTextColor="gray"
@@ -390,7 +390,7 @@ export default class yenikayit extends Component {
                                 </Item>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='E-posta adresi giriniz'
+                                    <Input placeholder='E-posta adresi girin'
                                         keyboardType="email-address"
                                         placeholderTextColor="gray"
                                         onChangeText={(value) => this.setState({ eposta: value })}
@@ -400,7 +400,7 @@ export default class yenikayit extends Component {
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' color='#fff' />
                                     <TextInputMask style={styles.Inputs1}
-                                        placeholder="Telefon giriniz"
+                                        placeholder="Telefon girin"
                                         placeholderTextColor="gray"
                                         keyboardType="phone-pad"
                                         refInput={ref => { this.input = ref }}
@@ -416,17 +416,17 @@ export default class yenikayit extends Component {
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
 
-                                    <Input  autoCapitalize="characters"
+                                    <Input autoCapitalize="characters"
                                         onChangeText={(value) => this.setState({ plaka: value.toUpperCase() })}
                                         value={this.state.plaka.toUpperCase()}
-                                        placeholder="Plaka giriniz"
+                                        placeholder="Plakanız girin"
                                         placeholderTextColor="gray"
                                         underlineColorAndroid="transparent" />
 
-                                 
+
                                 </Item>
                                 <Item picker style={styles.Inputs}>
-                                    <Image style={{marginLeft:5, width: 30, height: 30, resizeMode: 'contain', color:'black' }} source={pompa}></Image>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', color: 'black' }} source={pompa}></Image>
                                     <Picker borderColor='black'
                                         mode="dropdown"
                                         iosIcon={<Icon name="arrow-down" />}
@@ -455,8 +455,8 @@ export default class yenikayit extends Component {
                                     <Icon active name='md-alarm' color='#fff' />
                                     <TextInputMask style={styles.Inputs1}
                                         autoCapitalize="characters"
-                                        placeholder="Mobil kodunuzu giriniz"
-                                        //  placeholderTextColor="#efefef"
+                                        placeholder="Mobil kodunuzu girin"
+                                        placeholderTextColor="gray"
                                         keyboardType="number-pad"
                                         //   onChangeText={(value) => this.setState({ plaka: value })}
                                         value={this.state.plaka}
@@ -590,7 +590,7 @@ const styles = StyleSheet.create({
     Inputs1: {
         alignSelf: 'center',
         width: '90%',
-        fontSize:16,
+        fontSize: 16,
         borderColor: 'black',
     },
     switchcontainer: {

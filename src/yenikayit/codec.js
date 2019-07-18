@@ -87,7 +87,7 @@ export default class Kodec extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -108,7 +108,7 @@ export default class Kodec extends Component {
                 </View>
 
                 <View style={styles.containerOrta}>
-                    <Card style={{marginLeft:30,marginRight:30}}>
+                    <Card style={{ marginLeft: 30, marginRight: 30 }}>
                         <CardItem header>
                             <Text style={styles.txtYaz}>Lütfen Sms ile gelen Kodu giriniz...</Text>
                         </CardItem>
@@ -126,14 +126,14 @@ export default class Kodec extends Component {
                             </Body>
                         </CardItem>
                         <CardItem footer>
-                        <Button block danger style={styles.mb15} onPress={() => this._Aktivasyon()}>
-                            <Text style={styles.buttonText}>KAYIT OL</Text>
-                        </Button>
+                            <Button block danger style={styles.mb15} onPress={() => this._Aktivasyon()}>
+                                <Text style={styles.buttonText}>KAYIT OL</Text>
+                            </Button>
                         </CardItem>
                     </Card>
 
 
-                
+
                 </View>
             </Container>
         )

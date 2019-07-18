@@ -42,11 +42,11 @@ export default class PlakaDuzenle extends Component {
 
         }
     }
-    async componentWillReceiveProps(nextProps){
+    async componentWillReceiveProps(nextProps) {
         const uId = await getStorage('userId');
         const _plaka = this.props.navigation.getParam('PlakaId', '');
         const _card = this.props.navigation.getParam('KartId', '');
-        this.setState({plaka1:_plaka});
+        this.setState({ plaka1: _plaka });
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
@@ -87,7 +87,7 @@ export default class PlakaDuzenle extends Component {
         const _plaka = this.props.navigation.getParam('PlakaId', '');
         const _card = this.props.navigation.getParam('KartId', '');
         //this.setState({cardSelected: _card});
-        this.setState({plaka1:_plaka});
+        this.setState({ plaka1: _plaka });
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
@@ -237,38 +237,38 @@ export default class PlakaDuzenle extends Component {
             );
         }
     }
-    _putMusteriAraci = async () =>{
+    _putMusteriAraci = async () => {
         try {
             this.setState({ loading: false })
             const Id = await getStorage('userId');
-            putMusteriAraci(Id,this.state.plaka1,this.state.selected2,this.state.selected3,this.state.araba,this.state.cardSelected)
-            .then((ret)=>{
-                this.setState({ loading: false })
-                  let response = JSON.stringify(ret);
-                  if (ret.status === true) {
-                    Alert.alert(
-                        'Araç Düzenleme!',
-                        ret.message,
-                        [
+            putMusteriAraci(Id, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected)
+                .then((ret) => {
+                    this.setState({ loading: false })
+                    let response = JSON.stringify(ret);
+                    if (ret.status === true) {
+                        Alert.alert(
+                            'Araç Düzenleme!',
+                            ret.message,
+                            [
 
-                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim") },
-                        ],
-                        { cancelable: true },
-                    );
-                    // console.log("response: " + JSON.stringify(responseData)) 
-                }
-                else {
-                    Alert.alert(
-                        'Araç Düzenleme!',
-                        ret.message,
-                        [
+                                { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim") },
+                            ],
+                            { cancelable: true },
+                        );
+                        // console.log("response: " + JSON.stringify(responseData)) 
+                    }
+                    else {
+                        Alert.alert(
+                            'Araç Düzenleme!',
+                            ret.message,
+                            [
 
-                            { text: 'Tamam', onPress: () => console.log('False') },
-                        ],
-                        { cancelable: true },
-                    );
-                }
-            })
+                                { text: 'Tamam', onPress: () => console.log('False') },
+                            ],
+                            { cancelable: true },
+                        );
+                    }
+                })
         } catch (error) {
             this.setState({ loading: false })
             Alert.alert('Hata Oluştu!', error);
@@ -285,7 +285,7 @@ export default class PlakaDuzenle extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim")}>
-                            <Icon name="arrow-back" style={{ color: '#fff' }} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -309,21 +309,21 @@ export default class PlakaDuzenle extends Component {
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <Spinner
                             visible={this.state.loading}
-                            textContent={'Lütfen Bekleyiniz...'}
+                            textContent={'Lütfen Bekleyin'}
                             textStyle={styles.spinnerTextStyle}
                         />
                     </View>
                     <Form>
                         <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                             <Item picker style={styles.Inputs2}>
-                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
+                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
 
                                 <Picker borderWidt='1' borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
-                                    placeholder="Kart Seç..."
-                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholder="Kart Seç"
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="#007aff"
                                     selectedValue={this.state.cardSelected}
                                     onValueChange={this.onCardChange.bind(this)}>
@@ -340,10 +340,10 @@ export default class PlakaDuzenle extends Component {
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                             <Item regular style={styles.Inputs2}>
-                                <Image style={{ width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
-                                <Input placeholder='Plaka Giriniz...'
-                                   
-                                    placeholderTextColor="#efefef"
+                                <Image style={{ marginLeft: 5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
+                                <Input placeholder='Plakanızı Girin'
+
+                                    placeholderTextColor="black"
                                     onChangeText={(value) => this.setState({ plaka1: value })}
                                     value={this.state.plaka1}
                                     underlineColorAndroid="transparent" />
@@ -352,14 +352,14 @@ export default class PlakaDuzenle extends Component {
                         </View>
                         <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                             <Item picker style={styles.Inputs2}>
-                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
                                 <Picker borderWidt='1' borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="#007aff"
                                     selectedValue={this.state.selected2}
                                     onValueChange={this.onValueChange2.bind(this)}>
@@ -376,14 +376,14 @@ export default class PlakaDuzenle extends Component {
                                 </Picker>
                             </Item>
                             <Item picker style={styles.Inputs2}>
-                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
                                 <Picker borderWidt='1' borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="#007aff"
                                     selectedValue={this.state.selected3}
                                     onValueChange={this.onValueChange3.bind(this)}>
@@ -400,13 +400,13 @@ export default class PlakaDuzenle extends Component {
                                 </Picker>
                             </Item>
                             <Item picker style={styles.Inputs2}>
-                                <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
+                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
                                 <Picker style={styles.Inputs2} borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Araç Marka/model..."
-                                    placeholderStyle={{ color: "#bfc6ea" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="#007aff"
                                     selectedValue={this.state.araba}
                                     onValueChange={this.onArabaValueChange.bind(this)}>

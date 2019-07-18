@@ -16,8 +16,8 @@ export default class login extends Component {
     super(props);
     this.state = {
       switch1Value: true,
-      UserName: 'asu@test.com',
-      Pass: '123456',
+      UserName: '',//'asu@test.com',
+      Pass:'',// '123456',
       userId: '',
       error: '',
       isLoading: false,
@@ -37,9 +37,10 @@ export default class login extends Component {
           const currentLatitude = JSON.stringify(position.coords.latitude);
           this.setState({ latlon: position.coords.longitude });
         },
-        (error) => console.log(error.message),
+        (error) => console.log('Gps Error'+error.message),
         {
-          enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
+  
+          enableHighAccuracy: true, timeout: 3000, maximumAge: 1000
         }
       );
     } catch (error) {
@@ -49,29 +50,28 @@ export default class login extends Component {
 
     }
   }
-  componentDidUpdate() {
-
+/*
+  componentDidUpdate = async ()=> {
     console.log('this.state.latlon ' + this.state.latlon)
-   // if (this.state.latlon === undefined)
-     // this._getGps();
   }
+  */
   componentDidMount= async() =>{
     BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
     this._getConn();
     this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
       BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
     );
-    this._getGps();
+   // this._getGps();
     const Password = await getStorage('Password');
     console.log('Password= '+Password);
-    const UserID = await getStorage('userId');
+    const UserID = await getStorage('UserName');
+    console.log('Kullanıcı= '+UserID);
     if(Password!==''){
+      //alert(UserID)
        this.setState({Pass:Password, UserName:UserID});
     }
   }
-  componentWillUnmount() {
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
-  }
+
   handleBackPress = () => {
     BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async
     return true;
@@ -123,7 +123,8 @@ export default class login extends Component {
 
     );
     this._didFocusSubscription && this._didFocusSubscription.remove();
-    this._willBlurSubscription && this._willBlurSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();    
+    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
     console.log('remove component')
   }
   _storeData = async () => {
@@ -204,14 +205,18 @@ export default class login extends Component {
   }
   toggleSwitch1 = async (value) => {
     this.setState({ switch1Value: value })
-    console.log('Switch 1 is: ' + value)
+    //console.log('Switch 1 is: ' + value)
     if (value == true){
-     await setStorage('userId',this.state.UserName);
-     await setStorage('Password',this.state.Pass);
+      console.log('Switch 1 is: ' + this.state.UserName)
+      await setStorage('UserName',this.state.UserName);
+      await setStorage('Password',this.state.Pass);
+    
     }
     else{
       await setStorage('userId','');
       await setStorage('Password','');
+      this.setState({ UserName:await  getStorage('userId')}) 
+      this.setState({Pass:await getStorage('Password')})
     }
   }
 
@@ -244,7 +249,7 @@ export default class login extends Component {
           <View style={styles.containerOrta}>
           <Item regular style={styles.Inputs}>
               <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
-              <Input placeholder='E-Posta adresinizi giriniz'
+              <Input placeholder='E-Posta adresinizi girin'
                 keyboardType="email-address"
                 // placeholderTextColor="#efefef"
                 onChangeText={(value) => this.setState({ UserName: value })}
@@ -253,7 +258,7 @@ export default class login extends Component {
             </Item>
             <Item regular style={styles.Inputs}>
               <Icon active name='key' underlayColor='#2089dc' color='#fff' />
-              <Input placeholder='Şifrenizi giriniz'
+              <Input placeholder='Şifrenizi girin'
                 secureTextEntry={true}
                 textContentType="password"
                 //  placeholderTextColor="#efefef"
