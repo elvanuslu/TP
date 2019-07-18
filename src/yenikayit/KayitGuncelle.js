@@ -261,7 +261,7 @@ export default class KayitGuncelle extends Component {
                             <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
                             <TextInputMask style={styles.Inputs1}
                                 editable={false}
-                                placeholder="Telefon giriniz"
+                                placeholder="Telefonunuzu girin"
                                 placeholderTextColor="black"
                                 keyboardType="phone-pad"
                                 refInput={ref => { this.input = ref }}
@@ -280,7 +280,7 @@ export default class KayitGuncelle extends Component {
                         {console.log('Mobil Kod I = ' + typeof this.state.mobilKod2)}
                         <Item regular style={[styles.Input2, (this.state.mobilKod2 === '') ? styles.Inputs : styles.hidden]}>
                             <Icon active name='md-alarm' color='#fff' />
-                            <Input placeholder='Mobil kodunuz'
+                            <Input placeholder='Mobil kod'
                                 keyboardType="number-pad"
                                 onChangeText={(value) => this.setState({ mobilKod: value })}
                                 value={this.state.mobilKod}
@@ -290,7 +290,7 @@ export default class KayitGuncelle extends Component {
 
                         <Item regular style={styles.Inputst}>
                             <TextInput
-                                placeholder='Adresinizi Giriniz'
+                                placeholder='Adresinizi Girin'
                                 placeholderTextColor="black"
                                 placeHolderTextStyle={{ color: 'black', fontSize: 15 }}
                                 style={{ marginLeft: 5, height: 60, flex: 1, fontSize: 15, }}
@@ -353,7 +353,7 @@ export default class KayitGuncelle extends Component {
                                 mode="dropdown"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
-                                placeholder="Medeni Durumunuz"
+                                placeholder="Medeni Durum"
                                 placeholderTextColor="black"
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.MedeniDurum}
@@ -401,7 +401,7 @@ export default class KayitGuncelle extends Component {
                                 modalTransparent={false}
                                 animationType={"fade"}
                                 androidMode={"spinner"}
-                                placeHolderText="Doğum Tarihinizi Giriniz"
+                                placeHolderText="Doğum Tarihinizi Girin"
                                 textStyle={{ color: "black" }}
                                 placeHolderTextStyle={{ color: "black" }}
                                 onDateChange={this.setDate}

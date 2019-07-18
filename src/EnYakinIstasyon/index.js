@@ -102,7 +102,7 @@ export default class EnYakinIstasyon extends Component {
                     longitude: 29.526954,
                     loading: false,
                 }),
-                { enableHighAccuracy: true, timeout: 60000, maximumAge: 0 },
+                { enableHighAccuracy: true, timeout: 60000, maximumAge: 3600000 },
             );
             this._getData();
         } catch (error) {

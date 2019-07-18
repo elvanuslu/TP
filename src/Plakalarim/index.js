@@ -69,9 +69,7 @@ export default class Plakalarim extends Component {
                 { cancelable: true },
             );
         }
-        finally {
-            this.setState({ loading: false })
-        }
+      
     }
     componentDidMount() {
         this._getPlakaList();
@@ -109,18 +107,18 @@ export default class Plakalarim extends Component {
                         <Image style={{ marginBottom: 3, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
                 </View>
-
-                <View style={styles.containerBottom}>
-                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <Spinner
                             visible={this.state.loading}
                             textContent={'Yükleniyor...'}
                             textStyle={styles.spinnerTextStyle}
                         />
                     </View>
+                <View style={styles.containerBottom}>
+                  
                     <View style={styles.switchcontainer}>
-                        <TouchableOpacity style={{ height: 50, marginTop: 5, }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
-                            <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={require('../../assets/ikonlar-06.png')} />
+                        <TouchableOpacity style={{ height: 40, marginTop: 1, }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
+                            <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={require('../../assets/ArtiKirmizi.png')} />
 
                         </TouchableOpacity>
                     </View>
@@ -286,7 +284,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         marginRight: 10,
         alignItems: 'center',
-        marginBottom: 5,
+        marginBottom: 0,
         marginTop: 40,
 
     },

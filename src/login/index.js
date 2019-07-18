@@ -141,12 +141,19 @@ export default class login extends Component {
   handleSubmit() {
     try {
       this.setState({ loading: true })
+      
       //  this.isAvailable();
       if (this.state.UserName !== undefined) {
         if (this.state.Pass !== undefined) {
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
               this.setState({ userId: res.contactid, loading: false });
+           /*   setInterval(() => {
+                this.setState({
+                  loading: false
+                });
+              }, 5000);
+              */
               //      console.log("stateUserId=>" + this.state.userId);
               if (res.contactid === undefined) {
 

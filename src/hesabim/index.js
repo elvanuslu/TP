@@ -109,14 +109,15 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     containerOrta: {
-        flex: 6,
+        flex: 5,
         backgroundColor: 'transparent',
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 6,
+        flex: 4,
         backgroundColor: 'transparent',
         alignSelf: 'center',
+        marginBottom:5,
         // justifyContent: 'center',
         // alignItems:'center',
         // flexDirection: 'column',

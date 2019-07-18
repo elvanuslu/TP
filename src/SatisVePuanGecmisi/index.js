@@ -190,15 +190,14 @@ export default class SatisVePuanGecmisi extends Component {
                                     <Content style={{ flexDirection: 'row' }}>
                                         <Button
                                             full
-                                            onPress={() => alert(data.bm_pompaislemiid)}
+                                            onPress={() =>this.onPressAndGo(data.bm_pompaislemiid) /*alert(data.bm_pompaislemiid)*/}
                                             style={{
                                                 backgroundColor: "#ec971f",
                                                 flex: 1,
                                                 alignItems: "center",
                                                 justifyContent: "center",
                                                 color: '#fff',
-                                            }}
-                                        >
+                                            }}>
                                             <Icon active name="md-create" />
                                         </Button>
 
@@ -215,8 +214,7 @@ export default class SatisVePuanGecmisi extends Component {
                                             flex: 1,
                                             alignItems: "center",
                                             justifyContent: "center"
-                                        }}
-                                    >
+                                        }} >
                                         <Icon active name="trash" />
                                     </Button>}
                                 leftOpenValue={75}
