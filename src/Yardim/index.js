@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     cardmb: {
-        marginLeft: 15,
-        marginRight: 15,
+       // marginLeft: 15,
+        //marginRight: 15,
         marginBottom: 20,
         marginTop: 15,
         borderRadius: 10,
