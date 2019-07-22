@@ -11,8 +11,9 @@ const logo = require("../../assets/logoKirmiz.png");
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const plaka = require("../../assets/plakaKirmizi.png");
 const pmpa = require("../../assets/pompaKirmizi.png");
-const odeme = require("../../assets/odemeTutar.png");
+const odeme = require("../../assets/ikonlar-17.png");
 const kampanya = require("../../assets/kapmpanyakirmizi.png");
+
 
 
 export default class OzetBilgi extends Component {
@@ -409,7 +410,7 @@ export default class OzetBilgi extends Component {
                                     </View>
 
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={odeme}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Tutar </Text>
                                         </Left>

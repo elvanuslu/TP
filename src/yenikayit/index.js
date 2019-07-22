@@ -374,25 +374,25 @@ export default class yenikayit extends Component {
                             <Form>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='Adınızı girin'
+                                    <Input placeholder='Ad'
                                         onChangeText={(value) => this.setState({ Adi: value })}
                                         value={this.state.Adi}
-                                        placeholderTextColor="gray"
+                                        placeholderTextColor="black"
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='Soyadınızı girin'
+                                    <Input placeholder='Soyad'
                                         onChangeText={(value) => this.setState({ Soyadi: value })}
                                         value={this.state.Soyadi}
-                                        placeholderTextColor="gray"
+                                        placeholderTextColor="black"
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='E-posta adresi girin'
+                                    <Input placeholder='E-posta Adresi'
                                         keyboardType="email-address"
-                                        placeholderTextColor="gray"
+                                        placeholderTextColor="black"
                                         onChangeText={(value) => this.setState({ eposta: value })}
                                         value={this.state.eposta}
                                         underlineColorAndroid="transparent" />
@@ -400,8 +400,8 @@ export default class yenikayit extends Component {
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='person' color='#fff' />
                                     <TextInputMask style={styles.Inputs1}
-                                        placeholder="Telefon girin"
-                                        placeholderTextColor="gray"
+                                        placeholder="Telefon"
+                                        placeholderTextColor="black"
                                         keyboardType="phone-pad"
                                         refInput={ref => { this.input = ref }}
                                         onChangeText={(formatted, extracted) => {
@@ -419,8 +419,8 @@ export default class yenikayit extends Component {
                                     <Input autoCapitalize="characters"
                                         onChangeText={(value) => this.setState({ plaka: value.toUpperCase() })}
                                         value={this.state.plaka.toUpperCase()}
-                                        placeholder="Plakanız girin"
-                                        placeholderTextColor="gray"
+                                        placeholder="Plaka"
+                                        placeholderTextColor="black"
                                         underlineColorAndroid="transparent" />
 
 
@@ -431,9 +431,9 @@ export default class yenikayit extends Component {
                                         mode="dropdown"
                                         iosIcon={<Icon name="arrow-down" />}
                                         style={{ width: undefined }}
-                                        placeholder="Yakıt tipi"
+                                        placeholder="Yakıt Tipi"
                                         //    placeholderStyle={{ color: "#bfc6ea" }}
-                                        placeholderIconColor="gray"
+                                        placeholderIconColor="black"
                                         //   selectedValue={this.state.yakitTipi}
                                         //    onValueChange={this.onYakitTipiValueChange.bind(this)}
                                         // onValueChange={(itemValue, itemIndex) => this.setState({ yakitTipi: itemValue, yakitTipiDeger:itemIndex },this.onYakitTipiValueChange.bind(this))}
@@ -455,8 +455,8 @@ export default class yenikayit extends Component {
                                     <Icon active name='md-alarm' color='#fff' />
                                     <TextInputMask style={styles.Inputs1}
                                         autoCapitalize="characters"
-                                        placeholder="Mobil kodunuzu girin"
-                                        placeholderTextColor="gray"
+                                        placeholder="Mobil Kod"
+                                        placeholderTextColor="black"
                                         keyboardType="number-pad"
                                         //   onChangeText={(value) => this.setState({ plaka: value })}
                                         value={this.state.plaka}
@@ -475,7 +475,7 @@ export default class yenikayit extends Component {
                                     <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                                     <Input placeholder='Şifre '
                                         // keyboardType="email-address"
-                                        placeholderTextColor="gray"
+                                        placeholderTextColor="black"
                                         secureTextEntry={true}
                                         onChangeText={(value) => this.setState({ Sifre: value })}
                                         value={this.state.Sifre}
@@ -483,9 +483,9 @@ export default class yenikayit extends Component {
                                 </Item>
                                 <Item regular style={styles.Inputs}>
                                     <Icon active name='key' underlayColor='#2089dc' color='#fff' />
-                                    <Input placeholder='Şifre (tekrar) '
+                                    <Input placeholder='Şifre (Tekrar) '
                                         // keyboardType="email-address"
-                                        placeholderTextColor="gray"
+                                        placeholderTextColor="black"
                                         secureTextEntry={true}
                                         onChangeText={(value) => this.setState({ Sifre2: value })}
                                         value={this.state.Sifre2}

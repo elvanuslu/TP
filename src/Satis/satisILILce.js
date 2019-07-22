@@ -88,7 +88,7 @@ export default class SatisIllce extends Component {
             getCityList()
                 .then((res) => {
                     // console.log('Şehirler ' + JSON.stringify(res))
-                    var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': '-Şehir Seçin-' };
+                    var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'Şehir' };
                     res.splice(0, 0, initialArr);
                     this.setState({
                         Sehirler: res,
@@ -155,12 +155,12 @@ export default class SatisIllce extends Component {
 
             },
             () => {
-                console.log('Ilce Sci ' + this.state.Ilce)
+                //console.log('Ilce Sci ' + this.state.Ilce)
                 try {
                     getIstasyonByCityId(this.state.Ilce, 10)
                         .then((res) => {
                             if (res.status != false) {
-                                console.log('Istasyon By CITY ' + JSON.stringify(res));
+                             //   console.log('Istasyon By CITY ' + JSON.stringify(res));
                                 this.setState({
                                     datas: res,
                                     loading: false,
@@ -171,7 +171,7 @@ export default class SatisIllce extends Component {
                                 Alert.alert('Bulunamadı!', res.message);
                             }
                         })
-                    console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
+                   // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
                 } catch (error) {
                     Alert.alert('Hata!', error.message);
                 }
@@ -189,7 +189,7 @@ export default class SatisIllce extends Component {
                 getCitybyId(this.state.Sehir)
                     .then((res) => {
                         //  console.log('İlçe= ' + JSON.stringify(res));
-                        var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000001', 'bm_adi': '-İlçe Seçin-' };
+                        var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'İlçe' };
                         res.splice(0, 0, initialArr);
                         if (this.state.Sehir !== undefined) {
                             this.setState({
@@ -362,7 +362,7 @@ export default class SatisIllce extends Component {
                     var jsonBody = [
                         {
                             "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
-                            "bm_yakittipiadi": '-Yakıt Tipi Seçin-'
+                            "bm_yakittipiadi": 'Yakıt Tipi'
                         },
                         {
                             "bm_yakittipiid": res.bm_yakitcinsiid_1,
@@ -450,7 +450,7 @@ export default class SatisIllce extends Component {
                 .then((res) => {
                     //   alert(JSON.stringify(res))
                     // console.log('Odeme Tipleri: ' + JSON.stringify(res))
-                    var initialArr = { 'Value': '-1', 'Name': '-Ödeme Tipini Seçin-' };
+                    var initialArr = { 'Value': '-1', 'Name': 'Ödeme Tipi' };
                     res.splice(0, 0, initialArr);
                     this.setState({ OdemeTipleri: res, loading: false })
 
@@ -486,7 +486,7 @@ export default class SatisIllce extends Component {
             getPlakaList(uId)
                 .then((res) => {
                     //   console.log('Res= ' + JSON.stringify(res))
-                    var initialArr = { 'bm_musteriaraciid': '00000000-0000-0000-0000-000000000001', 'bm_plaka': '-Plaka Seçin-' };
+                    var initialArr = { 'bm_musteriaraciid': '00000000-0000-0000-0000-000000000001', 'bm_plaka': 'Plaka' };
                     res.splice(0, 0, initialArr);
                     this.setState({ Plaka: res, loading: false });
                 })
@@ -580,10 +580,10 @@ export default class SatisIllce extends Component {
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
                 .then((res) => {
                     if (status !== false) {
-                        console.log('Istasyonlarım= ' + JSON.stringify(res));
+                      //  console.log('Istasyonlarım= ' + JSON.stringify(res));
                         this.setState({ datas: res, loading: false });
-                        Alert.alert('Data', JSON.stringify(res));
-                        console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
+                       // Alert.alert('Data', JSON.stringify(res));
+                       // console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
                     }
                     else {
                         Alert.alert('Hata', res.message);
@@ -785,7 +785,7 @@ export default class SatisIllce extends Component {
                             <Item regular style={styles.Inputs}>
                                 <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={kampanya}></Image>
 
-                                <Input placeholder='Kupon kodu' style={{ fontSize: 15, color: 'black' }}
+                                <Input placeholder='Kupon Kodu' style={{ fontSize: 15, color: 'black' }}
                                     //keyboardType="phone-pad"
                                     placeholderTextColor="black"
                                     onChangeText={(value) => this.setState({ KuponKodu: value })}
@@ -799,7 +799,7 @@ export default class SatisIllce extends Component {
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
-                                    placeholder="Ödeme tipi seçin"
+                                    placeholder="Ödeme Tipi"
                                     placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="black"
 
@@ -827,7 +827,7 @@ export default class SatisIllce extends Component {
                             <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
                                 <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
                                     <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={OdemeIkon}></Image>
-                                    <Input placeholder='Ödeme tutarı' style={{ width: '90%', backgroundColor: 'transparent', fontSize: 15, color: 'black' }}
+                                    <Input placeholder='Ödeme Tutarı' style={{ width: '90%', backgroundColor: 'transparent', fontSize: 15, color: 'black' }}
                                         keyboardType="decimal-pad"
                                         placeholderTextColor="black"
                                         onChangeText={(value) => this.setState({ Tutar: value })}

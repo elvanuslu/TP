@@ -38,7 +38,7 @@ export default class Duyurular extends Component {
                 .then((res) => {
                     if (res.status !== false) {
                         this.setState({ data: res, loading: false });
-                         console.log(JSON.stringify(res));
+                        // console.log(JSON.stringify(res));
                     }
                     else {
                         Alert.alert('Hata', res.message);
@@ -52,6 +52,7 @@ export default class Duyurular extends Component {
 
     }
     onPressAndGo(Id, url, aciklama, aciklama2) {
+      //  console.log('duyuru url='+url);
         /*console.log('duyuru Id='+Id);
         console.log('duyuru url='+url);
         console.log('duyuru aciklama='+aciklama);
@@ -148,8 +149,8 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     cardmb: {
-        marginLeft: 0,
-        marginRight: 0,
+        marginLeft: 15,
+        marginRight: 15,
         marginBottom: 10,
         borderRadius: 10,
     },

@@ -256,7 +256,7 @@ export default class login extends Component {
           <View style={styles.containerOrta}>
           <Item regular style={styles.Inputs}>
               <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
-              <Input placeholder='E-Posta adresinizi girin'
+              <Input placeholder='E-Posta Adresinizi Girin'
                 keyboardType="email-address"
                 // placeholderTextColor="#efefef"
                 onChangeText={(value) => this.setState({ UserName: value })}
@@ -265,7 +265,7 @@ export default class login extends Component {
             </Item>
             <Item regular style={styles.Inputs}>
               <Icon active name='key' underlayColor='#2089dc' color='#fff' />
-              <Input placeholder='Şifrenizi girin'
+              <Input placeholder='Şifrenizi Girin'
                 secureTextEntry={true}
                 textContentType="password"
                 //  placeholderTextColor="#efefef"

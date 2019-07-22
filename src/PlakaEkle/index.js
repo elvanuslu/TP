@@ -283,9 +283,7 @@ export default class PlakaEkle extends Component {
             );
 
         }
-        finally {
-            this.setState({ loading: false })
-        }
+      
     }
     componentDidMount = async () => {
         //   this.isAvailable();
@@ -322,14 +320,13 @@ export default class PlakaEkle extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <View style={styles.container1}>
-                    <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                        <Image style={{ marginBottom: 5, marginLeft: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
-                    </View>
-                </View>
+               
 
                 <View style={styles.containerBottom}>
+                <View>
+                    <Image style={styles.logo} source={require('../../assets/logo.png')} />
+                    <Image style={{ marginBottom: 20, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
@@ -420,7 +417,7 @@ export default class PlakaEkle extends Component {
                                 }
                             </Picker>
                         </Item>
-                        <View>
+                        <View style={{marginTop:20,marginLeft:15,marginRight:15}}>
                             <TouchableOpacity onPress={() => this._Kaydet()}>
                                 <Image
                                     style={styles.button}

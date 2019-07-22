@@ -45,12 +45,13 @@ export default class PlakaDuzenle extends Component {
     async componentWillReceiveProps(nextProps) {
         const uId = await getStorage('userId');
         const _plaka = this.props.navigation.getParam('PlakaId', '');
-        const _card = this.props.navigation.getParam('KartId', '');
-        this.setState({ plaka1: _plaka });
+        const Marka = this.props.navigation.getParam('Marka', '');
+        this.setState({ plaka1: _plaka,araba:Marka });
+        //this.setState({ plaka1: _plaka });
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
-        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Kart= ' + _card);
+        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Kart= ' + Marka);
     }
     _getPlaka = async () => {
         try {
@@ -85,13 +86,13 @@ export default class PlakaDuzenle extends Component {
     componentDidMount = async () => {
         const uId = await getStorage('userId');
         const _plaka = this.props.navigation.getParam('PlakaId', '');
-        const _card = this.props.navigation.getParam('KartId', '');
+        const Marka = this.props.navigation.getParam('Marka', '');
         //this.setState({cardSelected: _card});
-        this.setState({ plaka1: _plaka });
+        this.setState({ plaka1: _plaka,araba:Marka });
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
-        console.log('mPlaka = ' + _plaka + ' Id= ' + uId, ' Kart= ' + _card);
+        console.log('mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka,'State Marka '+ this.state.araba);
     }
     convertTextToUpperCase = () => {
         var text = this.state.plaka2;
@@ -244,7 +245,7 @@ export default class PlakaDuzenle extends Component {
             putMusteriAraci(Id, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected)
                 .then((ret) => {
                     this.setState({ loading: false })
-                    let response = JSON.stringify(ret);
+                 //   let response = JSON.stringify(ret);
                     if (ret.status === true) {
                         Alert.alert(
                             'Araç Düzenleme!',
@@ -297,137 +298,112 @@ export default class PlakaDuzenle extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <View style={styles.container1}>
-                    <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')}
-                        />
-                        <Image style={{ marginBottom: 5, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
-                    </View>
+
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Lütfen Bekleyin'}
+                        textStyle={styles.spinnerTextStyle}
+                    />
                 </View>
-
+              
                 <View style={styles.containerBottom}>
-                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <Spinner
-                            visible={this.state.loading}
-                            textContent={'Lütfen Bekleyin'}
-                            textStyle={styles.spinnerTextStyle}
-                        />
+                <View>
+                    <Image style={styles.logo} source={require('../../assets/logo.png')} />
+                    <Image style={{ marginBottom: 20, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+                        <Item regular style={styles.Inputs2}>
+                            <Image style={{ marginLeft: 5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
+                            <Input placeholder='Plakanızı Girin'
+
+                                placeholderTextColor="black"
+                                onChangeText={(value) => this.setState({ plaka1: value })}
+                                value={this.state.plaka1}
+                                underlineColorAndroid="transparent" />
+                        </Item>
+
                     </View>
-                    <Form>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-                            <Item picker style={styles.Inputs2}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
+                   
+                    <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+                        <Item picker style={styles.Inputs2}>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
+                            <Picker style={styles.Inputs2} borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Araç Marka/model"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.araba}
+                                onValueChange={this.onArabaValueChange.bind(this)}>
+                                {
+                                    this.state.markalar.map((item, key) => (
+                                        <Picker.Item
+                                            label={item.bm_adi}
+                                            value={item.bm_aracmarkasiid}
+                                            key={item.bm_aracmarkasiid} />
+                                    ))
+                                }
+                            </Picker>
+                        </Item>
+                        <Item picker style={styles.Inputs2}>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
-                                <Picker borderWidt='1' borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Kart Seç"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.cardSelected}
-                                    onValueChange={this.onCardChange.bind(this)}>
-                                    {
-                                        this.state.card.map((item, key) => (
-                                            <Picker.Item
-                                                label={item.bm_kartno}
-                                                value={item.bm_kartid}
-                                                key={item.bm_kartid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
+                            <Picker borderWidt='1' borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Yakıt Tipi"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.selected2}
+                                onValueChange={this.onValueChange2.bind(this)}>
+                                {
+                                    this.state.yakitlst.map((item, key) => (
+                                        //  console.log("ttip: " + item.bm_yakittipiadi),
+                                        //  console.log("ttip: " + item.bm_yakittipiid),
+                                        <Picker.Item
+                                            label={item.bm_yakittipiadi}
+                                            value={item.bm_yakittipiid}
+                                            key={item.bm_yakittipiid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+                        <Item picker style={styles.Inputs2}>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+
+                            <Picker borderWidt='1' borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Yakıt Tipi"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.selected3}
+                                onValueChange={this.onValueChange3.bind(this)}>
+                                {
+                                    this.state.yakitlst.map((item, key) => (
+                                        //  console.log("ttip: " + item.bm_yakittipiadi),
+                                        //  console.log("ttip: " + item.bm_yakittipiid),
+                                        <Picker.Item
+                                            label={item.bm_yakittipiadi}
+                                            value={item.bm_yakittipiid}
+                                            key={item.bm_yakittipiid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+
+                      
+                    </View>
+                    <View style={{ flex: 1, flexDirection: 'row',backgroundColor:'transparent' }}>
+                            <Button block danger style={{ width: '80%', marginTop: 10, marginLeft: 30, marginRight: 30, }}
+                                onPress={() => this._Duzenle()}>
+                                <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Düzenle</Text>
+                            </Button>
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-                            <Item regular style={styles.Inputs2}>
-                                <Image style={{ marginLeft: 5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
-                                <Input placeholder='Plakanızı Girin'
-
-                                    placeholderTextColor="black"
-                                    onChangeText={(value) => this.setState({ plaka1: value })}
-                                    value={this.state.plaka1}
-                                    underlineColorAndroid="transparent" />
-                            </Item>
-
-                        </View>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-                            <Item picker style={styles.Inputs2}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-
-                                <Picker borderWidt='1' borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.selected2}
-                                    onValueChange={this.onValueChange2.bind(this)}>
-                                    {
-                                        this.state.yakitlst.map((item, key) => (
-                                            //  console.log("ttip: " + item.bm_yakittipiadi),
-                                            //  console.log("ttip: " + item.bm_yakittipiid),
-                                            <Picker.Item
-                                                label={item.bm_yakittipiadi}
-                                                value={item.bm_yakittipiid}
-                                                key={item.bm_yakittipiid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item picker style={styles.Inputs2}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-
-                                <Picker borderWidt='1' borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.selected3}
-                                    onValueChange={this.onValueChange3.bind(this)}>
-                                    {
-                                        this.state.yakitlst.map((item, key) => (
-                                            //  console.log("ttip: " + item.bm_yakittipiadi),
-                                            //  console.log("ttip: " + item.bm_yakittipiid),
-                                            <Picker.Item
-                                                label={item.bm_yakittipiadi}
-                                                value={item.bm_yakittipiid}
-                                                key={item.bm_yakittipiid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item picker style={styles.Inputs2}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
-                                <Picker style={styles.Inputs2} borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Araç Marka/model..."
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="#007aff"
-                                    selectedValue={this.state.araba}
-                                    onValueChange={this.onArabaValueChange.bind(this)}>
-                                    {
-                                        this.state.markalar.map((item, key) => (
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_aracmarkasiid}
-                                                key={item.bm_aracmarkasiid} />
-                                        ))
-                                    }
-                                </Picker>
-                            </Item>
-                            <View style={{ flex: 1, flexDirection: 'row' }}>
-                                <Button block danger style={{ width: '80%', marginTop: 10, marginLeft: 30, marginRight: 30 }}
-                                    onPress={() => this._Duzenle()}>
-                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Düzenle</Text>
-                                </Button>
-                            </View>
-                        </View>
-                    </Form>
                 </View>
 
             </Container>
@@ -445,9 +421,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
-        alignItems: 'center',
+        //alignItems: 'center',
     },
     containerOrta: {
         flex: 3,
@@ -457,9 +433,9 @@ const styles = StyleSheet.create({
     containerBottom: {
         flex: 3,
         backgroundColor: 'transparent',
-        alignItems: 'center',
+       
         flexDirection: 'column',
-        justifyContent: 'center'
+
 
     },
     welcome: {
@@ -483,11 +459,13 @@ const styles = StyleSheet.create({
         borderColor: 'black',
     },
     logo: {
+
         marginTop: 5,
-        // width: '100%',
-        height: '70%',
+        width: '100%',
+        height: 80,
         resizeMode: 'contain',
         marginBottom: 5,
+        alignSelf: 'center',
     },
     banner: {
         // marginTop: 2,
@@ -545,7 +523,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 10,
         width: '90%',
-        //color:'black',
+     // backgroundColor:'lightblue',
         borderColor: 'black',
     },
     Inputs2: {
@@ -559,7 +537,7 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
         borderRightWidth: 1,
         borderWidth: 1,
-        //color:'black',
+       //backgroundColor:'green',
         borderColor: 'black',
     },
 });

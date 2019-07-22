@@ -109,7 +109,7 @@ export default class KayitGuncelle extends Component {
                     })
             }
             else {
-                Alert.alert('Hata', 'Şehir Seçim');
+                //Alert.alert('Hata', 'Şehir Seçim');
             }
         } catch (error) {
             Alert.alert('Hata', error);
@@ -261,7 +261,7 @@ export default class KayitGuncelle extends Component {
                             <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
                             <TextInputMask style={styles.Inputs1}
                                 editable={false}
-                                placeholder="Telefonunuzu girin"
+                                placeholder="Telefonunuzu Girin"
                                 placeholderTextColor="black"
                                 keyboardType="phone-pad"
                                 refInput={ref => { this.input = ref }}
@@ -361,7 +361,7 @@ export default class KayitGuncelle extends Component {
                                     this.setState({ MedeniDurum: itemValue })
                                 }>
 
-                                <Picker.Item label="Seçiniz" value="Sec" />
+                                <Picker.Item label="Seçin" value="Sec" />
                                 <Picker.Item label="Bekar" value="1" />
                                 <Picker.Item label="Evli" value="2" />
                             </Picker>
@@ -381,7 +381,7 @@ export default class KayitGuncelle extends Component {
                                     this.setState({ Cinsiyet: itemValue })
                                 }>
 
-                                <Picker.Item label="Seçiniz" value="Sec" />
+                                <Picker.Item label="Seçin" value="Sec" />
                                 <Picker.Item label="Erkek" value="1" />
                                 <Picker.Item label="Kadın" value="2" />
                             </Picker>
@@ -401,7 +401,7 @@ export default class KayitGuncelle extends Component {
                                 modalTransparent={false}
                                 animationType={"fade"}
                                 androidMode={"spinner"}
-                                placeHolderText="Doğum Tarihinizi Girin"
+                                placeHolderText="Doğum Tarihiniz"
                                 textStyle={{ color: "black" }}
                                 placeHolderTextStyle={{ color: "black" }}
                                 onDateChange={this.setDate}

@@ -1,7 +1,7 @@
 import { AsyncStorage, NetInfo } from 'react-native';
 //const define_api_url = "http://85.105.103.4:8096/";
-const define_api_url = "http://213.194.120.55:8082/";
-//const define_api_url = "http://10.200.202.174:81/";
+//const define_api_url = "http//213.194.120.55:8082/";
+const define_api_url = "http://mobil.tppd.com.tr/";
 
 export const isAvailable = () => {
   const timeout = new Promise((resolve, reject) => {
@@ -383,12 +383,12 @@ export const putMusteriAraci = async (contactId, plaka, yakit1, yakit2, marka, k
   }
 }
 export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) => {
-/*  console.log('contactId' + contactId)
-  console.log('plaka' + plaka)
-  console.log('yakit1' + yakit1)
-  console.log('yakit2' + yakit2)
-  console.log('marka' + marka)
-*/
+  console.log('contactId' + contactId)
+  console.log('plaka ' + plaka)
+  console.log('yakit1 ' + yakit1)
+  console.log('yakit2 ' + yakit2)
+  console.log('marka ' + marka)
+
   try {
     const URL = define_api_url + `PostBm_MusteriArac`;
     return fetch(URL,

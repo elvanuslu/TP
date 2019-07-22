@@ -32,17 +32,7 @@ export default class DuyuruDetay extends Component {
         loading: false
     }), 4000)
 
-    componentDidMount() {
-        closeActivityIndicator = () => setTimeout(() => this.setState({
-            loading: false
-        }), 6000)
-
-        /*  const itemId = this.props.navigation.getParam('Id');
-          //   Alert.alert('Mount');
-          if (itemId !== undefined)
-              this._getKampanyaDetay(itemId);
-              */
-    }
+  
 
     _getDuyuruListesi = async () => {
         try {
@@ -52,7 +42,7 @@ export default class DuyuruDetay extends Component {
             getDuyuruListByUser(uId)
                 .then((res) => {
                     this.setState({ data: res, loading: false });
-                    // console.log(JSON.stringify(res));
+                     console.log('Duyuru Detay '+JSON.stringify(res));
                 })
                 .catch((error) => alert(error))
         } catch (error) {
@@ -74,11 +64,11 @@ export default class DuyuruDetay extends Component {
             this.setState({
                 loading: true,
                 oldId: itemId,
-                url: 'http://85.105.103.4:8096' + url, Aciklama: aciklama, Aciklama2: aciklama2
+                url:  url, Aciklama: aciklama, Aciklama2: aciklama2
             })
             this.closeActivityIndicator();
         }
-        console.log('url=' + this.state.url)
+        //console.log('url=' + this.state.url)
         return (
             <Container style={styles.container}>
                 <Header style={{ backgroundColor: 'red' }}>
@@ -112,6 +102,7 @@ export default class DuyuruDetay extends Component {
                         </View>
 
                         <View style={styles.containerOrta}>
+                        {console.log('Duyur Resim = '+this.state.url)}
                             <Image style={styles.logo} source={{ uri: this.state.url }} />
                         </View>
                         <View style={styles.containerBottom}>

@@ -33,9 +33,9 @@ export default class Plakalarim extends Component {
         }
     }
 
-    GetItem(item, kart) {
-        console.log('Plaka = ' + item + ' Kart = ' + kart);
-        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'KartId': kart });
+    GetItem(item, markaId) {
+        console.log('Plaka = ' + item + ' Kart = ' + markaId);
+        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'Marka': markaId });
     }
     _getPlakaList = async () => {
         try {
@@ -46,7 +46,7 @@ export default class Plakalarim extends Component {
             getPlakaList(uId)
                 .then((res) => {
                     this.setState({ listViewData: res, loading: false })
-                    // console.log(JSON.stringify(this.state.listViewData))
+                     console.log(JSON.stringify(this.state.listViewData))
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
@@ -141,7 +141,7 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem   >
-                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_musterikartiid)}>
+                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid)}>
 
                                                 <View style={{ flex: 1, flexDirection: 'row', }}>
                                                     <Left>
@@ -160,7 +160,7 @@ export default class Plakalarim extends Component {
                                         <Content style={{ flexDirection: 'row' }}>
                                             <Button
                                                 full
-                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_musterikartiid)}
+                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid)}
                                                 style={{
                                                     backgroundColor: "#ec971f",
                                                     flex: 1,
