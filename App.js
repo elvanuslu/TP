@@ -30,9 +30,11 @@ import Kodec from './src/yenikayit/codec';
 import AnaSayfa from './src/AnaSayfa/AnaSayfa';
 import Sozlesme from './src/Yardim/Sozlesme';
 import SatisIllce from './src/Satis/satisILILce';
+import Filtre from './src/EnYakinIstasyon/Filtre';
 
 
 const Drawer = createDrawerNavigator({
+  Filtre:{ screen: Filtre},
   SatisIllce:{ screen: SatisIllce},
   Sozlesme:{ screen: Sozlesme},
   AnaSayfa:{ screen: AnaSayfa},
@@ -65,6 +67,7 @@ const Drawer = createDrawerNavigator({
   })
 
 const AppNavigator = createStackNavigator({
+  Filtre:{ screen: Filtre},
   SatisIllce:{ screen: SatisIllce},
   Drawer: { screen: Drawer },
   login: { screen: login },

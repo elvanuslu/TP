@@ -90,7 +90,7 @@ export default class hesabim extends Component {
 
 
                 </View>
-                <View style={styles.container}></View>
+              
             </Container>
         );
     }
@@ -114,10 +114,10 @@ const styles = StyleSheet.create({
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 4,
+        flex: 5,
         backgroundColor: 'transparent',
         alignSelf: 'center',
-        marginBottom:5,
+        marginBottom: 35,
         // justifyContent: 'center',
         // alignItems:'center',
         // flexDirection: 'column',
@@ -144,8 +144,8 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
-        width: '100%',
-        height: 80,
+        //  width: '100%',
+        height: 55,
         resizeMode: 'contain',
         marginBottom: 6,
         alignSelf: 'center'
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     banner: {
         // marginTop: 2,
         width: '100%',
-        height: 222,
+        height: 195,
         resizeMode: 'contain',
         marginBottom: 5,
     },

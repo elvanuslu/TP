@@ -162,6 +162,9 @@ export default class KampanyaSec extends Component {
                 */
 
     }
+    _hatavarDon(){
+        this.props.navigation.navigate('AnaSayfa');
+    }
     _campaignDetails = (myProp) => {
         try {
             //   console.log('Propsss= ' + JSON.stringify(myProp));
@@ -175,7 +178,7 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
                     this.setState({ datam: null, loading: false });
-                    //  console.log('Gelen Kampanya = ' + JSON.stringify(res));
+                      console.log('Gelen Kampanya = ' + JSON.stringify(res));
 
                     if (res.status == false) {
                         this.setState({ datam: null, loading: false });
@@ -183,7 +186,7 @@ export default class KampanyaSec extends Component {
                             'Durum Bilgi!',
                             res.message,
                             [
-                                { text: 'Tamam', onPress: () => this._git() },
+                                { text: 'Tamam', onPress: () => this._hatavarDon() },
                             ],
                             { cancelable: true },
                         );

@@ -39,6 +39,9 @@ export default class PlakaDuzenle extends Component {
             card: [],
             cardSelected: undefined,
             cardLabel: '',
+            aracId:undefined,
+            Yakit1:undefined,
+            Yakit2:undefined,
 
         }
     }
@@ -46,12 +49,16 @@ export default class PlakaDuzenle extends Component {
         const uId = await getStorage('userId');
         const _plaka = this.props.navigation.getParam('PlakaId', '');
         const Marka = this.props.navigation.getParam('Marka', '');
-        this.setState({ plaka1: _plaka,araba:Marka });
+        const aracId = this.props.navigation.getParam('AracId');
+        const yakit1 = this.props.navigation.getParam('Yakit1');
+        const yakit2 = this.props.navigation.getParam('Yakit2');
+
+        this.setState({ plaka1: _plaka,araba:Marka,aracId:aracId,selected2:yakit1,selected3:yakit2 });
         //this.setState({ plaka1: _plaka });
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
-        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Kart= ' + Marka);
+        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId='+ aracId,'Yakıt1='+yakit1,'Yakıt2='+yakit2);
     }
     _getPlaka = async () => {
         try {
@@ -87,12 +94,15 @@ export default class PlakaDuzenle extends Component {
         const uId = await getStorage('userId');
         const _plaka = this.props.navigation.getParam('PlakaId', '');
         const Marka = this.props.navigation.getParam('Marka', '');
+        const aracId = this.props.navigation.getParam('AracId');
+        const yakit1 = this.props.navigation.getParam('Yakit1');
+        const yakit2 = this.props.navigation.getParam('Yakit2');
         //this.setState({cardSelected: _card});
-        this.setState({ plaka1: _plaka,araba:Marka });
+        this.setState({ plaka1: _plaka,araba:Marka ,aracId: aracId,selected2:yakit1,selected3:yakit2});
         this._getAracMarkaList();
         this._getYakitTipi();
-        this._getCard();
-        console.log('mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka,'State Marka '+ this.state.araba);
+     //   this._getCard();
+        console.log('mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka,'State Marka '+ this.state.araba, 'state AracaId '+ this.state.aracId);
     }
     convertTextToUpperCase = () => {
         var text = this.state.plaka2;
@@ -160,7 +170,7 @@ export default class PlakaDuzenle extends Component {
             getAracMarkaList()
                 .then((res) => {
                     this.setState({ markalar: res, loading: false })
-                    console.log(JSON.stringify(this.state.markalar))
+                  //  console.log(JSON.stringify(this.state.markalar))
                 })
                 .catch((error) => {
                     Alert.alert(
@@ -240,7 +250,7 @@ export default class PlakaDuzenle extends Component {
     }
     _putMusteriAraci = async () => {
         try {
-            this.setState({ loading: false })
+            this.setState({ loading: true })
             const Id = await getStorage('userId');
             putMusteriAraci(Id, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected)
                 .then((ret) => {

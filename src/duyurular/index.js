@@ -38,7 +38,7 @@ export default class Duyurular extends Component {
                 .then((res) => {
                     if (res.status !== false) {
                         this.setState({ data: res, loading: false });
-                        // console.log(JSON.stringify(res));
+                         console.log(JSON.stringify(res));
                     }
                     else {
                         Alert.alert('Hata', res.message);
@@ -101,11 +101,11 @@ export default class Duyurular extends Component {
                         renderItem={({ item }) =>
                             <Card key={item.bm_mobilcerikId} style={styles.cardmb}>
                                 <CardItem header>
-                                    <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
+                                    <Text style={styles.textBaslik}>{item.bm_icerikadi}</Text>
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 5 }}>
                                     <Body>
-                                        <TouchableOpacity style={{ height: 133, width: '100%', }} onPress={() => this.onPressAndGo(item.bm_mobilcerikId, item.bm_url, item.bm_kisaaciklama, item.bm_uzunaciklama)}>
+                                        <TouchableOpacity style={{ height: 133, width: '100%', }} onPress={() => this.onPressAndGo(item.bm_mobilcerikId, item.bm_url, item.bm_icerikadi, item.bm_uzunaciklama)}>
 
                                             <Image style={styles.logo} source={{ uri: item.bm_url }} />
                                         </TouchableOpacity>
@@ -113,7 +113,7 @@ export default class Duyurular extends Component {
                                     </Body>
                                 </CardItem>
                                 <CardItem footer>
-                                    <Text style={styles.textYazi}>{item.bm_uzunaciklama.slice(0, 160) + '\n'}</Text>
+                                    <Text style={styles.textYazi}>{item.bm_kisaaciklama + '\n\n'}</Text>
                                 </CardItem>
                             </Card>
                         }

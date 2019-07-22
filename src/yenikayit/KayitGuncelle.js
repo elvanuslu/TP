@@ -16,6 +16,31 @@ const k3 = require("../../assets/Kampanya-3.png");
 const odeme = require("../../assets/odemeTutar.png");
 const sehirIkon = require("../../assets/ikonlar-22.png");
 
+const medeniDurum = [{
+    'Id': 0,
+    'Adi': 'Medeni Durum',
+},
+{
+    'Id': 1,
+    'Adi': 'Bekar',
+},
+{
+    'Id': 2,
+    'Adi': 'Evli'
+}]
+const cinsiyet = [{
+    'Id': 0,
+    'Adi': 'Seçin',
+},
+{
+    'Id': 1,
+    'Adi': 'Erkek',
+},
+{
+    'Id': 2,
+    'Adi': 'Kadın'
+}]
+
 export default class KayitGuncelle extends Component {
     constructor() {
         super();
@@ -50,12 +75,13 @@ export default class KayitGuncelle extends Component {
             Ilce: undefined,
             IlceList: [],
             chosenDate: new Date(),
+            tarihSec: false,
         }
         this.setDate = this.setDate.bind(this);
     }
     setDate(newDate) {
-        this.setState({ chosenDate: newDate });
-        console.log('Tarih= ' + this.state.chosenDate);
+        this.setState({ chosenDate: newDate, tarihSec: true });
+        //  console.log('Tarih= ' + this.state.chosenDate);
         //  var date = new Date(newDate) //.toDateString("dd-MM-YYY");
         // var formattedDate = new Date(date);
         // var Yeni = formattedDate.getDay() + "." + formattedDate.getMonth() + "." + formattedDate.getYear();
@@ -83,6 +109,22 @@ export default class KayitGuncelle extends Component {
             }
         )
     }
+    onMedeniDurum(val, label) {
+        this.setState({
+            MedeniDurum: val,
+        },
+            () => {
+                console.log('Medeniyet Durumu : ' + this.state.MedeniDurum)
+            })
+    }
+    onCinsiyet(val, label) {
+        this.setState({
+            Cinsiyet: val,
+        },
+            () => {
+                console.log('Cinsi Durumu : ' + this.state.Cinsiyet)
+            })
+    }
     onIlce(value, label) {
 
         this.setState(
@@ -100,7 +142,7 @@ export default class KayitGuncelle extends Component {
             if (this.state.Sehir !== undefined) {
                 getCitybyId(this.state.Sehir)
                     .then((res) => {
-                        console.log('İlçe= ' + JSON.stringify(res));
+                        // console.log('İlçe= ' + JSON.stringify(res));
                         if (this.state.Sehir !== undefined) {
                             this.setState({
                                 IlceList: res,
@@ -133,11 +175,13 @@ export default class KayitGuncelle extends Component {
                         mobilgrupadi: res.bm_mobilgrupadi,
                         Cinsiyet: res.gendercode,
                         MedeniDurum: res.familystatuscode,
-                        chosenDate: Date(res.birthdate),
+                        chosenDate: new Date(res.birthdate),
                         Adres: res.address1_line1,
                         Sehir: res.bm_sehirid,
                         Ilce: res.bm_ilceid,
                     });
+                    console.log('Dogumu Tarihi: ' + res.birthdate)
+                    console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
                 }
             }).catch(error => console.log(error));
     }
@@ -212,7 +256,7 @@ export default class KayitGuncelle extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
-                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain',  }} source={require('../../assets/GeriDongri.png')} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -277,7 +321,9 @@ export default class KayitGuncelle extends Component {
                                 {this.state.mobilgrupadi}
                             </Text>
                         </Item>
-                        {console.log('Mobil Kod I = ' + typeof this.state.mobilKod2)}
+                        {//console.log('Mobil Kod I = ' + typeof this.state.mobilKod2)
+                            // console.log('Medeni Durum: ' + this.state.MedeniDurum)
+                        }
                         <Item regular style={[styles.Input2, (this.state.mobilKod2 === '') ? styles.Inputs : styles.hidden]}>
                             <Icon active name='md-alarm' color='#fff' />
                             <Input placeholder='Mobil kod'
@@ -295,7 +341,7 @@ export default class KayitGuncelle extends Component {
                                 placeHolderTextStyle={{ color: 'black', fontSize: 15 }}
                                 style={{ marginLeft: 5, height: 60, flex: 1, fontSize: 15, }}
                                 multiline={true}
-                                numberOfLines={4}
+                                numberOfLines={5}
                                 onChangeText={(text) => this.setState({ Adres: text })}
                                 value={this.state.Adres}
                             />
@@ -347,6 +393,7 @@ export default class KayitGuncelle extends Component {
                                 }
                             </Picker>
                         </Item>
+
                         <Item picker style={styles.pickerInputs}>
                             <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                             <Picker borderColor='black'
@@ -357,16 +404,17 @@ export default class KayitGuncelle extends Component {
                                 placeholderTextColor="black"
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.MedeniDurum}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    this.setState({ MedeniDurum: itemValue })
-                                }>
-
-                                <Picker.Item label="Seçin" value="Sec" />
-                                <Picker.Item label="Bekar" value="1" />
-                                <Picker.Item label="Evli" value="2" />
+                                onValueChange={this.onMedeniDurum.bind(this)}>
+                                {
+                                    medeniDurum.map((item, key) => (
+                                        <Picker.Item
+                                            label={item.Adi}
+                                            value={item.Id}
+                                            key={item.Id} />
+                                    ))
+                                }
                             </Picker>
                         </Item>
-
                         <Item picker style={styles.pickerInputs}>
                             <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                             <Picker borderColor='black'
@@ -377,13 +425,17 @@ export default class KayitGuncelle extends Component {
                                 placeholderTextColor="black"
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.Cinsiyet}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    this.setState({ Cinsiyet: itemValue })
-                                }>
+                                onValueChange={this.onCinsiyet.bind(this)}>
+                                {
+                                    cinsiyet.map((item, key) => (
+                                        <Picker.Item
+                                            label={item.Adi}
+                                            value={item.Id}
+                                            key={item.Id}
+                                        />
+                                    ))
+                                }
 
-                                <Picker.Item label="Seçin" value="Sec" />
-                                <Picker.Item label="Erkek" value="1" />
-                                <Picker.Item label="Kadın" value="2" />
                             </Picker>
 
                         </Item>
@@ -392,7 +444,7 @@ export default class KayitGuncelle extends Component {
 
                             <Image style={{ marginLeft: 5, width: 20, height: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
                             <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
-                                defaultDate={new Date(2019, 5, 4)}
+                                defaultDate={this.state.chosenDate}
                                 minimumDate={new Date(1900, 1, 1)}
                                 maximumDate={new Date(2050, 12, 31)}
                                 format="DD-MM-YYYY"
@@ -406,8 +458,10 @@ export default class KayitGuncelle extends Component {
                                 placeHolderTextStyle={{ color: "black" }}
                                 onDateChange={this.setDate}
                                 disabled={false} />
-                            <Text>
-
+                               
+                            <Text style={[styles.dogumTarihi,(this.state.tarihSec==false)? styles.dogumTarihi: styles.hidden]}>
+                                {this.state.chosenDate.toLocaleDateString() //.toString().substr(4, 12)
+                                }
                             </Text>
 
                         </Item>
@@ -450,7 +504,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     containerOrta: {
-        flex: 5,
+        flex: 4,
         // alignItems: 'center',
         backgroundColor: 'transparent',
     },
@@ -546,6 +600,12 @@ const styles = StyleSheet.create({
         marginRight: 31,
         alignItems: 'center',
 
+    },
+    dogumTarihi: {
+        textAlign: 'right',
+        fontSize: 15,
+        color: 'black',
+        marginRight: 5,
     },
     switcText: {
         textAlign: 'right',

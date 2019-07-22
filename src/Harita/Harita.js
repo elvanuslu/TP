@@ -71,6 +71,7 @@ export default class Harita extends Component {
             tab3: true,
             tab4: false
         });
+        this.props.navigation.navigate("Filtre")
     }
     toggleTab4() {
         this.setState({
@@ -111,7 +112,7 @@ export default class Harita extends Component {
                     //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({ error: error.message }),
-                {enableHighAccuracy: true, timeout: 20000, maximumAge:1000},
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
             );
         } catch (error) {
             Alert.alert('Hata', error);
@@ -134,7 +135,7 @@ export default class Harita extends Component {
                 //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
             },
             (error) => this.setState({ error: error.message }),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge:1000 },
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
         );
     }
     _showLocation() {
@@ -166,7 +167,7 @@ export default class Harita extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
-                            <Image style={{marginLeft:-15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>
@@ -227,10 +228,11 @@ export default class Harita extends Component {
                         {this.state.datas.map((data, i) => (
                             <MapView.Marker
                                 key={i}
-                                onPress={() => this.setState({ 
+                                onPress={() => this.setState({
                                     isVisible: true,
-                                    hedefLat:data.Address1_Latitude,
-                                    hedefLon:data.Address1_Longitude })}
+                                    hedefLat: data.Address1_Latitude,
+                                    hedefLon: data.Address1_Longitude
+                                })}
                                 coordinate={{
                                     latitude: data.Address1_Latitude,
                                     longitude: data.Address1_Longitude
@@ -256,7 +258,7 @@ export default class Harita extends Component {
                 </View>
                 <View>
                     <Footer>
-                        <FooterTab style={{ backgroundColor: 'red', color: '#fff' }}>
+                        <FooterTab style={{ backgroundColor: 'red', }}>
                             <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
                                 <Icon active={this.state.tab1} name="map" />
                                 <Text style={{ color: 'white' }}>Harita</Text>
@@ -265,7 +267,10 @@ export default class Harita extends Component {
                                 <Icon active={this.state.tab2} name="contact" />
                                 <Text style={{ color: 'white' }}>Liste</Text>
                             </Button>
-
+                            <Button active={this.state.tab1} onPress={() => this.toggleTab3()}>
+                                <Icon active={this.state.tab3} name="search" />
+                                <Text style={{ color: 'white' }}>Filtre</Text>
+                            </Button>
                         </FooterTab>
                     </Footer>
 

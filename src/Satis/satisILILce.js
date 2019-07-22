@@ -155,20 +155,38 @@ export default class SatisIllce extends Component {
 
             },
             () => {
-                //console.log('Ilce Sci ' + this.state.Ilce)
+               // console.log('Ilce Sci ' + this.state.Ilce)
                 try {
                     getIstasyonByCityId(this.state.Ilce, 10)
                         .then((res) => {
                             if (res.status != false) {
-                             //   console.log('Istasyon By CITY ' + JSON.stringify(res));
+                                console.log('Istasyon By CITY ' + JSON.stringify(res));
                                 this.setState({
                                     datas: res,
                                     loading: false,
                                 })
                             }
                             else {
-                                this.setState({ loading: false, })
-                                Alert.alert('Bulunamadı!', res.message);
+                                this.setState({istasyonselectedId:'', loading: false,datas:[{
+                                    "AccountId": "00000000-0000-0000-0000-000000000000",
+                                    "name": "",
+                                    "Mesafe_KM": 0,
+                                    "Address1_Latitude": 0,
+                                    "Address1_Longitude": 0,
+                                    "Adres": "",
+                                    "sira": 1,
+                                    "market": false,
+                                    "yikama": false,
+                                    "yagdegisimi": false,
+                                    "bankamatik": false,
+                                    "restaurant": false,
+                                    "odegec": false,
+                                    "KisaAdres": "",
+                                    "telefon": ""
+                                  }] })
+                                
+                                 
+                                //Alert.alert('Bulunamadı!', res.message);
                             }
                         })
                    // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
@@ -684,7 +702,7 @@ export default class SatisIllce extends Component {
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="İlçe"
-                                    placeholderStyle={{ color: "blacak" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="black"
                                     selectedValue={this.state.Ilce}
                                     onValueChange={this.onIlce.bind(this)}>

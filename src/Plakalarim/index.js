@@ -33,9 +33,9 @@ export default class Plakalarim extends Component {
         }
     }
 
-    GetItem(item, markaId) {
-        console.log('Plaka = ' + item + ' Kart = ' + markaId);
-        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'Marka': markaId });
+    GetItem(item, markaId,aracId,yakit1,yakit2) {
+        console.log('Plaka = ' + item + ' MarkaId = ' + markaId, 'Araç Id='+ aracId);
+        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'Marka': markaId,'AracId':aracId,'Yakit1':yakit1,'Yakit2':yakit2 });
     }
     _getPlakaList = async () => {
         try {
@@ -141,7 +141,7 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem   >
-                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid)}>
+                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid,data.bm_musteriaraciid,data.bm_yakitcinsiid_1,data.bm_yakitcinsiid_2)}>
 
                                                 <View style={{ flex: 1, flexDirection: 'row', }}>
                                                     <Left>
@@ -160,7 +160,7 @@ export default class Plakalarim extends Component {
                                         <Content style={{ flexDirection: 'row' }}>
                                             <Button
                                                 full
-                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid)}
+                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid,data.bm_musteriaraciid,data.bm_yakitcinsiid_1,data.bm_yakitcinsiid_2)}
                                                 style={{
                                                     backgroundColor: "#ec971f",
                                                     flex: 1,
