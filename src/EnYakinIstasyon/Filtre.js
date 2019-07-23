@@ -85,7 +85,7 @@ export default class Filtre extends Component {
                         loading: false,
                     });
                     this._getData();
-                    console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                   // console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({
                     error: error.message,
@@ -150,7 +150,7 @@ export default class Filtre extends Component {
             },
             () => {
                 this._getCitybyId();
-                console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
+               // console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
             }
         )
     }
@@ -168,7 +168,7 @@ export default class Filtre extends Component {
                     getIstasyonByCityId(this.state.Ilce, 10)
                         .then((res) => {
                             if (res.status != false) {
-                                console.log('Istasyon By CITY ' + JSON.stringify(res));
+                               // console.log('Istasyon By CITY ' + JSON.stringify(res));
                                 this.setState({
                                     listViewData: res,
                                     loading: false,
@@ -193,7 +193,7 @@ export default class Filtre extends Component {
                                     "telefon": ""
                                   }] })
                                 
-                                 
+                                 this.setState({listViewData:null})
                                 //Alert.alert('Bulunamadı!', res.message);
                             }
                         })
@@ -214,11 +214,12 @@ export default class Filtre extends Component {
     }
     componentWillReceiveProps(nextProps) {
         this._getCity();
-        console.log('Receive Props' + JSON.stringify(nextProps))
+      //  console.log('Receive Props' + JSON.stringify(nextProps))
     }
-    GetItem(item) {
-        console.log('item=' + item);
-        this.props.navigation.navigate("Harita", { Id: item });
+   // this.GetItem(item.AccountId,item.name,item.Address1_Latitude,item.Address1_Longitude,item.Adres)}
+    GetItem(item,name,lat,lon,adres) {
+      //  console.log('item=' + item);
+        this.props.navigation.navigate("Harita", { 'Id': item,'name':name,'lat':lat,'lon':lon,'adres':adres,'Para':'Filtre' });
     }
     render() {
        
@@ -303,7 +304,7 @@ export default class Filtre extends Component {
                             data={this.state.listViewData}
                             renderItem={({ item }) =>
                                 <Card key={item.AccountId} style={styles.cardmb}>
-                                    <TouchableOpacity onPress={() => this.GetItem(item.AccountId)}>
+                                    <TouchableOpacity onPress={() => this.GetItem(item.AccountId,item.name,item.Address1_Latitude,item.Address1_Longitude,item.Adres)}>
                                         <CardItem cardBody>
                                             <Body>
                                                 <View style={{ width: '100%', flexDirection: 'row', }}>

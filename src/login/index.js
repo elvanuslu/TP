@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import {
-  BackHandler, Alert, KeyboardAvoidingView, NetInfo,
+  BackHandler, Alert, KeyboardAvoidingView, NetInfo,ToastAndroid,
   Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
 import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
@@ -56,11 +56,10 @@ export default class login extends Component {
   }
   */
   componentDidMount= async() =>{
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
+   // BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  
     this._getConn();
-    this._willBlurSubscription = this.props.navigation.addListener('willBlur', payload =>
-      BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid)
-    );
+   
    // this._getGps();
     const Password = await getStorage('Password');
     console.log('Password= '+Password);
@@ -73,7 +72,7 @@ export default class login extends Component {
   }
 
   handleBackPress = () => {
-    BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async
+  //  BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async
     return true;
   };
   _getConn = () => {
@@ -122,11 +121,16 @@ export default class login extends Component {
       this._handleConnectivityChange
 
     );
-    this._didFocusSubscription && this._didFocusSubscription.remove();
-    this._willBlurSubscription && this._willBlurSubscription.remove();    
-    BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  //  this._didFocusSubscription && this._didFocusSubscription.remove();
+  //  this._willBlurSubscription && this._willBlurSubscription.remove();    
+  //  BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
     console.log('remove component')
   }
+  handleBackButton() {
+  //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    return true;
+}
   _storeData = async () => {
     try {
       // console.log("usr="+this.state.userId);
@@ -357,10 +361,11 @@ const styles = StyleSheet.create({
   logo: {
     // flexDirection: 'row',
     alignSelf: 'center',
-    width: '100%',
+    width: '90%',
     height:80,
     resizeMode: 'contain',
-    marginTop:5
+    marginTop:5,
+    marginBottom:10,
   },
   switchcontainer: {
     flexDirection: 'row',

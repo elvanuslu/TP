@@ -85,9 +85,9 @@ export default class Harita extends Component {
     _getData() {
         try {
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 25).then((res) => {
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10).then((res) => {
                 this.setState({ datas: res, loading: false });
-                console.log('Konumlar= ' + JSON.stringify(this.state.datas));
+               // console.log('Konumlar= ' + JSON.stringify(this.state.datas));
                 //_showLocation();
             })
         } catch (error) {
@@ -99,7 +99,59 @@ export default class Harita extends Component {
     }
     componentWillReceiveProps(nextProps) {
         try {
+
+            var AccountId = this.props.navigation.getParam('Id', '');
+            var name = this.props.navigation.getParam('name', '');
+            var lat = this.props.navigation.getParam('lat', '');
+            var lon = this.props.navigation.getParam('lon', '');
+            var adres = this.props.navigation.getParam('adres', '');
+            var Param = this.props.navigation.getParam('Para');
+            console.log('will Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
+
             this.setState({ loading: true })
+            if (Param === 'Filtre') {
+                this.setState({ latitude: lat, longitude: lon })
+                this._getData();
+            }
+            else {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        this.setState({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            error: null,
+                            loading: false,
+                        });
+                        this._getData();
+                        //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                    },
+                    (error) => console.log('Geo Message: ' + error.message),
+                    { enableHighAccuracy: true, timeout: 60000, maximumAge: 360000 },
+                );
+            }
+        } catch (error) {
+            Alert.alert('Hata', error);
+        }
+        finally {
+            this.setState({ loading: false })
+        }
+    }
+    componentDidMount() {
+        // this.props.navigation.navigate("Harita", { 'Id': item,'name':name,'lat':lat,'lon':lon,'adres':adres });
+        this.setState({ loading: true })
+        var AccountId = this.props.navigation.getParam('Id', '');
+        var name = this.props.navigation.getParam('name', '');
+        var lat = this.props.navigation.getParam('lat', '');
+        var lon = this.props.navigation.getParam('lon', '');
+        var adres = this.props.navigation.getParam('adres', '');
+        var Param = this.props.navigation.getParam('Para');
+        console.log('Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
+
+        if (Param === 'Filtre') {
+            this.setState({ latitude: lat, longitude: lon })
+            this._getData();
+        }
+        else {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({
@@ -112,31 +164,9 @@ export default class Harita extends Component {
                     //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({ error: error.message }),
-                { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+                { enableHighAccuracy: true, timeout: 60000, maximumAge: 360000 },
             );
-        } catch (error) {
-            Alert.alert('Hata', error);
         }
-        finally {
-            this.setState({ loading: false })
-        }
-    }
-    componentDidMount() {
-        this.setState({ loading: true })
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    error: null,
-                    loading: false,
-                });
-                this._getData();
-                //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-            },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        );
     }
     _showLocation() {
         showLocation({
@@ -144,12 +174,12 @@ export default class Harita extends Component {
             longitude: this.state.longitude,
             sourceLatitude: this.state.latitude,  // optionally specify starting location for directions
             sourceLongitude: this.state.longitude,  // not optional if sourceLatitude is specified
-            title: 'The White House',  // optional
+            title: '',  // optional
             googleForceLatLon: false,  // optionally force GoogleMaps to use the latlon for the query instead of the title
             //googlePlaceId: 'ChIJGVtI4by3t4kRr51d_Qm_x58',  // optionally specify the google-place-id
             // alwaysIncludeGoogle: true, // optional, true will always add Google Maps to iOS and open in Safari, even if app is not installed (default: false)
             dialogTitle: 'Harita Seç', // optional (default: 'Open in Maps')
-            dialogMessage: 'This is the amazing dialog Message', // optional (default: 'What app would you like to use?')
+            dialogMessage: '', // optional (default: 'What app would you like to use?')
             cancelText: 'Kapat', // optional (default: 'Cancel')
             //   appsWhiteList: ['google-maps'] // optionally you can set which apps to show (default: will show all supported apps installed on device)
             // app: 'uber'  // optionally specify specific app to use
@@ -192,8 +222,7 @@ export default class Harita extends Component {
                             animationIn: 'slideInUp'
                         }}
                         cancelButtonText='Tamam'
-                        appsWhiteList={[ /* Array of apps (apple-maps, google-maps, etc...) that you want
-    to show in the popup, if is undefined or an empty array it will show all supported apps installed on device.*/ ]}
+                        appsWhiteList={[]}
                         options={{
                             latitude: this.state.hedefLat,
                             longitude: this.state.hedefLon,
@@ -214,14 +243,14 @@ export default class Harita extends Component {
                         initialRegion={{
                             latitude: this.state.latitude, //41.001895,
                             longitude: this.state.longitude, //29.045486,
-                            latitudeDelta: 0.99,
-                            longitudeDelta: 0.99,
+                            latitudeDelta: 1,
+                            longitudeDelta: 1,
 
                         }}>
                         <MapView.Marker
                             coordinate={{ latitude: this.state.latitude, longitude: this.state.longitude }}
                             Image={{ pin }}
-                            title="Benim" description="Konumum">
+                            title="" description="Konumum">
 
                         </MapView.Marker>
 

@@ -92,8 +92,8 @@ export default class KayitGuncelle extends Component {
         this._retrieveKullanici();
     }
     componentDidMount() {
-        this._getCity();
-        this._getCitybyId();
+     //   this._getCity();
+      //  this._getCitybyId();
         this._retrieveKullanici();
     }
     onSehir(value, label) {
@@ -137,7 +137,7 @@ export default class KayitGuncelle extends Component {
             }
         )
     }
-    _getCitybyId = () => {
+    _getCitybyId() {
         try {
             if (this.state.Sehir !== undefined) {
                 getCitybyId(this.state.Sehir)
@@ -178,14 +178,17 @@ export default class KayitGuncelle extends Component {
                         chosenDate: new Date(res.birthdate),
                         Adres: res.address1_line1,
                         Sehir: res.bm_sehirid,
-                        Ilce: res.bm_ilceid,
+                        //Ilce: res.bm_ilceid,
                     });
-                    console.log('Dogumu Tarihi: ' + res.birthdate)
+                    this._getCity();
+                    this.setState({Ilce: res.bm_ilceid})
+                    this._getCitybyId();
+                    console.log('Ilce: ' + this.state.Ilce)
                     console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
                 }
             }).catch(error => console.log(error));
     }
-    _getCity = async () => {
+    _getCity()  {
         try {
             getCityList()
                 .then((res) => {

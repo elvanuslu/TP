@@ -115,9 +115,9 @@ export default class PlakaEkle extends Component {
             this.setState({ loading: true })
             getAracMarkaList()
                 .then((res) => {
-                    var initialArr = { 'bm_aracmarkasiid': '-1', 'bm_adi': '-Araç  Seçin-' };
+                    var initialArr = { 'bm_aracmarkasiid': '-1', 'bm_adi': 'Marka  Seçin' };
                     res.splice(0, 0, initialArr);
-                    this.setState({ markalar: res, loading: false, araba: '-Araç Seç-' })
+                    this.setState({ markalar: res, loading: false, araba: 'Marka Seç' })
 
                     // console.log(JSON.stringify(this.state.markalar))
                 })
@@ -150,9 +150,9 @@ export default class PlakaEkle extends Component {
             this.setState({ loading: true })
             getYakitTipi()
                 .then((res) => {
-                    var initialArr = { 'bm_yakittipiid': '-1', 'bm_yakittipiadi': '-Yakıt Tipi Seçin-' };
+                    var initialArr = { 'bm_yakittipiid': '-1', 'bm_yakittipiadi': 'Yakıt Tipi Seçin' };
                     res.splice(0, 0, initialArr);
-                    this.setState({ yakitlst: res, loading: false, selected2: '-Yakıt Tipi Seçin-' })
+                    this.setState({ yakitlst: res, loading: false, selected2: 'Yakıt Tipi Seçin' })
                     console.log('Yakıtlar ' + JSON.stringify(res))
                 })
                 .catch((error) => {

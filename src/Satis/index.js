@@ -314,7 +314,7 @@ export default class Satis extends Component {
                 OdemeAdi: this.state.OdemeTipleri.find(p => p.Value === value).Name,
             },
             () => {
-                // console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
+                 console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
             }
         )
     }

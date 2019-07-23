@@ -61,7 +61,7 @@ export default class SifremiUnuttum extends Component {
                     <Body>
                         <Title style={{ color: '#fff' }}>Şifremi Unuttum</Title>
                     </Body>
-
+                    <Right></Right>
                 </Header>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Spinner
@@ -72,7 +72,7 @@ export default class SifremiUnuttum extends Component {
                 </View>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={{ resizeMode: 'contain', height: 80, marginTop: 5 }} source={require('../../assets/logo.png')}
+                        <Image style={{ resizeMode: 'contain',width:100, height: 80, marginTop: 5,alignSelf:'center' }} source={require('../../assets/logo.png')}
                         />
                         <Image style={{ alignSelf: 'center', marginTop: 15, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
@@ -81,8 +81,8 @@ export default class SifremiUnuttum extends Component {
                     <Image source={k1} style={styles.logo}></Image>
                 </View>
                 <View style={styles.containerAlt}>
-                    <Content style={{ backgroundColor: '#fff' }} >
-                        <View style={{ alignItems: 'flex-start' }}>
+                   
+                        <View style={{ alignItems: 'flex-start' ,marginTop:30}}>
                             <Text style={styles.textYazi}>Kayıtlı e-posta adresinizi ilgili alana girerek, şifrenizi e-posta adresinize gönderebilirsiniz.{'\n\n'} </Text>
                         </View>
 
@@ -108,7 +108,7 @@ export default class SifremiUnuttum extends Component {
                                 source={require('../../assets/gonder.png')}
                             />
                         </TouchableOpacity>
-                    </Content>
+                  
                 </View>
 
 
@@ -135,29 +135,25 @@ const styles = StyleSheet.create({
         //  flexDirection: 'column',
     },
     container1: {
-        flex: 1,
+        flex: 2,
         //backgroundColor: 'red',
         // backgroundColor: '#efefef',
     },
 
     containerOrta: {
-        flex: 2,
+        flex: 5,
         // backgroundColor: 'red',
         // backgroundColor: '#efefef',
     },
     containerAlt: {
-        flex: 3,
-        alignItems: 'center',
+        flex: 6,
+     //   alignItems: 'center',
         // marginTop: 0,
-        // backgroundColor: 'yellow',
+         backgroundColor: '#fff',
 
 
     },
-    containerOrta: {
-        flex: 3,
-
-        //   backgroundColor: '#efefef',
-    },
+ 
     logo: {
         width: '100%',
         height: 222,

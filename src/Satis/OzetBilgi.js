@@ -31,6 +31,7 @@ export default class OzetBilgi extends Component {
             PlakaId: undefined,
             Yakit: undefined,
             OdemeTipi: undefined,
+            OdemeAdi:undefined,
             PompaNo: undefined,
             KuponKodu: undefined,
             Tutar: undefined,
@@ -135,6 +136,7 @@ export default class OzetBilgi extends Component {
             console.log('this.state.IsOrtagıKatkıOranı ' + this.state.isortagikatkiorani);
             console.log('this.state.isOrtgaıId ' + this.state.isortagiid);
             console.log('this.state.istasyonfiyati ' + this.state.istasyonfiyati);
+            console.log('Ödeme Adı: '+this.state.OdemeAdi);
             console.log('*********************************************')
 
             this.setState({ loading: true });
@@ -193,6 +195,7 @@ export default class OzetBilgi extends Component {
             Yakit: nextProps.navigation.state.params.Parametre.YakitAdi,
             YakitId: nextProps.navigation.state.params.Parametre.Yakit,
             OdemeTipi: nextProps.navigation.state.params.Parametre.OdemeTipi,
+            OdemeAdi : this.props.navigation.state.params.Parametre.OdemeAdi,
             PompaNo: nextProps.navigation.state.params.Parametre.PompaNo,
             KuponKodu: nextProps.navigation.state.params.Parametre.KuponKodu,
             Tutar: nextProps.navigation.state.params.Parametre.Tutar,
@@ -220,6 +223,7 @@ export default class OzetBilgi extends Component {
             // this.setState({ reset : true })
         }
     }
+    /*
     componentDidUpdate(prevProps) {
         // console.log('OzetBilgi...' + JSON.stringify(prevProps))
 
@@ -227,10 +231,11 @@ export default class OzetBilgi extends Component {
             alert('Testing...')
         }
     }
+    */
     componentDidMount = async () => {
         const contactId = await getStorage('userId');
         this.setState({ userId: contactId });
-        console.log('state User' + this.state.userId);
+     //   console.log('state User' + this.state.userId);
         // console.clear();
         // console.log('Paraös = ' + JSON.stringify(this.props));
         this.onGetParams();
@@ -251,6 +256,7 @@ export default class OzetBilgi extends Component {
                     Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
                     YakitId: this.props.navigation.state.params.Parametre.Yakit,
                     OdemeTipi: this.props.navigation.state.params.Parametre.OdemeTipi,
+                    OdemeAdi : this.props.navigation.state.params.Parametre.OdemeAdi,
                     PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
                     Tutar: this.props.navigation.state.params.Parametre.Tutar,
@@ -283,6 +289,7 @@ export default class OzetBilgi extends Component {
                     Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
                     YakitId: this.props.navigation.state.params.Parametre.Yakit,
                     OdemeTipi: this.props.navigation.state.params.Parametre.OdemeTipi,
+                    OdemeAdi : this.props.navigation.state.params.Parametre.OdemeAdi,
                     PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
                     Tutar: this.props.navigation.state.params.Parametre.Tutar,
@@ -405,7 +412,7 @@ export default class OzetBilgi extends Component {
                                             <Text style={styles.txtFiyatlar}>Ödeme Tipi </Text>
                                         </Left>
                                         <Right>
-                                            <Text style={styles.txtFiyatlar}>{this.state.OdemeTipi}</Text>
+                                            <Text style={styles.txtFiyatlar}>{this.state.OdemeAdi}</Text>
                                         </Right>
                                     </View>
 
@@ -508,7 +515,7 @@ const styles = StyleSheet.create({
     txtFiyatlar: {
         color: 'gray',
         fontSize: 11,
-        textAlign: 'left',
+        textAlign: 'right',
         fontFamily: "FontAwesome",
 
     },
