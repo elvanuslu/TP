@@ -56,6 +56,7 @@ export default class KampanyaSec extends Component {
             harcananPuanTL: undefined,
 
             IstasyonFiyati: undefined,
+            gelenIndirimliBirimFiyat: undefined,
 
 
         }
@@ -106,9 +107,10 @@ export default class KampanyaSec extends Component {
             Alert.alert('Hata Oluştu!', error);
         }
     }
-    _btnDevam = (item) => {
+    _btnDevam = (item,fiyat) => {
+        //console.log('Birim Fiyat: '+'İtem '+item+' --- '+ fiyat)
         //    console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item, 'birimFiyat': undefined });
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,'birimFiyat':undefined });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
@@ -148,7 +150,8 @@ export default class KampanyaSec extends Component {
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
         //  console.log('Istasyonum = ' + JSON.stringify(this.props));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyat': undefined });
+        //console.log('G.İ.T: '+this.state.gelenIndirimliBirimFiyat)
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyati': this.state.gelenIndirimliBirimFiyat});
         /*
                 this.props.navigation.navigate("OzetBilgi", {
                     'Istasyon': this.state.istasyonselectedId,
@@ -179,6 +182,8 @@ export default class KampanyaSec extends Component {
                 .then((res) => {
                     this.setState({ datam: null, loading: false });
                       console.log('Gelen Kampanya = ' + JSON.stringify(res));
+                      //console.log(' infirimli Fiyat = ' + res[0].indirimlifiyati);
+                      this.setState({gelenIndirimliBirimFiyat:res[0].indirimlifiyati})
 
                     if (res.status == false) {
                         this.setState({ datam: null, loading: false });
@@ -406,7 +411,7 @@ export default class KampanyaSec extends Component {
                                             <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevamKampanyali(item.bm_kampanyaId)}>
                                                 <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYA SEÇ</Text>
                                             </Button>
-                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaId)}>
+                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaId,item.TavsiyeEdilenfiyati)}>
                                                 <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
                                             </Button>
                                         </View>

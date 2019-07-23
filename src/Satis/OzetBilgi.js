@@ -31,7 +31,7 @@ export default class OzetBilgi extends Component {
             PlakaId: undefined,
             Yakit: undefined,
             OdemeTipi: undefined,
-            OdemeAdi:undefined,
+            OdemeAdi: undefined,
             PompaNo: undefined,
             KuponKodu: undefined,
             Tutar: undefined,
@@ -59,6 +59,7 @@ export default class OzetBilgi extends Component {
             isortagikatkiorani: undefined,
             isortagiid: undefined,
             istasyonfiyati: undefined,
+            birimfiyatgoster: undefined,
 
         }
 
@@ -136,7 +137,7 @@ export default class OzetBilgi extends Component {
             console.log('this.state.IsOrtagıKatkıOranı ' + this.state.isortagikatkiorani);
             console.log('this.state.isOrtgaıId ' + this.state.isortagiid);
             console.log('this.state.istasyonfiyati ' + this.state.istasyonfiyati);
-            console.log('Ödeme Adı: '+this.state.OdemeAdi);
+            console.log('Ödeme Adı: ' + this.state.OdemeAdi);
             console.log('*********************************************')
 
             this.setState({ loading: true });
@@ -195,7 +196,7 @@ export default class OzetBilgi extends Component {
             Yakit: nextProps.navigation.state.params.Parametre.YakitAdi,
             YakitId: nextProps.navigation.state.params.Parametre.Yakit,
             OdemeTipi: nextProps.navigation.state.params.Parametre.OdemeTipi,
-            OdemeAdi : this.props.navigation.state.params.Parametre.OdemeAdi,
+            OdemeAdi: this.props.navigation.state.params.Parametre.OdemeAdi,
             PompaNo: nextProps.navigation.state.params.Parametre.PompaNo,
             KuponKodu: nextProps.navigation.state.params.Parametre.KuponKodu,
             Tutar: nextProps.navigation.state.params.Parametre.Tutar,
@@ -235,7 +236,7 @@ export default class OzetBilgi extends Component {
     componentDidMount = async () => {
         const contactId = await getStorage('userId');
         this.setState({ userId: contactId });
-     //   console.log('state User' + this.state.userId);
+        //   console.log('state User' + this.state.userId);
         // console.clear();
         // console.log('Paraös = ' + JSON.stringify(this.props));
         this.onGetParams();
@@ -256,7 +257,7 @@ export default class OzetBilgi extends Component {
                     Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
                     YakitId: this.props.navigation.state.params.Parametre.Yakit,
                     OdemeTipi: this.props.navigation.state.params.Parametre.OdemeTipi,
-                    OdemeAdi : this.props.navigation.state.params.Parametre.OdemeAdi,
+                    OdemeAdi: this.props.navigation.state.params.Parametre.OdemeAdi,
                     PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
                     Tutar: this.props.navigation.state.params.Parametre.Tutar,
@@ -289,13 +290,13 @@ export default class OzetBilgi extends Component {
                     Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
                     YakitId: this.props.navigation.state.params.Parametre.Yakit,
                     OdemeTipi: this.props.navigation.state.params.Parametre.OdemeTipi,
-                    OdemeAdi : this.props.navigation.state.params.Parametre.OdemeAdi,
+                    OdemeAdi: this.props.navigation.state.params.Parametre.OdemeAdi,
                     PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
                     Tutar: this.props.navigation.state.params.Parametre.Tutar,
 
                     istasyonfiyati: this.props.navigation.state.params.Parametre.istasyonfiyati,
-
+                    birimfiyatgoster: this.props.navigation.state.params.birimFiyati,
                     birimFiyat: 0,
                     indirimliFiyat: 0,
                     indirimOrani: 0,
@@ -308,7 +309,8 @@ export default class OzetBilgi extends Component {
 
                 })
             }
-            //  console.log('Paramsiz= ' + JSON.stringify(this.props.navigation.state.TavsiyeEdilenfiyati));
+            this.setState({ birimfiyatgoster: this.props.navigation.state.params.birimFiyati })
+            console.log('Paramsiz= ' + (this.props.navigation.state.params.birimFiyati));
 
         } catch (error) {
             Alert.alert('Hata', error);
@@ -405,6 +407,7 @@ export default class OzetBilgi extends Component {
                                         </Right>
 
                                     </View>
+                                    {console.log('birim Fiyat: ' + this.state.birimFiyat)}
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                         <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={pompa}></Image>
 
@@ -428,6 +431,19 @@ export default class OzetBilgi extends Component {
                                     </View>
                                     <View>
 
+                                        <View style={[styles.containerKampanyasiz, this.props.navigation.state.params.birimFiyat == undefined ? styles.containerKampanyasiz : styles.hidden]}>
+                                            <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat == undefined ? styles.Resim : styles.hidden]} source={odeme}></Image>
+                                            <Left>
+                                                <Text style={styles.txtFiyatlar}>Birim Fiyat </Text>
+                                            </Left>
+                                            <Right>
+                                                <Text style={styles.txtFiyatlar}>{
+                                                    this.state.birimfiyatgoster == undefined ? 0 : this.state.birimfiyatgoster} TL</Text>
+                                            </Right>
+                                        </View>
+
+
+                                        {console.log('Birime Fiyate: ' + this.props.navigation.state.params.birimFiyat)}
                                         <View style={[styles.containerKapmayali, this.props.navigation.state.params.birimFiyat ? styles.containerKapmayali : styles.hidden]}>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                                 <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={pompa}></Image>
@@ -510,6 +526,11 @@ const styles = StyleSheet.create({
     containerKapmayali: {
         flex: 1,
         flexDirection: 'column',
+        marginTop: 10,
+    },
+    containerKampanyasiz: {
+        flex: 1,
+        flexDirection: 'row',
         marginTop: 10,
     },
     txtFiyatlar: {
