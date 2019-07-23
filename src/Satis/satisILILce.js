@@ -142,7 +142,7 @@ export default class SatisIllce extends Component {
             },
             () => {
                 this._getCitybyId();
-                console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
+                //console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
             }
         )
     }
@@ -160,7 +160,7 @@ export default class SatisIllce extends Component {
                     getIstasyonByCityId(this.state.Ilce, 10)
                         .then((res) => {
                             if (res.status != false) {
-                                console.log('Istasyon By CITY ' + JSON.stringify(res));
+                               // console.log('Istasyon By CITY ' + JSON.stringify(res));
                                 this.setState({
                                     datas: res,
                                     loading: false,
@@ -395,7 +395,7 @@ export default class SatisIllce extends Component {
                         yakitTipleri: jsonBody,
                         loading: false,
                     });
-                    console.log('Yakitlar ksonBody== ' + JSON.stringify(jsonBody));
+                   // console.log('Yakitlar ksonBody== ' + JSON.stringify(jsonBody));
                 })
                 .catch(e => {
                     this.setState({ loading: false })
@@ -573,7 +573,7 @@ export default class SatisIllce extends Component {
             );
             this.watchID = navigator.geolocation.watchPosition((position) => {
                 //Will give you the location on location change
-                console.log('watch ' + JSON.stringify(position));
+              //  console.log('watch ' + JSON.stringify(position));
                 //  alert(JSON.stringify(position));
                 const currentLongitude = JSON.stringify(position.coords.longitude);
                 //getting the Longitude from the location json
@@ -617,10 +617,10 @@ export default class SatisIllce extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        console.log('recievr Props')
+      //  console.log('recievr Props')
         // this.isAvailable();
         //  console.log('Did Mount');
-        this._getLocation();
+      //  this._getLocation();
         this._retrieveKullanici();
         this._getYakitTipleri();
         this._getPlakaListesi();
@@ -629,7 +629,7 @@ export default class SatisIllce extends Component {
     componentDidMount() {
         //   this.isAvailable();
         //  console.log('Did Mount');
-        this._getLocation();
+      //  this._getLocation();
         this._retrieveKullanici();
         this._getYakitTipleri();
         this._getPlakaListesi();

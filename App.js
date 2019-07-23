@@ -1,8 +1,25 @@
 
 import React, { Component } from 'react';
 import { Root } from "native-base";
+import {
+  setJSExceptionHandler,
+  setNativeExceptionHandler,
+} from 'react-native-exception-handler';
 
+const handleError = (error, isFatal) => {
+  // fetch
+  console.log('Genel Hata Oluştu!  '+error, isFatal);
+ // alert(error.name);
+};
 
+setJSExceptionHandler((error, isFatal) => {
+  console.log('caught global error');
+  handleError(error, isFatal);
+}, true);
+
+setNativeExceptionHandler(errorString => {
+  // do the things
+});
 import { createDrawerNavigator, createStackNavigator, createAppContainer } from "react-navigation";
 
 import login from "./src/login/";
@@ -96,6 +113,7 @@ const AppNavigator = createStackNavigator({
     initialRouteName: "Drawer",
     headerMode: "none"
   },);
+
 const AppContainer = createAppContainer(AppNavigator);
 console.disableYellowBox = true;
 export default () =>

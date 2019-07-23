@@ -33,10 +33,11 @@ export const checkConnection = () => {
 }
 
 export const getIstasyonWithLatLon = (lat, lon, sayac) => {
+/*
   console.log('lat: '+lat); 
    console.log('lon: '+lon); 
    console.log('Sayaç: '+sayac); 
-   
+   */
   try {
     const URL = define_api_url + `TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
     return fetch(URL, { method: 'GET' })
@@ -50,7 +51,7 @@ export const getUserInfo = (name, pass) => {
   //   console.log("User="+username+"  Pass ="+pass);
 
   // isAvailable();
-  console.log("User=" + username + "  Pass =" + pass);
+ // console.log("User=" + username + "  Pass =" + pass);
   const URL = define_api_url + `GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;//`http://85.105.103.4:8096/GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
@@ -58,7 +59,7 @@ export const getUserInfo = (name, pass) => {
 
 export const campaignDetailList = (istasyonid, yakittipiid, gecerliodemetipi, tutarTL, contactId, kampanyakuponuId, plaka) => {
   try {
-
+/*
     console.log('istasyonid ' + istasyonid)
     console.log('yakittipiid ' + yakittipiid)
     console.log('gecerliodemetipi ' + gecerliodemetipi)
@@ -68,7 +69,7 @@ export const campaignDetailList = (istasyonid, yakittipiid, gecerliodemetipi, tu
     console.log('kampanyakuponuId' + kampanyakuponuId)
 
     console.log('plaka ' + plaka)
-
+*/
     const URL = define_api_url + `TP_CampaignDetailList`;
     return fetch(URL,
       {
@@ -96,7 +97,7 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
   istasyonfiyati, indirimlifiyati, alimtutari, alinmmiktariLT, indirimorani, KazanilanPuan, harcananpuan, kazanilanpuantl, harcananpuantl
   ,katkiOrani,bayikatkiorani,isortagikatkiorani,isortagiid) => {
   try {
-    console.log('IstasyonId '+ IstasyonId);
+ /*   console.log('IstasyonId '+ IstasyonId);
     console.log('ContactId '+ ContactId);
     console.log('KampanyaId '+ KampanyaId);
     console.log('PompaNo '+ PompaNo);
@@ -119,7 +120,7 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
     console.log('bayikatkiorani '+ bayikatkiorani);
     console.log('isortagikatkiorani '+ isortagikatkiorani);
     console.log('isortagiid '+ isortagiid);
-
+*/
     const URL = define_api_url + `TP_SalesStart`;
     return fetch(URL,
       {
@@ -283,7 +284,7 @@ export const getPlakaList = (userId) => {
   try {
 
     const URL = define_api_url + `GetBm_MusteriAracList_ByContactId?contactID=${userId}&isActive=Active`;
-    console.log('Url= ' + URL);
+  //  console.log('Url= ' + URL);
     return fetch(URL, { method: 'GET' })
       .then((res) => res.json())
     // .then((ret)=>console.log(ret.son));

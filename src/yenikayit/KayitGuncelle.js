@@ -105,7 +105,7 @@ export default class KayitGuncelle extends Component {
             },
             () => {
                 this._getCitybyId();
-                console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
+                //console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
             }
         )
     }

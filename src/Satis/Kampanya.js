@@ -108,9 +108,10 @@ export default class KampanyaSec extends Component {
         }
     }
     _btnDevam = (item,fiyat) => {
+        var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
         //console.log('Birim Fiyat: '+'İtem '+item+' --- '+ fiyat)
         //    console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,'birimFiyat':undefined });
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,'birimFiyat':undefined,'birimFiyati':Secilen.indirimlifiyati });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
@@ -183,7 +184,7 @@ export default class KampanyaSec extends Component {
                     this.setState({ datam: null, loading: false });
                       console.log('Gelen Kampanya = ' + JSON.stringify(res));
                       //console.log(' infirimli Fiyat = ' + res[0].indirimlifiyati);
-                      this.setState({gelenIndirimliBirimFiyat:res[0].indirimlifiyati})
+                      
 
                     if (res.status == false) {
                         this.setState({ datam: null, loading: false });
@@ -202,6 +203,7 @@ export default class KampanyaSec extends Component {
                             datam: res,
                             loading: false
                         });
+                        this.setState({gelenIndirimliBirimFiyat:res[0].indirimlifiyati})
                         if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
                             //    console.log('bmkapmanya=0')
                             this._git();
@@ -364,7 +366,7 @@ export default class KampanyaSec extends Component {
                                     </Body>
                                 </CardItem>
                                 <CardItem item >
-                                    {console.log('Kapmya Id= ' + item.bm_kampanyaId)}
+                                
                                     <View style={styles.containerKapmayali}>
                                         <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                             <Left>

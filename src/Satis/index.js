@@ -99,7 +99,7 @@ export default class Satis extends Component {
             },
             () => {
                 this._getCitybyId();
-                console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
+                //console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
             }
         )
     }
@@ -434,7 +434,7 @@ export default class Satis extends Component {
             );
             this.watchID = navigator.geolocation.watchPosition((position) => {
                 //Will give you the location on location change
-                console.log('watch ' + JSON.stringify(position));
+                //console.log('watch ' + JSON.stringify(position));
                 //  alert(JSON.stringify(position));
                 const currentLongitude = JSON.stringify(position.coords.longitude);
                 //getting the Longitude from the location json

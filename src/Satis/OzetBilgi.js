@@ -137,7 +137,8 @@ export default class OzetBilgi extends Component {
             console.log('this.state.IsOrtagıKatkıOranı ' + this.state.isortagikatkiorani);
             console.log('this.state.isOrtgaıId ' + this.state.isortagiid);
             console.log('this.state.istasyonfiyati ' + this.state.istasyonfiyati);
-            console.log('Ödeme Adı: ' + this.state.OdemeAdi);
+            console.log('Ödeme Adı: ' + this.state.birimfiyatgoster);
+            console.log('Birim Fiyatı: '+this.state.birimFiyat);
             console.log('*********************************************')
 
             this.setState({ loading: true });
@@ -145,7 +146,7 @@ export default class OzetBilgi extends Component {
             //     alert('Id =' + contactId);
             if (this.state.userId !== null) {
                 SatisBaslat(this.state.IstasyonId, this.state.userId, this.state.KampanyaId ? this.state.KampanyaId : '00000000-0000-0000-0000-000000000000', this.state.PompaNo, this.state.PlakaId, this.state.YakitId,
-                    '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat, this.state.istasyonfiyati, this.state.indirimliFiyat, this.state.Tutar,
+                    '', this.state.OdemeTipi, this.state.KuponKodu, (this.state.birimFiyat!==undefined)?this.state.birimFiyati:this.state.birimfiyatgoster, this.state.istasyonfiyati, this.state.indirimliFiyat, this.state.Tutar,
                     this.state.alimmiktariLT, this.state.indirimOrani, this.state.kazanilanPuan, this.state.harcananPuan,
                     this.state.puanTLkarsiligi, this.state.harcananPuanTL, this.state.katkiorani, this.state.bayikatkiorani,
                     this.state.isortagikatkiorani, this.state.isortagiid)
