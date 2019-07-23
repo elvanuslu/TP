@@ -353,7 +353,7 @@ export default class PlakaEkle extends Component {
 
 
                         <Item regular style={styles.Inputs2}>
-                            <Image style={{ marginLeft: 5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', marginRight:5 }} source={plaka}></Image>
                             <TextInputMask style={styles.Inputs1}
                                 autoCapitalize="characters"
                                 placeholder="Plaka Girin"
@@ -548,10 +548,12 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 5,
         width: '90%',
+        fontSize:16,
         //color:'black',
         borderColor: 'black',
     },
     Inputs2: {
+        fontSize:14,
         marginLeft: 30,
         marginRight: 30,
         borderRadius: 5,
