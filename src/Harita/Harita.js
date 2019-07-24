@@ -87,7 +87,7 @@ export default class Harita extends Component {
             this.setState({ loading: true })
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10).then((res) => {
                 this.setState({ datas: res, loading: false });
-               // console.log('Konumlar= ' + JSON.stringify(this.state.datas));
+                console.log('Konumlar= ' + JSON.stringify(res));
                 //_showLocation();
             })
         } catch (error) {
@@ -148,7 +148,9 @@ export default class Harita extends Component {
         console.log('Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
 
         if (Param === 'Filtre') {
-            this.setState({ latitude: lat, longitude: lon })
+           
+            this.setState({latitude: lat, longitude: lon})
+            console.log('Filter: '+this.state.latitude+' -- '+ this.state.longitude)
             this._getData();
         }
         else {

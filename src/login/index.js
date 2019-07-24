@@ -59,12 +59,11 @@ export default class login extends Component {
    // BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   
     this._getConn();
-   
    // this._getGps();
     const Password = await getStorage('Password');
-    console.log('Password= '+Password);
+    //console.log('Password= '+Password);
     const UserID = await getStorage('UserName');
-    console.log('Kullanıcı= '+UserID);
+    //console.log('Kullanıcı= '+UserID);
     if(Password!==''){
       //alert(UserID)
        this.setState({Pass:Password, UserName:UserID});
@@ -92,11 +91,9 @@ export default class login extends Component {
 
       });
     } catch (error) {
-
     }
   }
   _handleConnectivityChange = (isConnected) => {
-
     if (isConnected == true) {
       this.setState({ connection_Status: "Online" })
     }
@@ -121,11 +118,11 @@ export default class login extends Component {
       this._handleConnectivityChange
 
     );
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  //  BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   //  this._didFocusSubscription && this._didFocusSubscription.remove();
   //  this._willBlurSubscription && this._willBlurSubscription.remove();    
   //  BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
-    console.log('remove component')
+    //console.log('remove component')
   }
   handleBackButton() {
   //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);

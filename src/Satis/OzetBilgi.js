@@ -118,31 +118,7 @@ export default class OzetBilgi extends Component {
     _SatisBaslat() {
         try {
 
-            // const contactId = await getStorage('userId');
-            console.log('*********************************************')
-            console.log('this.state.Istasyon ' + this.state.IstasyonId);
-            console.log('contactId ' + this.state.userId);
-            console.log('this.state.KampanyaId ' + this.state.KampanyaId);
-            console.log('this.state.PompaNo ' + this.state.PompaNo);
-            console.log('this.state.Plaka ' + this.state.PlakaId);
-            console.log('this.state.Yakit ' + this.state.YakitId);
-            console.log('this.state.alimmiktariLT ' + this.state.alimmiktariLT);
-            console.log('this.state.indirimOrani ' + this.state.indirimOrani);
-            console.log('this.state.kazanilanPuan ' + this.state.kazanilanPuan);
-            console.log('this.state.harcananPuan ' + this.state.harcananPuan);
-            console.log('this.state.puanTLkarsiligi ' + this.state.puanTLkarsiligi);
-            console.log('this.state.harcananPuanTL ' + this.state.harcananPuanTL);
-            console.log('this.state.katkiOranı ' + this.state.katkiorani);
-            console.log('this.state.BayiKatkiOranı ' + this.state.bayikatkiorani);
-            console.log('this.state.IsOrtagıKatkıOranı ' + this.state.isortagikatkiorani);
-            console.log('this.state.isOrtgaıId ' + this.state.isortagiid);
-            console.log('this.state.istasyonfiyati ' + this.state.istasyonfiyati);
-            console.log('Ödeme Adı: ' + this.state.birimfiyatgoster);
-            console.log('Birim Fiyatı: '+this.state.birimFiyat);
-            console.log('*********************************************')
-
             this.setState({ loading: true });
-
             //     alert('Id =' + contactId);
             if (this.state.userId !== null) {
                 SatisBaslat(this.state.IstasyonId, this.state.userId, this.state.KampanyaId ? this.state.KampanyaId : '00000000-0000-0000-0000-000000000000', this.state.PompaNo, this.state.PlakaId, this.state.YakitId,
@@ -182,10 +158,7 @@ export default class OzetBilgi extends Component {
         } catch (error) {
             Alert.alert('Hata Oluştu!', error);
         }
-        finally {
-            console.log('finally calıstı')
-
-        }
+       
     }
     componentWillReceiveProps(nextProps) {
         //  console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
@@ -246,7 +219,7 @@ export default class OzetBilgi extends Component {
         try {
             var Id = this.props.navigation.getParam('KampanyaId', '');
             // console.log('Kapmapnya ID=' + Id + ' this.props.navigation.state.params.KampanyaId= ' + this.props.navigation.state.params.KampanyaId);
-            console.log('Name ' + JSON.stringify(this.props.navigation.state.params))
+           // console.log('Name ' + JSON.stringify(this.props.navigation.state.params))
             //  if (Id !== this.state.oldId) {
             if (Id !== '00000000-0000-0000-0000-000000000000') {
                 this.setState({
@@ -311,7 +284,7 @@ export default class OzetBilgi extends Component {
                 })
             }
             this.setState({ birimfiyatgoster: this.props.navigation.state.params.birimFiyati })
-            console.log('Paramsiz= ' + (this.props.navigation.state.params.birimFiyati));
+           // console.log('Paramsiz= ' + (this.props.navigation.state.params.birimFiyati));
 
         } catch (error) {
             Alert.alert('Hata', error);
@@ -322,7 +295,7 @@ export default class OzetBilgi extends Component {
         return (
 
             <Container style={styles.container}>
-                {console.log('loading = ' + this.state.loading)}
+               
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Spinner style={{ backgroundColor: 'gray' }}
                         visible={this.state.loading}
@@ -332,7 +305,7 @@ export default class OzetBilgi extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("KampanyaSec")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("SatisIllce")}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>

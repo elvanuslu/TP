@@ -5,6 +5,8 @@ import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Containe
 
 import { campaignDetailList, getAracYakitTipi, getIstasyonByCityId, getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { tryStatement } from '@babel/types';
+import { multipleValidOptions } from 'jest-validate/build/condition';
 
 
 
@@ -155,41 +157,43 @@ export default class SatisIllce extends Component {
 
             },
             () => {
-               // console.log('Ilce Sci ' + this.state.Ilce)
+                // console.log('Ilce Sci ' + this.state.Ilce)
                 try {
                     getIstasyonByCityId(this.state.Ilce, 10)
                         .then((res) => {
                             if (res.status != false) {
-                               // console.log('Istasyon By CITY ' + JSON.stringify(res));
+                                // console.log('Istasyon By CITY ' + JSON.stringify(res));
                                 this.setState({
                                     datas: res,
                                     loading: false,
                                 })
                             }
                             else {
-                                this.setState({istasyonselectedId:'', loading: false,datas:[{
-                                    "AccountId": "00000000-0000-0000-0000-000000000000",
-                                    "name": "",
-                                    "Mesafe_KM": 0,
-                                    "Address1_Latitude": 0,
-                                    "Address1_Longitude": 0,
-                                    "Adres": "",
-                                    "sira": 1,
-                                    "market": false,
-                                    "yikama": false,
-                                    "yagdegisimi": false,
-                                    "bankamatik": false,
-                                    "restaurant": false,
-                                    "odegec": false,
-                                    "KisaAdres": "",
-                                    "telefon": ""
-                                  }] })
-                                
-                                 
+                                this.setState({
+                                    istasyonselectedId: '', loading: false, datas: [{
+                                        "AccountId": "00000000-0000-0000-0000-000000000000",
+                                        "name": "",
+                                        "Mesafe_KM": 0,
+                                        "Address1_Latitude": 0,
+                                        "Address1_Longitude": 0,
+                                        "Adres": "",
+                                        "sira": 1,
+                                        "market": false,
+                                        "yikama": false,
+                                        "yagdegisimi": false,
+                                        "bankamatik": false,
+                                        "restaurant": false,
+                                        "odegec": false,
+                                        "KisaAdres": "",
+                                        "telefon": ""
+                                    }]
+                                })
+
+
                                 //Alert.alert('Bulunamadı!', res.message);
                             }
                         })
-                   // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
+                    // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
                 } catch (error) {
                     Alert.alert('Hata!', error.message);
                 }
@@ -225,8 +229,30 @@ export default class SatisIllce extends Component {
         }
     }
     componentDidUpdate() {
+
         if (this.state.latitude === undefined)
             this._getGps();
+    }
+    _clearComponents() {
+        try {
+
+            this.setState({
+                istasyonselectedId:'',
+                PlakaSelectId:null,
+                selected2:null,
+                OdemeTipi:null,
+                PompaNo:null,
+                Sehir:null,
+                Ilce:null,
+                KuponKodu:null,
+                OdemeTipi:null,
+                Tutar:null,
+
+            })
+
+        } catch (error) {
+
+        }
     }
     _campaignDetailList = async () => {
         try {
@@ -304,7 +330,7 @@ export default class SatisIllce extends Component {
                                         Alert.alert('Hata!', 'Tutar Girilmedi!');
                                     }
                                 }
-
+                                this._clearComponents();
                             }
                             else {
                                 this.setState({ loading: false })
@@ -336,9 +362,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata!', error);
         }
-        finally {
-            this.setState({ loading: false })
-        }
+       
     }
     ShowAlert = (value) => {
         this.setState({
@@ -357,6 +381,7 @@ export default class SatisIllce extends Component {
         //  console.log('fulle ' + this.state.fulle);
     }
     onPlaka(value, label) {
+        if(value!=='00000000-0000-0000-0000-000000000001'){
         this.setState({
             PlakaSelectId: value,
             PlakaName: label,
@@ -368,6 +393,7 @@ export default class SatisIllce extends Component {
                 this.setState({ loading: false })
                 //       console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
             })
+        }
     }
 
     _getAracYakitTipleri = (aracId) => {
@@ -395,27 +421,27 @@ export default class SatisIllce extends Component {
                         yakitTipleri: jsonBody,
                         loading: false,
                     });
-                   // console.log('Yakitlar ksonBody== ' + JSON.stringify(jsonBody));
+                    // console.log('Yakitlar ksonBody== ' + JSON.stringify(jsonBody));
                 })
                 .catch(e => {
                     this.setState({ loading: false })
                     console.log("hata: " + e);
-                }).finally(this.setState({ loading: false }))
+                })
 
         } catch (error) {
             this.setState({ loading: false })
             Alert.alert('Hata', error);
         }
-        finally {
-            this.setState({ loading: false })
-        }
+       
     }
     onIstasyonId(val: string) {
         this.setState({ istasyonselectedId: val });
         // console.log('Id= ' + val);
     }
     onIstasyonName(value, label) {
-
+      //alert(value)
+        if(value!=='00000000-0000-0000-0000-000000000000')
+        {
         this.setState(
             {
                 istasyonselectedId: value,
@@ -428,6 +454,7 @@ export default class SatisIllce extends Component {
 
             }
         )
+        }
     }
     onValueChange(value: string) {
         this.setState({
@@ -517,6 +544,7 @@ export default class SatisIllce extends Component {
         }
     }
     _getYakitTipleri() {
+        /*
         try {
             this.setState({ loading: true })
             getYakitTipi()
@@ -535,6 +563,7 @@ export default class SatisIllce extends Component {
         } catch (error) {
             Alert.alert('Hata', error);
         }
+        */
     }
     _retrieveKullanici = async () => {
         try {
@@ -573,7 +602,7 @@ export default class SatisIllce extends Component {
             );
             this.watchID = navigator.geolocation.watchPosition((position) => {
                 //Will give you the location on location change
-              //  console.log('watch ' + JSON.stringify(position));
+                //  console.log('watch ' + JSON.stringify(position));
                 //  alert(JSON.stringify(position));
                 const currentLongitude = JSON.stringify(position.coords.longitude);
                 //getting the Longitude from the location json
@@ -598,10 +627,10 @@ export default class SatisIllce extends Component {
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
                 .then((res) => {
                     if (status !== false) {
-                      //  console.log('Istasyonlarım= ' + JSON.stringify(res));
+                        //  console.log('Istasyonlarım= ' + JSON.stringify(res));
                         this.setState({ datas: res, loading: false });
-                       // Alert.alert('Data', JSON.stringify(res));
-                       // console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
+                        // Alert.alert('Data', JSON.stringify(res));
+                        // console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
                     }
                     else {
                         Alert.alert('Hata', res.message);
@@ -615,23 +644,27 @@ export default class SatisIllce extends Component {
         }
     }
 
+    componentDidCatch() {
+        console.log('Catch Çalıştı...');
+    }
 
     componentWillReceiveProps(nextProps) {
-      //  console.log('recievr Props')
+        console.log('receive Props çalıştı...')
+        //  console.log('recievr Props')
         // this.isAvailable();
         //  console.log('Did Mount');
-      //  this._getLocation();
+        //  this._getLocation();
         this._retrieveKullanici();
-        this._getYakitTipleri();
+       // this._getYakitTipleri();
         this._getPlakaListesi();
         this._getPaymentTypes();
     }
     componentDidMount() {
         //   this.isAvailable();
         //  console.log('Did Mount');
-      //  this._getLocation();
+        //  this._getLocation();
         this._retrieveKullanici();
-        this._getYakitTipleri();
+      //  this._getYakitTipleri();
         this._getPlakaListesi();
         this._getPaymentTypes();
         this._getCity();
@@ -644,7 +677,7 @@ export default class SatisIllce extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                        <Image style={{marginLeft:-15, width: 50, height: 50, resizeMode: 'contain',}} source={require('../../assets/GeriDongri.png')} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body >
