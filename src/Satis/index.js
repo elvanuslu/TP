@@ -437,8 +437,10 @@ export default class Satis extends Component {
                 //console.log('watch ' + JSON.stringify(position));
                 //  alert(JSON.stringify(position));
                 const currentLongitude = JSON.stringify(position.coords.longitude);
+                console.log('currentLongitude: '+currentLongitude)
                 //getting the Longitude from the location json
                 const currentLatitude = JSON.stringify(position.coords.latitude);
+                console.log('currentLatitude: '+currentLatitude)
                 //getting the Latitude from the location json
                 this.setState({ currentLongitude: currentLongitude });
                 //Setting state Longitude to re re-render the Longitude Text

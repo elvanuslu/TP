@@ -17,9 +17,7 @@ setJSExceptionHandler((error, isFatal) => {
   handleError(error, isFatal);
 }, true);
 
-setNativeExceptionHandler(errorString => {
-  // do the things
-});
+
 import { createDrawerNavigator, createStackNavigator, createAppContainer } from "react-navigation";
 
 import login from "./src/login/";

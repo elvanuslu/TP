@@ -35,8 +35,8 @@ export default class SatisIllce extends Component {
             Istasyon: [],
             Plaka: [],
             labelName: '',
-            latitude: 40.802095,//41.001895,
-            longitude: 29.526954,
+            latitude: number=0, //40.802095,//41.001895,
+            longitude: number=0, //29.526954,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
             istasyonselectedId: undefined,
@@ -97,7 +97,7 @@ export default class SatisIllce extends Component {
                     })
                 })
         } catch (error) {
-            Alert.alert('Hata', error);
+            Alert.alert('Şehirler', error);
         }
     }
     getcampaignDetailList = async () => {
@@ -195,7 +195,7 @@ export default class SatisIllce extends Component {
                         })
                     // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
                 } catch (error) {
-                    Alert.alert('Hata!', error.message);
+                    Alert.alert('İlçe', error.message);
                 }
                 finally {
                     this.setState({ loading: false, })
@@ -221,7 +221,7 @@ export default class SatisIllce extends Component {
                         }
                     })
             } catch (error) {
-                Alert.alert('Hata', error);
+                Alert.alert('getcity', error);
             }
             finally {
                 this.setState({ loading: false })
@@ -237,16 +237,16 @@ export default class SatisIllce extends Component {
         try {
 
             this.setState({
-                istasyonselectedId:'',
-                PlakaSelectId:null,
-                selected2:null,
-                OdemeTipi:null,
-                PompaNo:null,
-                Sehir:null,
-                Ilce:null,
-                KuponKodu:null,
-                OdemeTipi:null,
-                Tutar:null,
+                istasyonselectedId: '',
+                PlakaSelectId: null,
+                selected2: null,
+                OdemeTipi: null,
+                PompaNo: null,
+                Sehir: null,
+                Ilce: null,
+                KuponKodu: null,
+                OdemeTipi: null,
+                Tutar: null,
 
             })
 
@@ -362,7 +362,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata!', error);
         }
-       
+
     }
     ShowAlert = (value) => {
         this.setState({
@@ -381,18 +381,18 @@ export default class SatisIllce extends Component {
         //  console.log('fulle ' + this.state.fulle);
     }
     onPlaka(value, label) {
-        if(value!=='00000000-0000-0000-0000-000000000001'){
-        this.setState({
-            PlakaSelectId: value,
-            PlakaName: label,
-            PlakaName: this.state.Plaka.find(p => p.bm_musteriaraciid === value).bm_plaka,
+        if (value !== '00000000-0000-0000-0000-000000000001') {
+            this.setState({
+                PlakaSelectId: value,
+                PlakaName: label,
+                PlakaName: this.state.Plaka.find(p => p.bm_musteriaraciid === value).bm_plaka,
 
-        },
-            () => {
-                this._getAracYakitTipleri(value);
-                this.setState({ loading: false })
-                //       console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
-            })
+            },
+                () => {
+                    this._getAracYakitTipleri(value);
+                    this.setState({ loading: false })
+                    //       console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
+                })
         }
     }
 
@@ -432,28 +432,27 @@ export default class SatisIllce extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata', error);
         }
-       
+
     }
     onIstasyonId(val: string) {
         this.setState({ istasyonselectedId: val });
         // console.log('Id= ' + val);
     }
     onIstasyonName(value, label) {
-      //alert(value)
-        if(value!=='00000000-0000-0000-0000-000000000000')
-        {
-        this.setState(
-            {
-                istasyonselectedId: value,
-                istasyonName: label,
-                IstasyonAdi: this.state.datas.find(branch => branch.AccountId === value).name,
-            },
-            () => {
+        //alert(value)
+        if (value !== '00000000-0000-0000-0000-000000000000') {
+            this.setState(
+                {
+                    istasyonselectedId: value,
+                    istasyonName: label,
+                    IstasyonAdi: this.state.datas.find(branch => branch.AccountId === value).name,
+                },
+                () => {
 
-                // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
+                    // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
 
-            }
-        )
+                }
+            )
         }
     }
     onValueChange(value: string) {
@@ -588,60 +587,51 @@ export default class SatisIllce extends Component {
                         error: null,
                         loading: false,
                     });
-                    this._getLatLon();
-                    console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({
                     error: error.message,
-                    latitude: 40.802095,
-                    longitude: 29.526954,
-                },
-                    this._getLatLon()),
 
-                { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000 },
+                }),
+
+                { enableHighAccuracy: true, timeout: 60000, maximumAge: 360000 },
             );
             this.watchID = navigator.geolocation.watchPosition((position) => {
-                //Will give you the location on location change
-                //  console.log('watch ' + JSON.stringify(position));
-                //  alert(JSON.stringify(position));
                 const currentLongitude = JSON.stringify(position.coords.longitude);
-                //getting the Longitude from the location json
+
                 const currentLatitude = JSON.stringify(position.coords.latitude);
-                //getting the Latitude from the location json
-                this.setState({ currentLongitude: currentLongitude });
-                //Setting state Longitude to re re-render the Longitude Text
-                this.setState({ currentLatitude: currentLatitude });
-                //Setting state Latitude to re re-render the Longitude Text
+                this.setState({ longitude: currentLongitude });
+                this.setState({ latitude: currentLatitude });
                 this.setState({ loading: false })
             });
-        } catch (error) {
-            Alert.alert('Hata', error);
-        }
-        finally {
             this._getLatLon();
+            console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+        } catch (error) {
+            Alert.alert('Konum Hata', error);
         }
+
     }
     _getLatLon = () => {
         try {
             this.setState({ loading: true })
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
                 .then((res) => {
+                    console.log('Istasyonlarım= ' + JSON.stringify(res));
                     if (status !== false) {
-                        //  console.log('Istasyonlarım= ' + JSON.stringify(res));
-                        this.setState({ datas: res, loading: false });
+
+                        this.setState({ datas: res});
                         // Alert.alert('Data', JSON.stringify(res));
                         // console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
                     }
                     else {
                         Alert.alert('Hata', res.message);
                     }
+                    this.setState({ loading: false })
                 })
         } catch (error) {
-            Alert.alert('Hata', error);
-        }
-        finally {
             this.setState({ loading: false })
+            Alert.alert('Hata Konum', error);
         }
+       
     }
 
     componentDidCatch() {
@@ -649,25 +639,25 @@ export default class SatisIllce extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('receive Props çalıştı...')
-        //  console.log('recievr Props')
-        // this.isAvailable();
-        //  console.log('Did Mount');
-        //  this._getLocation();
+       // console.log('receive Props çalıştı...')
+      
+        this._getLocation();
         this._retrieveKullanici();
-       // this._getYakitTipleri();
+        // this._getYakitTipleri();
         this._getPlakaListesi();
         this._getPaymentTypes();
     }
     componentDidMount() {
         //   this.isAvailable();
         //  console.log('Did Mount');
-        //  this._getLocation();
+        this._getLocation();
         this._retrieveKullanici();
-      //  this._getYakitTipleri();
+        //  this._getYakitTipleri();
         this._getPlakaListesi();
         this._getPaymentTypes();
         this._getCity();
+      //  this.setState({longitude:0})
+        console.log('longi: '+this.state.longitude)
     }
 
     render() {
@@ -705,9 +695,10 @@ export default class SatisIllce extends Component {
                 <View style={styles.containerOrta}>
                     <Content>
                         <Form>
-                            <Item picker style={styles.pickerInputs}>
-                                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
-                                <Picker borderColor='black'
+
+                            <Item picker style={[styles.pickerInputs, this.state.longitude===0 ? styles.hidden : styles.pickerInputs]}>
+                                <Image style={[{ width: 40, height: 40, resizeMode: 'contain' }, this.state.longitude===0 ? styles.hidden : { width: 40, height: 40, resizeMode: 'contain' }]} source={sehirIkon}></Image>
+                                <Picker 
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
                                     // style={{ width: undefined }}
@@ -728,8 +719,8 @@ export default class SatisIllce extends Component {
                                     }
                                 </Picker>
                             </Item>
-                            <Item picker style={styles.pickerInputs}>
-                                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+                            <Item picker style={[styles.pickerInputs, this.state.longitude===0 ? styles.hidden : styles.pickerInputs]}>
+                                <Image style={[{ width: 40, height: 40, resizeMode: 'contain' }, this.state.longitude===0 ? styles.hidden : { width: 40, height: 40, resizeMode: 'contain' }]} source={sehirIkon}></Image>
                                 <Picker borderColor='black'
                                     mode="dropdown"
                                     iosIcon={<Icon name="arrow-down" />}
@@ -775,6 +766,7 @@ export default class SatisIllce extends Component {
                                 </Picker>
 
                             </Item>
+
                             <Item picker style={styles.comboItem}>
                                 <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
                                 <Picker borderColor='black'
@@ -925,6 +917,11 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         width: 30, height: 30, resizeMode: 'contain'
     },
+    pickerInputsAll: {
+        height: 100,
+        flexDirection: 'column',
+        backgroundColor: '#fff'
+    },
     pickerInputs: {
         marginLeft: 30,
         marginRight: 30,
@@ -953,6 +950,7 @@ const styles = StyleSheet.create({
     hidden: {
         width: 0,
         height: 0,
+        marginTop: -12
     },
     switchcontainer: {
         flexDirection: 'row',

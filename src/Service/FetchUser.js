@@ -1,8 +1,8 @@
 import { AsyncStorage, NetInfo } from 'react-native';
 //const define_api_url = "http://85.105.103.4:8096/";
 //const define_api_url = "http//213.194.120.55:8082/";
-const define_api_url = "http://mobil.tppd.com.tr/";
-//const define_api_url ="https://mobil.tppd.com.tr/";
+//const define_api_url = "http://mobil.tppd.com.tr/";
+const define_api_url ="https://mobil.tppd.com.tr/";
 
 /*
 export const isAvailable = () => {

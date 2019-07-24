@@ -57,7 +57,7 @@ export default class login extends Component {
   */
   componentDidMount= async() =>{
    // BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-  
+  console.log('Login Did Mount')
     this._getConn();
    // this._getGps();
     const Password = await getStorage('Password');
@@ -146,8 +146,10 @@ export default class login extends Component {
       //  this.isAvailable();
       if (this.state.UserName !== undefined) {
         if (this.state.Pass !== undefined) {
+          console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
+              console.log('Login: '+ JSON.stringify(res))
               this.setState({ userId: res.contactid, loading: false });
            /*   setInterval(() => {
                 this.setState({
@@ -361,7 +363,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height:80,
     resizeMode: 'contain',
-    marginTop:5,
+    marginTop:20,
     marginBottom:10,
   },
   switchcontainer: {

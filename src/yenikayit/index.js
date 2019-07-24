@@ -352,7 +352,7 @@ export default class yenikayit extends Component {
                     <Body>
                         <Title style={{ color: '#fff' }}>Yeni Kayıt</Title>
                     </Body>
-
+                    <Right></Right>
                 </Header>
                 <View style={styles.container1}>
                     <View>
