@@ -182,19 +182,19 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
                     this.setState({ datam: null, loading: false });
-                      console.log('Gelen Kampanya = ' + JSON.stringify(res));
+                      console.log('Gelen Kampanya = ' + JSON.stringify(res)+' Status: '+ res.status);
                       //console.log(' infirimli Fiyat = ' + res[0].indirimlifiyati);
                       
 
-                    if (res.status == false) {
-                        this.setState({ datam: null, loading: false });
+                    if (res.status === false) {
+                        //this.setState({ datam: null, loading: false });
                         Alert.alert(
                             'Durum Bilgi!',
                             res.message,
                             [
                                 { text: 'Tamam', onPress: () => this._hatavarDon() },
                             ],
-                            { cancelable: true },
+                            { cancelable: false },
                         );
 
                     }

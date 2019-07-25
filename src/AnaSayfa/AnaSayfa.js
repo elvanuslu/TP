@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import {Dimensions, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -76,7 +76,7 @@ export default class AnaSayfa extends Component {
       //  this._getGps1();
     }
     componentDidMount() {
-       // this._getGps1();
+    //  alert(Math.round(Dimensions.get('window').width))
     }
     render() {
         return (
@@ -100,7 +100,7 @@ export default class AnaSayfa extends Component {
                 <View style={styles.container1}>
                    
                         <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30,marginBottom:10, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                
                 </View>
                 <View style={styles.containerOrta}>
@@ -115,8 +115,8 @@ export default class AnaSayfa extends Component {
                             textStyle={styles.spinnerTextStyle}
                         />
                     </View>
-                    <View style={{ flex: 3, flexDirection: "column", backgroundColor: 'transparent', }}>
-                        <View style={{ flex: 2, flexDirection: 'row', marginBottom: 20, backgroundColor: 'transparent' }}>
+                    <View style={{ flex: 3, flexDirection: "column", backgroundColor: 'transparent',justifyContent:'center',alignItems:'center' }}>
+                        <View style={{  flexDirection: 'row', marginBottom: 20, backgroundColor: 'transparent' }}>
                             <Left style={{ marginLeft: 20 }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisIllce")}>
                                     <Image style={styles.button} source={require('../../assets/yakitalldpi.png')} />
@@ -134,7 +134,7 @@ export default class AnaSayfa extends Component {
                             </Right>
 
                         </View>
-                        <View style={{ flex: 2, flexDirection: 'row', backgroundColor: 'transparent', }}>
+                        <View style={{  flexDirection: 'row', backgroundColor: 'transparent', }}>
                             <Left style={{ marginLeft: 20, }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("Duyurular")}>
                                     <Image style={styles.button} source={require('../../assets/duyurularldpi.png')} />
@@ -167,20 +167,29 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 1,
+        flex: 2,
         backgroundColor: 'transparent',
         marginBottom: 10,
+        justifyContent:'center',
+        alignItems:'center',
+        marginBottom:10,
     },
     containerOrta: {
-        flex: 3,
+        flex: 4,
         backgroundColor: 'transparent',
+        justifyContent:'center',
+        alignItems:'center',
+        marginBottom:10,
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 3,
+        flex: 4,
         backgroundColor: 'transparent',
         flexDirection: 'row-reverse',
         marginBottom:10,
+        backgroundColor:'transparent',
+        justifyContent:'center',
+        alignItems:'center'
     },
     welcome: {
         fontSize: 20,
@@ -208,20 +217,10 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         alignSelf: 'center'
     },
-
-    /*  logo: {
-          marginTop: 5,
-          //  width: 150,
-          height: '80%',
-          resizeMode: 'contain',
-          marginBottom: 5,
-      },
-      */
     banner: {
-        alignSelf: 'center',
-
-        width: '100%',
-        height: 195,
+       // alignSelf: 'center',
+        width: Math.round(Dimensions.get('window').width),
+        height: Math.round(Dimensions.get('window').height)/2,
         resizeMode: 'contain',
         marginBottom: 15,
     },

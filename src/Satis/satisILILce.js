@@ -61,7 +61,7 @@ export default class SatisIllce extends Component {
             Sehirler: [],
             Ilce: undefined,
             IlceList: [],
-
+            showCancel: false,
         }
     }
     _getGps() {
@@ -616,7 +616,8 @@ export default class SatisIllce extends Component {
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
                 .then((res) => {
                     console.log('Istasyonlarım= ' + JSON.stringify(res));
-                    if (status !== false) {
+                    
+                    if (res.status !== false) {
 
                         this.setState({ datas: res});
                         // Alert.alert('Data', JSON.stringify(res));
@@ -659,7 +660,65 @@ export default class SatisIllce extends Component {
       //  this.setState({longitude:0})
         console.log('longi: '+this.state.longitude)
     }
-
+_SehirIlceGoster(){
+    if(this.state.longitude===0){
+        return(
+            <Item picker style={styles.pickerInputs}>
+                                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+                                <Picker 
+                                    mode="dropdown"
+                                    iosIcon={<Icon name="arrow-down" />}
+                                    // style={{ width: undefined }}
+                                    placeholder="Şehir"
+                                    placeholderStyle={{ color: "black" }}
+                                    placeholderIconColor="black"
+                                    selectedValue={this.state.Sehir}
+                                    onValueChange={this.onSehir.bind(this)}>
+                                    {
+                                        this.state.Sehirler.map((item, key) => (
+                                            // console.log("Sehirler: " + item.bm_sehirid),
+                                            // console.log("Sehirler: " + item.bm_adi),
+                                            <Picker.Item
+                                                label={item.bm_adi}
+                                                value={item.bm_sehirid}
+                                                key={item.bm_sehirid} />)
+                                        )
+                                    }
+                                </Picker>
+                            </Item>
+       )
+    }
+}
+_IlceGoster(){
+    console.log('Lat Ilce: '+this.state.longitude);
+    if(this.state.longitude===0){
+        return(
+            <Item picker style={styles.pickerInputs}>
+            <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+            <Picker borderColor='black'
+                mode="dropdown"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: undefined }}
+                placeholder="İlçe"
+                placeholderStyle={{ color: "black" }}
+                placeholderIconColor="black"
+                selectedValue={this.state.Ilce}
+                onValueChange={this.onIlce.bind(this)}>
+                {
+                    this.state.IlceList.map((item, key) => (
+                        // console.log("Sehirler: " + item.bm_sehirid),
+                        // console.log("Sehirler: " + item.bm_adi),
+                        <Picker.Item
+                            label={item.bm_adi}
+                            value={item.bm_ilceid}
+                            key={item.bm_ilceid} />)
+                    )
+                }
+            </Picker>
+        </Item>
+        )
+    }
+}
     render() {
         return (
             <Container style={styles.container}>
@@ -696,52 +755,8 @@ export default class SatisIllce extends Component {
                     <Content>
                         <Form>
 
-                            <Item picker style={[styles.pickerInputs, this.state.longitude===0 ? styles.hidden : styles.pickerInputs]}>
-                                <Image style={[{ width: 40, height: 40, resizeMode: 'contain' }, this.state.longitude===0 ? styles.hidden : { width: 40, height: 40, resizeMode: 'contain' }]} source={sehirIkon}></Image>
-                                <Picker 
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    // style={{ width: undefined }}
-                                    placeholder="Şehir"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-                                    selectedValue={this.state.Sehir}
-                                    onValueChange={this.onSehir.bind(this)}>
-                                    {
-                                        this.state.Sehirler.map((item, key) => (
-                                            // console.log("Sehirler: " + item.bm_sehirid),
-                                            // console.log("Sehirler: " + item.bm_adi),
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_sehirid}
-                                                key={item.bm_sehirid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item picker style={[styles.pickerInputs, this.state.longitude===0 ? styles.hidden : styles.pickerInputs]}>
-                                <Image style={[{ width: 40, height: 40, resizeMode: 'contain' }, this.state.longitude===0 ? styles.hidden : { width: 40, height: 40, resizeMode: 'contain' }]} source={sehirIkon}></Image>
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="İlçe"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-                                    selectedValue={this.state.Ilce}
-                                    onValueChange={this.onIlce.bind(this)}>
-                                    {
-                                        this.state.IlceList.map((item, key) => (
-                                            // console.log("Sehirler: " + item.bm_sehirid),
-                                            // console.log("Sehirler: " + item.bm_adi),
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_ilceid}
-                                                key={item.bm_ilceid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
+                           {this._SehirIlceGoster() }
+                           { this._IlceGoster()}
                             <Item regular style={styles.comboItem} >
                                 <Image style={styles.logos} source={logo}></Image>
                                 <Picker borderColor='black'

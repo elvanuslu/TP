@@ -104,16 +104,13 @@ export default class OzetBilgi extends Component {
                     .catch(error => {
                         Alert.alert('Hata Oluştu!', error);
                     })
-                    .finally
+                   
 
             }
         } catch (error) {
             Alert.alert('Hata Oluştu!', error);
         }
-        finally {
-            console.log('finally calıstı')
-            this.setState({ loading: false });
-        }
+       
     }
     _SatisBaslat() {
         try {

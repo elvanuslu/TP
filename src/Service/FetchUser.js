@@ -1,9 +1,10 @@
-import { AsyncStorage, NetInfo } from 'react-native';
+import {Platform, AsyncStorage, NetInfo } from 'react-native';
+
 //const define_api_url = "http://85.105.103.4:8096/";
 //const define_api_url = "http//213.194.120.55:8082/";
 //const define_api_url = "http://mobil.tppd.com.tr/";
-const define_api_url ="https://mobil.tppd.com.tr/";
-
+var define_api_url ="https://mobil.tppd.com.tr/";
+Platform.OS==='ios'? define_api_url ="https://mobil.tppd.com.tr/":  define_api_url = "http://mobil.tppd.com.tr/";
 /*
 export const isAvailable = () => {
   const timeout = new Promise((resolve, reject) => {

@@ -307,7 +307,7 @@ export default class KayitGuncelle extends Component {
                         <Item regular style={styles.Inputs}>
                             <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
                             <TextInputMask style={styles.Inputs1}
-                                editable={false}
+                                editable={true}
                                 placeholder="Telefonunuzu Girin"
                                 placeholderTextColor="black"
                                 keyboardType="phone-pad"

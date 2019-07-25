@@ -173,7 +173,7 @@ export default class login extends Component {
 
                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                   ],
-                  { cancelable: true },
+                  { cancelable: false },
                 );
                 this.setState({
                   error: 'User not found',

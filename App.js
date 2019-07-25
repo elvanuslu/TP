@@ -6,6 +6,7 @@ import {
   setNativeExceptionHandler,
 } from 'react-native-exception-handler';
 
+
 const handleError = (error, isFatal) => {
   // fetch
   console.log('Genel Hata Oluştu!  '+error, isFatal);
