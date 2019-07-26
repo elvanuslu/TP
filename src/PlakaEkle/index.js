@@ -17,6 +17,7 @@ const plaka = require("../../assets/plakaGri.png");
 const araba = require("../../assets/arac.png");
 
 import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, MusteriKayit } from '../Service/FetchUser';
+import DuyuruDetay from '../duyurular/DuyuruDetay';
 
 export default class PlakaEkle extends Component {
     constructor() {
@@ -237,7 +238,7 @@ export default class PlakaEkle extends Component {
                                 'Araç Kayıt!',
                                 responseData.message,
                                 [
-                                    { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim") },
+                                    { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim",{'Id':new Date()}) },
                                 ],
                                 { cancelable: true },
                             );
@@ -272,16 +273,18 @@ export default class PlakaEkle extends Component {
 
             }
         } catch (error) {
-            this.setState({ loading: false })
-            Alert.alert(
-                'Hata!',
-                error,
-                [
-                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                ],
-                { cancelable: true },
-            );
-
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Hata!',
+                        error,
+                        [
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 510);
+            });
         }
       
     }
@@ -307,7 +310,7 @@ export default class PlakaEkle extends Component {
                 </View>
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim",{'Id':new Date()})}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>

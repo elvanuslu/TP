@@ -1,14 +1,14 @@
 
 import React, { Component } from 'react';
 import {
-  BackHandler, Alert, KeyboardAvoidingView, NetInfo,ToastAndroid,
+  BackHandler, Alert, KeyboardAvoidingView, NetInfo, ToastAndroid,
   Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
 import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { getUserInfo,setStorage,getStorage } from '../Service/FetchUser';
+import { getUserInfo, setStorage, getStorage } from '../Service/FetchUser';
 export default class login extends Component {
   _didFocusSubscription;
   _willBlurSubscription;
@@ -17,7 +17,7 @@ export default class login extends Component {
     this.state = {
       switch1Value: true,
       UserName: '',//'asu@test.com',
-      Pass:'',// '123456',
+      Pass: '',// '123456',
       userId: '',
       error: '',
       isLoading: false,
@@ -37,9 +37,9 @@ export default class login extends Component {
           const currentLatitude = JSON.stringify(position.coords.latitude);
           this.setState({ latlon: position.coords.longitude });
         },
-        (error) => console.log('Gps Error'+error.message),
+        (error) => console.log('Gps Error' + error.message),
         {
-  
+
           enableHighAccuracy: true, timeout: 3000, maximumAge: 1000
         }
       );
@@ -50,28 +50,28 @@ export default class login extends Component {
 
     }
   }
-/*
-  componentDidUpdate = async ()=> {
-    console.log('this.state.latlon ' + this.state.latlon)
-  }
-  */
-  componentDidMount= async() =>{
-   // BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-  console.log('Login Did Mount')
+  /*
+    componentDidUpdate = async ()=> {
+      console.log('this.state.latlon ' + this.state.latlon)
+    }
+    */
+  componentDidMount = async () => {
+    // BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    console.log('Login Did Mount')
     this._getConn();
-   // this._getGps();
+    // this._getGps();
     const Password = await getStorage('Password');
     //console.log('Password= '+Password);
     const UserID = await getStorage('UserName');
     //console.log('Kullanıcı= '+UserID);
-    if(Password!==''){
+    if (Password !== '') {
       //alert(UserID)
-       this.setState({Pass:Password, UserName:UserID});
+      this.setState({ Pass: Password, UserName: UserID });
     }
   }
 
   handleBackPress = () => {
-  //  BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async
+    //  BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async
     return true;
   };
   _getConn = () => {
@@ -118,16 +118,16 @@ export default class login extends Component {
       this._handleConnectivityChange
 
     );
-  //  BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-  //  this._didFocusSubscription && this._didFocusSubscription.remove();
-  //  this._willBlurSubscription && this._willBlurSubscription.remove();    
-  //  BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
+    //  BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    //  this._didFocusSubscription && this._didFocusSubscription.remove();
+    //  this._willBlurSubscription && this._willBlurSubscription.remove();    
+    //  BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
     //console.log('remove component')
   }
   handleBackButton() {
-  //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+    //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
     return true;
-}
+  }
   _storeData = async () => {
     try {
       // console.log("usr="+this.state.userId);
@@ -142,21 +142,22 @@ export default class login extends Component {
   handleSubmit() {
     try {
       this.setState({ loading: true })
-      
+
       //  this.isAvailable();
       if (this.state.UserName !== undefined) {
         if (this.state.Pass !== undefined) {
-          console.log('Login: ')
+         
+         // console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
-              console.log('Login: '+ JSON.stringify(res))
+              console.log('Login: ' + JSON.stringify(res))
               this.setState({ userId: res.contactid, loading: false });
-           /*   setInterval(() => {
-                this.setState({
-                  loading: false
-                });
-              }, 5000);
-              */
+              /*   setInterval(() => {
+                   this.setState({
+                     loading: false
+                   });
+                 }, 5000);
+                 */
               //      console.log("stateUserId=>" + this.state.userId);
               if (res.contactid === undefined) {
 
@@ -168,16 +169,14 @@ export default class login extends Component {
                   */
                 Alert.alert(
                   'Hata!',
-                  res,
+                  res.message,
                   [
 
                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                   ],
                   { cancelable: false },
                 );
-                this.setState({
-                  error: 'User not found',
-                });
+              
               }
               else {
                 // console.log("Kayıt else=>" + res);
@@ -189,44 +188,52 @@ export default class login extends Component {
                      type: 'success',
                    })
                    */
-                this.props.navigation.navigate('AnaSayfa'); //navigate("hesabim", { Data: res });
-                //  console.log('Push');
-                this.setState({
-                  error: false,
-                  username: ''
-                })
+                  this.props.navigation.navigate('AnaSayfa');
+             
+
               }
             }).catch(error => this.setState({ error, isLoading: false }));
         }
         else {
-          this.setState({ loading: false })
-          Alert.alert('Hata', 'Şifre boş bırakılamaz.')
+          this.setState({ loading: false }, () => {
+            setTimeout(() => {
+              Alert.alert('Hata', 'Şifre boş bırakılamaz.')
+            }, 510);
+          });
         }
       }
       else {
-        this.setState({ loading: false })
-        Alert.alert('Hata', 'Kullanıcı Adı boş bırakılamaz.')
+        this.setState({ loading: false }, () => {
+          setTimeout(() => {
+            Alert.alert('Hata', 'Kullanıcı Adı boş bırakılamaz.')
+          }, 510);
+        });
       }
 
 
     } catch (error) {
-      Alert.alert('Hata', error);
+      this.setState({ loading: false }, () => {
+        setTimeout(() => {
+          Alert.alert('Genel Hata', error);
+        }, 510);
+      });
+
     }
   }
   toggleSwitch1 = async (value) => {
     this.setState({ switch1Value: value })
     //console.log('Switch 1 is: ' + value)
-    if (value == true){
+    if (value == true) {
       console.log('Switch 1 is: ' + this.state.UserName)
-      await setStorage('UserName',this.state.UserName);
-      await setStorage('Password',this.state.Pass);
-    
+      await setStorage('UserName', this.state.UserName);
+      await setStorage('Password', this.state.Pass);
+
     }
-    else{
-      await setStorage('userId','');
-      await setStorage('Password','');
-      this.setState({ UserName:await  getStorage('userId')}) 
-      this.setState({Pass:await getStorage('Password')})
+    else {
+      await setStorage('userId', '');
+      await setStorage('Password', '');
+      this.setState({ UserName: await getStorage('userId') })
+      this.setState({ Pass: await getStorage('Password') })
     }
   }
 
@@ -257,7 +264,7 @@ export default class login extends Component {
             <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
           </View>
           <View style={styles.containerOrta}>
-          <Item regular style={styles.Inputs}>
+            <Item regular style={styles.Inputs}>
               <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
               <Input placeholder='E-Posta Adresinizi Girin'
                 keyboardType="email-address"
@@ -309,8 +316,8 @@ export default class login extends Component {
             </View>
           </View>
 
-          </View>
-  
+        </View>
+
       </Container >
     );
   }
@@ -361,10 +368,10 @@ const styles = StyleSheet.create({
     // flexDirection: 'row',
     alignSelf: 'center',
     width: '90%',
-    height:80,
+    height: 80,
     resizeMode: 'contain',
-    marginTop:20,
-    marginBottom:10,
+    marginTop: 20,
+    marginBottom: 10,
   },
   switchcontainer: {
     flexDirection: 'row',

@@ -76,12 +76,12 @@ export default class SatisIllce extends Component {
             },
             (error) => this.setState({
                 error: error.message,
-                latitude: 40.802095,
-                longitude: 29.526954,
+                latitude: 0,//40.802095,
+                longitude: 0,// 29.526954,
             },
                 this._getLatLon()),
             {
-                enableHighAccuracy: true, timeout: 50000, maximumAge: 1000
+                enableHighAccuracy: true, timeout: 60000, maximumAge: 360000
             }
         );
     }
@@ -330,7 +330,7 @@ export default class SatisIllce extends Component {
                                         Alert.alert('Hata!', 'Tutar Girilmedi!');
                                     }
                                 }
-                                this._clearComponents();
+                               // this._clearComponents();
                             }
                             else {
                                 this.setState({ loading: false })
@@ -638,7 +638,9 @@ export default class SatisIllce extends Component {
     componentDidCatch() {
         console.log('Catch Çalıştı...');
     }
-
+componentWillUnmount(){
+  //  this._clearComponents();
+}
     componentWillReceiveProps(nextProps) {
        // console.log('receive Props çalıştı...')
       
@@ -661,7 +663,7 @@ export default class SatisIllce extends Component {
         console.log('longi: '+this.state.longitude)
     }
 _SehirIlceGoster(){
-    if(this.state.longitude===0){
+   // if(this.state.longitude===-1){
         return(
             <Item picker style={styles.pickerInputs}>
                                 <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
@@ -687,11 +689,11 @@ _SehirIlceGoster(){
                                 </Picker>
                             </Item>
        )
-    }
+   // }
 }
 _IlceGoster(){
-    console.log('Lat Ilce: '+this.state.longitude);
-    if(this.state.longitude===0){
+   // console.log('Lat Ilce: '+this.state.longitude);
+  //  if(this.state.longitude===-1){
         return(
             <Item picker style={styles.pickerInputs}>
             <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
@@ -717,7 +719,7 @@ _IlceGoster(){
             </Picker>
         </Item>
         )
-    }
+   // }
 }
     render() {
         return (

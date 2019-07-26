@@ -110,13 +110,13 @@ export default class KampanyaSec extends Component {
     _btnDevam = (item,fiyat) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
         //console.log('Birim Fiyat: '+'İtem '+item+' --- '+ fiyat)
-        //    console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,'birimFiyat':undefined,'birimFiyati':Secilen.indirimlifiyati });
+         //  console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,'birimFiyat':undefined,'birimFiyati':Secilen.indirimlifiyati,'Fiyatlar':this.state.datam });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
-        //   console.log('Seçilen=> ' + JSON.stringify(Secilen));
-        //  console.log('Secim ==> ' + Secilen.alinmmiktariLT + ' item= ' + item + ' Datam ' + JSON.stringify(this.state.datam));
+         //  console.log('Seçilen=> ' + Secilen.TavsiyeEdilenfiyati);
+          console.log(' Datam ' + JSON.stringify(this.state.datam));
 
         this.setState({
             birimFiyat: Secilen.TavsiyeEdilenfiyati,
@@ -136,6 +136,7 @@ export default class KampanyaSec extends Component {
             'alimmiktariLT': Secilen.alinmmiktariLT, 'kazanilanPuan': Secilen.KazanilanPuan, 'puanTLkarsiligi': Secilen.kazanilanpuantl,
             'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl, 'katkiorani': Secilen.katkiorani, 'bayikatkiorani': Secilen.bayikatkiorani,
             'isortagikatkiorani': Secilen.isortagikatkiorani, 'isortagiid': Secilen.isortagiid, 'istasyonfiyati': Secilen.istasyonfiyati,
+            'Fiyatlar':this.state.datam
         });
     }
 
@@ -150,9 +151,9 @@ export default class KampanyaSec extends Component {
         const PompaNo = this.props.navigation.getParam('PompaNo', '');
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
-        //  console.log('Istasyonum = ' + JSON.stringify(this.props));
-        //console.log('G.İ.T: '+this.state.gelenIndirimliBirimFiyat)
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyati': this.state.gelenIndirimliBirimFiyat});
+          console.log('Istasyonum = ' + JSON.stringify(this.props));
+        console.log('G.İ.T: '+JSON.stringify(this.state.datam))
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyati': this.state.gelenIndirimliBirimFiyat,'Fiyatlar':this.state.datam});
         /*
                 this.props.navigation.navigate("OzetBilgi", {
                     'Istasyon': this.state.istasyonselectedId,

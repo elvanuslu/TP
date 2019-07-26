@@ -100,7 +100,8 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
   istasyonfiyati, indirimlifiyati, alimtutari, alinmmiktariLT, indirimorani, KazanilanPuan, harcananpuan, kazanilanpuantl, harcananpuantl
   ,katkiOrani,bayikatkiorani,isortagikatkiorani,isortagiid) => {
   try {
- /*   console.log('IstasyonId '+ IstasyonId);
+    /*
+    console.log('IstasyonId '+ IstasyonId);
     console.log('ContactId '+ ContactId);
     console.log('KampanyaId '+ KampanyaId);
     console.log('PompaNo '+ PompaNo);

@@ -17,8 +17,8 @@ const Sil = require("../../assets/sil.png");
 const cizgi = require("../../assets/cizgi.png");
 
 export default class Plakalarim extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
         this.state = {
@@ -32,10 +32,13 @@ export default class Plakalarim extends Component {
             kartId: undefined,
         }
     }
-
-    GetItem(item, markaId,aracId,yakit1,yakit2) {
-        console.log('Plaka = ' + item + ' MarkaId = ' + markaId, 'Araç Id='+ aracId);
-        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'Marka': markaId,'AracId':aracId,'Yakit1':yakit1,'Yakit2':yakit2 });
+    componentWillReceiveProps=async (nextProps)=> {
+       // console.log('WillProps: ' + JSON.stringify(nextProps));
+        await this._getPlakaList();
+    }
+    GetItem(item, markaId, aracId, yakit1, yakit2) {
+        console.log('Plaka = ' + item + ' MarkaId = ' + markaId, 'Araç Id=' + aracId);
+        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'Marka': markaId, 'AracId': aracId, 'Yakit1': yakit1, 'Yakit2': yakit2 });
     }
     _getPlakaList = async () => {
         try {
@@ -46,7 +49,7 @@ export default class Plakalarim extends Component {
             getPlakaList(uId)
                 .then((res) => {
                     this.setState({ listViewData: res, loading: false })
-                     console.log(JSON.stringify(this.state.listViewData))
+                  //  console.log(JSON.stringify(this.state.listViewData))
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
@@ -69,7 +72,7 @@ export default class Plakalarim extends Component {
                 { cancelable: true },
             );
         }
-      
+
     }
     componentDidMount() {
         this._getPlakaList();
@@ -108,14 +111,14 @@ export default class Plakalarim extends Component {
                     </View>
                 </View>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <Spinner
-                            visible={this.state.loading}
-                            textContent={'Yükleniyor...'}
-                            textStyle={styles.spinnerTextStyle}
-                        />
-                    </View>
+                    <Spinner
+                        visible={this.state.loading}
+                        textContent={'Yükleniyor...'}
+                        textStyle={styles.spinnerTextStyle}
+                    />
+                </View>
                 <View style={styles.containerBottom}>
-                  
+
                     <View style={styles.switchcontainer}>
                         <TouchableOpacity style={{ height: 40, marginTop: 1, }} onPress={() => this.props.navigation.navigate("PlakaEkle")}>
                             <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={require('../../assets/ArtiKirmizi.png')} />
@@ -141,17 +144,17 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem   >
-                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid,data.bm_musteriaraciid,data.bm_yakitcinsiid_1,data.bm_yakitcinsiid_2)}>
+                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid, data.bm_musteriaraciid, data.bm_yakitcinsiid_1, data.bm_yakitcinsiid_2)}>
 
                                                 <View style={{ flex: 1, flexDirection: 'row', }}>
                                                     <Left>
                                                         <Text style={styles.txtArac}>{data.bm_plaka}</Text>
 
                                                     </Left>
-
-                                                    <Right style={{ marginRight: 10 }}>
-                                                        <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
-                                                    </Right>
+                                                    <Body>
+                                                    <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
+                                                    </Body>
+                                                    
                                                 </View>
 
                                             </TouchableOpacity>
@@ -160,7 +163,7 @@ export default class Plakalarim extends Component {
                                         <Content style={{ flexDirection: 'row' }}>
                                             <Button
                                                 full
-                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid,data.bm_musteriaraciid,data.bm_yakitcinsiid_1,data.bm_yakitcinsiid_2)}
+                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid, data.bm_musteriaraciid, data.bm_yakitcinsiid_1, data.bm_yakitcinsiid_2)}
                                                 style={{
                                                     backgroundColor: "#ec971f",
                                                     flex: 1,
@@ -335,6 +338,7 @@ const styles = StyleSheet.create({
         fontSize: 11,
         //  fontWeight: '100',
         textAlign: 'right',
+        marginRight:5,
         //  alignSelf: 'flex-end'
 
 

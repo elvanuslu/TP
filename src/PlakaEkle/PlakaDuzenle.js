@@ -254,31 +254,35 @@ export default class PlakaDuzenle extends Component {
             const Id = await getStorage('userId');
             putMusteriAraci(Id, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected)
                 .then((ret) => {
-                    this.setState({ loading: false })
-                 //   let response = JSON.stringify(ret);
-                    if (ret.status === true) {
-                        Alert.alert(
-                            'Araç Düzenleme!',
-                            ret.message,
-                            [
-
-                                { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim") },
-                            ],
-                            { cancelable: true },
-                        );
-                        // console.log("response: " + JSON.stringify(responseData)) 
-                    }
-                    else {
-                        Alert.alert(
-                            'Araç Düzenleme!',
-                            ret.message,
-                            [
-
-                                { text: 'Tamam', onPress: () => console.log('False') },
-                            ],
-                            { cancelable: true },
-                        );
-                    }
+                    this.setState({ loading: false }, () => {
+                        setTimeout(() => {
+                            if (ret.status === true) {
+                                Alert.alert(
+                                    'Araç Düzenleme!',
+                                    ret.message,
+                                    [
+        
+                                        { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim",{'Id':new Date()}) },
+                                    ],
+                                    { cancelable: true },
+                                );
+                                // console.log("response: " + JSON.stringify(responseData)) 
+                            }
+                            else {
+                                Alert.alert(
+                                    'Araç Düzenleme!',
+                                    ret.message,
+                                    [
+        
+                                        { text: 'Tamam', onPress: () => console.log('False') },
+                                    ],
+                                    { cancelable: true },
+                                );
+                            }
+                        }, 510);
+                    });
+                 
+                   
                 })
         } catch (error) {
             this.setState({ loading: false })
@@ -295,7 +299,7 @@ export default class PlakaDuzenle extends Component {
 
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim",{'Id':new Date()})}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>

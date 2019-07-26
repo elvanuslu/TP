@@ -25,7 +25,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>4</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>
@@ -48,6 +48,13 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>http://213.194.120.55</key>
+			<array>
+				<true/>
+				<false/>
+				<true/>
+				<string>TLSv1.1</string>
+			</array>
 			<key>http://mobil.tppd.com.tr</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
@@ -66,8 +73,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Yakınınızdaki Istasyonları bulabilmek için konum bilginize ihtiyaç duymaktayız.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Yakınınızdaki Istasyonları bulabilmek için konum bilginize ihtiyaç duymaktayız.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
