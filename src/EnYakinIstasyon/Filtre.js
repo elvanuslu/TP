@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {Alert, ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import {
     Footer,
     FooterTab,
     List,
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
 } from 'native-base';
-import { getIstasyonWithLatLon,getCitybyId,getCityList,getIstasyonByCityId } from '../Service/FetchUser';
+import { getCitybyLocation, getCitylocationbyId, getIstasyonWithLatLon, getCitybyId, getCityList, getIstasyonByCityId } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 const tmis = require("../../assets/tmis.png");
 const yoltarifi = require("../../assets/yoltarifi.png");
@@ -30,11 +30,11 @@ export default class Filtre extends Component {
             error: null,
             latitude: undefined,
             longitude: undefined,
-            IlceList:[],
-            Sehirler:[],
-            datas:[],
+            IlceList: [],
+            Sehirler: [],
+            datas: [],
             istasyonselectedId: undefined,
-            Ilce:undefined,
+            Ilce: undefined,
         }
     }
     toggleTab1() {
@@ -71,7 +71,7 @@ export default class Filtre extends Component {
             this.setState({ loading: false })
         }
     }
-  
+
     _getCoord = () => {
         try {
             var self = this;
@@ -85,7 +85,7 @@ export default class Filtre extends Component {
                         loading: false,
                     });
                     this._getData();
-                   // console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                    // console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({
                     error: error.message,
@@ -103,7 +103,8 @@ export default class Filtre extends Component {
     }
     _getCity = async () => {
         try {
-            getCityList()
+            // getCityList()
+            getCitybyLocation()
                 .then((res) => {
                     // console.log('Şehirler ' + JSON.stringify(res))
                     var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'Şehir' };
@@ -121,7 +122,8 @@ export default class Filtre extends Component {
         if (this.state.Sehir !== '00000000-0000-0000-0000-000000000001') {
             try {
 
-                getCitybyId(this.state.Sehir)
+                //  getCitybyId(this.state.Sehir)
+                getCitylocationbyId(this.state.Sehir)
                     .then((res) => {
                         //  console.log('İlçe= ' + JSON.stringify(res));
                         var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'İlçe' };
@@ -150,7 +152,7 @@ export default class Filtre extends Component {
             },
             () => {
                 this._getCitybyId();
-               // console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
+                // console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
             }
         )
     }
@@ -163,41 +165,43 @@ export default class Filtre extends Component {
 
             },
             () => {
-               // console.log('Ilce Sci ' + this.state.Ilce)
+                // console.log('Ilce Sci ' + this.state.Ilce)
                 try {
                     getIstasyonByCityId(this.state.Ilce, 10)
                         .then((res) => {
                             if (res.status != false) {
-                               // console.log('Istasyon By CITY ' + JSON.stringify(res));
+                                // console.log('Istasyon By CITY ' + JSON.stringify(res));
                                 this.setState({
                                     listViewData: res,
                                     loading: false,
                                 })
                             }
                             else {
-                                this.setState({istasyonselectedId:'', loading: false,datas:[{
-                                    "AccountId": "00000000-0000-0000-0000-000000000000",
-                                    "name": "",
-                                    "Mesafe_KM": 0,
-                                    "Address1_Latitude": 0,
-                                    "Address1_Longitude": 0,
-                                    "Adres": "",
-                                    "sira": 1,
-                                    "market": false,
-                                    "yikama": false,
-                                    "yagdegisimi": false,
-                                    "bankamatik": false,
-                                    "restaurant": false,
-                                    "odegec": false,
-                                    "KisaAdres": "",
-                                    "telefon": ""
-                                  }] })
-                                
-                                 this.setState({listViewData:null})
+                                this.setState({
+                                    istasyonselectedId: '', loading: false, datas: [{
+                                        "AccountId": "00000000-0000-0000-0000-000000000000",
+                                        "name": "",
+                                        "Mesafe_KM": 0,
+                                        "Address1_Latitude": 0,
+                                        "Address1_Longitude": 0,
+                                        "Adres": "",
+                                        "sira": 1,
+                                        "market": false,
+                                        "yikama": false,
+                                        "yagdegisimi": false,
+                                        "bankamatik": false,
+                                        "restaurant": false,
+                                        "odegec": false,
+                                        "KisaAdres": "",
+                                        "telefon": ""
+                                    }]
+                                })
+
+                                this.setState({ listViewData: null })
                                 //Alert.alert('Bulunamadı!', res.message);
                             }
                         })
-                   // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
+                    // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
                 } catch (error) {
                     Alert.alert('Hata!', error.message);
                 }
@@ -210,19 +214,19 @@ export default class Filtre extends Component {
     componentDidMount() {
         this._getCity();
         // console.log('Property= '+JSON.stringify(this.props)); //(this.props.navigation.state.routeName));
-       // this._getCoord();
+        // this._getCoord();
     }
     componentWillReceiveProps(nextProps) {
         this._getCity();
-      //  console.log('Receive Props' + JSON.stringify(nextProps))
+        //  console.log('Receive Props' + JSON.stringify(nextProps))
     }
-   // this.GetItem(item.AccountId,item.name,item.Address1_Latitude,item.Address1_Longitude,item.Adres)}
-    GetItem(item,name,lat,lon,adres) {
-      //  console.log('item=' + item);
-        this.props.navigation.navigate("Harita", { 'Id': item,'name':name,'lat':lat,'lon':lon,'adres':adres,'Para':'Filtre' });
+    // this.GetItem(item.AccountId,item.name,item.Address1_Latitude,item.Address1_Longitude,item.Adres)}
+    GetItem(item, name, lat, lon, adres) {
+        //  console.log('item=' + item);
+        this.props.navigation.navigate("Harita", { 'Id': item, 'name': name, 'lat': lat, 'lon': lon, 'adres': adres, 'Para': 'Filtre' });
     }
     render() {
-       
+
         return (
             <Container style={styles.container}>
                 <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
@@ -254,57 +258,57 @@ export default class Filtre extends Component {
                 <View style={styles.containerOrta}>
 
                     <View style={{ marginBottom: 10, marginTop: -10 }} >
-                    <Item picker style={styles.pickerInputs}>
-                                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    // style={{ width: undefined }}
-                                    placeholder="Şehir"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-                                    selectedValue={this.state.Sehir}
-                                    onValueChange={this.onSehir.bind(this)}>
-                                    {
-                                        this.state.Sehirler.map((item, key) => (
-                                            // console.log("Sehirler: " + item.bm_sehirid),
-                                            // console.log("Sehirler: " + item.bm_adi),
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_sehirid}
-                                                key={item.bm_sehirid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item picker style={styles.pickerInputs}>
-                                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="İlçe"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-                                    selectedValue={this.state.Ilce}
-                                    onValueChange={this.onIlce.bind(this)}>
-                                    {
-                                        this.state.IlceList.map((item, key) => (
-                                            // console.log("Sehirler: " + item.bm_sehirid),
-                                            // console.log("Sehirler: " + item.bm_adi),
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_ilceid}
-                                                key={item.bm_ilceid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
+                        <Item picker style={styles.pickerInputs}>
+                            <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+                            <Picker borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                // style={{ width: undefined }}
+                                placeholder="Şehir"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="black"
+                                selectedValue={this.state.Sehir}
+                                onValueChange={this.onSehir.bind(this)}>
+                                {
+                                    this.state.Sehirler.map((item, key) => (
+                                        // console.log("Sehirler: " + item.bm_sehirid),
+                                        // console.log("Sehirler: " + item.bm_adi),
+                                        <Picker.Item
+                                            label={item.bm_adi}
+                                            value={item.bm_sehirid}
+                                            key={item.bm_sehirid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+                        <Item picker style={styles.pickerInputs}>
+                            <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+                            <Picker borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="İlçe"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="black"
+                                selectedValue={this.state.Ilce}
+                                onValueChange={this.onIlce.bind(this)}>
+                                {
+                                    this.state.IlceList.map((item, key) => (
+                                        // console.log("Sehirler: " + item.bm_sehirid),
+                                        // console.log("Sehirler: " + item.bm_adi),
+                                        <Picker.Item
+                                            label={item.bm_adi}
+                                            value={item.bm_ilceid}
+                                            key={item.bm_ilceid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
                         <FlatList
                             data={this.state.listViewData}
                             renderItem={({ item }) =>
                                 <Card key={item.AccountId} style={styles.cardmb}>
-                                    <TouchableOpacity onPress={() => this.GetItem(item.AccountId,item.name,item.Address1_Latitude,item.Address1_Longitude,item.Adres)}>
+                                    <TouchableOpacity onPress={() => this.GetItem(item.AccountId, item.name, item.Address1_Latitude, item.Address1_Longitude, item.Adres)}>
                                         <CardItem cardBody>
                                             <Body>
                                                 <View style={{ width: '100%', flexDirection: 'row', }}>
@@ -403,7 +407,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginTop: 5,
         color: 'red',
-        marginBottom:30,
+        marginBottom: 30,
         fontFamily: 'Myriadpro-Bold',
     },
     txt2: {

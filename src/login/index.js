@@ -57,7 +57,7 @@ export default class login extends Component {
     */
   componentDidMount = async () => {
     // BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-    console.log('Login Did Mount')
+    //console.log('Login Did Mount')
     this._getConn();
     // this._getGps();
     const Password = await getStorage('Password');
@@ -104,10 +104,10 @@ export default class login extends Component {
   onBackButtonPressAndroid = () => {
     if (this.isSelectionModeEnabled()) {
       this.disableSelectionMode();
-      console.log('selection is true');
+     // console.log('selection is true');
       return true;
     } else {
-      console.log('selection is false');
+    //  console.log('selection is false');
       return false;
     }
   };
@@ -150,7 +150,7 @@ export default class login extends Component {
          // console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
-              console.log('Login: ' + JSON.stringify(res))
+             // console.log('Login: ' + JSON.stringify(res))
               this.setState({ userId: res.contactid, loading: false });
               /*   setInterval(() => {
                    this.setState({
@@ -224,7 +224,7 @@ export default class login extends Component {
     this.setState({ switch1Value: value })
     //console.log('Switch 1 is: ' + value)
     if (value == true) {
-      console.log('Switch 1 is: ' + this.state.UserName)
+     // console.log('Switch 1 is: ' + this.state.UserName)
       await setStorage('UserName', this.state.UserName);
       await setStorage('Password', this.state.Pass);
 

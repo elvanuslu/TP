@@ -39,9 +39,9 @@ export default class PlakaDuzenle extends Component {
             card: [],
             cardSelected: undefined,
             cardLabel: '',
-            aracId:undefined,
-            Yakit1:undefined,
-            Yakit2:undefined,
+            aracId: undefined,
+            Yakit1: undefined,
+            Yakit2: undefined,
 
         }
     }
@@ -53,12 +53,12 @@ export default class PlakaDuzenle extends Component {
         const yakit1 = this.props.navigation.getParam('Yakit1');
         const yakit2 = this.props.navigation.getParam('Yakit2');
 
-        this.setState({ plaka1: _plaka,araba:Marka,aracId:aracId,selected2:yakit1,selected3:yakit2 });
+        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2 });
         //this.setState({ plaka1: _plaka });
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
-        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId='+ aracId,'Yakıt1='+yakit1,'Yakıt2='+yakit2);
+        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2);
     }
     _getPlaka = async () => {
         try {
@@ -98,11 +98,11 @@ export default class PlakaDuzenle extends Component {
         const yakit1 = this.props.navigation.getParam('Yakit1');
         const yakit2 = this.props.navigation.getParam('Yakit2');
         //this.setState({cardSelected: _card});
-        this.setState({ plaka1: _plaka,araba:Marka ,aracId: aracId,selected2:yakit1,selected3:yakit2});
+        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2 });
         this._getAracMarkaList();
         this._getYakitTipi();
-     //   this._getCard();
-        console.log('mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka,'State Marka '+ this.state.araba, 'state AracaId '+ this.state.aracId);
+        //   this._getCard();
+        console.log('mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'State Marka ' + this.state.araba, 'state AracaId ' + this.state.aracId);
     }
     convertTextToUpperCase = () => {
         var text = this.state.plaka2;
@@ -170,7 +170,7 @@ export default class PlakaDuzenle extends Component {
             getAracMarkaList()
                 .then((res) => {
                     this.setState({ markalar: res, loading: false })
-                  //  console.log(JSON.stringify(this.state.markalar))
+                    //  console.log(JSON.stringify(this.state.markalar))
                 })
                 .catch((error) => {
                     Alert.alert(
@@ -261,8 +261,8 @@ export default class PlakaDuzenle extends Component {
                                     'Araç Düzenleme!',
                                     ret.message,
                                     [
-        
-                                        { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim",{'Id':new Date()}) },
+
+                                        { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim", { 'Id': new Date() }) },
                                     ],
                                     { cancelable: true },
                                 );
@@ -273,7 +273,7 @@ export default class PlakaDuzenle extends Component {
                                     'Araç Düzenleme!',
                                     ret.message,
                                     [
-        
+
                                         { text: 'Tamam', onPress: () => console.log('False') },
                                     ],
                                     { cancelable: true },
@@ -281,8 +281,8 @@ export default class PlakaDuzenle extends Component {
                             }
                         }, 510);
                     });
-                 
-                   
+
+
                 })
         } catch (error) {
             this.setState({ loading: false })
@@ -292,6 +292,39 @@ export default class PlakaDuzenle extends Component {
     _Duzenle = () => {
         this._putMusteriAraci();
     }
+    _YakitTipi2() {
+        if (this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2) !== undefined) {
+            if((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='08e1a1d3-33ad-e911-a2c2-005056824197')!==true){
+                return (
+                    <Item picker style={styles.Inputs2}>
+                        <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                        <Picker borderWidt='1' borderColor='black'
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: undefined }}
+                            placeholder="Yakıt Tipi"
+                            placeholderStyle={{ color: "black" }}
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.selected3}
+                            onValueChange={this.onValueChange3.bind(this)}>
+                            {
+                                this.state.yakitlst.map((item, key) => (
+                                    //  console.log("ttip: " + item.bm_yakittipiadi),
+                                    //  console.log("ttip: " + item.bm_yakittipiid),
+                                    <Picker.Item
+                                        label={item.bm_yakittipiadi}
+                                        value={item.bm_yakittipiid}
+                                        key={item.bm_yakittipiid} />)
+                                )
+                            }
+                        </Picker>
+                    </Item>
+                )
+            }
+            
+        }
+       
+    }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
         return (
@@ -299,7 +332,7 @@ export default class PlakaDuzenle extends Component {
 
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim",{'Id':new Date()})}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("Plakalarim", { 'Id': new Date() })}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
@@ -320,25 +353,25 @@ export default class PlakaDuzenle extends Component {
                         textStyle={styles.spinnerTextStyle}
                     />
                 </View>
-              
+
                 <View style={styles.containerBottom}>
-                <View>
-                    <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                    <Image style={{ marginBottom: 20, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
-                </View>
+                    <View>
+                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
+                        <Image style={{ marginBottom: 20, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                    </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                         <Item regular style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
                             <Input placeholder='Plakanızı Girin'
 
                                 placeholderTextColor="black"
-                                onChangeText={(value) => this.setState({ plaka1: value })}
+                                onChangeText={(value) => this.setState({ plaka1: value.toUpperCase() })}
                                 value={this.state.plaka1}
                                 underlineColorAndroid="transparent" />
                         </Item>
 
                     </View>
-                   
+
                     <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
@@ -385,39 +418,16 @@ export default class PlakaDuzenle extends Component {
                                 }
                             </Picker>
                         </Item>
-                        <Item picker style={styles.Inputs2}>
-                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                        {this._YakitTipi2()}
 
-                            <Picker borderWidt='1' borderColor='black'
-                                mode="dropdown"
-                                iosIcon={<Icon name="arrow-down" />}
-                                style={{ width: undefined }}
-                                placeholder="Yakıt Tipi"
-                                placeholderStyle={{ color: "black" }}
-                                placeholderIconColor="#007aff"
-                                selectedValue={this.state.selected3}
-                                onValueChange={this.onValueChange3.bind(this)}>
-                                {
-                                    this.state.yakitlst.map((item, key) => (
-                                        //  console.log("ttip: " + item.bm_yakittipiadi),
-                                        //  console.log("ttip: " + item.bm_yakittipiid),
-                                        <Picker.Item
-                                            label={item.bm_yakittipiadi}
-                                            value={item.bm_yakittipiid}
-                                            key={item.bm_yakittipiid} />)
-                                    )
-                                }
-                            </Picker>
-                        </Item>
 
-                      
                     </View>
-                    <View style={{ flex: 1, flexDirection: 'row',backgroundColor:'transparent' }}>
-                            <Button block danger style={{ width: '80%', marginTop: 10, marginLeft: 30, marginRight: 30, }}
-                                onPress={() => this._Duzenle()}>
-                                <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Düzenle</Text>
-                            </Button>
-                        </View>
+                    <View style={{ flex: 1, flexDirection: 'row', backgroundColor: 'transparent' }}>
+                        <Button block danger style={{ width: '80%', marginTop: 10, marginLeft: 30, marginRight: 30, }}
+                            onPress={() => this._Duzenle()}>
+                            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Düzenle</Text>
+                        </Button>
+                    </View>
                 </View>
 
             </Container>
@@ -447,7 +457,7 @@ const styles = StyleSheet.create({
     containerBottom: {
         flex: 3,
         backgroundColor: 'transparent',
-       
+
         flexDirection: 'column',
 
 
@@ -537,7 +547,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 10,
         width: '90%',
-     // backgroundColor:'lightblue',
+        // backgroundColor:'lightblue',
         borderColor: 'black',
     },
     Inputs2: {
@@ -551,7 +561,7 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
         borderRightWidth: 1,
         borderWidth: 1,
-       //backgroundColor:'green',
+        //backgroundColor:'green',
         borderColor: 'black',
     },
 });

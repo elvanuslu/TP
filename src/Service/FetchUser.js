@@ -1,10 +1,10 @@
-import {Platform, AsyncStorage, NetInfo } from 'react-native';
+import { Platform, AsyncStorage, NetInfo } from 'react-native';
 
 //const define_api_url = "http://85.105.103.4:8096/";
 //const define_api_url = "http//213.194.120.55:8082/";
 //const define_api_url = "http://mobil.tppd.com.tr/";
-var define_api_url ="https://mobil.tppd.com.tr/";
-Platform.OS==='ios'? define_api_url ="https://mobil.tppd.com.tr/":  define_api_url = "http://mobil.tppd.com.tr/";
+var define_api_url = "https://mobil.tppd.com.tr/";
+Platform.OS === 'ios' ? define_api_url = "https://mobil.tppd.com.tr/" : define_api_url = "http://mobil.tppd.com.tr/";
 /*
 export const isAvailable = () => {
   const timeout = new Promise((resolve, reject) => {
@@ -36,11 +36,11 @@ export const checkConnection = () => {
 }
 
 export const getIstasyonWithLatLon = (lat, lon, sayac) => {
-/*
-  console.log('lat: '+lat); 
-   console.log('lon: '+lon); 
-   console.log('Sayaç: '+sayac); 
-   */
+  /*
+    console.log('lat: '+lat); 
+     console.log('lon: '+lon); 
+     console.log('Sayaç: '+sayac); 
+     */
   try {
     const URL = define_api_url + `TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
     return fetch(URL, { method: 'GET' })
@@ -54,7 +54,7 @@ export const getUserInfo = (name, pass) => {
   //   console.log("User="+username+"  Pass ="+pass);
 
   // isAvailable();
- // console.log("User=" + username + "  Pass =" + pass);
+  // console.log("User=" + username + "  Pass =" + pass);
   const URL = define_api_url + `GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;//`http://85.105.103.4:8096/GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
@@ -62,17 +62,17 @@ export const getUserInfo = (name, pass) => {
 
 export const campaignDetailList = (istasyonid, yakittipiid, gecerliodemetipi, tutarTL, contactId, kampanyakuponuId, plaka) => {
   try {
-/*
-    console.log('istasyonid ' + istasyonid)
-    console.log('yakittipiid ' + yakittipiid)
-    console.log('gecerliodemetipi ' + gecerliodemetipi)
-    console.log('tutarTL ' + tutarTL)
-    console.log('contactId ' + contactId)
-
-    console.log('kampanyakuponuId' + kampanyakuponuId)
-
-    console.log('plaka ' + plaka)
-*/
+    /*
+        console.log('istasyonid ' + istasyonid)
+        console.log('yakittipiid ' + yakittipiid)
+        console.log('gecerliodemetipi ' + gecerliodemetipi)
+        console.log('tutarTL ' + tutarTL)
+        console.log('contactId ' + contactId)
+    
+        console.log('kampanyakuponuId' + kampanyakuponuId)
+    
+        console.log('plaka ' + plaka)
+    */
     const URL = define_api_url + `TP_CampaignDetailList`;
     return fetch(URL,
       {
@@ -98,7 +98,7 @@ export const campaignDetailList = (istasyonid, yakittipiid, gecerliodemetipi, tu
 }
 export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, UrunId, PresetTutari, OdemeSatisTipi, KuponKodu, TavsiyeEdilenfiyati,
   istasyonfiyati, indirimlifiyati, alimtutari, alinmmiktariLT, indirimorani, KazanilanPuan, harcananpuan, kazanilanpuantl, harcananpuantl
-  ,katkiOrani,bayikatkiorani,isortagikatkiorani,isortagiid) => {
+  , katkiOrani, bayikatkiorani, isortagikatkiorani, isortagiid) => {
   try {
     /*
     console.log('IstasyonId '+ IstasyonId);
@@ -153,7 +153,7 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
           harcananpuan: harcananpuan,
           kazanilanpuantl: kazanilanpuantl,
           harcananpuantl: harcananpuantl,
-          katkiorani:katkiOrani,
+          katkiorani: katkiOrani,
           bayikatkiorani: bayikatkiorani,
           isortagikatkiorani: isortagikatkiorani,
           isortagiid: isortagiid,
@@ -165,8 +165,8 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
   }
 }
 export const checkActivation = (contactId, activationContent) => {
- // console.log('ContactId= ' + contactId);
- // console.log('ActivationContent= ' + activationContent);
+  // console.log('ContactId= ' + contactId);
+  // console.log('ActivationContent= ' + activationContent);
 
   try {
     const URL = define_api_url + `CheckActivation`;
@@ -188,7 +188,7 @@ export const checkActivation = (contactId, activationContent) => {
     console.log(error);
   }
 }
-export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni, mobilkod,mobilisletimsisopt) => {
+export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, smsizni, donotemail, kullanicisozlesmeizni, mobilkod, mobilisletimsisopt) => {
   // console.log('kod: ' + mobilkod)
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
   return fetch(URL,
@@ -218,6 +218,16 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
 
 
 }
+export const getCitybyLocation = () => {
+  const URL = define_api_url + `GetCityListFromAccount`;
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
+}
+export const getCitylocationbyId = (Id) => {
+  const URL = define_api_url + `GetCountiesByCityIdFromAccount?cityId=${Id}`;
+  return fetch(URL, { method: 'GET' })
+    .then((res) => res.json())
+}
 export const getCityList = () => {
   const URL = define_api_url + `GetCityList`;
   return fetch(URL, { method: 'GET' })
@@ -234,14 +244,14 @@ export const getCitybyId = (Id) => {
     .then((res) => res.json())
 }
 export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod, Adres, Dogum, Sehir, Ilce, MedeniDurum, Cinsiyet) => {
- /* console.log('mobilkod' + mobilKod);
-  console.log('Adres' + Adres);
-  console.log('Dogum' + Dogum);
-  console.log('Sehir' + Sehir);
-  console.log('Ilce' + Ilce);
-  console.log('MedeniDurum' + MedeniDurum);
-  console.log('Cinsiyet' + Cinsiyet);
-  */
+  /* console.log('mobilkod' + mobilKod);
+   console.log('Adres' + Adres);
+   console.log('Dogum' + Dogum);
+   console.log('Sehir' + Sehir);
+   console.log('Ilce' + Ilce);
+   console.log('MedeniDurum' + MedeniDurum);
+   console.log('Cinsiyet' + Cinsiyet);
+   */
   const URL = define_api_url + `PutContact`;
   return fetch(URL,
     {
@@ -288,7 +298,7 @@ export const getPlakaList = (userId) => {
   try {
 
     const URL = define_api_url + `GetBm_MusteriAracList_ByContactId?contactID=${userId}&isActive=Active`;
-  //  console.log('Url= ' + URL);
+    //  console.log('Url= ' + URL);
     return fetch(URL, { method: 'GET' })
       .then((res) => res.json())
     // .then((ret)=>console.log(ret.son));
@@ -431,7 +441,7 @@ export const SendPasswordByEmailAfterChangedPsw = async (eposta) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          eMailAddress1:eposta,
+          eMailAddress1: eposta,
         }),
       })
       .then((res) => res.json())
@@ -441,11 +451,11 @@ export const SendPasswordByEmailAfterChangedPsw = async (eposta) => {
     console.log('SendPasswordByEmailAfterChangedPsw: ' + error);
   }
 }
-export const getIstasyonByCityId=(city, num)=>{
+export const getIstasyonByCityId = (city, num) => {
   const URL = define_api_url + `TP_AccountGeographyList2?bm_ilceId=${city}&StationNumber=${num}`;
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
-    //.then((data) => { console.log("CityIdd=>" + JSON.stringify(data)) });
+  //.then((data) => { console.log("CityIdd=>" + JSON.stringify(data)) });
 }
 export const getDuyuruListByUser = (userId) => {
   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=1&contactid=${userId}`;
@@ -454,7 +464,7 @@ export const getDuyuruListByUser = (userId) => {
 }
 export const getSSS = (durum) => {
   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=${durum}`;
-  console.log('URL '+ URL);
+  console.log('URL ' + URL);
   return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
 }
@@ -545,13 +555,11 @@ export const postRequest = async (body, url) => {
 }
 
 export const _handleConnectivityChange = (isConnected) => {
- 
-  if(isConnected == true)
-    {
-      return true;
-    }
-    else
-    {
-      return false
-    }
+
+  if (isConnected == true) {
+    return true;
+  }
+  else {
+    return false
+  }
 };

@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 import { Alert, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { campaignDetailList, getAracYakitTipi, getIstasyonByCityId, getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
+import {
+    getCitybyLocation, getCitylocationbyId,
+    campaignDetailList, getAracYakitTipi, getIstasyonByCityId, getPaymentTypes,
+    getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList
+} from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { tryStatement } from '@babel/types';
 import { multipleValidOptions } from 'jest-validate/build/condition';
@@ -35,8 +39,8 @@ export default class SatisIllce extends Component {
             Istasyon: [],
             Plaka: [],
             labelName: '',
-            latitude: number=0, //40.802095,//41.001895,
-            longitude: number=0, //29.526954,
+            latitude: number = 0, //40.802095,//41.001895,
+            longitude: number = 0, //29.526954,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
             istasyonselectedId: undefined,
@@ -87,7 +91,8 @@ export default class SatisIllce extends Component {
     }
     _getCity = async () => {
         try {
-            getCityList()
+            //  getCityList()
+            getCitybyLocation()
                 .then((res) => {
                     // console.log('Şehirler ' + JSON.stringify(res))
                     var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'Şehir' };
@@ -208,7 +213,8 @@ export default class SatisIllce extends Component {
         if (this.state.Sehir !== '00000000-0000-0000-0000-000000000001') {
             try {
 
-                getCitybyId(this.state.Sehir)
+              //  getCitybyId(this.state.Sehir)
+              getCitylocationbyId(this.state.Sehir)
                     .then((res) => {
                         //  console.log('İlçe= ' + JSON.stringify(res));
                         var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'İlçe' };
@@ -330,7 +336,7 @@ export default class SatisIllce extends Component {
                                         Alert.alert('Hata!', 'Tutar Girilmedi!');
                                     }
                                 }
-                               // this._clearComponents();
+                                // this._clearComponents();
                             }
                             else {
                                 this.setState({ loading: false })
@@ -615,11 +621,11 @@ export default class SatisIllce extends Component {
             this.setState({ loading: true })
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
                 .then((res) => {
-                    console.log('Istasyonlarım= ' + JSON.stringify(res));
-                    
+                    //console.log('Istasyonlarım= ' + JSON.stringify(res));
+
                     if (res.status !== false) {
 
-                        this.setState({ datas: res});
+                        this.setState({ datas: res });
                         // Alert.alert('Data', JSON.stringify(res));
                         // console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
                     }
@@ -632,18 +638,18 @@ export default class SatisIllce extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata Konum', error);
         }
-       
+
     }
 
     componentDidCatch() {
         console.log('Catch Çalıştı...');
     }
-componentWillUnmount(){
-  //  this._clearComponents();
-}
+    componentWillUnmount() {
+        //  this._clearComponents();
+    }
     componentWillReceiveProps(nextProps) {
-       // console.log('receive Props çalıştı...')
-      
+        // console.log('receive Props çalıştı...')
+
         this._getLocation();
         this._retrieveKullanici();
         // this._getYakitTipleri();
@@ -659,68 +665,68 @@ componentWillUnmount(){
         this._getPlakaListesi();
         this._getPaymentTypes();
         this._getCity();
-      //  this.setState({longitude:0})
-        console.log('longi: '+this.state.longitude)
+        //  this.setState({longitude:0})
+        console.log('longi: ' + this.state.longitude)
     }
-_SehirIlceGoster(){
-   // if(this.state.longitude===-1){
-        return(
+    _SehirIlceGoster() {
+        // if(this.state.longitude===-1){
+        return (
             <Item picker style={styles.pickerInputs}>
-                                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
-                                <Picker 
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    // style={{ width: undefined }}
-                                    placeholder="Şehir"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-                                    selectedValue={this.state.Sehir}
-                                    onValueChange={this.onSehir.bind(this)}>
-                                    {
-                                        this.state.Sehirler.map((item, key) => (
-                                            // console.log("Sehirler: " + item.bm_sehirid),
-                                            // console.log("Sehirler: " + item.bm_adi),
-                                            <Picker.Item
-                                                label={item.bm_adi}
-                                                value={item.bm_sehirid}
-                                                key={item.bm_sehirid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-       )
-   // }
-}
-_IlceGoster(){
-   // console.log('Lat Ilce: '+this.state.longitude);
-  //  if(this.state.longitude===-1){
-        return(
-            <Item picker style={styles.pickerInputs}>
-            <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
-            <Picker borderColor='black'
-                mode="dropdown"
-                iosIcon={<Icon name="arrow-down" />}
-                style={{ width: undefined }}
-                placeholder="İlçe"
-                placeholderStyle={{ color: "black" }}
-                placeholderIconColor="black"
-                selectedValue={this.state.Ilce}
-                onValueChange={this.onIlce.bind(this)}>
-                {
-                    this.state.IlceList.map((item, key) => (
-                        // console.log("Sehirler: " + item.bm_sehirid),
-                        // console.log("Sehirler: " + item.bm_adi),
-                        <Picker.Item
-                            label={item.bm_adi}
-                            value={item.bm_ilceid}
-                            key={item.bm_ilceid} />)
-                    )
-                }
-            </Picker>
-        </Item>
+                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+                <Picker
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                    // style={{ width: undefined }}
+                    placeholder="Şehir"
+                    placeholderStyle={{ color: "black" }}
+                    placeholderIconColor="black"
+                    selectedValue={this.state.Sehir}
+                    onValueChange={this.onSehir.bind(this)}>
+                    {
+                        this.state.Sehirler.map((item, key) => (
+                            // console.log("Sehirler: " + item.bm_sehirid),
+                            // console.log("Sehirler: " + item.bm_adi),
+                            <Picker.Item
+                                label={item.bm_adi}
+                                value={item.bm_sehirid}
+                                key={item.bm_sehirid} />)
+                        )
+                    }
+                </Picker>
+            </Item>
         )
-   // }
-}
+        // }
+    }
+    _IlceGoster() {
+        // console.log('Lat Ilce: '+this.state.longitude);
+        //  if(this.state.longitude===-1){
+        return (
+            <Item picker style={styles.pickerInputs}>
+                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+                <Picker borderColor='black'
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                    style={{ width: undefined }}
+                    placeholder="İlçe"
+                    placeholderStyle={{ color: "black" }}
+                    placeholderIconColor="black"
+                    selectedValue={this.state.Ilce}
+                    onValueChange={this.onIlce.bind(this)}>
+                    {
+                        this.state.IlceList.map((item, key) => (
+                            // console.log("Sehirler: " + item.bm_sehirid),
+                            // console.log("Sehirler: " + item.bm_adi),
+                            <Picker.Item
+                                label={item.bm_adi}
+                                value={item.bm_ilceid}
+                                key={item.bm_ilceid} />)
+                        )
+                    }
+                </Picker>
+            </Item>
+        )
+        // }
+    }
     render() {
         return (
             <Container style={styles.container}>
@@ -757,8 +763,8 @@ _IlceGoster(){
                     <Content>
                         <Form>
 
-                           {this._SehirIlceGoster() }
-                           { this._IlceGoster()}
+                            {this._SehirIlceGoster()}
+                            {this._IlceGoster()}
                             <Item regular style={styles.comboItem} >
                                 <Image style={styles.logos} source={logo}></Image>
                                 <Picker borderColor='black'

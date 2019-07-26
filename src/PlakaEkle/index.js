@@ -232,43 +232,48 @@ export default class PlakaEkle extends Component {
             if (this.state.plaka1 != undefined) {
                 postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba)
                     .then((responseData) => {
-                        this.setState({ loading: false })
-                        if (responseData.status === true) {
-                            Alert.alert(
-                                'Araç Kayıt!',
-                                responseData.message,
-                                [
-                                    { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim",{'Id':new Date()}) },
-                                ],
-                                { cancelable: true },
-                            );
-                            // console.log("response: " + JSON.stringify(responseData)) 
-                        }
-                        else {
-                            Alert.alert(
-                                'Araç Kayıt!',
-                                responseData.message,
-                                [
-
-                                    { text: 'Tamam', onPress: () => console.log('False') },
-                                ],
-                                { cancelable: true },
-                            );
-                        }
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                if (responseData.status === true) {
+                                    Alert.alert(
+                                        'Araç Kayıt!',
+                                        responseData.message,
+                                        [
+                                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim",{'Id':new Date()}) },
+                                        ],
+                                        { cancelable: true },
+                                    );
+                                    // console.log("response: " + JSON.stringify(responseData)) 
+                                }
+                                else {
+                                    Alert.alert(
+                                        'Araç Kayıt!',
+                                        responseData.message,
+                                        [
+        
+                                            { text: 'Tamam', onPress: () => console.log('False') },
+                                        ],
+                                        { cancelable: true },
+                                    );
+                                }
+                            }, 510);
+                        });
+                       
                     })
                     .catch((err) => {
-                        this.setState({ loading: false })
-                        Alert.alert(
-                            'Araç Kayıt!',
-                            err,
-                            [
-
-                                { text: 'Tamam', onPress: () => console.log('False') },
-                            ],
-                            { cancelable: true },
-                        );
-
-                        console.log(err);
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                Alert.alert(
+                                    'Araç Kayıt!',
+                                    err,
+                                    [
+        
+                                        { text: 'Tamam', onPress: () => console.log('False') },
+                                    ],
+                                    { cancelable: true },
+                                );
+                            }, 510);
+                        });
                     })
 
             }
@@ -357,20 +362,12 @@ export default class PlakaEkle extends Component {
 
                         <Item regular style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', marginRight:5 }} source={plaka}></Image>
-                            <TextInputMask style={styles.Inputs1}
-                                autoCapitalize="characters"
-                                placeholder="Plaka Girin"
-                                placeholderTextColor="black"
-                                keyboardType="name-phone-pad"
-                                refInput={ref => { this.input = ref }}
-                                onChangeText={(formatted, extracted) => {
-                                    this.setState({ plaka1: formatted })
-                                    // console.log(formatted)
-                                    // console.log(extracted)
-                                }}
-                            // mask={"[00] [AAa] [0000]"}
-                            />
+                            <Input placeholder='Plakanızı Girin'
 
+                                placeholderTextColor="black"
+                                onChangeText={(value) => this.setState({ plaka1: value.toUpperCase() })}
+                                value={this.state.plaka1}
+                                underlineColorAndroid="transparent" />
                         </Item>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
