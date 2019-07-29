@@ -4,7 +4,7 @@ import {
   BackHandler, Alert, KeyboardAvoidingView, NetInfo, ToastAndroid,
   Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
-import { Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
+import {Left,Right, Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -104,10 +104,10 @@ export default class login extends Component {
   onBackButtonPressAndroid = () => {
     if (this.isSelectionModeEnabled()) {
       this.disableSelectionMode();
-     // console.log('selection is true');
+      // console.log('selection is true');
       return true;
     } else {
-    //  console.log('selection is false');
+      //  console.log('selection is false');
       return false;
     }
   };
@@ -146,11 +146,11 @@ export default class login extends Component {
       //  this.isAvailable();
       if (this.state.UserName !== undefined) {
         if (this.state.Pass !== undefined) {
-         
-         // console.log('Login: ')
+
+          // console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
-             // console.log('Login: ' + JSON.stringify(res))
+              // console.log('Login: ' + JSON.stringify(res))
               this.setState({ userId: res.contactid, loading: false });
               /*   setInterval(() => {
                    this.setState({
@@ -176,7 +176,7 @@ export default class login extends Component {
                   ],
                   { cancelable: false },
                 );
-              
+
               }
               else {
                 // console.log("Kayıt else=>" + res);
@@ -188,8 +188,8 @@ export default class login extends Component {
                      type: 'success',
                    })
                    */
-                  this.props.navigation.navigate('AnaSayfa');
-             
+                this.props.navigation.navigate('AnaSayfa');
+
 
               }
             }).catch(error => this.setState({ error, isLoading: false }));
@@ -224,7 +224,7 @@ export default class login extends Component {
     this.setState({ switch1Value: value })
     //console.log('Switch 1 is: ' + value)
     if (value == true) {
-     // console.log('Switch 1 is: ' + this.state.UserName)
+      // console.log('Switch 1 is: ' + this.state.UserName)
       await setStorage('UserName', this.state.UserName);
       await setStorage('Password', this.state.Pass);
 
@@ -253,6 +253,9 @@ export default class login extends Component {
     return (
       <Container>
         <View style={styles.container}>
+          <Header  style={{ backgroundColor: '#fff' }}>
+            
+          </Header>
           <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Spinner
               visible={this.state.loading}
@@ -260,10 +263,9 @@ export default class login extends Component {
               textStyle={styles.spinnerTextStyle}
             />
           </View>
-          <View style={styles.containerUst}>
-            <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
-          </View>
+         
           <View style={styles.containerOrta}>
+          <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
             <Item regular style={styles.Inputs}>
               <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
               <Input placeholder='E-Posta Adresinizi Girin'
@@ -337,10 +339,10 @@ const styles = StyleSheet.create({
 
   },
   containerOrta: {
-    flex: 6,
+    flex: 8,
     backgroundColor: 'transparent',
-    justifyContent: 'flex-start',
-    //alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   containerBottom: {
     flex: 4,

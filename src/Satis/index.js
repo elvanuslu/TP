@@ -425,12 +425,12 @@ export default class Satis extends Component {
                 },
                 (error) => this.setState({
                     error: error.message,
-                    latitude: 40.802095,
-                    longitude: 29.526954,
+                   // latitude: 40.802095,
+                   // longitude: 29.526954,
                 },
                     this._getLatLon()),
 
-                { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000 },
+                { enableHighAccuracy: true, timeout: 60000, maximumAge: 360000 },
             );
             this.watchID = navigator.geolocation.watchPosition((position) => {
                 //Will give you the location on location change
@@ -451,9 +451,7 @@ export default class Satis extends Component {
         } catch (error) {
             Alert.alert('Hata', error);
         }
-        finally {
-            this._getLatLon();
-        }
+       
     }
     _getLatLon = () => {
         try {

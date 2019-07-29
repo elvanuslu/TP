@@ -19,8 +19,8 @@ import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriAra
 
 
 export default class PlakaDuzenle extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             userId: undefined,
             plaka1: undefined,
@@ -58,7 +58,7 @@ export default class PlakaDuzenle extends Component {
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
-        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2);
+        //console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2);
     }
     _getPlaka = async () => {
         try {

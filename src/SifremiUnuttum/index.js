@@ -28,25 +28,42 @@ export default class SifremiUnuttum extends Component {
             if (this.state.eposta != undefined) {
                 SendPasswordByEmailAfterChangedPsw(this.state.eposta)
                     .then((res) => {
-                        console.log('Send email ' + JSON.stringify(res));
+                      //  console.log('Send email ' + JSON.stringify(res));
+                        // if(res.status===false) // {"status":false,"message":"Böyle bir kullanıcı yoktur!","bm_crmtrxuniqueid":0}
+
+
                         this.setState({ loading: false })
-                        Alert.alert('Şifre Değiştirme', res.message)
+                            setTimeout(() => {
+
+                                Alert.alert(
+                                    'Şifre Değiştirme',
+                                    res.message,
+                                    [
+
+                                        { text: 'Tamam', onPress: () => this.props.navigation.navigate("login") },
+                                    ],
+                                    { cancelable: true },
+                                )
+                            }, 510);
+                        
                     })
-                    .finally(
-                        this.setState({ loading: false }))
 
             }
             else {
                 this.setState({ loading: false });
-                Alert.alert('Hata', 'Eposta alanı boş bırakılamaz.')
+                setTimeout(() => {
+                    Alert.alert('Hata', 'Eposta alanı boş bırakılamaz.')
+                }, 510);
+
             }
         } catch (error) {
             this.setState({ loading: false })
-            Alert.alert('Hata Oluştu', error)
+            setTimeout(() => {
+                Alert.alert('Hata Oluştu', error)
+            }, 510);
+
         }
-        finally {
-            this.setState({ loading: false })
-        }
+
     }
     render() {
         return (
@@ -72,7 +89,7 @@ export default class SifremiUnuttum extends Component {
                 </View>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={{ resizeMode: 'contain',width:100, height: 80, marginTop: 5,alignSelf:'center' }} source={require('../../assets/logo.png')}
+                        <Image style={{ resizeMode: 'contain', width: 100, height: 80, marginTop: 5, alignSelf: 'center' }} source={require('../../assets/logo.png')}
                         />
                         <Image style={{ alignSelf: 'center', marginTop: 15, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
                     </View>
@@ -81,34 +98,30 @@ export default class SifremiUnuttum extends Component {
                     <Image source={k1} style={styles.logo}></Image>
                 </View>
                 <View style={styles.containerAlt}>
-                   
-                        <View style={{ alignItems: 'flex-start' ,marginTop:30}}>
-                            <Text style={styles.textYazi}>Kayıtlı e-posta adresinizi ilgili alana girerek, şifrenizi e-posta adresinize gönderebilirsiniz.{'\n\n'} </Text>
-                        </View>
 
-                        <Item regular style={styles.Inputs}>
-                            <Icon active name='mail' color='#fff' />
-                            <TextInputMask style={styles.Inputs1}
-                                placeholder='E-Posta adresinizi giriniz'
-                                placeholderTextColor="#gray"
-                                keyboardType="email-address"
-                                refInput={ref => { this.input = ref }}
-                                onChangeText={(formatted, extracted) => {
-                                    this.setState({ eposta: formatted })
-                                    //  console.log(formatted)
-                                    // console.log(extracted)
-                                }}
-                            //  mask={"0 [000] [000] [00] [00]"}
-                            />
+                    <View style={{ alignItems: 'flex-start', marginTop: 30 }}>
+                        <Text style={styles.textYazi}>Kayıtlı e-posta adresinizi ilgili alana girerek, şifrenizi e-posta adresinize gönderebilirsiniz.{'\n\n'} </Text>
+                    </View>
 
-                        </Item>
-                        <TouchableOpacity onPress={() => this._SendPasswordByEmailAfterChangedPsw()}>
-                            <Image
-                                style={styles.button}
-                                source={require('../../assets/gonder.png')}
-                            />
-                        </TouchableOpacity>
-                  
+                    <Item regular style={styles.Inputs}>
+                        <Icon active name='mail' color='#fff' />
+                        <Input placeholder='E-Posta adresinizi giriniz'
+                            keyboardType="email-address"
+                            onChangeText={(value) => this.setState({ eposta: value })}
+                            value={this.state.eposta}
+                            placeholderTextColor="gray"
+                            underlineColorAndroid="transparent" />
+
+
+
+                    </Item>
+                    <TouchableOpacity onPress={() => this._SendPasswordByEmailAfterChangedPsw()}>
+                        <Image
+                            style={styles.button}
+                            source={require('../../assets/gonder.png')}
+                        />
+                    </TouchableOpacity>
+
                 </View>
 
 
@@ -147,13 +160,13 @@ const styles = StyleSheet.create({
     },
     containerAlt: {
         flex: 6,
-     //   alignItems: 'center',
+        //   alignItems: 'center',
         // marginTop: 0,
-         backgroundColor: '#fff',
+        backgroundColor: '#fff',
 
 
     },
- 
+
     logo: {
         width: '100%',
         height: 222,

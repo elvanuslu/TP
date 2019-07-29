@@ -189,14 +189,19 @@ export default class KampanyaSec extends Component {
 
                     if (res.status === false) {
                         //this.setState({ datam: null, loading: false });
-                        Alert.alert(
-                            'Durum Bilgi!',
-                            res.message,
-                            [
-                                { text: 'Tamam', onPress: () => this._hatavarDon() },
-                            ],
-                            { cancelable: false },
-                        );
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                Alert.alert(
+                                    'Durum Bilgi!',
+                                    res.message,
+                                    [
+                                        { text: 'Tamam', onPress: () => this._hatavarDon() },
+                                    ],
+                                    { cancelable: false },
+                                );
+                            }, 510);
+                        });
+                       
 
                     }
                     else {

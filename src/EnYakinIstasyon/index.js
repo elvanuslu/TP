@@ -62,10 +62,11 @@ export default class EnYakinIstasyon extends Component {
         try {
             //    this.isAvailable();
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 25).then((res) => {
-                this.setState({ listViewData: res, loading: false });
-                // console.log('res= ' + JSON.stringify(this.state.listViewData));
-            })
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5)
+                .then((res) => {
+                    this.setState({ listViewData: res, loading: false });
+                    // console.log('res= ' + JSON.stringify(this.state.listViewData));
+                })
         } catch (error) {
             Alert.alert('Hata', error);
         }
@@ -103,7 +104,7 @@ export default class EnYakinIstasyon extends Component {
                         loading: false,
                     });
                     this._getData();
-                    console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+                    //  console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
                 },
                 (error) => this.setState({
                     error: error.message,
@@ -127,12 +128,34 @@ export default class EnYakinIstasyon extends Component {
     componentWillReceiveProps(nextProps) {
         console.log('Receive Props' + JSON.stringify(nextProps))
     }
-    GetItem(item) {
-        console.log('item=' + item);
-        this.props.navigation.navigate("Harita", { Id: item });
+    // GetItem(item) 
+    GetItem(item, name, lat, lon, adres) {
+       // console.log('item=' + item);
+       // console.log('Lisyt Data: ' + JSON.stringify(this.state.listViewData))
+        this.setState({latitude:lat})
+        this.props.navigation.navigate("Harita", { 'Id': item, 'name': name, 'lat': lat, 'lon': lon, 'adres': adres, 'Para': 'Filtre', 'Tumu': this.state.listViewData });
+    }
+    _HaritaFooter() {
+        //console.log('Lato: '+this.state.latitude)
+        if (this.state.latitude!==undefined) {
+            return (
+                <Button  active={this.state.tab1} onPress={() => this.toggleTab1()}>
+                    <Icon active={this.state.tab1} name="map" />
+                    <Text style={{ color: 'white' }}>Harita</Text>
+                </Button>
+            )
+        }
+        else {
+            return (
+                <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
+                <Icon active={this.state.tab1} name="map" />
+                <Text style={{ color: 'white' }}>Harita</Text>
+            </Button>
+            )
+        }
     }
     render() {
-       
+      
         return (
             <Container style={styles.container}>
                 <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
@@ -169,7 +192,7 @@ export default class EnYakinIstasyon extends Component {
                             data={this.state.listViewData}
                             renderItem={({ item }) =>
                                 <Card key={item.AccountId} style={styles.cardmb}>
-                                    <TouchableOpacity onPress={() => this.GetItem(item.AccountId)}>
+                                    <TouchableOpacity onPress={() => this.GetItem(item.AccountId, item.name, item.Address1_Latitude, item.Address1_Longitude, item.Adres)}>
                                         <CardItem cardBody>
                                             <Body>
                                                 <View style={{ width: '100%', flexDirection: 'row', }}>
@@ -203,10 +226,9 @@ export default class EnYakinIstasyon extends Component {
                 <View>
                     <Footer>
                         <FooterTab style={{ backgroundColor: 'red', }}>
-                            <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
-                                <Icon active={this.state.tab1} name="map" />
-                                <Text style={{ color: 'white' }}>Harita</Text>
-                            </Button>
+                          {
+                              this._HaritaFooter()
+                          }
                             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
                                 <Icon active={this.state.tab2} name="contact" />
                                 <Text style={{ color: 'white' }}>Liste</Text>

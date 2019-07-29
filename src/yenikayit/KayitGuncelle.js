@@ -55,7 +55,8 @@ export default class KayitGuncelle extends Component {
             plaka: '',
             yakitTipi: undefined,
             yakitTipiDeger: undefined,
-            Sifre: '',
+            Sifre: undefined,
+            Sifre2: undefined,
             error: '',
             loading: false,
             isLoading: false,
@@ -92,8 +93,8 @@ export default class KayitGuncelle extends Component {
         this._retrieveKullanici();
     }
     componentDidMount() {
-     //   this._getCity();
-      //  this._getCitybyId();
+        //   this._getCity();
+        //  this._getCitybyId();
         this._retrieveKullanici();
     }
     onSehir(value, label) {
@@ -181,14 +182,14 @@ export default class KayitGuncelle extends Component {
                         //Ilce: res.bm_ilceid,
                     });
                     this._getCity();
-                    this.setState({Ilce: res.bm_ilceid})
+                    this.setState({ Ilce: res.bm_ilceid })
                     this._getCitybyId();
                     console.log('Ilce: ' + this.state.Ilce)
                     console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
                 }
             }).catch(error => console.log(error));
     }
-    _getCity()  {
+    _getCity() {
         try {
             getCityList()
                 .then((res) => {
@@ -225,27 +226,45 @@ export default class KayitGuncelle extends Component {
             }
         )
     }
-    _btnKayit() {
+    _btnKayit=()=> {
         try {
             this.setState({ loading: true });
-            //   alert('kayit'+this.state.kullanici)
-            musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel, this.state.Sifre, this.state.mobilKod, this.state.Adres, this.state.chosenDate, this.state.Sehir, this.state.Ilce, this.state.MedeniDurum, this.state.Cinsiyet)
-                .then((responseData) => {
-                    this.setState({ loading: false })
-                    Alert.alert(
-                        'Düzenleme!',
-                        responseData.message,
-                        [
-                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("hesabim") },
-                        ],
-                        { cancelable: true },
-                    );
+            if (this.state.Sifre === this.state.Sifre2) {
+                musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta,
+                    this.state.tel, this.state.Sifre, this.state.mobilKod, this.state.Adres, this.state.chosenDate,
+                    this.state.Sehir, this.state.Ilce, this.state.MedeniDurum, this.state.Cinsiyet)
+                    .then((responseData) => {
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                Alert.alert(
+                                    'Düzenleme!',
+                                    responseData.message,
+                                    [
+                                        { text: 'Tamam', onPress: () => this.props.navigation.navigate("hesabim") },
+                                    ],
+                                    { cancelable: false },
+                                );
+                            }, 510);
+                        });
 
-                    //  Alert.alert('Düzenleme Başarılı.', responseData.message)
-                    // console.log("response: " + JSON.stringify(responseData))
+                    })
+                    .catch((err) => { Alert.alert('Hata.', err) });
+            }
+            else {
+                this.setState({ loading: false }, () => {
+                    setTimeout(() => {
+                        Alert.alert(
+                            'Bilgilerimi Güncelle',
+                            'Şifre Aynı Değil!',
+                            [
 
-                })
-                .catch((err) => { Alert.alert('Hata.', err) });
+                                { text: 'Tamam', onPress: () => console.log('') },
+                            ],
+                            { cancelable: true },
+                        )
+                    }, 510);
+                });
+            }
         } catch (error) {
             this.setState({ loading: false })
             Alert.alert('Hata!', error)
@@ -443,7 +462,7 @@ export default class KayitGuncelle extends Component {
 
                         </Item>
 
-                        <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '78%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
+                        <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '81%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
 
                             <Image style={{ marginLeft: 5, width: 20, height: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
                             <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
@@ -461,8 +480,8 @@ export default class KayitGuncelle extends Component {
                                 placeHolderTextStyle={{ color: "black" }}
                                 onDateChange={this.setDate}
                                 disabled={false} />
-                               
-                            <Text style={[styles.dogumTarihi,(this.state.tarihSec==false)? styles.dogumTarihi: styles.hidden]}>
+
+                            <Text style={[styles.dogumTarihi, (this.state.tarihSec == false) ? styles.dogumTarihi : styles.hidden]}>
                                 {this.state.chosenDate.toLocaleDateString() //.toString().substr(4, 12)
                                 }
                             </Text>
@@ -475,11 +494,21 @@ export default class KayitGuncelle extends Component {
                                 placeholderTextColor="black"
                                 secureTextEntry={true}
                                 textContentType="password"
-                                onChangeText={(value) => this.setState({ Sifre: value })}
+                                onChangeText={(value) => { this.setState({ Sifre: value }) }}
                                 value={this.state.Sifre}
                                 underlineColorAndroid="transparent" />
                         </Item>
-
+                        <Item regular style={styles.Inputs}>
+                            <Icon active name='key' underlayColor='#2089dc' color='#fff' />
+                            <Input placeholder='Şifrenizi Yeniden Girin '
+                                // keyboardType="email-address"
+                                placeholderTextColor="black"
+                                secureTextEntry={true}
+                                textContentType="password"
+                                onChangeText={(value) => this.setState({ Sifre2: value })}
+                                value={this.state.Sifre2}
+                                underlineColorAndroid="transparent" />
+                        </Item>
 
                         <Button block danger style={styles.mb15} onPress={() => this._btnKayit()}>
                             <Text style={styles.buttonText}>Güncelle</Text>

@@ -10,8 +10,8 @@ const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 
 export default class kampanyadetay extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             baslangictarihi: '',
             bitistarihi: '',
@@ -48,37 +48,44 @@ export default class kampanyadetay extends Component {
         if (itemId !== undefined)
             this._getKampanyaDetay(itemId);
     }
-    componentWillReceiveProps() {
-        try {
+   
+    componentWillReceiveProps(nextProps) {
+          /* try {
+         
+          //  alert('Props: '+nextProps)
             const itemId = this.props.navigation.getParam('Id');
-            //   Alert.alert('props');
+            console.log('Item Id ', itemId)
+              // Alert.alert('Item Id ',itemId);
             if (itemId !== undefined)
                 this._getKampanyaDetay(itemId);
         } catch (error) {
             console.log(error);
         }
-
+*/
     }
+    
     _getKampanyaDetay(ItemId) {
         this.isAvailable();
         this.setState({ loading: true })
         // Alert.alert(ItemId);
         getKampanyaDetayList(ItemId)
-            .then((res) => {
-                console.log('Kampanya Detay Listesi: ' + JSON.stringify(res))
-                this.setState({
-                    kampanyaid: res.bm_kampanyaid,
-                    kampanyaadi: res.bm_kampanyaadi,
-                    bitistarihi: res.bm_bitistarihi,
-                    baslangictarihi: res.bm_baslangictarihi,
-                    pictureurl: res.bm_pictureurl,
-                    Aciklama: res.bm_aciklama,
-                    loading: false,
+        .then((res) => {
+           // console.log('Kampanya Detay Listesi: ' + JSON.stringify(res))
+            this.setState({
+                kampanyaid: res.bm_kampanyaid,
+                kampanyaadi: res.bm_mobiladi,
+                bitistarihi: res.bm_bitistarihi,
+                baslangictarihi: res.bm_baslangictarihi,
+                pictureurl: res.bm_pictureurl,
+                Aciklama: res.bm_aciklama,
+                loading: false,
 
-                });
+            });
 
-                console.log(res);
-            }).catch(error => console.log('KampanyaDetay Error: ' + error));
+            //console.log(res);
+        }).catch(error => console.log('KampanyaDetay Error: ' + error));
+     
+        
     }
 
     render() {
@@ -128,7 +135,7 @@ export default class kampanyadetay extends Component {
                             <Image style={styles.logo} source={{ uri: this.state.pictureurl }} />
                         </View>
                         <View style={styles.containerBottom}>
-
+                          {console.log('Kampanya Adı: ',this.state.kampanyaadi)}
                             <Text style={styles.textBaslik}>{this.state.kampanyaadi} </Text>
                             <Text style={styles.instructions}>
                                 {this.state.Aciklama}
