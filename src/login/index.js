@@ -4,7 +4,7 @@ import {
   BackHandler, Alert, KeyboardAvoidingView, NetInfo, ToastAndroid,
   Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
-import {Left,Right, Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
+import { Left, Right, Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -131,26 +131,29 @@ export default class login extends Component {
   _storeData = async () => {
     try {
       // console.log("usr="+this.state.userId);
-      await AsyncStorage.setItem("UserName", this.state.UserName);
-      await AsyncStorage.setItem('userId', this.state.userId);
+      // await AsyncStorage.setItem("UserName", this.state.UserName);
+      // await AsyncStorage.setItem('userId', this.state.userId);
+      await setStorage('userId', this.state.userId);
+      await setStorage('UserName', this.state.UserName);
+      await setStorage('Password', this.state.Pass);
 
     } catch (error) {
       console.log("Err=" + error);
     }
   };
 
-  handleSubmit() {
+  async handleSubmit() {
     try {
       this.setState({ loading: true })
 
-      //  this.isAvailable();
-      if (this.state.UserName !== undefined) {
-        if (this.state.Pass !== undefined) {
+
+      if (this.state.UserName !== '') {
+        if (this.state.Pass !== '') {
 
           // console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
-              // console.log('Login: ' + JSON.stringify(res))
+              console.log('Login: ' + JSON.stringify(res))
               this.setState({ userId: res.contactid, loading: false });
               /*   setInterval(() => {
                    this.setState({
@@ -160,34 +163,33 @@ export default class login extends Component {
                  */
               //      console.log("stateUserId=>" + this.state.userId);
               if (res.contactid === undefined) {
-
+               
                 /*    Toast.show({
                       text: "Hata\n" + res,
                       buttonText: "Okay",
                       type: 'danger'
                     })
                   */
-                Alert.alert(
-                  'Hata!',
-                  res.message,
-                  [
+                this.setState({ loading: false }, () => {
+                  setTimeout(() => {
+                    Alert.alert(
+                      'Hata!',
+                      res.message,
+                      [
 
-                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                  ],
-                  { cancelable: false },
-                );
+                        { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                      ],
+                      { cancelable: true },
+                    );
+                  }, 510);
+                });
+
 
               }
               else {
                 // console.log("Kayıt else=>" + res);
-                this.setState({ userId: res.contactid });
+                this.setState({ userId: res.contactid, loading: false });
                 this._storeData();
-                /*   Toast.show({
-                     text: "Giriş Başarılı!\n",
-                     buttonText: "Okay",
-                     type: 'success',
-                   })
-                   */
                 this.props.navigation.navigate('AnaSayfa');
 
 
@@ -230,8 +232,8 @@ export default class login extends Component {
 
     }
     else {
-      await setStorage('userId', '');
-      await setStorage('Password', '');
+      // await setStorage('userId', '');
+      //await setStorage('Password', '');
       this.setState({ UserName: await getStorage('userId') })
       this.setState({ Pass: await getStorage('Password') })
     }
@@ -253,8 +255,8 @@ export default class login extends Component {
     return (
       <Container>
         <View style={styles.container}>
-          <Header  style={{ backgroundColor: '#fff' }}>
-            
+          <Header style={{ backgroundColor: '#fff' }}>
+
           </Header>
           <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <Spinner
@@ -263,9 +265,9 @@ export default class login extends Component {
               textStyle={styles.spinnerTextStyle}
             />
           </View>
-         
+
           <View style={styles.containerOrta}>
-          <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
+            <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
             <Item regular style={styles.Inputs}>
               <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
               <Input placeholder='E-Posta Adresinizi Girin'

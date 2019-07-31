@@ -7,7 +7,7 @@ import Icon2 from "react-native-vector-icons";
 import Spinner from 'react-native-loading-spinner-overlay';
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getContact, musteriGuncelle, getCityList, getCitybyId } from '../Service/FetchUser';
+import { getContact, musteriGuncelle, getCityList, getCitybyId, getStorage } from '../Service/FetchUser';
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -42,8 +42,8 @@ const cinsiyet = [{
 }]
 
 export default class KayitGuncelle extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             kullanici: '',
             formatted: '',
@@ -90,6 +90,7 @@ export default class KayitGuncelle extends Component {
 
     }
     componentWillReceiveProps(nextProps) {
+        // alert(JSON.stringify(nextProps))
         this._retrieveKullanici();
     }
     componentDidMount() {
@@ -139,26 +140,30 @@ export default class KayitGuncelle extends Component {
         )
     }
     _getCitybyId() {
-        try {
-            if (this.state.Sehir !== undefined) {
-                getCitybyId(this.state.Sehir)
-                    .then((res) => {
-                        // console.log('İlçe= ' + JSON.stringify(res));
-                        if (this.state.Sehir !== undefined) {
-                            this.setState({
-                                IlceList: res,
-                            })
-                        }
-                    })
+        if (this.state.Sehir !== '00000000-0000-0000-0000-000000000000') {
+            try {
+                if (this.state.Sehir !== undefined) {
+                    getCitybyId(this.state.Sehir)
+                        .then((res) => {
+                            // console.log('İlçe= ' + JSON.stringify(res));
+                            var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000000', 'bm_adi': 'İlçe' };
+                            res.splice(0, 0, initialArr);
+                            if (this.state.Sehir !== undefined) {
+                                this.setState({
+                                    IlceList: res,
+                                })
+                            }
+                        })
+                }
+                else {
+                    //Alert.alert('Hata', 'Şehir Seçim');
+                }
+            } catch (error) {
+                Alert.alert('Hata', error);
             }
-            else {
-                //Alert.alert('Hata', 'Şehir Seçim');
-            }
-        } catch (error) {
-            Alert.alert('Hata', error);
         }
     }
-    _getUserInfo(userID) {
+    _getUserInfo = (userID) => {
 
         // console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
         getContact(this.state.kullanici)
@@ -179,13 +184,18 @@ export default class KayitGuncelle extends Component {
                         chosenDate: new Date(res.birthdate),
                         Adres: res.address1_line1,
                         Sehir: res.bm_sehirid,
+                        Sifre2: res.bm_sifre,
                         //Ilce: res.bm_ilceid,
                     });
                     this._getCity();
                     this.setState({ Ilce: res.bm_ilceid })
-                    this._getCitybyId();
                     console.log('Ilce: ' + this.state.Ilce)
-                    console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
+                    if (this.state.Ilce !== '') {
+                        this._getCitybyId();
+                        console.log('Ilce: ' + this.state.Ilce)
+                    }
+
+                    //  console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
                 }
             }).catch(error => console.log(error));
     }
@@ -193,6 +203,8 @@ export default class KayitGuncelle extends Component {
         try {
             getCityList()
                 .then((res) => {
+                    var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000000', 'bm_adi': 'Şehir' };
+                    res.splice(0, 0, initialArr);
                     this.setState({
                         Sehirler: res,
                     })
@@ -203,11 +215,12 @@ export default class KayitGuncelle extends Component {
     }
     _retrieveKullanici = async () => {
         try {
-            const value = await AsyncStorage.getItem('userId');
+            const value = await getStorage('userId');
+            //  alert(value)
             if (value !== null) {
                 this.setState({ kullanici: value });
                 //  console.log("UserIdmKayıt " + this.state.kullanici);
-                this._getUserInfo(this.state.kullanici);
+                this._getUserInfo(value);
             }
         } catch (error) {
             Alert.alert('Hata', error);
@@ -226,7 +239,7 @@ export default class KayitGuncelle extends Component {
             }
         )
     }
-    _btnKayit=()=> {
+    _btnKayit = () => {
         try {
             this.setState({ loading: true });
             if (this.state.Sifre === this.state.Sifre2) {
@@ -269,6 +282,99 @@ export default class KayitGuncelle extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata!', error)
             console.log('hata oluştu: ' + error);
+        }
+    }
+    SehirView() {
+        // if (this.state.Sehir) 
+        {
+            return (
+                <View>
+                    <Item picker style={styles.pickerInputs}>
+                        <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
+                        <Picker borderColor='black'
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: undefined }}
+                            placeholder="Şehir"
+                            placeholderTextColor="black"
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.Sehir}
+                            onValueChange={this.onSehir.bind(this)}>
+                            {
+                                this.state.Sehirler.map((item, key) => (
+
+                                    <Picker.Item
+                                        label={item.bm_adi}
+                                        value={item.bm_sehirid}
+                                        key={item.bm_sehirid} />)
+                                )
+                            }
+                        </Picker>
+                    </Item>
+                </View>
+            )
+        }
+
+    }
+    IlceView() {
+        if (this.state.Ilce) {
+            return (
+                <View>
+
+                    <Item picker style={styles.pickerInputs}>
+                        <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
+                        <Picker borderColor='black'
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: undefined }}
+                            placeholder="İlçe"
+                            placeholderTextColor="black"
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.Ilce}
+                            onValueChange={this.onIlce.bind(this)}>
+                            {
+                                this.state.IlceList.map((item, key) => (
+                                    // console.log("Sehirler: " + item.bm_sehirid),
+                                    // console.log("Sehirler: " + item.bm_adi),
+                                    <Picker.Item
+                                        label={item.bm_adi}
+                                        value={item.bm_ilceid}
+                                        key={item.bm_ilceid} />)
+                                )
+                            }
+                        </Picker>
+                    </Item>
+                </View>
+            )
+        }
+        else {
+            return (
+                <View>
+                    <Item picker style={styles.pickerInputs}>
+                        <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
+                        <Picker borderColor='black'
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: undefined }}
+                            placeholder="İlçe"
+                            placeholderTextColor="black"
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.Ilce}
+                            onValueChange={this.onIlce.bind(this)}>
+                            {
+                                this.state.IlceList.map((item, key) => (
+                                    // console.log("Sehirler: " + item.bm_sehirid),
+                                    // console.log("Sehirler: " + item.bm_adi),
+                                    <Picker.Item
+                                        label={item.bm_adi}
+                                        value={item.bm_ilceid}
+                                        key={item.bm_ilceid} />))
+                            }
+                        </Picker>
+                    </Item>
+
+                </View>
+            )
         }
     }
     render() {
@@ -368,54 +474,8 @@ export default class KayitGuncelle extends Component {
                                 value={this.state.Adres}
                             />
                         </Item>
-
-                        <Item picker style={styles.pickerInputs}>
-                            <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
-                            <Picker borderColor='black'
-                                mode="dropdown"
-                                iosIcon={<Icon name="arrow-down" />}
-                                style={{ width: undefined }}
-                                placeholder="Şehir"
-                                placeholderTextColor="black"
-                                placeholderIconColor="#007aff"
-                                selectedValue={this.state.Sehir}
-                                onValueChange={this.onSehir.bind(this)}>
-                                {
-                                    this.state.Sehirler.map((item, key) => (
-                                        // console.log("Sehirler: " + item.bm_sehirid),
-                                        // console.log("Sehirler: " + item.bm_adi),
-                                        <Picker.Item
-                                            label={item.bm_adi}
-                                            value={item.bm_sehirid}
-                                            key={item.bm_sehirid} />)
-                                    )
-                                }
-                            </Picker>
-                        </Item>
-                        <Item picker style={styles.pickerInputs}>
-                            <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
-                            <Picker borderColor='black'
-                                mode="dropdown"
-                                iosIcon={<Icon name="arrow-down" />}
-                                style={{ width: undefined }}
-                                placeholder="İlçe"
-                                placeholderTextColor="black"
-                                placeholderIconColor="#007aff"
-                                selectedValue={this.state.Ilce}
-                                onValueChange={this.onIlce.bind(this)}>
-                                {
-                                    this.state.IlceList.map((item, key) => (
-                                        // console.log("Sehirler: " + item.bm_sehirid),
-                                        // console.log("Sehirler: " + item.bm_adi),
-                                        <Picker.Item
-                                            label={item.bm_adi}
-                                            value={item.bm_ilceid}
-                                            key={item.bm_ilceid} />)
-                                    )
-                                }
-                            </Picker>
-                        </Item>
-
+                        {this.SehirView()}
+                        {this.IlceView()}
                         <Item picker style={styles.pickerInputs}>
                             <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                             <Picker borderColor='black'
@@ -457,12 +517,11 @@ export default class KayitGuncelle extends Component {
                                         />
                                     ))
                                 }
-
                             </Picker>
 
                         </Item>
 
-                        <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '81%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
+                        <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '79%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
 
                             <Image style={{ marginLeft: 5, width: 20, height: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
                             <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
@@ -509,7 +568,7 @@ export default class KayitGuncelle extends Component {
                                 value={this.state.Sifre2}
                                 underlineColorAndroid="transparent" />
                         </Item>
-
+                       
                         <Button block danger style={styles.mb15} onPress={() => this._btnKayit()}>
                             <Text style={styles.buttonText}>Güncelle</Text>
                         </Button>

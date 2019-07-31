@@ -136,6 +136,7 @@ export default class Satis extends Component {
     }
     _campaignDetailList = async () => {
         try {
+            this._FormuTemizleyiverBirZahmet();
             this.setState({ loading: true })
             const Id = await getStorage('userId');
             if (this.state.istasyonselectedId != undefined) { //istasyon
@@ -143,7 +144,7 @@ export default class Satis extends Component {
                     if (this.state.selected2 != undefined) { // Yakıt
                         if (this.state.OdemeTipi != undefined) { // Ödeme Tipi
                             if (this.state.PompaNo != undefined) { // Pompa No 
-
+                                this._FormuTemizleyiverBirZahmet();
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
                                     this.props.navigation.navigate("KampanyaSec", {
                                         'Istasyon': this.state.istasyonselectedId,
@@ -239,9 +240,7 @@ export default class Satis extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata!', error);
         }
-        finally {
-            this.setState({ loading: false })
-        }
+       
     }
     ShowAlert = (value) => {
         this.setState({
@@ -314,7 +313,7 @@ export default class Satis extends Component {
                 OdemeAdi: this.state.OdemeTipleri.find(p => p.Value === value).Name,
             },
             () => {
-                 console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
+                console.log('Nakit: ' + this.state.OdemeTipi, ' Selected: ' + this.state.OdemeAdi)
             }
         )
     }
@@ -425,8 +424,8 @@ export default class Satis extends Component {
                 },
                 (error) => this.setState({
                     error: error.message,
-                   // latitude: 40.802095,
-                   // longitude: 29.526954,
+                    // latitude: 40.802095,
+                    // longitude: 29.526954,
                 },
                     this._getLatLon()),
 
@@ -437,10 +436,10 @@ export default class Satis extends Component {
                 //console.log('watch ' + JSON.stringify(position));
                 //  alert(JSON.stringify(position));
                 const currentLongitude = JSON.stringify(position.coords.longitude);
-                console.log('currentLongitude: '+currentLongitude)
+                console.log('currentLongitude: ' + currentLongitude)
                 //getting the Longitude from the location json
                 const currentLatitude = JSON.stringify(position.coords.latitude);
-                console.log('currentLatitude: '+currentLatitude)
+                console.log('currentLatitude: ' + currentLatitude)
                 //getting the Latitude from the location json
                 this.setState({ currentLongitude: currentLongitude });
                 //Setting state Longitude to re re-render the Longitude Text
@@ -451,7 +450,7 @@ export default class Satis extends Component {
         } catch (error) {
             Alert.alert('Hata', error);
         }
-       
+
     }
     _getLatLon = () => {
         try {
@@ -472,22 +471,11 @@ export default class Satis extends Component {
         }
     }
 
-    componentDidUpdate() {
-        try {
-            //    console.log('this.state.latitude ' + this.state.latitude);
-            /*
-             //this._getCitybyId();
-             if (this.state.latitude === '40.792429999999996') {
-                 console.log('Update');
-                 this._getLocation();
-             }
-             */
-        } catch (error) {
-
-        }
-    }
+componentWillMount(){
+    this._FormuTemizleyiverBirZahmet()
+}
     componentWillReceiveProps(nextProps) {
-        console.log('recievr Props')
+        // console.log('recievr Props')
         //  this.isAvailable();
         //  console.log('Did Mount');
         this._getLocation();
@@ -495,6 +483,22 @@ export default class Satis extends Component {
         this._getYakitTipleri();
         this._getPlakaListesi();
         this._getPaymentTypes();
+    }
+    _FormuTemizleyiverBirZahmet(){
+        console.log('_FormuTemizleyiverBirZahmet')
+        this.setState({
+            istasyonselectedId: undefined,
+            PlakaSelectId: '',
+            PlakaName: '',
+            selected2: '',
+            YakitAdi: '',
+            OdemeTipi: '',
+            OdemeAdi: '',
+            PompaNo: '',
+            KuponKodu: '',
+            Tutar: '',
+        })
+
     }
     componentDidMount() {
         //  this.isAvailable();
@@ -514,7 +518,7 @@ export default class Satis extends Component {
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain',  }} source={require('../../assets/GeriDongri.png')} />
+                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
                     <Body>

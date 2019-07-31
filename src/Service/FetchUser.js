@@ -563,3 +563,33 @@ export const _handleConnectivityChange = (isConnected) => {
     return false
   }
 };
+
+export const _getCoord = () => {
+  try {
+      var self = this;
+      this.setState({ loading: true })
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              this.setState({
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude,
+                  error: null,
+                  loading: false,
+              });
+              this._getData();
+              // console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
+          },
+          (error) => this.setState({
+              error: error.message,
+              //latitude: 40.802095,
+              //longitude: 29.526954,
+              loading: false,
+          }),
+          { enableHighAccuracy: false, timeout: 60000, maximumAge: 3600000 },
+      );
+      this._getData();
+  } catch (error) {
+      Alert.alert('Hata!', error);
+  }
+
+}

@@ -136,7 +136,7 @@ export default class KampanyaSec extends Component {
             'alimmiktariLT': Secilen.alinmmiktariLT, 'kazanilanPuan': Secilen.KazanilanPuan, 'puanTLkarsiligi': Secilen.kazanilanpuantl,
             'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl, 'katkiorani': Secilen.katkiorani, 'bayikatkiorani': Secilen.bayikatkiorani,
             'isortagikatkiorani': Secilen.isortagikatkiorani, 'isortagiid': Secilen.isortagiid, 'istasyonfiyati': Secilen.istasyonfiyati,
-            'Fiyatlar':this.state.datam
+            'Fiyatlar':this.state.datam,'tar':new Date()
         });
     }
 

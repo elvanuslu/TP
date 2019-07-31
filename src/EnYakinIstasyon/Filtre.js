@@ -89,11 +89,11 @@ export default class Filtre extends Component {
                 },
                 (error) => this.setState({
                     error: error.message,
-                    latitude: 40.802095,
-                    longitude: 29.526954,
+                    //latitude: 40.802095,
+                    //longitude: 29.526954,
                     loading: false,
                 }),
-                { enableHighAccuracy: true, timeout: 60000, maximumAge: 3600000 },
+                { enableHighAccuracy: false, timeout: 60000, maximumAge: 3600000 },
             );
             this._getData();
         } catch (error) {
@@ -229,14 +229,14 @@ export default class Filtre extends Component {
     }
     _HaritaFooter() {
        // console.log('Lato: '+this.state.latitude)
-        if (this.state.latitude!==undefined) {
+      //  if (this.state.latitude!==undefined) {
             return (
                 <Button  active={this.state.tab1} onPress={() => this.toggleTab1()}>
                     <Icon active={this.state.tab1} name="map" />
                     <Text style={{ color: 'white' }}>Harita</Text>
                 </Button>
             )
-        }
+  /*      }
         else {
             return (
                 <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
@@ -245,6 +245,7 @@ export default class Filtre extends Component {
             </Button>
             )
         }
+        */
     }
     render() {
 

@@ -67,24 +67,24 @@ export default class hesabim extends Component {
                 </View>
                 <View style={styles.containerBottom}>
 
-                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle")}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle",{'Id':new Date()})}>
                         <Image style={styles.button}
                             source={require('../../assets/bilgilerimiguncelle.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("Plakalarim")}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("Plakalarim",{'Id':new Date()})}>
                         <Image
                             style={styles.button}
                             source={require('../../assets/araclarim.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi")}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi",{'Id':new Date()})}>
                         <Image
                             style={styles.button}
                             source={require('../../assets/satisvepuan.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
+                    <TouchableOpacity style={{ height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("EnYakinIstasyon",{'Id':new Date()})}>
                         <Image style={styles.button1} source={require('../../assets/EnYakinIstasyon.png')} />
                     </TouchableOpacity>
 

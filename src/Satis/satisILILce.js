@@ -213,8 +213,8 @@ export default class SatisIllce extends Component {
         if (this.state.Sehir !== '00000000-0000-0000-0000-000000000001') {
             try {
 
-              //  getCitybyId(this.state.Sehir)
-              getCitylocationbyId(this.state.Sehir)
+                //  getCitybyId(this.state.Sehir)
+                getCitylocationbyId(this.state.Sehir)
                     .then((res) => {
                         //  console.log('İlçe= ' + JSON.stringify(res));
                         var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'İlçe' };
@@ -239,11 +239,27 @@ export default class SatisIllce extends Component {
         if (this.state.latitude === undefined)
             this._getGps();
     }
+    _FormuTemizleyiverBirZahmet() {
+        console.log('_FormuTemizleyiverBirZahmet')
+        this.setState({
+            istasyonselectedId: undefined,
+            PlakaSelectId: '',
+            PlakaName: '',
+            selected2: '',
+            YakitAdi: '',
+            OdemeTipi: '',
+            OdemeAdi: '',
+            PompaNo: '',
+            KuponKodu: '',
+            Tutar: '',
+        })
+
+    }
     _clearComponents() {
         try {
 
             this.setState({
-                istasyonselectedId: '',
+                istasyonselectedId: null,
                 PlakaSelectId: null,
                 selected2: null,
                 OdemeTipi: null,
@@ -270,7 +286,7 @@ export default class SatisIllce extends Component {
                     if (this.state.selected2 != undefined) { // Yakıt
                         if (this.state.OdemeTipi != undefined) { // Ödeme Tipi
                             if (this.state.PompaNo != undefined) { // Pompa No 
-
+                               
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
                                     this.setState({ loading: false })
                                     this.props.navigation.navigate("KampanyaSec", {
@@ -286,7 +302,7 @@ export default class SatisIllce extends Component {
                                         'KuponKodu': this.state.KuponKodu,
                                         'Tutar': 0,
                                     });
-
+                                    this._clearComponents();
                                 }
                                 else {
                                     if (this.state.Tutar != undefined) { // Tutar 
@@ -305,31 +321,7 @@ export default class SatisIllce extends Component {
                                             'Tutar': this.state.Tutar,
 
                                         });
-
-                                        /*
-                                        campaignDetailList(this.state.istasyonselectedId, this.state.selected2, this.state.OdemeTipi, this.state.Tutar, Id, '', this.state.KuponKodu, 0, this.state.PlakaSelectId)
-                                            .then((res) => {
-                                                this.setState({ loading: false })
-                                                console.log('Kapmanya = ' + JSON.stringify(res));
-                                                if (res.status == false) {
-                                                    Alert.alert(
-                                                        'Durum Bilgi!',
-                                                        res.message,
-                                                        [
-                                                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                                                        ],
-                                                        { cancelable: true },
-                                                    );
-                                                }
-                                                //else 
-                                                {
-                                                    
-                                                }
-                                            }).catch((error) => Alert.alert('Hata!', error))
-                                            .finally(
-                                                this.setState({ loading: false })
-                                            )
-                                            */
+                                        this._clearComponents();
                                     }
                                     else {
                                         this.setState({ loading: false })
@@ -368,7 +360,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata!', error);
         }
-
+       
     }
     ShowAlert = (value) => {
         this.setState({
@@ -666,7 +658,7 @@ export default class SatisIllce extends Component {
         this._getPaymentTypes();
         this._getCity();
         //  this.setState({longitude:0})
-        console.log('longi: ' + this.state.longitude)
+        //  console.log('longi: ' + this.state.longitude)
     }
     _SehirIlceGoster() {
         // if(this.state.longitude===-1){
@@ -820,7 +812,7 @@ export default class SatisIllce extends Component {
                                     iosIcon={<Icon name="arrow-down" />}
                                     style={{ width: undefined }}
                                     placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "gray" }}
+                                    placeholderStyle={{ color: "black" }}
                                     placeholderIconColor="black"
                                     selectedValue={this.state.selected2}
                                     onValueChange={this.onValueChange2.bind(this)}>

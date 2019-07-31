@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform } from 'react-native';
 import {
     Footer,
     FooterTab,
@@ -91,6 +91,62 @@ export default class EnYakinIstasyon extends Component {
         );
     }
     */
+    _getkoordinat = () => {
+        try {
+            this.setState({loading:true})
+            if (Platform.OS === 'ios') {
+                this.callLocation(this);
+            }
+            else{
+                this.requestLocationPermission();
+            }
+            this.setState({loading:false})
+        } catch (error) {
+
+        }
+    }
+    callLocation(that) {
+        this.setState({loading:true})
+        //alert("callLocation Called");
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                console.log('Current  Pos: '+position);
+                const currentLongitude = JSON.stringify(position.coords.longitude);
+                const currentLatitude = JSON.stringify(position.coords.latitude);
+                that.setState({ latitude: currentLongitude });
+                that.setState({ longitude: currentLatitude });
+            },
+            (error) => alert(error.message),
+            { enableHighAccuracy: false, timeout: 50000, maximumAge: 1000, }
+        );
+        that.watchID = navigator.geolocation.watchPosition((position) => {
+            console.log('Watch Pos: '+position);
+            const currentLongitude = JSON.stringify(position.coords.longitude);
+            const currentLatitude = JSON.stringify(position.coords.latitude);
+            that.setState({ latitude: currentLongitude });
+            that.setState({ longitude: currentLatitude });
+        });
+        this.setState({loading:false})
+    }
+    async  requestLocationPermission() {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
+                    'title': 'Location Access Required',
+                    'message': 'This App needs to Access your location'
+                }
+            )
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                //To Check, If Permission is granted
+                that.callLocation(this);
+            } else {
+                alert("Permission Denied");
+            }
+        } catch (error) {
+            alert("err", err);
+            console.warn(err)
+        }
+    }
     _getCoord = () => {
         try {
             var self = this;
@@ -112,7 +168,7 @@ export default class EnYakinIstasyon extends Component {
                     longitude: 29.526954,
                     loading: false,
                 }),
-                { enableHighAccuracy: true, timeout: 60000, maximumAge: 3600000 },
+                { enableHighAccuracy: false, timeout: 60000, maximumAge: 3600000 },
             );
             this._getData();
         } catch (error) {
@@ -122,40 +178,43 @@ export default class EnYakinIstasyon extends Component {
     }
 
     componentDidMount() {
+        this._getkoordinat();
         // console.log('Property= '+JSON.stringify(this.props)); //(this.props.navigation.state.routeName));
-        this._getCoord();
+      //  this._getCoord();
     }
     componentWillReceiveProps(nextProps) {
         console.log('Receive Props' + JSON.stringify(nextProps))
     }
     // GetItem(item) 
     GetItem(item, name, lat, lon, adres) {
-       // console.log('item=' + item);
-       // console.log('Lisyt Data: ' + JSON.stringify(this.state.listViewData))
-        this.setState({latitude:lat})
+        // console.log('item=' + item);
+        // console.log('Lisyt Data: ' + JSON.stringify(this.state.listViewData))
+        this.setState({ latitude: lat })
         this.props.navigation.navigate("Harita", { 'Id': item, 'name': name, 'lat': lat, 'lon': lon, 'adres': adres, 'Para': 'Filtre', 'Tumu': this.state.listViewData });
     }
     _HaritaFooter() {
         //console.log('Lato: '+this.state.latitude)
-        if (this.state.latitude!==undefined) {
+       // if (this.state.latitude !== undefined) {
             return (
-                <Button  active={this.state.tab1} onPress={() => this.toggleTab1()}>
+                <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
+                    <Icon active={this.state.tab1} name="map" />
+                    <Text style={{ color: 'white' }}>Harita</Text>
+                </Button>
+            )
+              /*  }
+
+        else {
+            return (
+                <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
                     <Icon active={this.state.tab1} name="map" />
                     <Text style={{ color: 'white' }}>Harita</Text>
                 </Button>
             )
         }
-        else {
-            return (
-                <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
-                <Icon active={this.state.tab1} name="map" />
-                <Text style={{ color: 'white' }}>Harita</Text>
-            </Button>
-            )
-        }
+        */
     }
     render() {
-      
+
         return (
             <Container style={styles.container}>
                 <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
@@ -226,9 +285,9 @@ export default class EnYakinIstasyon extends Component {
                 <View>
                     <Footer>
                         <FooterTab style={{ backgroundColor: 'red', }}>
-                          {
-                              this._HaritaFooter()
-                          }
+                            {
+                                this._HaritaFooter()
+                            }
                             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
                                 <Icon active={this.state.tab2} name="contact" />
                                 <Text style={{ color: 'white' }}>Liste</Text>

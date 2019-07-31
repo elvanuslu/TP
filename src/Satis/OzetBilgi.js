@@ -159,9 +159,9 @@ export default class OzetBilgi extends Component {
 
     }
     componentWillReceiveProps(nextProps) {
-        this.onGetParams();
-        //  console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
-        /*
+        //this.onGetParams(nextProps);
+         console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
+        
         this.setState({
             Istasyon: nextProps.navigation.state.params.Parametre.IstasyonAdi,
             IstasyonId: nextProps.navigation.state.params.Parametre.Istasyon,
@@ -191,28 +191,23 @@ export default class OzetBilgi extends Component {
             isortagiid: nextProps.navigation.state.params.isortagiid,
  
             istasyonfiyati: nextProps.navigation.state.params.istasyonfiyati,
+
+
+            
             //loading:true,
         })
-        */
+        
         if (this.props.Istasyon !== nextProps.Istasyon) {
             console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
             // this.setState({ reset : true })
         }
     }
-    /*
-    componentDidUpdate(prevProps) {
-        // console.log('OzetBilgi...' + JSON.stringify(prevProps))
- 
-        if (prevProps.isFocused !== this.props.isFocused) {
-            alert('Testing...')
-        }
-    }
-    */
+   
     componentDidMount = async () => {
         // AlertIOS.alert('Hata Oluştu!', 'Mesaj');
         //console.log('Componen Did Mount: ' + JSON.stringify(this.props.navigation.state.params))
         try {
-            this.onGetParams();
+            this.onGetParams(this.props);
             const contactId = await getStorage('userId');
             this.setState({ userId: contactId });
         } catch (error) {
