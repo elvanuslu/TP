@@ -648,18 +648,16 @@ export default class SatisIllce extends Component {
         this._getPlakaListesi();
         this._getPaymentTypes();
     }
-    componentDidMount() {
-        //   this.isAvailable();
-        //  console.log('Did Mount');
+   componentWillMount(){
+       this.setState({loading:true})
         this._getLocation();
         this._retrieveKullanici();
         //  this._getYakitTipleri();
         this._getPlakaListesi();
         this._getPaymentTypes();
         this._getCity();
-        //  this.setState({longitude:0})
-        //  console.log('longi: ' + this.state.longitude)
-    }
+        this.setState({loading:false})
+   }
     _SehirIlceGoster() {
         // if(this.state.longitude===-1){
         return (

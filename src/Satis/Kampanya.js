@@ -116,7 +116,7 @@ export default class KampanyaSec extends Component {
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
          //  console.log('Seçilen=> ' + Secilen.TavsiyeEdilenfiyati);
-          console.log(' Datam ' + JSON.stringify(this.state.datam));
+         // console.log(' Datam ' + JSON.stringify(this.state.datam));
 
         this.setState({
             birimFiyat: Secilen.TavsiyeEdilenfiyati,
@@ -151,8 +151,8 @@ export default class KampanyaSec extends Component {
         const PompaNo = this.props.navigation.getParam('PompaNo', '');
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
-          console.log('Istasyonum = ' + JSON.stringify(this.props));
-        console.log('G.İ.T: '+JSON.stringify(this.state.datam))
+      // console.log('Istasyonum = ' + JSON.stringify(this.props));
+     //   console.log('G.İ.T: '+JSON.stringify(this.state.datam))
         this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyati': this.state.gelenIndirimliBirimFiyat,'Fiyatlar':this.state.datam});
         /*
                 this.props.navigation.navigate("OzetBilgi", {
@@ -183,7 +183,7 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
                     this.setState({ datam: null, loading: false });
-                      console.log('Gelen Kampanya = ' + JSON.stringify(res)+' Status: '+ res.status);
+                     // console.log('Gelen Kampanya = ' + JSON.stringify(res)+' Status: '+ res.status);
                       //console.log(' infirimli Fiyat = ' + res[0].indirimlifiyati);
                       
 

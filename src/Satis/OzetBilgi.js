@@ -139,14 +139,14 @@ export default class OzetBilgi extends Component {
                                     'Yakıt Dolumu',
                                     res.message,
                                     [
-        
+
                                         { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
                                     ],
                                     { cancelable: true },
                                 )
                             }, 510);
                         });
-                       
+
                     }
                 })
                 .catch(error => {
@@ -160,8 +160,8 @@ export default class OzetBilgi extends Component {
     }
     componentWillReceiveProps(nextProps) {
         //this.onGetParams(nextProps);
-         console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
-        
+        // console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
+
         this.setState({
             Istasyon: nextProps.navigation.state.params.Parametre.IstasyonAdi,
             IstasyonId: nextProps.navigation.state.params.Parametre.Istasyon,
@@ -174,7 +174,7 @@ export default class OzetBilgi extends Component {
             PompaNo: nextProps.navigation.state.params.Parametre.PompaNo,
             KuponKodu: nextProps.navigation.state.params.Parametre.KuponKodu,
             Tutar: nextProps.navigation.state.params.Parametre.Tutar,
- 
+
             birimFiyat: nextProps.navigation.state.params.birimFiyat,
             indirimliFiyat: nextProps.navigation.state.params.indirimliFiyat,
             indirimOrani: nextProps.navigation.state.params.indirimOrani,
@@ -184,25 +184,25 @@ export default class OzetBilgi extends Component {
             harcananPuan: nextProps.navigation.state.params.harcananPuan,
             harcananPuanTL: nextProps.navigation.state.params.harcananPuanTL,
             KampanyaId: nextProps.navigation.state.params.KampanyaId,
- 
+
             katkiorani: nextProps.navigation.state.params.katkiorani,
             bayikatkiorani: nextProps.navigation.state.params.bayikatkiorani,
             isortagikatkiorani: nextProps.navigation.state.params.isortagikatkiorani,
             isortagiid: nextProps.navigation.state.params.isortagiid,
- 
+
             istasyonfiyati: nextProps.navigation.state.params.istasyonfiyati,
 
 
-            
+
             //loading:true,
         })
-        
+
         if (this.props.Istasyon !== nextProps.Istasyon) {
             console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
             // this.setState({ reset : true })
         }
     }
-   
+/*
     componentDidMount = async () => {
         // AlertIOS.alert('Hata Oluştu!', 'Mesaj');
         //console.log('Componen Did Mount: ' + JSON.stringify(this.props.navigation.state.params))
@@ -219,13 +219,30 @@ export default class OzetBilgi extends Component {
         //  console.log('Paraös = ' + JSON.stringify(this.props));
 
     }
+*/
+     componentWillMount = async () => {
+          try {
+              this.setState({loading:true})
+              const contactId = await getStorage('userId');
+              this.setState({ userId: contactId });
+              this.onGetParams();
+              this.setState({loading:false})
+          } catch (error) {
+              console.log('Error Will Mount: ' + error)
+          }
+      }
+      
+  
     onGetParams = () => {
         try {
             var Id = this.props.navigation.getParam('KampanyaId', '');
-            console.log('Kapmapnya ID=' + Id + ' this.props.navigation.state.params.KampanyaId= ' + this.props.navigation.state.params.KampanyaId);
-            // console.log('Name ' + JSON.stringify(this.props.navigation.state.params))
+       //     console.log('Kapmapnya ID=' + Id + ' this.props.navigation.state.params.KampanyaId= ' + this.props.navigation.state.params.KampanyaId);
+            // console.log('Name ' + JSON.stringify(this.props))
             //  if (Id !== this.state.oldId) {
             if (Id !== '00000000-0000-0000-0000-000000000000') {
+                let Fiyatlar = this.props.navigation.state.params.Fiyatlar.find(p => p.bm_kampanyaId === Id);
+              //  console.log('Get Params Fiyatlar: ' + JSON.stringify(Fiyatlar));
+              //  console.log('Fiyat 0: '+Fiyatlar.alimtutari);
                 this.setState({
                     oldId: Id,
                     Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
@@ -238,26 +255,27 @@ export default class OzetBilgi extends Component {
                     OdemeAdi: this.props.navigation.state.params.Parametre.OdemeAdi,
                     PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
-                    Tutar: this.props.navigation.state.params.Fiyatlar[0].alimtutari,
+                    Tutar: Fiyatlar.alimtutari,
 
-                    birimFiyat: this.props.navigation.state.params.Fiyatlar[0].TavsiyeEdilenfiyati,
-                    istasyonfiyati: this.props.navigation.state.params.Fiyatlar[0].istasyonfiyati,
-                    indirimliFiyat: this.props.navigation.state.params.Fiyatlar[0].indirimlifiyati,
-                    indirimOrani: this.props.navigation.state.params.Fiyatlar[0].indirimorani,
-                    alimmiktariLT: this.props.navigation.state.params.Fiyatlar[0].alinmmiktariLT,
-                    kazanilanPuan: this.props.navigation.state.params.Fiyatlar[0].KazanilanPuan,
+                    birimFiyat: Fiyatlar.TavsiyeEdilenfiyati,
+                    istasyonfiyati: Fiyatlar.istasyonfiyati,
+                    indirimliFiyat: Fiyatlar.indirimlifiyati,
+                    indirimOrani: Fiyatlar.indirimorani,
+                    alimmiktariLT: Fiyatlar.alinmmiktariLT,
+                    kazanilanPuan: Fiyatlar.KazanilanPuan,
                     puanTLkarsiligi: this.props.navigation.state.params.puanTLkarsiligi,
-                    harcananPuan: this.props.navigation.state.params.Fiyatlar[0].harcananpuan,
-                    harcananPuanTL: this.props.navigation.state.params.Fiyatlar[0].harcananpuantl,
-                    KampanyaId: this.props.navigation.state.params.Fiyatlar[0].bm_kampanyaId,
+                    harcananPuan: Fiyatlar.harcananpuan,
+                    harcananPuanTL: Fiyatlar.harcananpuantl,
+                    KampanyaId: Fiyatlar.bm_kampanyaId,
 
                     katkiorani: this.props.navigation.state.params.katkiorani,
                     bayikatkiorani: this.props.navigation.state.params.bayikatkiorani,
                     isortagikatkiorani: this.props.navigation.state.params.isortagikatkiorani,
-                    isortagiid: this.props.navigation.state.params.Fiyatlar[0].isortagiid,
+                    isortagiid: Fiyatlar.isortagiid,
                     istasyonfiyati: this.props.navigation.state.params.istasyonfiyati,
 
-                })
+                });
+                console.log('Test')
             }
             else {
                 this.setState({
@@ -289,8 +307,8 @@ export default class OzetBilgi extends Component {
                 })
             }
             this.setState({ birimfiyatgoster: this.props.navigation.state.params.birimFiyati })
-            console.log('Paramsiz= ' + (this.state.Tutar));
-            console.log('Dene YTest: ' + JSON.stringify(this.props.navigation.state.params.Fiyatlar[0].alimtutari))
+          //  console.log('Paramsiz= ' + (this.state.Tutar));
+          //  console.log('Dene YTest: ' + JSON.stringify(this.props.navigation.state.params.Fiyatlar[0].alimtutari))
 
         } catch (error) {
             Alert.alert('Hata', error);
@@ -301,7 +319,7 @@ export default class OzetBilgi extends Component {
         return (
 
             <Container style={styles.container}>
-                {console.log('Durum Bilgisis: ' + this.state.loading)}
+               
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                     <Spinner style={{ backgroundColor: 'gray' }}
                         visible={this.state.loading}
@@ -423,7 +441,7 @@ export default class OzetBilgi extends Component {
                                         </View>
 
 
-                                        {console.log('Birime Fiyate: ' + this.props.navigation.state.params.birimFiyat)}
+                                      
                                         <View style={[styles.containerKapmayali, this.props.navigation.state.params.birimFiyat ? styles.containerKapmayali : styles.hidden]}>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                                 <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={pompa}></Image>

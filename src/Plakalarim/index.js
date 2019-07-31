@@ -6,7 +6,7 @@ import {
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
 } from 'native-base';
 
-import { getPlakaList, getStorage } from '../Service/FetchUser';
+import { getPlakaList, getStorage, deleteMusteriArac } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const k1 = require("../../assets/resim1.png");
@@ -32,8 +32,8 @@ export default class Plakalarim extends Component {
             kartId: undefined,
         }
     }
-    componentWillReceiveProps=async (nextProps)=> {
-       // console.log('WillProps: ' + JSON.stringify(nextProps));
+    componentWillReceiveProps = async (nextProps) => {
+        // console.log('WillProps: ' + JSON.stringify(nextProps));
         await this._getPlakaList();
     }
     GetItem(item, markaId, aracId, yakit1, yakit2) {
@@ -49,7 +49,7 @@ export default class Plakalarim extends Component {
             getPlakaList(uId)
                 .then((res) => {
                     this.setState({ listViewData: res, loading: false })
-                  //  console.log(JSON.stringify(this.state.listViewData))
+                    //  console.log(JSON.stringify(this.state.listViewData))
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
@@ -78,11 +78,62 @@ export default class Plakalarim extends Component {
         this._getPlakaList();
     }
 
-    deleteRow(secId, rowId, rowMap) {
+    deleteRow(secId, rowId, rowMap, aracId) {
+        console.log('secId:' + secId + ' rowId: ' + rowId + ' aracId: ' + aracId)
         rowMap[`${secId}${rowId}`].props.closeRow();
         const newData = [...this.state.listViewData];
         newData.splice(rowId, 1);
         this.setState({ listViewData: newData });
+        this._deleteMusteriAtac(aracId);
+    }
+    _deleteMusteriAtac = (Id) => {
+        try {
+            this.setState({ loading: true });
+            Alert.alert(
+                'Silme Onayı !',
+                'Silmek istediğinize Eminmisiniz?',
+                [
+
+                    { text: 'Tamam', onPress: () => { this._delete(Id) } },
+                ],
+                { cancelable: true },
+            );
+
+        } catch (error) {
+            alert('Hata', error);
+        }
+    }
+    _delete = (Id) => {
+        deleteMusteriArac(Id)
+            .then((response) => {
+                console.log('response: ' + JSON.stringify(response));
+                this.setState({ loading: false }, () => {
+                    setTimeout(() => {
+                        Alert.alert(
+                            'Silme İşlemi !',
+                            response.message,
+                            [
+
+                                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                            ],
+                            { cancelable: true },
+                        );
+                    }, 510);
+                });
+
+            }).catch((err) => {
+                this.setState({ loading: false }, () => {
+                    Alert.alert(
+                        'Silme İşlemi !',
+                        err,
+                        [
+
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 510);
+            })
     }
     render() {
         <StatusBar color='#fff' barStyle="light-content" />
@@ -152,9 +203,9 @@ export default class Plakalarim extends Component {
 
                                                     </Left>
                                                     <Body>
-                                                    <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
+                                                        <Text style={styles.txtArac} >{data.bm_yakittipiadi_1}</Text>
                                                     </Body>
-                                                    
+
                                                 </View>
 
                                             </TouchableOpacity>
@@ -183,7 +234,7 @@ export default class Plakalarim extends Component {
                                         <Button
                                             full
                                             danger
-                                            onPress={_ => this.deleteRow(secId, rowId, rowMap)}
+                                            onPress={_ => this.deleteRow(secId, rowId, rowMap, data.bm_musteriaraciid)}
                                             style={{
                                                 flex: 1,
                                                 alignItems: "center",
@@ -338,7 +389,7 @@ const styles = StyleSheet.create({
         fontSize: 11,
         //  fontWeight: '100',
         textAlign: 'right',
-        marginRight:5,
+        marginRight: 5,
         //  alignSelf: 'flex-end'
 
 

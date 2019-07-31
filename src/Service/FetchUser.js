@@ -430,6 +430,30 @@ export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) =
     console.log('postMusteriArac: ' + error);
   }
 }
+export const deleteMusteriArac = async (Id) => {
+  console.log('Delete d: ' + Id)
+  
+
+  try {
+    const URL = define_api_url + `DeleteBm_MusteriAraci`;
+    return fetch(URL,
+      {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bm_musteriaraciId: Id,
+        }),
+      })
+      .then((res) => res.json())
+      .catch((error) => console.log('deleteMusteriArac: ' + error))
+
+  } catch (error) {
+    console.log('postMusteriArac: ' + error);
+  }
+}
 export const SendPasswordByEmailAfterChangedPsw = async (eposta) => {
   try {
     const URL = define_api_url + `SendPasswordByEmailAfterChangedPsw`;
