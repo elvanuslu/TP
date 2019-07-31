@@ -3,6 +3,8 @@ package com.tp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.geolocation.GeolocationPackage;
+import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -29,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new GeolocationPackage(),
+            new RNFusedLocationPackage(),
             new ReactNativeExceptionHandlerPackage(),
                        new RNTextInputMaskPackage(),
             new VectorIconsPackage(),

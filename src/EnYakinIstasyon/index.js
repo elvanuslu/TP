@@ -8,6 +8,9 @@ import {
 } from 'native-base';
 import { getIstasyonWithLatLon } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
+
+import Geolocation from 'react-native-geolocation-service';
+
 const tmis = require("../../assets/tmis.png");
 const yoltarifi = require("../../assets/yoltarifi.png");
 const pompa = require("../../assets/pompa.png");
@@ -91,10 +94,31 @@ export default class EnYakinIstasyon extends Component {
         );
     }
     */
+  _getGeoLOcation=()=>{
+    Geolocation.getCurrentPosition(
+        (position) => {
+            alert(JSON.stringify(position));
+            console.log('My POsition: '+JSON.stringify(position));
+            console.log('Lat: '+position.coords.latitude)
+            console.log('Lon: '+position.coords.longitude)
+            this.setState({
+                latitude:position.coords.latitude,
+                longitude:position.coords.longitude
+            })
+            this._getData();
+        },
+        (error) => {
+            alert('GPS Error',error.code,error.message)
+            console.log(error.code, error.message);
+        },
+        { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000 }
+    );
+  }
     _getkoordinat = () => {
         try {
             this.setState({loading:true})
             if (Platform.OS === 'ios') {
+               
                 this.callLocation(this);
             }
             else{
@@ -108,7 +132,7 @@ export default class EnYakinIstasyon extends Component {
     callLocation(that) {
         this.setState({loading:true})
         //alert("callLocation Called");
-        navigator.geolocation.getCurrentPosition(
+      /*  navigator.geolocation.getCurrentPosition(
             (position) => {
                 console.log('Current  Pos: '+position);
                 const currentLongitude = JSON.stringify(position.coords.longitude);
@@ -119,6 +143,8 @@ export default class EnYakinIstasyon extends Component {
             (error) => alert(error.message),
             { enableHighAccuracy: false, timeout: 50000, maximumAge: 1000, }
         );
+        */
+       this._getGeoLOcation();
         that.watchID = navigator.geolocation.watchPosition((position) => {
             console.log('Watch Pos: '+position);
             const currentLongitude = JSON.stringify(position.coords.longitude);
