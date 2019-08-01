@@ -58,6 +58,8 @@ export default class KampanyaSec extends Component {
             IstasyonFiyati: undefined,
             gelenIndirimliBirimFiyat: undefined,
 
+            secilikampanyaId: undefined,
+
 
         }
     }
@@ -109,9 +111,9 @@ export default class KampanyaSec extends Component {
     }
     _btnDevam = (item,fiyat) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
-        //console.log('Birim Fiyat: '+'İtem '+item+' --- '+ fiyat)
+        console.log('İtem: '+item+' --- '+ fiyat)
          //  console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': item,'birimFiyat':undefined,'birimFiyati':Secilen.indirimlifiyati,'Fiyatlar':this.state.datam });
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': '00000000-0000-0000-0000-000000000000','birimFiyat':undefined,'birimFiyati':Secilen.indirimlifiyati,'Fiyatlar':Secilen });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
@@ -151,9 +153,9 @@ export default class KampanyaSec extends Component {
         const PompaNo = this.props.navigation.getParam('PompaNo', '');
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
-      // console.log('Istasyonum = ' + JSON.stringify(this.props));
-     //   console.log('G.İ.T: '+JSON.stringify(this.state.datam))
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyati': this.state.gelenIndirimliBirimFiyat,'Fiyatlar':this.state.datam});
+       console.log('Istasyonum = ' + JSON.stringify(this.props));
+        console.log('G.İ.T: '+JSON.stringify(this.state.datam))
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params,'KampanyaId':this.state.secilikampanyaId, 'birimFiyati': this.state.gelenIndirimliBirimFiyat,'Fiyatlar':this.state.datam});
         /*
                 this.props.navigation.navigate("OzetBilgi", {
                     'Istasyon': this.state.istasyonselectedId,
@@ -185,8 +187,6 @@ export default class KampanyaSec extends Component {
                     this.setState({ datam: null, loading: false });
                      // console.log('Gelen Kampanya = ' + JSON.stringify(res)+' Status: '+ res.status);
                       //console.log(' infirimli Fiyat = ' + res[0].indirimlifiyati);
-                      
-
                     if (res.status === false) {
                         //this.setState({ datam: null, loading: false });
                         this.setState({ loading: false }, () => {
@@ -211,7 +211,7 @@ export default class KampanyaSec extends Component {
                         });
                         this.setState({gelenIndirimliBirimFiyat:res[0].indirimlifiyati})
                         if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
-                            //    console.log('bmkapmanya=0')
+                            this.setState({secilikampanyaId:res[0].bm_kampanyaId})
                             this._git();
                         }
 
@@ -266,7 +266,7 @@ export default class KampanyaSec extends Component {
         }
     }
     componentDidMount = async () => {
-        //  console.log('Props= ' + JSON.stringify(this.props));
+          console.log('Props= ' + JSON.stringify(this.props));
         //   console.log("Prms= " + (this.props.navigation.state.params.Istasyon))
         const Id = await getStorage('userId');
         this.setState({ kullaniciId: Id });

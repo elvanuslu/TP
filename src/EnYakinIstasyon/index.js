@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform } from 'react-native';
+import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform,ToastAndroid} from 'react-native';
 import {
     Footer,
     FooterTab,
     List,
-    ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
+    ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content,Toast
 } from 'native-base';
 import { getIstasyonWithLatLon } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Geolocation from 'react-native-geolocation-service';
+import IonIcon from 'react-native-vector-icons/AntDesign';
 
 const tmis = require("../../assets/tmis.png");
 const yoltarifi = require("../../assets/yoltarifi.png");
@@ -19,6 +20,7 @@ const bankamatik = require("../../assets/tasittanima.png");
 
 
 export default class EnYakinIstasyon extends Component {
+    watchId = null;
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -77,102 +79,188 @@ export default class EnYakinIstasyon extends Component {
             this.setState({ loading: false })
         }
     }
-    /*
-    componentDidMount() {
-        navigator.geolocation.getCurrentPosition(
+    //---------------------------------------------------------------
+    hasLocationPermission = async () => {
+        if (Platform.OS === 'ios' ||
+            (Platform.OS === 'android' && Platform.Version < 23)) {
+            return true;
+        }
+
+        const hasPermission = await PermissionsAndroid.check(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+
+        if (hasPermission) return true;
+
+        const status = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+
+        if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+        if (status === PermissionsAndroid.RESULTS.DENIED) {
+            Toast.show('Location permission denied by user.', ToastAndroid.LONG);
+        } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+            Toast.show('Location permission revoked by user.', ToastAndroid.LONG);
+        }
+
+        return false;
+    }
+    getLocation = async () => {
+        const hasLocationPermission = await this.hasLocationPermission();
+
+        if (!hasLocationPermission) return;
+
+        this.setState({ loading: true }, () => {
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({ location: position, loading: false });
+                    console.log('Konumlar: ' + JSON.stringify(position));
+                    Toast.show({
+                        text: "Latitude: " +  position.coords.latitude,
+                        buttonText: "Tamam",
+                        type: 'danger'
+                      })
+                      Toast.show({
+                        text: "Longitude: " + position.coords.longitude,
+                        buttonText: "Tamam",
+                        type: 'danger'
+                      })
+                 
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    })
+                    this._getData();
+                },
+                (error) => {
+                    this.setState({ location: error, loading: false });
+                    console.log(error);
+                },
+                { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000, distanceFilter: 50, forceRequestLocation: true }
+            );
+        });
+    }
+    getLocationUpdates = async () => {
+        const hasLocationPermission = await this.hasLocationPermission();
+
+        if (!hasLocationPermission) return;
+
+        this.setState({ loading: true }, () => {
+            this.watchId = Geolocation.watchPosition(
+                (position) => {
+                    this.setState({ location: position, loading: false });
+                    console.log('Update Konumlar: ' + JSON.stringify(position));
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    })
+                },
+                (error) => {
+                    this.setState({ location: error });
+                    console.log(error);
+                },
+                { enableHighAccuracy: true, distanceFilter: 0, interval: 5000, fastestInterval: 2000 }
+            );
+        });
+    }
+
+    removeLocationUpdates = () => {
+        if (this.watchId !== null) {
+            Geolocation.clearWatch(this.watchId);
+            this.setState({ loading: false })
+        }
+    }
+    //-------------------------------------------------------------
+    _getGeoLOcation = () => {
+        Geolocation.getCurrentPosition(
             (position) => {
+                alert(JSON.stringify(position));
+                console.log('My POsition: ' + JSON.stringify(position));
+                console.log('Lat: ' + position.coords.latitude)
+                console.log('Lon: ' + position.coords.longitude)
                 this.setState({
                     latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    error: null,
-                });
+                    longitude: position.coords.longitude
+                })
                 this._getData();
-                console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
             },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+            (error) => {
+                alert('GPS Error', error.code, error.message)
+                console.log(error.code, error.message);
+            },
+            { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000 }
         );
     }
-    */
-  _getGeoLOcation=()=>{
-    Geolocation.getCurrentPosition(
-        (position) => {
-            alert(JSON.stringify(position));
-            console.log('My POsition: '+JSON.stringify(position));
-            console.log('Lat: '+position.coords.latitude)
-            console.log('Lon: '+position.coords.longitude)
-            this.setState({
-                latitude:position.coords.latitude,
-                longitude:position.coords.longitude
-            })
-            this._getData();
-        },
-        (error) => {
-            alert('GPS Error',error.code,error.message)
-            console.log(error.code, error.message);
-        },
-        { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000 }
-    );
-  }
     _getkoordinat = () => {
         try {
-            this.setState({loading:true})
+            this.setState({ loading: true })
+            // this.callLocation(this);
+
             if (Platform.OS === 'ios') {
-               
+
                 this.callLocation(this);
             }
-            else{
+            else {
+                //alert('android')
                 this.requestLocationPermission();
             }
-            this.setState({loading:false})
+
+            this.setState({ loading: false })
         } catch (error) {
 
         }
     }
     callLocation(that) {
-        this.setState({loading:true})
+        this.setState({ loading: true })
         //alert("callLocation Called");
-      /*  navigator.geolocation.getCurrentPosition(
-            (position) => {
-                console.log('Current  Pos: '+position);
-                const currentLongitude = JSON.stringify(position.coords.longitude);
-                const currentLatitude = JSON.stringify(position.coords.latitude);
-                that.setState({ latitude: currentLongitude });
-                that.setState({ longitude: currentLatitude });
-            },
-            (error) => alert(error.message),
-            { enableHighAccuracy: false, timeout: 50000, maximumAge: 1000, }
-        );
-        */
-       this._getGeoLOcation();
-        that.watchID = navigator.geolocation.watchPosition((position) => {
-            console.log('Watch Pos: '+position);
+        /*  navigator.geolocation.getCurrentPosition(
+              (position) => {
+                  console.log('Current  Pos: '+position);
+                  const currentLongitude = JSON.stringify(position.coords.longitude);
+                  const currentLatitude = JSON.stringify(position.coords.latitude);
+                  that.setState({ latitude: currentLongitude });
+                  that.setState({ longitude: currentLatitude });
+              },
+              (error) => alert(error.message),
+              { enableHighAccuracy: false, timeout: 50000, maximumAge: 1000, }
+          );
+          */
+        this._getGeoLOcation();
+        that.watchID = Geolocation.watchPosition((position) => {
+            console.log('Watch Pos: ' + position);
             const currentLongitude = JSON.stringify(position.coords.longitude);
             const currentLatitude = JSON.stringify(position.coords.latitude);
             that.setState({ latitude: currentLongitude });
             that.setState({ longitude: currentLatitude });
         });
-        this.setState({loading:false})
+        this.setState({ loading: false })
     }
+    /*
     async  requestLocationPermission() {
         try {
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
-                    'title': 'Location Access Required',
-                    'message': 'This App needs to Access your location'
+                    'title': 'Konum İzni Gerekli.',
+                    'message': 'Türkiye Petrolleri Konum Bilginizi kullanacak'
                 }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                //To Check, If Permission is granted
+ 
                 that.callLocation(this);
             } else {
                 alert("Permission Denied");
             }
         } catch (error) {
-            alert("err", err);
-            console.warn(err)
+           
+            alert("Hata: " + error);
+            console.warn(error)
+        }
+        finally{
+            that.callLocation(this);
         }
     }
+    */
     _getCoord = () => {
         try {
             var self = this;
@@ -204,9 +292,10 @@ export default class EnYakinIstasyon extends Component {
     }
 
     componentDidMount() {
-        this._getkoordinat();
+        this.getLocation();
+        // this._getkoordinat();
         // console.log('Property= '+JSON.stringify(this.props)); //(this.props.navigation.state.routeName));
-      //  this._getCoord();
+        //  this._getCoord();
     }
     componentWillReceiveProps(nextProps) {
         console.log('Receive Props' + JSON.stringify(nextProps))
@@ -220,27 +309,27 @@ export default class EnYakinIstasyon extends Component {
     }
     _HaritaFooter() {
         //console.log('Lato: '+this.state.latitude)
-       // if (this.state.latitude !== undefined) {
-            return (
-                <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
-                    <Icon active={this.state.tab1} name="map" />
-                    <Text style={{ color: 'white' }}>Harita</Text>
-                </Button>
-            )
-              /*  }
-
-        else {
-            return (
-                <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
-                    <Icon active={this.state.tab1} name="map" />
-                    <Text style={{ color: 'white' }}>Harita</Text>
-                </Button>
-            )
-        }
-        */
+        // if (this.state.latitude !== undefined) {
+        return (
+            <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
+                <Icon active={this.state.tab1} name="map" />
+                <Text style={{ color: 'white' }}>Harita</Text>
+            </Button>
+        )
+        /*  }
+ 
+  else {
+      return (
+          <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
+              <Icon active={this.state.tab1} name="map" />
+              <Text style={{ color: 'white' }}>Harita</Text>
+          </Button>
+      )
+  }
+  */
     }
     render() {
-
+        //console.log('Positions: ' + this.state.latitude + '  Lon: ' + this.state.longitude)
         return (
             <Container style={styles.container}>
                 <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
@@ -254,7 +343,11 @@ export default class EnYakinIstasyon extends Component {
                         <Title style={{ color: '#fff' }}>En Yakın İstasyon</Title>
                     </Body>
                     <Right>
+                        <Button transparent onPress={() => this.getLocation()}>
+                            <IonIcon name="find" style={{ color: '#fff' }} />
+                        </Button>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
+
                             <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
@@ -278,9 +371,10 @@ export default class EnYakinIstasyon extends Component {
                             renderItem={({ item }) =>
                                 <Card key={item.AccountId} style={styles.cardmb}>
                                     <TouchableOpacity onPress={() => this.GetItem(item.AccountId, item.name, item.Address1_Latitude, item.Address1_Longitude, item.Adres)}>
+
                                         <CardItem cardBody>
                                             <Body>
-                                                <View style={{ width: '100%', flexDirection: 'row', }}>
+                                                <View style={{ width: '100%', flexDirection: 'row', paddingBottom: 15, }}>
                                                     <Image style={{ width: 25, resizeMode: 'contain', marginLeft: 10, marginTop: -20 }} source={pompa} />
                                                     <Text style={styles.txt}>{item.name.trim().toUpperCase()}</Text>
 

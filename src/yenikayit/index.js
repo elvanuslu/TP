@@ -324,7 +324,16 @@ export default class yenikayit extends Component {
                 .then((response) => {
                     // console.log('Response0 ' + response[0].bm_uzunaciklama + '   Ret= ' + JSON.stringify(response));
                     this.setState({ loading: false })
-                    Alert.alert('Sözleşme', response[0].bm_uzunaciklama);
+                    Alert.alert(
+                        'Sözleşme',
+                        response[0].bm_uzunaciklama,
+                        [
+  
+                          { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                        ],
+                        { cancelable: true },
+                      );
+                 //   Alert.alert('Sözleşme', response[0].bm_uzunaciklama);
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
