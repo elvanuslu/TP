@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Alert, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform,ToastAndroid } from 'react-native';
 import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import {
@@ -11,7 +11,7 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import { tryStatement } from '@babel/types';
 import { multipleValidOptions } from 'jest-validate/build/condition';
-
+import Geolocation from 'react-native-geolocation-service';
 
 
 const k1 = require("../../assets/Resim.png");
@@ -650,7 +650,7 @@ export default class SatisIllce extends Component {
     }
    componentWillMount(){
        this.setState({loading:true})
-        this._getLocation();
+        this.getLocation();
         this._retrieveKullanici();
         //  this._getYakitTipleri();
         this._getPlakaListesi();
@@ -659,7 +659,8 @@ export default class SatisIllce extends Component {
         this.setState({loading:false})
    }
     _SehirIlceGoster() {
-        // if(this.state.longitude===-1){
+        console.log('his.state.longitude: '+this.state.longitude)
+     if(this.state.longitude<=0){
         return (
             <Item picker style={styles.pickerInputs}>
                 <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
@@ -685,11 +686,13 @@ export default class SatisIllce extends Component {
                 </Picker>
             </Item>
         )
-        // }
+         }
     }
+    //40.8021
+    //29.527
     _IlceGoster() {
         // console.log('Lat Ilce: '+this.state.longitude);
-        //  if(this.state.longitude===-1){
+     if(this.state.longitude<=0){
         return (
             <Item picker style={styles.pickerInputs}>
                 <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
@@ -715,8 +718,101 @@ export default class SatisIllce extends Component {
                 </Picker>
             </Item>
         )
-        // }
+        }
     }
+      //---------------------------------------------------------------
+      hasLocationPermission = async () => {
+        if (Platform.OS === 'ios' ||
+            (Platform.OS === 'android' && Platform.Version < 23)) {
+            return true;
+        }
+
+        const hasPermission = await PermissionsAndroid.check(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+
+        if (hasPermission) return true;
+
+        const status = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+
+        if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+        if (status === PermissionsAndroid.RESULTS.DENIED) {
+            Toast.show('Location permission denied by user.', ToastAndroid.LONG);
+        } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+            Toast.show('Location permission revoked by user.', ToastAndroid.LONG);
+        }
+
+        return false;
+    }
+    getLocation = async () => {
+        const hasLocationPermission = await this.hasLocationPermission();
+
+        if (!hasLocationPermission) return;
+
+        this.setState({ loading: true }, () => {
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({ location: position, loading: false });
+                    console.log('Konumlar: ' + JSON.stringify(position));
+                  /*  Toast.show({
+                        text: "Latitude: " +  position.coords.latitude,
+                        buttonText: "Tamam",
+                        type: 'danger'
+                      })
+                      Toast.show({
+                        text: "Longitude: " + position.coords.longitude,
+                        buttonText: "Tamam",
+                        type: 'danger'
+                      })
+                 */
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    })
+                    this._getLatLon();
+                },
+                (error) => {
+                    this.setState({ location: error, loading: false });
+                    console.log(error);
+                },
+                { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000, distanceFilter: 50, forceRequestLocation: true }
+            );
+        });
+    }
+    getLocationUpdates = async () => {
+        const hasLocationPermission = await this.hasLocationPermission();
+
+        if (!hasLocationPermission) return;
+
+        this.setState({ loading: true }, () => {
+            this.watchId = Geolocation.watchPosition(
+                (position) => {
+                    this.setState({ location: position, loading: false });
+                    console.log('Update Konumlar: ' + JSON.stringify(position));
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    })
+                },
+                (error) => {
+                    this.setState({ location: error });
+                    console.log(error);
+                },
+                { enableHighAccuracy: true, distanceFilter: 0, interval: 5000, fastestInterval: 2000 }
+            );
+        });
+    }
+
+    removeLocationUpdates = () => {
+        if (this.watchId !== null) {
+            Geolocation.clearWatch(this.watchId);
+            this.setState({ loading: false })
+        }
+    }
+    //-------------------------------------------------------------
     render() {
         return (
             <Container style={styles.container}>

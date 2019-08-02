@@ -112,7 +112,7 @@ export default class KampanyaSec extends Component {
     _btnDevam = (item,fiyat) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
         console.log('İtem: '+item+' --- '+ fiyat)
-         //  console.log('Devam Parametre= ' + JSON.stringify(this.props.navigation.state.params));
+          console.log('Devam Parametre= ' + JSON.stringify(Secilen));
         this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': '00000000-0000-0000-0000-000000000000','birimFiyat':undefined,'birimFiyati':Secilen.indirimlifiyati,'Fiyatlar':Secilen });
     }
     _btnDevamKampanyali = (item) => {
@@ -205,6 +205,7 @@ export default class KampanyaSec extends Component {
 
                     }
                     else {
+                        console.log('Datamaaa: '+JSON.stringify(res))
                         this.setState({
                             datam: res,
                             loading: false

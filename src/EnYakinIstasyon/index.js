@@ -116,7 +116,7 @@ export default class EnYakinIstasyon extends Component {
                 (position) => {
                     this.setState({ location: position, loading: false });
                     console.log('Konumlar: ' + JSON.stringify(position));
-                    Toast.show({
+                  /*  Toast.show({
                         text: "Latitude: " +  position.coords.latitude,
                         buttonText: "Tamam",
                         type: 'danger'
@@ -126,7 +126,7 @@ export default class EnYakinIstasyon extends Component {
                         buttonText: "Tamam",
                         type: 'danger'
                       })
-                 
+                 */
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
@@ -175,7 +175,7 @@ export default class EnYakinIstasyon extends Component {
     _getGeoLOcation = () => {
         Geolocation.getCurrentPosition(
             (position) => {
-                alert(JSON.stringify(position));
+               // alert(JSON.stringify(position));
                 console.log('My POsition: ' + JSON.stringify(position));
                 console.log('Lat: ' + position.coords.latitude)
                 console.log('Lon: ' + position.coords.longitude)

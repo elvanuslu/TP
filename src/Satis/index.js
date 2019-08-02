@@ -5,6 +5,7 @@ import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Containe
 
 import { getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Geolocation from 'react-native-geolocation-service';
 
 const k1 = require("../../assets/Resim.png");
 const logo = require("../../assets/logoGri.png");
@@ -240,7 +241,7 @@ export default class Satis extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata!', error);
         }
-       
+
     }
     ShowAlert = (value) => {
         this.setState({
@@ -408,50 +409,7 @@ export default class Satis extends Component {
             Alert.alert('Hata', error);
         }
     };
-    _getLocation = () => {
-        try {
-            this.setState({ loading: true })
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this.setState({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        error: null,
-                        loading: false,
-                    });
-                    this._getLatLon();
-                    console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-                },
-                (error) => this.setState({
-                    error: error.message,
-                    // latitude: 40.802095,
-                    // longitude: 29.526954,
-                },
-                    this._getLatLon()),
-
-                { enableHighAccuracy: true, timeout: 60000, maximumAge: 360000 },
-            );
-            this.watchID = navigator.geolocation.watchPosition((position) => {
-                //Will give you the location on location change
-                //console.log('watch ' + JSON.stringify(position));
-                //  alert(JSON.stringify(position));
-                const currentLongitude = JSON.stringify(position.coords.longitude);
-                console.log('currentLongitude: ' + currentLongitude)
-                //getting the Longitude from the location json
-                const currentLatitude = JSON.stringify(position.coords.latitude);
-                console.log('currentLatitude: ' + currentLatitude)
-                //getting the Latitude from the location json
-                this.setState({ currentLongitude: currentLongitude });
-                //Setting state Longitude to re re-render the Longitude Text
-                this.setState({ currentLatitude: currentLatitude });
-                //Setting state Latitude to re re-render the Longitude Text
-                this.setState({ loading: false })
-            });
-        } catch (error) {
-            Alert.alert('Hata', error);
-        }
-
-    }
+   
     _getLatLon = () => {
         try {
             this.setState({ loading: true })
@@ -471,20 +429,20 @@ export default class Satis extends Component {
         }
     }
 
-componentWillMount(){
-    this._FormuTemizleyiverBirZahmet()
-}
+    componentWillMount() {
+        this._FormuTemizleyiverBirZahmet()
+    }
     componentWillReceiveProps(nextProps) {
         // console.log('recievr Props')
         //  this.isAvailable();
         //  console.log('Did Mount');
-        this._getLocation();
+        this.getLocation();
         this._retrieveKullanici();
         this._getYakitTipleri();
         this._getPlakaListesi();
         this._getPaymentTypes();
     }
-    _FormuTemizleyiverBirZahmet(){
+    _FormuTemizleyiverBirZahmet() {
         console.log('_FormuTemizleyiverBirZahmet')
         this.setState({
             istasyonselectedId: undefined,
@@ -500,10 +458,103 @@ componentWillMount(){
         })
 
     }
+    //---------------------------------------------------------------
+    hasLocationPermission = async () => {
+        if (Platform.OS === 'ios' ||
+            (Platform.OS === 'android' && Platform.Version < 23)) {
+            return true;
+        }
+
+        const hasPermission = await PermissionsAndroid.check(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+
+        if (hasPermission) return true;
+
+        const status = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+
+        if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+        if (status === PermissionsAndroid.RESULTS.DENIED) {
+            Toast.show('Location permission denied by user.', ToastAndroid.LONG);
+        } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+            Toast.show('Location permission revoked by user.', ToastAndroid.LONG);
+        }
+
+        return false;
+    }
+    getLocation = async () => {
+        console.log('Getlocation')
+        const hasLocationPermission = await this.hasLocationPermission();
+
+        if (!hasLocationPermission) return;
+
+        this.setState({ loading: true }, () => {
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({ location: position, loading: false });
+                    console.log('Konumlar: ' + JSON.stringify(position));
+                    /*  Toast.show({
+                          text: "Latitude: " +  position.coords.latitude,
+                          buttonText: "Tamam",
+                          type: 'danger'
+                        })
+                        Toast.show({
+                          text: "Longitude: " + position.coords.longitude,
+                          buttonText: "Tamam",
+                          type: 'danger'
+                        })
+                   */
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    })
+                    this._getLatLon();
+                },
+                (error) => {
+                    this.setState({ location: error, loading: false });
+                    console.log(error);
+                },
+                { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000, distanceFilter: 50, forceRequestLocation: true }
+            );
+        });
+    }
+    getLocationUpdates = async () => {
+        const hasLocationPermission = await this.hasLocationPermission();
+
+        if (!hasLocationPermission) return;
+
+        this.setState({ loading: true }, () => {
+            this.watchId = Geolocation.watchPosition(
+                (position) => {
+                    this.setState({ location: position, loading: false });
+                    console.log('Update Konumlar: ' + JSON.stringify(position));
+                    this.setState({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    })
+                },
+                (error) => {
+                    this.setState({ location: error });
+                    console.log(error);
+                },
+                { enableHighAccuracy: true, distanceFilter: 0, interval: 5000, fastestInterval: 2000 }
+            );
+        });
+    }
+    removeLocationUpdates = () => {
+        if (this.watchId !== null) {
+            Geolocation.clearWatch(this.watchId);
+            this.setState({ loading: false })
+        }
+    }
+    //-------------------------------------------------------------
     componentDidMount() {
         //  this.isAvailable();
         //  console.log('Did Mount');
-        this._getLocation();
+        this.getLocation();
         this._retrieveKullanici();
         this._getYakitTipleri();
         this._getPlakaListesi();

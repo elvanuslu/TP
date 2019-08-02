@@ -153,7 +153,7 @@ export default class login extends Component {
           // console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
-              console.log('Login: ' + JSON.stringify(res))
+            //  console.log('Login1: ' + JSON.stringify(res)+' Cid:'+res.contactid)
               this.setState({ userId: res.contactid, loading: false });
               /*   setInterval(() => {
                    this.setState({
@@ -174,7 +174,7 @@ export default class login extends Component {
                   setTimeout(() => {
                     Alert.alert(
                       'Hata!',
-                      res.message,
+                      res,
                       [
 
                         { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
@@ -187,7 +187,7 @@ export default class login extends Component {
 
               }
               else {
-                // console.log("Kayıt else=>" + res);
+                 console.log("Kayıt else=>" + res);
                 this.setState({ userId: res.contactid, loading: false });
                 this._storeData();
                 this.props.navigation.navigate('AnaSayfa');
@@ -232,8 +232,8 @@ export default class login extends Component {
 
     }
     else {
-      // await setStorage('userId', '');
-      //await setStorage('Password', '');
+       await setStorage('userId', '');
+      await setStorage('Password', '');
       this.setState({ UserName: await getStorage('userId') })
       this.setState({ Pass: await getStorage('Password') })
     }

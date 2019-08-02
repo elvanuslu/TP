@@ -1,25 +1,27 @@
 import { Platform, AsyncStorage, NetInfo } from 'react-native';
+import {
+  setJSExceptionHandler,
+  setNativeExceptionHandler,
+} from 'react-native-exception-handler';
 
 //const define_api_url = "http://85.105.103.4:8096/";
 //const define_api_url = "http//213.194.120.55:8082/";
 //const define_api_url = "http://mobil.tppd.com.tr/";
 var define_api_url = "https://mobil.tppd.com.tr/";
 Platform.OS === 'ios' ? define_api_url = "https://mobil.tppd.com.tr/" : define_api_url = "http://mobil.tppd.com.tr/";
-/*
-export const isAvailable = () => {
-  const timeout = new Promise((resolve, reject) => {
-    setTimeout(reject, 4000, 'Request timed out');
-  });
-  const request = fetch(define_api_url);
-  return Promise
-    .race([timeout, request])
-    .then(response => '')
-    .catch(error => {
-      alert('Bağlantı Hatası...')
-      return false;
-    });
-}
-*/
+
+export const handleError = (error, isFatal) => {
+  // fetch
+  console.log(error, isFatal);
+  alert(error.name);
+};
+
+setJSExceptionHandler((error, isFatal) => {
+  console.log('caught global error');
+  handleError(error, isFatal);
+}, true);
+
+
 export const checkConnection = () => {
   NetInfo.isConnected.fetch().done((isConnected) => {
     if (isConnected == true) {

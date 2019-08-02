@@ -428,19 +428,20 @@ export default class OzetBilgi extends Component {
                                                 this.state.Tutar == undefined ? 0 : this.state.Tutar} TL</Text>
                                         </Right>
                                     </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                        <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={odeme}></Image>
+                                        <Left>
+                                            <Text style={styles.txtFiyatlar}>Istasyon Fiyatı </Text>
+                                        </Left>
+                                        <Right>
+                                            <Text style={styles.txtFiyatlar}>{
+                                                this.state.istasyonfiyati == undefined ? 0 : this.state.istasyonfiyati} TL</Text>
+                                        </Right>
+                                    </View>
                                     <View>
 
                                         <View style={[styles.containerKapmayali, this.props.navigation.state.params.birimFiyat ? styles.containerKapmayali : styles.hidden]}>
-                                            <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={odeme}></Image>
-                                                <Left>
-                                                    <Text style={styles.txtFiyatlar}>Istasyon Fiyatı </Text>
-                                                </Left>
-                                                <Right>
-                                                    <Text style={styles.txtFiyatlar}>{
-                                                        this.state.istasyonfiyati == undefined ? 0 : this.state.istasyonfiyati} TL</Text>
-                                                </Right>
-                                            </View>
+
 
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                                 <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={pompa}></Image>

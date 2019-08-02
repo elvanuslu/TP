@@ -7,7 +7,7 @@ import Icon2 from "react-native-vector-icons";
 import Spinner from 'react-native-loading-spinner-overlay';
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getContact, musteriGuncelle, getCityList, getCitybyId, getStorage } from '../Service/FetchUser';
+import { getContact, musteriGuncelle, getCityList, getCitybyId, getStorage, handleError } from '../Service/FetchUser';
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -159,6 +159,7 @@ export default class KayitGuncelle extends Component {
                     //Alert.alert('Hata', 'Şehir Seçim');
                 }
             } catch (error) {
+                handleError(error, false);
                 Alert.alert('Hata', error);
             }
         }
@@ -166,9 +167,12 @@ export default class KayitGuncelle extends Component {
     _getUserInfo = (userID) => {
 
         // console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
-        getContact(this.state.kullanici)
+        // getContact(this.state.kullanici)
+        getContact(userID)
             .then((res) => {
-                console.log('Kontakte: ' + JSON.stringify(res));
+                console.log('Kullanıcı Bilgileri: ' + JSON.stringify(res))
+                var dtarih = new Date(res.birthdate);
+                console.warn('Dogum Tarihi: ' + dtarih)
                 if (res.contactid !== undefined) {
                     this.setState({
                         Adi: res.firstname,
@@ -181,7 +185,7 @@ export default class KayitGuncelle extends Component {
                         mobilgrupadi: res.bm_mobilgrupadi,
                         Cinsiyet: res.gendercode,
                         MedeniDurum: res.familystatuscode,
-                        chosenDate: new Date(res.birthdate),
+                        chosenDate: new Date(res.birthdate)? new Date(res.birthdate):new Date().getDate(),
                         Adres: res.address1_line1,
                         Sehir: res.bm_sehirid,
                         Sifre2: res.bm_sifre,
@@ -197,7 +201,23 @@ export default class KayitGuncelle extends Component {
 
                     //  console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
                 }
-            }).catch(error => console.log(error));
+            }).catch(error => {
+                handleError(error, false);
+                this.setState({ loading: false }, () => {
+                    setTimeout(() => {
+                        Alert.alert(
+                            'Hata!',
+                            error,
+                            [
+
+                                { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                            ],
+                            { cancelable: true },
+                        );
+                    }, 510);
+                });
+
+            });
     }
     _getCity() {
         try {
@@ -223,6 +243,7 @@ export default class KayitGuncelle extends Component {
                 this._getUserInfo(value);
             }
         } catch (error) {
+            handleError(error, false);
             Alert.alert('Hata', error);
         }
     };
@@ -432,7 +453,7 @@ export default class KayitGuncelle extends Component {
                         <Item regular style={styles.Inputs}>
                             <Icon active name='md-tablet-portrait' underlayColor='#2089dc' color='#fff' />
                             <TextInputMask style={styles.Inputs1}
-                                editable={true}
+                                editable={false}
                                 placeholder="Telefonunuzu Girin"
                                 placeholderTextColor="black"
                                 keyboardType="phone-pad"
@@ -520,7 +541,6 @@ export default class KayitGuncelle extends Component {
                             </Picker>
 
                         </Item>
-
                         <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '79%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
 
                             <Image style={{ marginLeft: 5, width: 20, height: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
@@ -546,6 +566,7 @@ export default class KayitGuncelle extends Component {
                             </Text>
 
                         </Item>
+
                         <Item regular style={styles.Inputs}>
                             <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                             <Input placeholder='Şifre '
@@ -568,7 +589,7 @@ export default class KayitGuncelle extends Component {
                                 value={this.state.Sifre2}
                                 underlineColorAndroid="transparent" />
                         </Item>
-                       
+
                         <Button block danger style={styles.mb15} onPress={() => this._btnKayit()}>
                             <Text style={styles.buttonText}>Güncelle</Text>
                         </Button>
