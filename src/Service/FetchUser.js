@@ -1,36 +1,38 @@
-import { Platform, AsyncStorage, NetInfo } from 'react-native';
-import {
-  setJSExceptionHandler,
-  setNativeExceptionHandler,
-} from 'react-native-exception-handler';
+import { Alert, Platform, AsyncStorage, NetInfo, PermissionsAndroid, ToastAndroid } from 'react-native';
+
+
+import Geolocation from 'react-native-geolocation-service';
 
 //const define_api_url = "http://85.105.103.4:8096/";
 //const define_api_url = "http//213.194.120.55:8082/";
 //const define_api_url = "http://mobil.tppd.com.tr/";
 var define_api_url = "https://mobil.tppd.com.tr/";
 Platform.OS === 'ios' ? define_api_url = "https://mobil.tppd.com.tr/" : define_api_url = "http://mobil.tppd.com.tr/";
-
-export const handleError = (error, isFatal) => {
-  // fetch
-  console.log(error, isFatal);
-  alert(error.name);
-};
-
-setJSExceptionHandler((error, isFatal) => {
-  console.log('caught global error');
-  handleError(error, isFatal);
-}, true);
+let isConnect = false;
 
 
-export const checkConnection = () => {
-  NetInfo.isConnected.fetch().done((isConnected) => {
+export const checkConnection = async () => {
+  console.log('connection check' + new Date());
+  await NetInfo.isConnected.fetch().done((isConnected) => {
     if (isConnected == true) {
-      console.log('connection = True');
+      console.log('connection a = True');
       return true;
       //this.setState({ connection_Status: "Online" })
     }
     else {
-      console.log('Connection = False');
+      this.setState({ loading: false }, () => {
+        setTimeout(() => {
+          Alert.alert(
+            'Bağlantı Hatası!',
+            'İnternet Bağlantınızı Kontrol Edin',
+            [
+
+              { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+            ],
+            { cancelable: true },
+          );
+        }, 510);
+      });
       return false;
       //this.setState({ connection_Status: "Offline" })
     }
@@ -45,8 +47,9 @@ export const getIstasyonWithLatLon = (lat, lon, sayac) => {
      */
   try {
     const URL = define_api_url + `TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
-    return fetch(URL, { method: 'GET' })
-      .then((res) => res.json())
+    return getRequest(URL);
+    //  return fetch(URL, { method: 'GET' })
+    //    .then((res) => res.json())
   } catch (error) {
 
   }
@@ -57,24 +60,25 @@ export const getUserInfo = (name, pass) => {
 
   // isAvailable();
   // console.log("User=" + username + "  Pass =" + pass);
-  const URL = define_api_url + `GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;//`http://85.105.103.4:8096/GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  const URL = define_api_url + `GetContactAccess?EMailAddress1=${username}&bm_sifre=${pass}`;
+  return getRequest(URL);
+  // return fetch(URL, { method: 'GET' })
+  //   .then((res) => res.json())
 }
 
 export const campaignDetailList = (istasyonid, yakittipiid, gecerliodemetipi, tutarTL, contactId, kampanyakuponuId, plaka) => {
   try {
-    
-        console.log('istasyonid ' + istasyonid)
-        console.log('yakittipiid ' + yakittipiid)
-        console.log('gecerliodemetipi ' + gecerliodemetipi)
-        console.log('tutarTL ' + tutarTL)
-        console.log('contactId ' + contactId)
-    
-        console.log('kampanyakuponuId' + kampanyakuponuId)
-    
-        console.log('plaka ' + plaka)
-    
+
+    console.log('istasyonid ' + istasyonid)
+    console.log('yakittipiid ' + yakittipiid)
+    console.log('gecerliodemetipi ' + gecerliodemetipi)
+    console.log('tutarTL ' + tutarTL)
+    console.log('contactId ' + contactId)
+
+    console.log('kampanyakuponuId' + kampanyakuponuId)
+
+    console.log('plaka ' + plaka)
+
     const URL = define_api_url + `TP_CampaignDetailList`;
     return fetch(URL,
       {
@@ -220,26 +224,36 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
 
 
 }
+//Plaka Yakıtı Doldurmuyor....
 export const getCitybyLocation = () => {
-  const URL = define_api_url + `GetCityListFromAccount`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  try {
+
+    const URL = define_api_url + `GetCityListFromAccount`;
+   
+     return fetch(URL, { method: 'GET' })
+       .then((res) => res.json())
+      // .then((ret) => { console.log('Ret Code: ' +JSON.stringify(ret))})
+       .catch(e => {
+         console.log('CitybyLocation: ' + e)
+       })
+
+  } catch (error) {
+    console.log('Error: ' + error);
+  }
 }
 export const getCitylocationbyId = (Id) => {
   const URL = define_api_url + `GetCountiesByCityIdFromAccount?cityId=${Id}`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  return getRequest(URL);
+  // return fetch(URL, { method: 'GET' })
+  //   .then((res) => res.json())
 }
 export const getCityList = () => {
   const URL = define_api_url + `GetCityList`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  return getRequest(URL);
+  //  return fetch(URL, { method: 'GET' })
+  //    .then((res) => res.json())
 }
-export const getContact = (userId) => {
-  const URL = define_api_url + `GetContactByContactId?ContactId=${userId}`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
-}
+
 export const getCitybyId = (Id) => {
   const URL = define_api_url + `GetCountyByCityId?cityId=${Id}`;
   return fetch(URL, { method: 'GET' })
@@ -286,46 +300,45 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
 export const getKampanyaListesi = () => {
   //  const URL = `http://85.105.103.4:8096/TP_CampaignList`;
   const URL = define_api_url + `TP_CampaignList`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  return getRequest(URL);
+  //  return fetch(URL, { method: 'GET' })
+  //    .then((res) => res.json())
 
 }
 export const getKampanyaDetayList = (Id) => {
   const URL = define_api_url + `GetBm_KampanyaByID?bm_kampanyaId=${Id}`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  return getRequest(URL);
+  // return fetch(URL, { method: 'GET' })
+  //   .then((res) => res.json())
 }
 
-export const getPlakaList = (userId) => {
-  try {
 
-    const URL = define_api_url + `GetBm_MusteriAracList_ByContactId?contactID=${userId}&isActive=Active`;
-    //  console.log('Url= ' + URL);
-    return fetch(URL, { method: 'GET' })
-      .then((res) => res.json())
-    // .then((ret)=>console.log(ret.son));
-    // http://85.105.103.4:8096/GetBm_MusteriAracList_ByContactId?contactID=f9abd025-258c-e911-838d-000c29289d89&isActive=Active
-  } catch (error) {
-    console.log('getPlaka Hata oluştu', error);
-  }
-}
 
-export const getPaymentTypes = async () => {
+export const getPaymentTypes = () => {
   try {
+    console.log('GetPaymentTypes 1 ');
 
     const URL = define_api_url + `GetPaymentTypes`;
-    return fetch(URL, { method: 'GET' })
-      .then((res) => res.json())
+    return getRequest(URL);
+    //   return fetch(URL, { method: 'GET' })
+    //     .then((res) => res.json())
+    //     .catch(e => {
+    //       console.log('getPaymentTypes Hata: ' + e)
+    //     })
+
   } catch (error) {
     console.log('GetPaymentTypes Hata: ' + error);
   }
+
+  console.log('GetPaymentTypes End ');
 }
 export const getSatisPuanGecmisi = async (userId) => {
   try {
     let userID = userId.trim();
     const URL = define_api_url + `TP_MusterininPompaislemleri?contactID=${userId}`;
-    return fetch(URL, { method: 'GET' })
-      .then((res) => res.json())
+    return getRequest(URL);
+    // return fetch(URL, { method: 'GET' })
+    //   .then((res) => res.json())
   } catch (error) {
     console.log('getSatışPuanGecmisi Hata: ' + error);
   }
@@ -333,8 +346,9 @@ export const getSatisPuanGecmisi = async (userId) => {
 export const getSatisPuanDetay = async (PompaId) => {
   try {
     const URL = define_api_url + `TP_PompaislemiDetayı?PompaislemiId=${PompaId}`;
-    return fetch(URL, { method: 'GET' })
-      .then((res) => res.json())
+    return getRequest(URL);
+    //return fetch(URL, { method: 'GET' })
+    //  .then((res) => res.json())
   } catch (error) {
     console.log('getSatışPuanDetay: ' + error);
   }
@@ -360,8 +374,9 @@ export const postSatisPuanGecmisi = async (userId) => {
 export const getCardById = (Id) => {
   try {
     const URL = define_api_url + `GetBm_Kart_ByContactId?ContactId=${Id}`;
-    return fetch(URL, { method: 'GET' })
-      .then((res) => res.json())
+    return getRequest(URL);
+    //  return fetch(URL, { method: 'GET' })
+    //    .then((res) => res.json())
   } catch (error) {
     console.log('getCardById= ' + error);
   }
@@ -434,13 +449,11 @@ export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) =
 }
 export const deleteMusteriArac = async (Id) => {
   console.log('Delete d: ' + Id)
-  
-
   try {
     const URL = define_api_url + `DeleteBm_MusteriAraci`;
     return fetch(URL,
       {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -479,39 +492,48 @@ export const SendPasswordByEmailAfterChangedPsw = async (eposta) => {
 }
 export const getIstasyonByCityId = (city, num) => {
   const URL = define_api_url + `TP_AccountGeographyList2?bm_ilceId=${city}&StationNumber=${num}`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  return getRequest(URL);
+  // return fetch(URL, { method: 'GET' })
+  //   .then((res) => res.json())
   //.then((data) => { console.log("CityIdd=>" + JSON.stringify(data)) });
 }
 export const getDuyuruListByUser = (userId) => {
   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=1&contactid=${userId}`;
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  return getRequest(URL);
+  //return fetch(URL, { method: 'GET' })
+  // .then((res) => res.json())
 }
 export const getSSS = (durum) => {
   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=${durum}`;
-  console.log('URL ' + URL);
-  return fetch(URL, { method: 'GET' })
-    .then((res) => res.json())
+  return getRequest(URL);
+  // console.log('URL ' + URL);
+  // return fetch(URL, { method: 'GET' })
+  //   .then((res) => res.json())
 }
 export const getAracYakitTipi = (plaka) => {
   //console.log("getYakitTipi");
   const URL = define_api_url + `GetBm_MusteriArac?bm_musteriaraciId=${plaka}`;
-  return fetch(URL)
-    .then((ret) => ret.json())
-  //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
+  return getRequest(URL);
+  /* return fetch(URL)
+     .then((ret) => ret.json())
+   //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
+   */
 }
 export const getYakitTipi = () => {
   //console.log("getYakitTipi");
   const URL = define_api_url + `GetBm_YakittipiList`;
-  return fetch(URL)
+  return getRequest(URL);
+  /*return fetch(URL)
     .then((ret) => ret.json())
   //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
+  */
 }
 export const getAracMarkaList = () => {
   const URL = define_api_url + `GetBm_AracmarkasiList`;
-  return fetch(URL, { method: 'GET' })
+  return getRequest(URL);
+  /*return fetch(URL, { method: 'GET' })
     .then((res) => res.json())
+    */
 }
 export const getStorage = async (key) => {
   try {
@@ -533,17 +555,80 @@ export const setStorage = async (key, value) => {
     console.log('Hata oluştu', error);
   }
 };
+export const getPlakaList = (userId) => {
+  try {
 
+    const URL = define_api_url + `GetBm_MusteriAracList_ByContactId?contactID=${userId}&isActive=Active`;
+    return getRequest(URL);
+    /* return fetch(URL, { method: 'GET' })
+       .then((res) => res.json())
+       */
+  } catch (error) {
+    console.log('getPlaka Hata oluştu', error);
+  }
+}
+export const getContact = (userId) => {
+  const URL = define_api_url + `GetContactByContactId?ContactId=${userId}`;
+  return getRequest(URL);
+  /* return fetch(URL, { method: 'GET' })
+     .then((res) => res.json())
+     */
+}
+
+export const internetConnection = async () => {
+  NetInfo.isConnected.fetch().then(() => {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if (isConnected == true) {
+        isConnect = true;
+        console.log('connection i = True' + new Date());
+        return true;
+        //this.setState({ connection_Status: "Online" })
+      }
+      else {
+        console.log('Connection = False');
+        return false;
+        //this.setState({ connection_Status: "Offline" })
+      }
+    });
+  });
+}
+
+//getRequest get Method
 export const getRequest = async (url) => {
 
-  let api_url = await getStorage("api_url");
-  if (api_url == undefined || api_url == "") {
-    api_url = define_api_url;
-  }
-  const ApiUrl = api_url + url;
+  let api_url = url;
+  console.log('APi URL:' + api_url);
+  //---------------------------------------
+  let data = await fetch(api_url, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    timeout: 5000
+  })
+    .then(resp => resp.json())
+    .catch(e => {
+      this.setState({ loading: false }, () => {
+        setTimeout(() => {
+          Alert.alert(
+            'Bağlantı Hatası!',
+            'İnternet Bağlantınızı Kontrol Edin'+e,
+            [
 
+              { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+            ],
+            { cancelable: true },
+          );
+        }, 510);
+      });
+    })
+  return data;
 
-  let data = await fetch(ApiUrl, {
+  //---------------------------------------
+}
+export const dataGet = async () => {
+  let data = await fetch(api_url, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -552,7 +637,6 @@ export const getRequest = async (url) => {
   }).then(resp => resp.json());
   return data;
 }
-
 export const postRequest = async (body, url) => {
 
   let api_url = await getStorage("api_url");
@@ -590,32 +674,73 @@ export const _handleConnectivityChange = (isConnected) => {
   }
 };
 
-export const _getCoord = () => {
-  try {
-      var self = this;
-      this.setState({ loading: true })
-      navigator.geolocation.getCurrentPosition(
-          (position) => {
-              this.setState({
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                  error: null,
-                  loading: false,
-              });
-              this._getData();
-              // console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-          },
-          (error) => this.setState({
-              error: error.message,
-              //latitude: 40.802095,
-              //longitude: 29.526954,
-              loading: false,
-          }),
-          { enableHighAccuracy: false, timeout: 60000, maximumAge: 3600000 },
-      );
-      this._getData();
-  } catch (error) {
-      Alert.alert('Hata!', error);
+
+
+hasLocationPermission = async () => {
+  if (Platform.OS === 'ios' ||
+    (Platform.OS === 'android' && Platform.Version < 23)) {
+    return true;
   }
 
+  const hasPermission = await PermissionsAndroid.check(
+    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+  );
+
+  if (hasPermission) return true;
+
+  const status = await PermissionsAndroid.request(
+    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+  );
+
+  if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
+
+  if (status === PermissionsAndroid.RESULTS.DENIED) {
+    Toast.show('Location permission denied by user.', ToastAndroid.LONG);
+  } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+    Toast.show('Location permission revoked by user.', ToastAndroid.LONG);
+  }
+
+  return false;
+}
+/*
+   Gps Lokasyon Bilgilerini Alıyoruz...
+*/
+export const fetchgetLocation = async () => {
+  try {
+    const hasLocationPermission = await this.hasLocationPermission();
+  //  if (!hasLocationPermission) return;
+  if (!hasLocationPermission){
+    Alert.alert(
+        'Konum İzni Gerekiyor!',
+        'Lütfen Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
+        [
+
+            {
+                text: 'Tamam', onPress: () => {
+                    this.setState({
+                        loading: false,
+                        baglanti: false,
+                    })
+                    this.props.navigation.navigate("hesabim")
+                }
+            },
+        ],
+        { cancelable: true },
+    )
+    return
+} 
+    Geolocation.getCurrentPosition(
+      (position) => {
+        return position;
+        console.log('Fetch Konum: ' + JSON.stringify(position));
+      },
+      (error) => {
+        return null;
+        console.log(error);
+      },
+      { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000, distanceFilter: 50, forceRequestLocation: true }
+    );
+  } catch (error) {
+
+  }
 }

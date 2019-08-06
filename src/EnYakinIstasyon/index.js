@@ -79,6 +79,7 @@ export default class EnYakinIstasyon extends Component {
             this.setState({ loading: false })
         }
     }
+   
     //---------------------------------------------------------------
     hasLocationPermission = async () => {
         if (Platform.OS === 'ios' ||
@@ -99,9 +100,9 @@ export default class EnYakinIstasyon extends Component {
         if (status === PermissionsAndroid.RESULTS.GRANTED) return true;
 
         if (status === PermissionsAndroid.RESULTS.DENIED) {
-            Toast.show('Location permission denied by user.', ToastAndroid.LONG);
+            Toast.show('Location permission denied by user.', Toast.LONG);
         } else if (status === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
-            Toast.show('Location permission revoked by user.', ToastAndroid.LONG);
+            Toast.show('Location permission revoked by user.', Toast.LONG);
         }
 
         return false;
@@ -109,7 +110,27 @@ export default class EnYakinIstasyon extends Component {
     getLocation = async () => {
         const hasLocationPermission = await this.hasLocationPermission();
 
-        if (!hasLocationPermission) return;
+       // if (!hasLocationPermission) return;
+       if (!hasLocationPermission){
+        Alert.alert(
+            'Konum İzni Gerekiyor!',
+            'Lütfen Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
+            [
+
+                {
+                    text: 'Tamam', onPress: () => {
+                        this.setState({
+                            loading: false,
+                            baglanti: false,
+                        })
+                        this.props.navigation.navigate("hesabim")
+                    }
+                },
+            ],
+            { cancelable: true },
+        )
+        return
+    } 
 
         this.setState({ loading: true }, () => {
             Geolocation.getCurrentPosition(
@@ -176,9 +197,10 @@ export default class EnYakinIstasyon extends Component {
         Geolocation.getCurrentPosition(
             (position) => {
                // alert(JSON.stringify(position));
-                console.log('My POsition: ' + JSON.stringify(position));
+             /*   console.log('My POsition: ' + JSON.stringify(position));
                 console.log('Lat: ' + position.coords.latitude)
                 console.log('Lon: ' + position.coords.longitude)
+                */
                 this.setState({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
@@ -213,19 +235,6 @@ export default class EnYakinIstasyon extends Component {
     }
     callLocation(that) {
         this.setState({ loading: true })
-        //alert("callLocation Called");
-        /*  navigator.geolocation.getCurrentPosition(
-              (position) => {
-                  console.log('Current  Pos: '+position);
-                  const currentLongitude = JSON.stringify(position.coords.longitude);
-                  const currentLatitude = JSON.stringify(position.coords.latitude);
-                  that.setState({ latitude: currentLongitude });
-                  that.setState({ longitude: currentLatitude });
-              },
-              (error) => alert(error.message),
-              { enableHighAccuracy: false, timeout: 50000, maximumAge: 1000, }
-          );
-          */
         this._getGeoLOcation();
         that.watchID = Geolocation.watchPosition((position) => {
             console.log('Watch Pos: ' + position);
@@ -290,7 +299,9 @@ export default class EnYakinIstasyon extends Component {
         }
 
     }
-
+componentWillUnmount(){
+    this.removeLocationUpdates();
+}
     componentDidMount() {
         this.getLocation();
         // this._getkoordinat();
@@ -299,6 +310,7 @@ export default class EnYakinIstasyon extends Component {
     }
     componentWillReceiveProps(nextProps) {
         console.log('Receive Props' + JSON.stringify(nextProps))
+        this.getLocation();
     }
     // GetItem(item) 
     GetItem(item, name, lat, lon, adres) {

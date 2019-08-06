@@ -17,8 +17,10 @@ export default class kampanya extends Component {
         this.state = {
             //datam: datas
             datam: [],
-            loading: true
+            loading: true,
+            isConnected:false,
         }
+       
     }
 
     componentDidMount() {
@@ -32,7 +34,7 @@ export default class kampanya extends Component {
                 .then((res) => {
 
                     this.setState({ datam: res, loading: false });
-                    //   console.log(res);
+                      console.log('Kampanya Listesi:'+JSON.stringify(res));
                 });
         } catch (error) {
             this.setState({ loading: false })

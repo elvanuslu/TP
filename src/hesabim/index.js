@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Dimensions,TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -57,9 +57,7 @@ export default class hesabim extends Component {
                 </Header>
                 <View style={styles.container1}>
                     <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')}
-                        />
-                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
@@ -106,16 +104,40 @@ const styles = StyleSheet.create({
     container1: {
         flex: 2,
         backgroundColor: 'transparent',
-        // alignItems: 'center',
+        //marginBottom: 10,
+        justifyContent: 'center',
+       // alignItems: 'center',
     },
     containerOrta: {
-        flex: 5,
+        flex: 3,
         backgroundColor: 'transparent',
+        justifyContent: 'center',
+        alignItems: 'center',
+       // marginBottom: 10,
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 5,
+        flex: 4,
         backgroundColor: 'transparent',
+       // flexDirection: 'column-reverse',
+        marginBottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    /*
+    container1: {
+        flex: 2,
+        backgroundColor: 'red',
+        // alignItems: 'center',
+    },
+    containerOrta: {
+        flex: 3,
+        backgroundColor: 'yellow',
+        //alignItems: 'center',
+    },
+    containerBottom: {
+        flex: 4,
+        backgroundColor: 'green',
         alignSelf: 'center',
         marginBottom: 35,
         // justifyContent: 'center',
@@ -124,6 +146,7 @@ const styles = StyleSheet.create({
         //  width: '100%',
 
     },
+    */
     welcome: {
         fontSize: 20,
         textAlign: 'center',
@@ -144,8 +167,8 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
-        //  width: '100%',
-        height: 55,
+        width: '100%',
+        height: 80,
         resizeMode: 'contain',
         marginBottom: 6,
         alignSelf: 'center'
@@ -159,12 +182,21 @@ const styles = StyleSheet.create({
      },
      */
     banner: {
+        // alignSelf: 'center',
+        width: Math.round(Dimensions.get('window').width),
+        height:  Math.round(Dimensions.get('window').height) / 2,
+        resizeMode: 'contain',
+        marginBottom: 15,
+    },
+    /*
+    banner: {
         // marginTop: 2,
         width: '100%',
         height: 195,
         resizeMode: 'contain',
         marginBottom: 5,
     },
+    */
     switchcontainer: {
         flexDirection: 'row',
         alignSelf: 'flex-end',

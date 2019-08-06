@@ -5,7 +5,6 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
-import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.airbnb.android.react.maps.MapsPackage;
@@ -33,7 +32,6 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new GeolocationPackage(),
             new RNFusedLocationPackage(),
-            new ReactNativeExceptionHandlerPackage(),
                        new RNTextInputMaskPackage(),
             new VectorIconsPackage(),
             new MapsPackage(),

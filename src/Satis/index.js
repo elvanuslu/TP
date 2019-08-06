@@ -363,10 +363,11 @@ export default class Satis extends Component {
         try {
             this.setState({ loading: true })
             const uId = await getStorage('userId');
+             console.log('uId ' + uId)
             //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
-                    //  console.log('Res= ' + JSON.stringify(res))
+                      console.log('Res= ' + JSON.stringify(res))
                     this.setState({ Plaka: res, loading: false });
                 })
                 .catch(e => {
@@ -438,8 +439,9 @@ export default class Satis extends Component {
         //  console.log('Did Mount');
         this.getLocation();
         this._retrieveKullanici();
-        this._getYakitTipleri();
         this._getPlakaListesi();
+        this._getYakitTipleri();
+        
         this._getPaymentTypes();
     }
     _FormuTemizleyiverBirZahmet() {
@@ -495,7 +497,7 @@ export default class Satis extends Component {
             Geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                    console.log('Konumlar: ' + JSON.stringify(position));
+                 //   console.log('Konumlar: ' + JSON.stringify(position));
                     /*  Toast.show({
                           text: "Latitude: " +  position.coords.latitude,
                           buttonText: "Tamam",

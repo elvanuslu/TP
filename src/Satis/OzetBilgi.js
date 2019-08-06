@@ -241,7 +241,7 @@ export default class OzetBilgi extends Component {
             //  if (Id !== this.state.oldId) {
             if (Id !== '00000000-0000-0000-0000-000000000000') {
                 let Fiyatlar = this.props.navigation.state.params.Fiyatlar.find(p => p.bm_kampanyaId === Id);
-                //  console.log('Get Params Fiyatlar: ' + JSON.stringify(Fiyatlar));
+                  console.log('Get Params Fiyatlar: ' + JSON.stringify(Fiyatlar));
                 //  console.log('Fiyat 0: '+Fiyatlar.alimtutari);
                 this.setState({
                     oldId: Id,
@@ -272,13 +272,13 @@ export default class OzetBilgi extends Component {
                     bayikatkiorani: this.props.navigation.state.params.bayikatkiorani,
                     isortagikatkiorani: this.props.navigation.state.params.isortagikatkiorani,
                     isortagiid: Fiyatlar.isortagiid,
-                    istasyonfiyati: this.props.navigation.state.params.istasyonfiyati,
+                    istasyonfiyati:Fiyatlar.istasyonfiyati,  //this.props.navigation.state.params.Fiyatlar.istasyonfiyati,
 
                 });
                 console.log('Test')
             }
             else {
-                console.warn('Else Çalıştı...')
+                console.warn('Else Çalıştı...'+JSON.stringify(this.props.navigation.state.params.Fiyatlar.istasyonfiyati))
                 this.setState({
                     oldId: Id,
                     Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
@@ -303,7 +303,7 @@ export default class OzetBilgi extends Component {
                     puanTLkarsiligi: 0,
                     harcananPuan: 0,
                     harcananPuanTL: 0,
-                    KampanyaId: this.props.navigation.state.params.Fiyatlar.bm_kampanyaId,
+                 //   KampanyaId: this.props.navigation.state.params.Fiyatlar[0].bm_kampanyaId,
 
                 })
             }
@@ -330,7 +330,7 @@ export default class OzetBilgi extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("SatisIllce")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("SatisIllce",{'Tim':new Date()})}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>

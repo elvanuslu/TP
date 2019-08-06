@@ -339,7 +339,7 @@ export default class KampanyaSec extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate('SatisIllce')}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("SatisIllce",{'Tim':new Date()})}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>

@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import {Dimensions, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Dimensions, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -56,12 +56,12 @@ export default class AnaSayfa extends Component {
                         this.props.navigation.navigate("Satis");
                     }
                     else {
-                        this.props.navigation.navigate("SatisIllce");
+                        this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() });
 
                     }
                 },
                 (error) => {
-                    this.props.navigation.navigate("SatisIllce")
+                    this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() });
                 },
                 {
                     enableHighAccuracy: true, timeout: 2000, maximumAge: 1000
@@ -70,13 +70,13 @@ export default class AnaSayfa extends Component {
         } catch (error) {
 
         }
-       
+
     }
     componentWillReceiveProps(nextProps) {
-      //  this._getGps1();
+        //  this._getGps1();
     }
     componentDidMount() {
-    //  alert(Math.round(Dimensions.get('window').width))
+        //  alert(Math.round(Dimensions.get('window').width))
     }
     render() {
         return (
@@ -98,10 +98,7 @@ export default class AnaSayfa extends Component {
                     </Right>
                 </Header>
                 <View style={styles.container1}>
-                   
-                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30,marginBottom:10, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
-               
+                    <Image style={styles.logo} source={require('../../assets/logo.png')} />
                 </View>
                 <View style={styles.containerOrta}>
                     <Image style={styles.banner} source={k1} />
@@ -115,10 +112,10 @@ export default class AnaSayfa extends Component {
                             textStyle={styles.spinnerTextStyle}
                         />
                     </View>
-                    <View style={{ flex: 3, flexDirection: "column", backgroundColor: 'transparent',justifyContent:'center',alignItems:'center' }}>
-                        <View style={{  flexDirection: 'row', marginBottom: 20, backgroundColor: 'transparent' }}>
+                    <View style={{ flex: 3, flexDirection: "column", backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row', marginBottom: 20, backgroundColor: 'transparent' }}>
                             <Left style={{ marginLeft: 20 }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisIllce")}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() })}>
                                     <Image style={styles.button} source={require('../../assets/yakitalldpi.png')} />
                                 </TouchableOpacity>
                             </Left>
@@ -134,7 +131,7 @@ export default class AnaSayfa extends Component {
                             </Right>
 
                         </View>
-                        <View style={{  flexDirection: 'row', backgroundColor: 'transparent', }}>
+                        <View style={{ flexDirection: 'row', backgroundColor: 'transparent', }}>
                             <Left style={{ marginLeft: 20, }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("Duyurular")}>
                                     <Image style={styles.button} source={require('../../assets/duyurularldpi.png')} />
@@ -154,7 +151,7 @@ export default class AnaSayfa extends Component {
                         </View>
                     </View>
                 </View>
-               
+
             </Container>
         )
     }
@@ -170,26 +167,25 @@ const styles = StyleSheet.create({
         flex: 2,
         backgroundColor: 'transparent',
         marginBottom: 10,
-        justifyContent:'center',
-        alignItems:'center',
-        marginBottom:10,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     containerOrta: {
-        flex: 4,
+        flex: 3,
         backgroundColor: 'transparent',
-        justifyContent:'center',
-        alignItems:'center',
-        marginBottom:10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
         //alignItems: 'center',
     },
     containerBottom: {
         flex: 4,
         backgroundColor: 'transparent',
         flexDirection: 'row-reverse',
-        marginBottom:10,
-        backgroundColor:'transparent',
-        justifyContent:'center',
-        alignItems:'center'
+        marginBottom: 10,
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     welcome: {
         fontSize: 20,
@@ -211,16 +207,17 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 5,
-       // width: 200,
-        height: 50,
+        width: '100%',
+        height: 80,
         resizeMode: 'contain',
-        marginBottom: 5,
+        marginBottom: 6,
         alignSelf: 'center'
     },
+  
     banner: {
-       // alignSelf: 'center',
+        // alignSelf: 'center',
         width: Math.round(Dimensions.get('window').width),
-        height: Math.round(Dimensions.get('window').height)/2,
+        height:  Math.round(Dimensions.get('window').height) / 2,
         resizeMode: 'contain',
         marginBottom: 15,
     },

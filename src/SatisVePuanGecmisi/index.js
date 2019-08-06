@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import {Alert, ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import {
     List,
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content
@@ -87,11 +87,27 @@ export default class SatisVePuanGecmisi extends Component {
             const uId = await getStorage('userId');
             getSatisPuanGecmisi(uId)
                 .then((res) => {
+                    console.log('response='+JSON.stringify(res))
                     if (res.status != false) {
                         console.log('Res= ' + JSON.stringify(res.responsePompaIslemiModel))
-                        this.setState({ listViewData: res.responsePompaIslemiModel });
+                        this.setState({ listViewData: res.responsePompaIslemiModel,loading:false });
                     }
-                    this.setState({ loading: false })
+                    else{
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                Alert.alert(
+                                    'Satış ve Puan Geçmişi',
+                                    res.message,
+                                    [
+        
+                                        { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                                    ],
+                                    { cancelable: true },
+                                );
+                            }, 510);
+                        });
+                    }
+                    
                 })
                 .catch((error) => alert(error))
         } catch (error) {

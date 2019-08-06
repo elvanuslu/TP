@@ -86,7 +86,7 @@ export default class Kodec extends Component {
                 <StatusBar style={{ color: '#fff' }} barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("hesabim")}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("login")}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>

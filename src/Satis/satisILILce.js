@@ -1,10 +1,10 @@
 
 import React, { Component } from 'react';
-import { Alert, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform,ToastAndroid } from 'react-native';
+import { Alert, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform, ToastAndroid, Toast } from 'react-native';
 import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import {
-    getCitybyLocation, getCitylocationbyId,
+    getCitybyLocation, getCitylocationbyId, checkConnection,
     campaignDetailList, getAracYakitTipi, getIstasyonByCityId, getPaymentTypes,
     getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList
 } from '../Service/FetchUser';
@@ -25,7 +25,7 @@ const OdemeIkon = require("../../assets/ikonlar-16.png");
 const sehirIkon = require("../../assets/ikonlar-22.png");
 
 
-
+let adet = 0;
 export default class SatisIllce extends Component {
     constructor(props) {
         super(props);
@@ -66,42 +66,53 @@ export default class SatisIllce extends Component {
             Ilce: undefined,
             IlceList: [],
             showCancel: false,
+            hasError: false,
         }
     }
-    _getGps() {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    error: null,
-                    loading: false,
-                });
-            },
-            (error) => this.setState({
-                error: error.message,
-                latitude: 0,//40.802095,
-                longitude: 0,// 29.526954,
-            },
-                this._getLatLon()),
-            {
-                enableHighAccuracy: true, timeout: 60000, maximumAge: 360000
-            }
-        );
-    }
+
     _getCity = async () => {
         try {
-            //  getCityList()
+            var SehirLst = [];
             getCitybyLocation()
                 .then((res) => {
+
                     // console.log('Şehirler ' + JSON.stringify(res))
-                    var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'Şehir' };
-                    res.splice(0, 0, initialArr);
-                    this.setState({
-                        Sehirler: res,
-                    })
+                    if (res instanceof Array) {
+                        SehirLst = res;
+                        var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'Şehir' };
+                        SehirLst.splice(0, 0, initialArr);
+                        this.setState({
+                            Sehirler: SehirLst,
+                        })
+                    }
+                    else {
+                        SehirLst = [];
+                        /*  Daha Sonra Açabiliriz hata görmek istiyorsak.
+                        Alert.alert(
+                            'Hata Oluştu!',
+                            '1Şehirler Getirilemedi.',
+                            [
+            
+                                { text: 'Tamam', onPress: () => '' },
+                            ],
+                            { cancelable: true },
+                        );
+                        */
+                    }
                 })
+                .catch(e => {
+                    Alert.alert(
+                        'Hata Oluştu!',
+                        e,
+                        [
+                            { text: 'Tamam', onPress: () => '' },
+                        ],
+                        { cancelable: true },
+                    );
+                })
+
         } catch (error) {
+            this.setState({ hasError: true, loading: false })
             Alert.alert('Şehirler', error);
         }
     }
@@ -110,35 +121,56 @@ export default class SatisIllce extends Component {
             const Id = await getStorage('userId');
             campaignDetailList(this.state.istasyonselectedId, his.state.selected2, this.state.OdemeTipi, this.state.Tutar ? this.state.Tutar : 0, Id, this.state.KuponKodu, this.state.PlakaSelectId)
                 .then((res) => {
-                    if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
-                        if (this.state.SwitchOnValueHolder == true) { // Tutar 
-                            this.setState({ loading: false })
-                            this.props.navigation.navigate("OzetBilgi", {
-                                'Parametre': {
-                                    'Istasyon': this.state.istasyonselectedId,
-                                    'IstasyonAdi': this.state.IstasyonAdi,
-                                    'Plaka': this.state.PlakaSelectId,
-                                    'PlakaName': this.state.PlakaName,
-                                    'Yakit': this.state.selected2,
-                                    'YakitAdi': this.state.YakitAdi,
-                                    'OdemeTipi': this.state.OdemeTipi,
-                                    'OdemeAdi': this.state.OdemeAdi,
-                                    'PompaNo': this.state.PompaNo,
-                                    'KuponKodu': this.state.KuponKodu,
-                                    'Tutar': 0,
-                                }
-                            });
+                    if (res) {
+                        if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
+                            if (this.state.SwitchOnValueHolder == true) { // Tutar 
+                                this.setState({ loading: false })
+                                this.props.navigation.navigate("OzetBilgi", {
+                                    'Parametre': {
+                                        'Istasyon': this.state.istasyonselectedId,
+                                        'IstasyonAdi': this.state.IstasyonAdi,
+                                        'Plaka': this.state.PlakaSelectId,
+                                        'PlakaName': this.state.PlakaName,
+                                        'Yakit': this.state.selected2,
+                                        'YakitAdi': this.state.YakitAdi,
+                                        'OdemeTipi': this.state.OdemeTipi,
+                                        'OdemeAdi': this.state.OdemeAdi,
+                                        'PompaNo': this.state.PompaNo,
+                                        'KuponKodu': this.state.KuponKodu,
+                                        'Tutar': 0,
+                                    }
+                                });
 
+                            }
+                            //    this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyat': undefined });
                         }
-                        //    this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'birimFiyat': undefined });
+                    }
+                    else {
+                        Alert.alert(
+                            'Kampanya!',
+                            'Kampanya Bulunamadı.',
+                            [
+
+                                { text: 'Tamam', onPress: () => '' },
+                            ],
+                            { cancelable: true },
+                        );
                     }
                 })
+                .catch(e => {
+                    Alert.alert(
+                        'Hata Oluştu!',
+                        e,
+                        [
+                            { text: 'Tamam', onPress: () => '' },
+                        ],
+                        { cancelable: true },
+                    );
+                })
         } catch (error) {
-
+            this.setState({ hasError: true, loading: false })
         }
-        finally {
 
-        }
     }
     onSehir(value, label) {
 
@@ -153,92 +185,141 @@ export default class SatisIllce extends Component {
             }
         )
     }
+    //Lat: 41.0019
+    // Lon: 29.0455
     onIlce(value, label) {
-        this.setState({ loading: true, })
-        this.setState(
-            {
-                Ilce: value,
-                labelName: label,
+        if (value) {
+            this.setState({ loading: true, })
+            this.setState(
+                {
+                    Ilce: value,
+                    labelName: label,
 
-            },
-            () => {
-                // console.log('Ilce Sci ' + this.state.Ilce)
-                try {
-                    getIstasyonByCityId(this.state.Ilce, 10)
-                        .then((res) => {
-                            if (res.status != false) {
-                                // console.log('Istasyon By CITY ' + JSON.stringify(res));
+                },
+                () => {
+                    // console.log('Ilce Sci ' + this.state.Ilce)
+                    try {
+                        getIstasyonByCityId(this.state.Ilce, 10)
+                            .then((res) => {
+                                if (res) {
+                                    if (res instanceof Array) {
+                                        if (res.status != false) {
+                                            // console.log('Istasyon By CITY ' + JSON.stringify(res));
+                                            this.setState({
+                                                datas: res,
+                                                loading: false,
+                                            })
+                                        }
+                                        else {
+                                            this.setState({
+                                                istasyonselectedId: '', loading: false, datas: [{
+                                                    "AccountId": "00000000-0000-0000-0000-000000000000",
+                                                    "name": "",
+                                                    "Mesafe_KM": 0,
+                                                    "Address1_Latitude": 0,
+                                                    "Address1_Longitude": 0,
+                                                    "Adres": "",
+                                                    "sira": 1,
+                                                    "market": false,
+                                                    "yikama": false,
+                                                    "yagdegisimi": false,
+                                                    "bankamatik": false,
+                                                    "restaurant": false,
+                                                    "odegec": false,
+                                                    "KisaAdres": "",
+                                                    "telefon": ""
+                                                }]
+                                            })
+                                        }
+                                    }
+                                }
+                                else {
+                                    Alert.alert(
+                                        'Hata Oluştu!',
+                                        'Şehirler Getirilemedi.',
+                                        [
+
+                                            { text: 'Tamam', onPress: () => '' },
+                                        ],
+                                        { cancelable: true },
+                                    );
+                                }
+                            })
+                            .catch((e) => {
+                                Alert.alert(
+                                    'Hata Oluştu!',
+                                    e,
+                                    [
+
+                                        { text: 'Tamam', onPress: () => '' },
+                                    ],
+                                    { cancelable: true },
+                                );
+                            })
+                        // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
+                    } catch (error) {
+                        Alert.alert('İlçe', error.message);
+                    }
+                    finally {
+                        this.setState({ loading: false, })
+                    }
+                }
+            )
+        }
+        else {
+            Alert.alert(
+                'Hata Oluştu!',
+                'Ilçeler Getirilemedi.',
+                [
+
+                    { text: 'Tamam', onPress: () => '' },
+                ],
+                { cancelable: true },
+            );
+        }
+    }
+    _getCitybyId = () => {
+        if (this.state.Sehir !== '00000000-0000-0000-0000-000000000001') {
+            try {
+                //  getCitybyId(this.state.Sehir)
+                var Ilcelst = [];
+                getCitylocationbyId(this.state.Sehir)
+                    .then((res) => {
+                        console.log('İlçe= ' + JSON.stringify(res));
+                        if (res instanceof Array) {
+                            Ilcelst = res;
+                            console.log('ilçe res is array: ' + this.state.Sehir);
+                            var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'İlçe' };
+                            Ilcelst.splice(0, 0, initialArr);
+                            if (this.state.Sehir !== undefined) {
                                 this.setState({
-                                    datas: res,
+                                    IlceList: Ilcelst,
                                     loading: false,
                                 })
                             }
-                            else {
-                                this.setState({
-                                    istasyonselectedId: '', loading: false, datas: [{
-                                        "AccountId": "00000000-0000-0000-0000-000000000000",
-                                        "name": "",
-                                        "Mesafe_KM": 0,
-                                        "Address1_Latitude": 0,
-                                        "Address1_Longitude": 0,
-                                        "Adres": "",
-                                        "sira": 1,
-                                        "market": false,
-                                        "yikama": false,
-                                        "yagdegisimi": false,
-                                        "bankamatik": false,
-                                        "restaurant": false,
-                                        "odegec": false,
-                                        "KisaAdres": "",
-                                        "telefon": ""
-                                    }]
-                                })
-
-
-                                //Alert.alert('Bulunamadı!', res.message);
-                            }
-                        })
-                    // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
-                } catch (error) {
-                    Alert.alert('İlçe', error.message);
-                }
-                finally {
-                    this.setState({ loading: false, })
-                }
-            }
-        )
-    }
-    _getCitybyId = () => {
-
-        if (this.state.Sehir !== '00000000-0000-0000-0000-000000000001') {
-            try {
-
-                //  getCitybyId(this.state.Sehir)
-                getCitylocationbyId(this.state.Sehir)
-                    .then((res) => {
-                        //  console.log('İlçe= ' + JSON.stringify(res));
-                        var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'İlçe' };
-                        res.splice(0, 0, initialArr);
-                        if (this.state.Sehir !== undefined) {
-                            this.setState({
-                                IlceList: res,
-                                loading: false,
-                            })
                         }
                     })
+                    .catch((e) => {
+                        Alert.alert(
+                            'Hata Oluştu!',
+                            e,
+                            [
+
+                                { text: 'Tamam', onPress: () => '' },
+                            ],
+                            { cancelable: true },
+                        );
+                    })
             } catch (error) {
+                this.setState({ hasError: true, loading: false })
                 Alert.alert('getcity', error);
             }
             finally {
-                this.setState({ loading: false })
+                //this.setState({ hasError: true, loading: false })
             }
         }
     }
-    componentDidUpdate() {
 
-        if (this.state.latitude === undefined)
-            this._getGps();
-    }
     _FormuTemizleyiverBirZahmet() {
         console.log('_FormuTemizleyiverBirZahmet')
         this.setState({
@@ -286,7 +367,7 @@ export default class SatisIllce extends Component {
                     if (this.state.selected2 != undefined) { // Yakıt
                         if (this.state.OdemeTipi != undefined) { // Ödeme Tipi
                             if (this.state.PompaNo != undefined) { // Pompa No 
-                               
+
                                 if (this.state.SwitchOnValueHolder == true) { // Tutar 
                                     this.setState({ loading: false })
                                     this.props.navigation.navigate("KampanyaSec", {
@@ -360,7 +441,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: false })
             Alert.alert('Hata!', error);
         }
-       
+
     }
     ShowAlert = (value) => {
         this.setState({
@@ -379,18 +460,31 @@ export default class SatisIllce extends Component {
         //  console.log('fulle ' + this.state.fulle);
     }
     onPlaka(value, label) {
-        if (value !== '00000000-0000-0000-0000-000000000001') {
-            this.setState({
-                PlakaSelectId: value,
-                PlakaName: label,
-                PlakaName: this.state.Plaka.find(p => p.bm_musteriaraciid === value).bm_plaka,
+        if (value) {
+            if (value !== '00000000-0000-0000-0000-000000000001') {
+                this.setState({
+                    PlakaSelectId: value,
+                    PlakaName: label,
+                    PlakaName: this.state.Plaka.find(p => p.bm_musteriaraciid === value).bm_plaka,
 
-            },
-                () => {
-                    this._getAracYakitTipleri(value);
-                    this.setState({ loading: false })
-                    //       console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
-                })
+                },
+                    () => {
+                        this._getAracYakitTipleri(value);
+                        this.setState({ loading: false })
+                        console.log('selectedValue: ' + this.state.PlakaSelectId, ' Selected: ' + this.state.PlakaName)
+                    })
+            }
+        }
+        else {
+            Alert.alert(
+                'Hata Oluştu!',
+                'Araçlar Getirilemedi.',
+                [
+
+                    { text: 'Tamam', onPress: () => '' },
+                ],
+                { cancelable: true },
+            );
         }
     }
 
@@ -399,35 +493,37 @@ export default class SatisIllce extends Component {
             this.setState({ loading: true })
             getAracYakitTipi(aracId)
                 .then((res) => {
-                    //   console.log("Arac Yakit " + JSON.stringify(res));
-
-                    var jsonBody = [
-                        {
-                            "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
-                            "bm_yakittipiadi": 'Yakıt Tipi'
-                        },
-                        {
-                            "bm_yakittipiid": res.bm_yakitcinsiid_1,
-                            "bm_yakittipiadi": res.bm_yakittipiadi_1
-                        },
-                        {
-                            "bm_yakittipiid": res.bm_yakitcinsiid_2,
-                            "bm_yakittipiadi": res.bm_yakittipiadi_2
-                        },
-                    ]
-                    this.setState({
-                        yakitTipleri: jsonBody,
-                        loading: false,
-                    });
-                    // console.log('Yakitlar ksonBody== ' + JSON.stringify(jsonBody));
+                    console.log("Arac Yakit " + JSON.stringify(res));
+                    //   console.log("Arac Yakit length " + res[0].length);
+                    if (res) {
+                        var jsonBody = [
+                            {
+                                "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
+                                "bm_yakittipiadi": 'Yakıt Tipi'
+                            },
+                            {
+                                "bm_yakittipiid": res.bm_yakitcinsiid_1,
+                                "bm_yakittipiadi": res.bm_yakittipiadi_1
+                            },
+                            {
+                                "bm_yakittipiid": res.bm_yakitcinsiid_2,
+                                "bm_yakittipiadi": res.bm_yakittipiadi_2
+                            },
+                        ]
+                        this.setState({
+                            yakitTipleri: jsonBody,
+                            loading: false,
+                        });
+                        // console.log('Yakitlar ksonBody== ' + JSON.stringify(jsonBody));
+                    }
                 })
                 .catch(e => {
-                    this.setState({ loading: false })
+                    this.setState({ hasError: true, loading: false })
                     console.log("hata: " + e);
                 })
 
         } catch (error) {
-            this.setState({ loading: false })
+            this.setState({ hasError: true, loading: false })
             Alert.alert('Hata', error);
         }
 
@@ -438,19 +534,32 @@ export default class SatisIllce extends Component {
     }
     onIstasyonName(value, label) {
         //alert(value)
-        if (value !== '00000000-0000-0000-0000-000000000000') {
-            this.setState(
-                {
-                    istasyonselectedId: value,
-                    istasyonName: label,
-                    IstasyonAdi: this.state.datas.find(branch => branch.AccountId === value).name,
-                },
-                () => {
+        if (value) {
+            if (value !== '00000000-0000-0000-0000-000000000000') {
+                this.setState(
+                    {
+                        istasyonselectedId: value,
+                        istasyonName: label,
+                        IstasyonAdi: this.state.datas.find(branch => branch.AccountId === value).name,
+                    },
+                    () => {
 
-                    // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
+                        // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
 
-                }
-            )
+                    }
+                )
+            }
+        }
+        else {
+            Alert.alert(
+                'Hata Oluştu!',
+                'İstasyonlar Getirilemedi.',
+                [
+
+                    { text: 'Tamam', onPress: () => '' },
+                ],
+                { cancelable: true },
+            );
         }
     }
     onValueChange(value: string) {
@@ -459,18 +568,30 @@ export default class SatisIllce extends Component {
         });
     }
     onValueChange2(value, label) {
+        if (value) {
+            if (value !== '00000000-0000-0000-0000-000000000001') {
+                this.setState(
+                    {
+                        selected2: value,
+                        labelName: label,
+                        YakitAdi: this.state.yakitTipleri.find(p => p.bm_yakittipiid === value).bm_yakittipiadi,
+                    },
+                    () => {
+                        //  console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
+                    }
+                )
+            }
+        }
+        else {
+            Alert.alert(
+                'Hata Oluştu!',
+                'Yakıt Tipleri Getirilemedi.',
+                [
 
-        if (value !== '00000000-0000-0000-0000-000000000001') {
-            this.setState(
-                {
-                    selected2: value,
-                    labelName: label,
-                    YakitAdi: this.state.yakitTipleri.find(p => p.bm_yakittipiid === value).bm_yakittipiadi,
-                },
-                () => {
-                    //  console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
-                }
-            )
+                    { text: 'Tamam', onPress: () => '' },
+                ],
+                { cancelable: true },
+            );
         }
     }
     onOdemeTipi(value, label) {
@@ -487,29 +608,47 @@ export default class SatisIllce extends Component {
     }
     _getPaymentTypes() {
         try {
-            this.setState({ loading: true })
-            getPaymentTypes()
-                .then((res) => {
-                    //   alert(JSON.stringify(res))
-                    // console.log('Odeme Tipleri: ' + JSON.stringify(res))
-                    var initialArr = { 'Value': '-1', 'Name': 'Ödeme Tipi' };
-                    res.splice(0, 0, initialArr);
-                    this.setState({ OdemeTipleri: res, loading: false })
+            console.log('Payment Types')
+            {
+                this.setState({ loading: true })
+                getPaymentTypes()
+                    .then((res) => {
+                        //   alert(JSON.stringify(res))
+                        console.log('Odeme Tipleri: ' + JSON.stringify(res))
+                        if (res) {
+                            var initialArr = { 'Value': '-1', 'Name': 'Ödeme Tipi' };
+                            res.splice(0, 0, initialArr);
+                            this.setState({ OdemeTipleri: res, loading: false })
+                        }
+                    })
+                    .catch(e => {
+                        this.setState({ hasError: true, loading: false })
+                        Alert.alert('Hata' + e);
+                    })
+            }
+            /*
+            else {
+                this.setState({ loading: false }, () => {
+                    setTimeout(() => {
+                        Alert.alert(
+                            'Bağlantı Hatası!',
+                            'İnternet Bağlantınızı Kontrol Edin',
+                            [
 
-                })
-                .catch(e => {
-                    this.setState({ loading: false })
-                    Alert.alert('Hata' + e);
-                })
-                .finally(
-                    this.setState({ loading: false }))
+                                { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                            ],
+                            { cancelable: true },
+                        );
+                    }, 510);
+                });
+            }
+            */
 
         } catch (error) {
+            this.setState({ hasError: true, loading: false })
             Alert.alert('getGetPaymentTypes Hata', error)
         }
-        finally {
-            this.setState({ loading: false });
-        }
+
     }
     onYakitTipiValueChange(value: string) {
         this.setState({
@@ -522,46 +661,48 @@ export default class SatisIllce extends Component {
     //------------------------------------------------
     _getPlakaListesi = async () => {
         try {
+            console.log('_getPlakaListesi')
             this.setState({ loading: true })
             const uId = await getStorage('userId');
             //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
-                    //   console.log('Res= ' + JSON.stringify(res))
-                    var initialArr = { 'bm_musteriaraciid': '00000000-0000-0000-0000-000000000001', 'bm_plaka': 'Plaka' };
-                    res.splice(0, 0, initialArr);
-                    this.setState({ Plaka: res, loading: false });
+                    console.log('Res= ' + JSON.stringify(res))
+                    this.setState({ loading: false }, () => {
+                        setTimeout(() => {
+                            if (res) {
+                                var initialArr = { 'bm_musteriaraciid': '00000000-0000-0000-0000-000000000001', 'bm_plaka': 'Plaka' };
+                                res.splice(0, 0, initialArr);
+                                this.setState({ Plaka: res, loading: false });
+                            }
+                            else {
+                                this.setState({ loading: false }, () => {
+                                    setTimeout(() => {
+                                        Alert.alert(
+                                            'Bağlantı Hatası!',
+                                            'İnternet Bağlantınızı Kontrol Edin',
+                                            [
+
+                                                { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                                            ],
+                                            { cancelable: true },
+                                        );
+                                    }, 510);
+                                });
+                            }
+                        }, 510);
+                    });
+
                 })
                 .catch(e => {
                     Alert.alert('Hata', e);
                 })
-                .finally(this.setState({ loading: false }))
-        } catch (error) {
-            Alert.alert('Hata', error);
-        }
-    }
-    _getYakitTipleri() {
-        /*
-        try {
-            this.setState({ loading: true })
-            getYakitTipi()
-                .then((res) => {
-                    this.setState({
-                        yakitTipleri: res,
-                        loading: false,
-                    });
-                    //   console.log("Yakitlog Yakit" + JSON.stringify(this.state.yakitTipleri));
-                    // console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
-                })
-                .catch(e => {
-                    console.log("hata: " + e);
-                }).finally(this.setState({ loading: false }))
 
         } catch (error) {
             Alert.alert('Hata', error);
         }
-        */
     }
+
     _retrieveKullanici = async () => {
         try {
             const value = await getStorage('userId');
@@ -574,40 +715,7 @@ export default class SatisIllce extends Component {
             Alert.alert('Hata', error);
         }
     };
-    _getLocation = () => {
-        try {
-            this.setState({ loading: true })
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this.setState({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        error: null,
-                        loading: false,
-                    });
-                },
-                (error) => this.setState({
-                    error: error.message,
 
-                }),
-
-                { enableHighAccuracy: true, timeout: 60000, maximumAge: 360000 },
-            );
-            this.watchID = navigator.geolocation.watchPosition((position) => {
-                const currentLongitude = JSON.stringify(position.coords.longitude);
-
-                const currentLatitude = JSON.stringify(position.coords.latitude);
-                this.setState({ longitude: currentLongitude });
-                this.setState({ latitude: currentLatitude });
-                this.setState({ loading: false })
-            });
-            this._getLatLon();
-            console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-        } catch (error) {
-            Alert.alert('Konum Hata', error);
-        }
-
-    }
     _getLatLon = () => {
         try {
             this.setState({ loading: true })
@@ -615,7 +723,7 @@ export default class SatisIllce extends Component {
                 .then((res) => {
                     //console.log('Istasyonlarım= ' + JSON.stringify(res));
 
-                    if (res.status !== false) {
+                    if (res.status !== false && res.length > 1) {
 
                         this.setState({ datas: res });
                         // Alert.alert('Data', JSON.stringify(res));
@@ -632,96 +740,146 @@ export default class SatisIllce extends Component {
         }
 
     }
-
-    componentDidCatch() {
-        console.log('Catch Çalıştı...');
-    }
     componentWillUnmount() {
-        //  this._clearComponents();
+        console.log('Unmount çalıştı...')
+        this.removeLocationUpdates();
     }
+    /*
+    componentDidUpdate(nextProps, nexState) {
+       // console.log('NextProps: ' + JSON.stringify(nextProps))
+        if (this.state.longitude <= 0 && (adet<=20)){
+            adet++
+            console.log('lon calıstı')
+            this.getLocation();
+        }
+        (this.state.longitude >0)
+        {
+            adet=0;
+        }
+    }
+    */
     componentWillReceiveProps(nextProps) {
-        // console.log('receive Props çalıştı...')
+        try {
 
-        this._getLocation();
-        this._retrieveKullanici();
-        // this._getYakitTipleri();
-        this._getPlakaListesi();
-        this._getPaymentTypes();
+            this.getLocation();
+            this._retrieveKullanici();
+            this._getPlakaListesi();
+            this._getPaymentTypes();
+            this._getCity();
+        } catch (error) {
+
+        }
     }
-   componentWillMount(){
-       this.setState({loading:true})
-        this.getLocation();
-        this._retrieveKullanici();
-        //  this._getYakitTipleri();
-        this._getPlakaListesi();
-        this._getPaymentTypes();
-        this._getCity();
-        this.setState({loading:false})
-   }
+    componentDidMount() {
+        try {
+            console.log('Did Mount' + new Date())
+            this.setState({ loading: true })
+            this.getLocation();
+            this._retrieveKullanici();
+            this._getPlakaListesi();
+            this._getPaymentTypes();
+            console.log('this.state.OdemeTipleri.length: ' + this.state.OdemeTipleri.length)
+            this.state.OdemeTipleri.length > 0 ? this._getPaymentTypes() : '' // Payment Types Çaktı
+            this._getCity();
+
+            this.setState({ loading: false })
+        } catch (error) {
+            this.setState({ loading: false })
+            return (
+                <View>
+                    <Container style={styles.container}>
+                        <StatusBar backgroundColor="transparent" barStyle="light-content" />
+                        <Header style={{ backgroundColor: 'red' }}>
+                            <Left>
+                                <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
+                                    <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
+                                </Button>
+                            </Left>
+                            <Body >
+                                <Title style={{ color: '#fff' }}>Satış</Title>
+                            </Body>
+                            <Right>
+                                <Button transparent onPress={() => this.props.navigation.openDrawer()}>
+                                    <Icon name="menu" style={{ color: '#fff' }} />
+                                </Button>
+                            </Right>
+                        </Header>
+                    </Container>
+                    <View style={styles.container1}>
+                        <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
+                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                    </View>
+                    <View style={styles.containerOrta}>
+                    </View>
+                </View>
+            )
+        }
+
+    }
     _SehirIlceGoster() {
-        console.log('his.state.longitude: '+this.state.longitude)
-     if(this.state.longitude<=0){
-        return (
-            <Item picker style={styles.pickerInputs}>
-                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
-                <Picker
-                    mode="dropdown"
-                    iosIcon={<Icon name="arrow-down" />}
-                    // style={{ width: undefined }}
-                    placeholder="Şehir"
-                    placeholderStyle={{ color: "black" }}
-                    placeholderIconColor="black"
-                    selectedValue={this.state.Sehir}
-                    onValueChange={this.onSehir.bind(this)}>
-                    {
-                        this.state.Sehirler.map((item, key) => (
-                            // console.log("Sehirler: " + item.bm_sehirid),
-                            // console.log("Sehirler: " + item.bm_adi),
-                            <Picker.Item
-                                label={item.bm_adi}
-                                value={item.bm_sehirid}
-                                key={item.bm_sehirid} />)
-                        )
-                    }
-                </Picker>
-            </Item>
-        )
-         }
+        console.log('his.state.longitude: ' + this.state.longitude)
+        if (this.state.longitude <= 0) {
+            return (
+                <Item picker style={styles.pickerInputs}>
+                    <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+                    <Picker
+                        mode="dropdown"
+                        iosIcon={<Icon name="arrow-down" />}
+                        // style={{ width: undefined }}
+                        placeholder="Şehir"
+                        placeholderStyle={{ color: "black" }}
+                        placeholderIconColor="black"
+                        selectedValue={this.state.Sehir}
+                        onValueChange={this.onSehir.bind(this)}>
+                        {
+                            this.state.Sehirler.map((item, key) => (
+                                // console.log("Sehirler: " + item.bm_sehirid),
+                                // console.log("Sehirler: " + item.bm_adi),
+                                <Picker.Item
+                                    label={item.bm_adi}
+                                    value={item.bm_sehirid}
+                                    key={item.bm_sehirid} />)
+                            )
+                        }
+                    </Picker>
+                </Item>
+            )
+        }
     }
     //40.8021
     //29.527
     _IlceGoster() {
         // console.log('Lat Ilce: '+this.state.longitude);
-     if(this.state.longitude<=0){
-        return (
-            <Item picker style={styles.pickerInputs}>
-                <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
-                <Picker borderColor='black'
-                    mode="dropdown"
-                    iosIcon={<Icon name="arrow-down" />}
-                    style={{ width: undefined }}
-                    placeholder="İlçe"
-                    placeholderStyle={{ color: "black" }}
-                    placeholderIconColor="black"
-                    selectedValue={this.state.Ilce}
-                    onValueChange={this.onIlce.bind(this)}>
-                    {
-                        this.state.IlceList.map((item, key) => (
-                            // console.log("Sehirler: " + item.bm_sehirid),
-                            // console.log("Sehirler: " + item.bm_adi),
-                            <Picker.Item
-                                label={item.bm_adi}
-                                value={item.bm_ilceid}
-                                key={item.bm_ilceid} />)
-                        )
-                    }
-                </Picker>
-            </Item>
-        )
+        if (this.state.longitude <= 0) {
+            return (
+                <Item picker style={styles.pickerInputs}>
+                    <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
+                    <Picker borderColor='black'
+                        mode="dropdown"
+                        iosIcon={<Icon name="arrow-down" />}
+                        style={{ width: undefined }}
+                        placeholder="İlçe"
+                        placeholderStyle={{ color: "black" }}
+                        placeholderIconColor="black"
+                        selectedValue={this.state.Ilce}
+                        onValueChange={this.onIlce.bind(this)}>
+                        {
+                            this.state.IlceList.map((item, key) => (
+                                // console.log("Sehirler: " + item.bm_sehirid),
+                                // console.log("Sehirler: " + item.bm_adi),
+                                <Picker.Item
+                                    label={item.bm_adi}
+                                    value={item.bm_ilceid}
+                                    key={item.bm_ilceid} />)
+                            )
+                        }
+                    </Picker>
+                </Item>
+            )
         }
     }
-      //---------------------------------------------------------------
-      hasLocationPermission = async () => {
+    //---------------------------------------------------------------
+    hasLocationPermission = async () => {
         if (Platform.OS === 'ios' ||
             (Platform.OS === 'android' && Platform.Version < 23)) {
             return true;
@@ -750,24 +908,43 @@ export default class SatisIllce extends Component {
     getLocation = async () => {
         const hasLocationPermission = await this.hasLocationPermission();
 
-        if (!hasLocationPermission) return;
+        if (!hasLocationPermission) {
+            Alert.alert(
+                'Konum İzni Gerekiyor!',
+                'Lütfen Cihazınızdat Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
+                [
+
+                    {
+                        text: 'Tamam', onPress: () => {
+                            this.setState({
+                                loading: false,
+                                baglanti: false,
+                            })
+                            this.props.navigation.navigate("hesabim")
+                        }
+                    },
+                ],
+                { cancelable: true },
+            )
+            return;
+        }
 
         this.setState({ loading: true }, () => {
             Geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
                     console.log('Konumlar: ' + JSON.stringify(position));
-                  /*  Toast.show({
-                        text: "Latitude: " +  position.coords.latitude,
-                        buttonText: "Tamam",
-                        type: 'danger'
-                      })
-                      Toast.show({
-                        text: "Longitude: " + position.coords.longitude,
-                        buttonText: "Tamam",
-                        type: 'danger'
-                      })
-                 */
+                    /*  Toast.show({
+                          text: "Latitude: " +  position.coords.latitude,
+                          buttonText: "Tamam",
+                          type: 'danger'
+                        })
+                        Toast.show({
+                          text: "Longitude: " + position.coords.longitude,
+                          buttonText: "Tamam",
+                          type: 'danger'
+                        })
+                   */
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
@@ -813,213 +990,215 @@ export default class SatisIllce extends Component {
         }
     }
     //-------------------------------------------------------------
+    static getDerivedStateFromError(error) {
+        return { hasError: true };
+    }
+    componentDidCatch(error, info) {
+        console.log('Catch: ' + error, info);
+    }
     render() {
-        return (
-            <Container style={styles.container}>
-                <StatusBar backgroundColor="transparent" barStyle="light-content" />
-                <Header style={{ backgroundColor: 'red' }}>
-                    <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
-                            <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
-                        </Button>
-                    </Left>
-                    <Body >
-                        <Title style={{ color: '#fff' }}>Satış</Title>
-                    </Body>
-                    <Right>
-                        <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" style={{ color: '#fff' }} />
-                        </Button>
-                    </Right>
-                </Header>
-                <View style={styles.container1}>
+        if (this.state.hasError !== true) {
+            return (
+                <Container style={styles.container}>
+                    <StatusBar backgroundColor="transparent" barStyle="light-content" />
+                    <Header style={{ backgroundColor: 'red' }}>
+                        <Left>
+                            <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
+                                <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
+                            </Button>
+                        </Left>
+                        <Body >
+                            <Title style={{ color: '#fff' }}>Satış</Title>
+                        </Body>
+                        <Right>
+                            <Button transparent onPress={() => this.props.navigation.openDrawer()}>
+                                <Icon name="menu" style={{ color: '#fff' }} />
+                            </Button>
+                        </Right>
+                    </Header>
+                    <View style={styles.container1}>
 
-                    <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
-                    <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                        <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
+                        <Image style={{ alignSelf: 'center', marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
 
-                </View>
-                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <Spinner
-                        visible={this.state.loading}
-                        textContent={'Yükleniyor...'}
-                        textStyle={styles.spinnerTextStyle}
-                    />
-                </View>
-                <View style={styles.containerOrta}>
-                    <Content>
-                        <Form>
+                    </View>
+                    <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <Spinner style={{ flex: 1, backgroundColor: 'red' }}
+                            visible={this.state.loading}
+                            textContent={'Yükleniyor...'}
+                            textStyle={styles.spinnerTextStyle}
+                        />
+                    </View>
+                    <View style={styles.containerOrta}>
+                        <Content>
+                            <Form>
+                                {console.log('this.state.istasyonselectedId: ' + (this.state.istasyonselectedId === undefined) ? '0' : this.state.istasyonselectedId)}
+                                {this._SehirIlceGoster()}
+                                {this._IlceGoster()}
+                                <Item regular style={styles.comboItem} >
+                                    <Image style={styles.logos} source={logo}></Image>
+                                    <Picker borderColor='black'
+                                        mode="dropdown"
+                                        iosIcon={<Icon name="arrow-down" />}
+                                        style={{ width: undefined }}
+                                        placeholder="İstasyon"
+                                        placeholderStyle={{ color: "black" }}
+                                        placeholderIconColor="black"
+                                        selectedValue={this.state.istasyonselectedId === undefined ? 0 : this.state.istasyonselectedId}
+                                        onValueChange={this.onIstasyonName.bind(this)}>
+                                        {
+                                            this.state.datas.map((item, itemIndex) => (
+                                                //   console.log("ttip: " + item.name),
+                                                //   console.log("ttip: " + item.AccountId),
+                                                <Picker.Item
+                                                    label={item.name}
+                                                    value={item.AccountId}
+                                                    key={itemIndex} />)
+                                            )
+                                        }
+                                    </Picker>
 
-                            {this._SehirIlceGoster()}
-                            {this._IlceGoster()}
-                            <Item regular style={styles.comboItem} >
-                                <Image style={styles.logos} source={logo}></Image>
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="İstasyon"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-                                    selectedValue={this.state.istasyonselectedId}
-                                    onValueChange={this.onIstasyonName.bind(this)}>
-                                    {
-                                        this.state.datas.map((item, itemIndex) => (
-                                            //   console.log("ttip: " + item.name),
-                                            //   console.log("ttip: " + item.AccountId),
-                                            <Picker.Item
-                                                label={item.name}
-                                                value={item.AccountId}
-                                                key={itemIndex} />)
-                                        )
-                                    }
-                                </Picker>
+                                </Item>
 
-                            </Item>
+                                <Item picker style={styles.comboItem}>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
+                                    <Picker borderColor='black'
+                                        mode="dropdown"
+                                        iosIcon={<Icon name="arrow-down" />}
+                                        style={{ width: undefined }}
+                                        placeholder="Plaka"
+                                        placeholderStyle={{ color: "black" }}
+                                        placeholderIconColor="black"
+                                        selectedValue={this.state.PlakaSelectId}
+                                        onValueChange={this.onPlaka.bind(this)}>
+                                        {
+                                            this.state.Plaka.map((item, key) => (
+                                                // console.log("Plaka: " + item.bm_plaka),
+                                                // console.log("plaka Id: " + item.bm_musteriaraciid),
+                                                <Picker.Item
+                                                    label={item.bm_plaka}
+                                                    value={item.bm_musteriaraciid}
+                                                    key={item.bm_musteriaraciid} />)
+                                            )
+                                        }
+                                    </Picker>
+                                </Item>
+                                <Item picker style={styles.comboItem}>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                    <Picker borderColor='black'
+                                        mode="dropdown"
+                                        iosIcon={<Icon name="arrow-down" />}
+                                        style={{ width: undefined }}
+                                        placeholder="Yakıt Tipi"
+                                        placeholderStyle={{ color: "black" }}
+                                        placeholderIconColor="black"
+                                        selectedValue={this.state.selected2}
+                                        onValueChange={this.onValueChange2.bind(this)}>
+                                        {
+                                            this.state.yakitTipleri.map((item, key) => (
+                                                //  console.log("ttip: " + item.bm_yakittipiadi),
+                                                //  console.log("ttip: " + item.bm_yakittipiid),
+                                                <Picker.Item
+                                                    label={item.bm_yakittipiadi}
+                                                    value={item.bm_yakittipiid}
+                                                    //  label={item.bm_yakittipiadi_1}
+                                                    //  value={item.bm_yakitcinsiid_1}
+                                                    key={item.bm_yakittipiid} />)
+                                            )
+                                        }
+                                    </Picker>
+                                </Item>
+                                <Item regular style={styles.Inputs}>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pmpa}></Image>
 
-                            <Item picker style={styles.comboItem}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Plaka"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-                                    selectedValue={this.state.PlakaSelectId}
-                                    onValueChange={this.onPlaka.bind(this)}>
-                                    {
-                                        this.state.Plaka.map((item, key) => (
-                                            // console.log("Plaka: " + item.bm_plaka),
-                                            // console.log("plaka Id: " + item.bm_musteriaraciid),
-                                            <Picker.Item
-                                                label={item.bm_plaka}
-                                                value={item.bm_musteriaraciid}
-                                                key={item.bm_musteriaraciid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item picker style={styles.comboItem}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-                                <Picker borderColor='black'
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Yakıt Tipi"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-                                    selectedValue={this.state.selected2}
-                                    onValueChange={this.onValueChange2.bind(this)}>
-                                    {
-                                        this.state.yakitTipleri.map((item, key) => (
-                                            //  console.log("ttip: " + item.bm_yakittipiadi),
-                                            //  console.log("ttip: " + item.bm_yakittipiid),
-                                            <Picker.Item
-                                                label={item.bm_yakittipiadi}
-                                                value={item.bm_yakittipiid}
-                                                //  label={item.bm_yakittipiadi_1}
-                                                //  value={item.bm_yakitcinsiid_1}
-                                                key={item.bm_yakittipiid} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <Item regular style={styles.Inputs}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pmpa}></Image>
-
-                                <Input placeholder='Pompa No' style={{ fontSize: 15 }}
-                                    keyboardType="number-pad"
-                                    placeholderTextColor="black"
-                                    onChangeText={(value) => this.setState({ PompaNo: value })}
-                                    value={this.state.PompaNo}
-                                    underlineColorAndroid="transparent" />
-                            </Item>
-                            <Item regular style={styles.Inputs}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={kampanya}></Image>
-
-                                <Input placeholder='Kupon Kodu' style={{ fontSize: 15, color: 'black' }}
-                                    //keyboardType="phone-pad"
-                                    placeholderTextColor="black"
-                                    onChangeText={(value) => this.setState({ KuponKodu: value })}
-                                    value={this.state.KuponKodu}
-                                    underlineColorAndroid="transparent" />
-                            </Item>
-                            <Item picker style={styles.comboItem}>
-                                <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-                                <Picker borderColor='black'
-
-                                    mode="dropdown"
-                                    iosIcon={<Icon name="arrow-down" />}
-                                    style={{ width: undefined }}
-                                    placeholder="Ödeme Tipi"
-                                    placeholderStyle={{ color: "black" }}
-                                    placeholderIconColor="black"
-
-                                    selectedValue={this.state.OdemeTipi}
-                                    onValueChange={this.onOdemeTipi.bind(this)}>
-                                    {
-                                        this.state.OdemeTipleri.map((item, key) => (
-                                            <Picker.Item
-                                                label={item.Name}
-                                                value={item.Value}
-                                                key={item.Value} />)
-                                        )
-                                    }
-                                </Picker>
-                            </Item>
-                            <View style={styles.switchcontainer}>
-                                <Switch
-                                    onValueChange={(value) => this.ShowAlert(value)}
-                                    style={{ marginBottom: 0 }}
-                                    value={this.state.SwitchOnValueHolder} />
-                                <View style={{ marginLeft: 5, alignContent: 'center' }}>
-                                    <Text style={styles.switcText}>Depoyu Doldur</Text>
-                                </View>
-                            </View>
-                            <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
-                                <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
-                                    <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={OdemeIkon}></Image>
-                                    <Input placeholder='Ödeme Tutarı' style={{ width: '90%', backgroundColor: 'transparent', fontSize: 15, color: 'black' }}
-                                        keyboardType="decimal-pad"
+                                    <Input placeholder='Pompa No' style={{ fontSize: 15 }}
+                                        keyboardType="number-pad"
                                         placeholderTextColor="black"
-                                        onChangeText={(value) => this.setState({ Tutar: value })}
-                                        value={this.state.Tutar}
+                                        onChangeText={(value) => this.setState({ PompaNo: value })}
+                                        value={this.state.PompaNo}
+                                        underlineColorAndroid="transparent" />
+                                </Item>
+                                <Item regular style={styles.Inputs}>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={kampanya}></Image>
+
+                                    <Input placeholder='Kupon Kodu' style={{ fontSize: 15, color: 'black' }}
+                                        //keyboardType="phone-pad"
+                                        placeholderTextColor="black"
+                                        onChangeText={(value) => this.setState({ KuponKodu: value })}
+                                        value={this.state.KuponKodu}
                                         underlineColorAndroid="transparent" />
                                 </Item>
 
-                            </View>
+                                <Item picker style={styles.comboItem}>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                                    <Picker borderColor='black'
 
-                            <View style={{ flex: 1, marginBottom: 10 }}>
-                                <Text style={styles.textYazi}>*Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
+                                        mode="dropdown"
+                                        iosIcon={<Icon name="arrow-down" />}
+                                        style={{ width: undefined }}
+                                        placeholder="Ödeme Tipi"
+                                        placeholderStyle={{ color: "black" }}
+                                        placeholderIconColor="black"
 
-                                <Button block danger style={{ marginTop: 5, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>
-                                    <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>DEVAM</Text>
-                                </Button>
+                                        selectedValue={this.state.OdemeTipi}
 
-                            </View>
-                            <View style={{ flex: 1 }}>
+                                        onValueChange={this.onOdemeTipi.bind(this)}>
+                                        {
 
-                            </View>
-                        </Form>
-                    </Content>
-                </View>
-            </Container>
-        );
+
+                                            this.state.OdemeTipleri.map((item, key) => (
+                                                <Picker.Item
+                                                    label={item.Name}
+                                                    value={item.Value}
+                                                    key={item.Value} />)
+                                            )
+
+                                        }
+                                    </Picker>
+                                </Item>
+                                <View style={styles.switchcontainer}>
+                                    <Switch
+                                        onValueChange={(value) => this.ShowAlert(value)}
+                                        style={{ marginBottom: 0 }}
+                                        value={this.state.SwitchOnValueHolder} />
+                                    <View style={{ marginLeft: 5, alignContent: 'center' }}>
+                                        <Text style={styles.switcText}>Depoyu Doldur</Text>
+                                    </View>
+                                </View>
+                                <View style={{ marginTop: 5, flexDirection: 'row', alignItems: 'center', alignContent: 'flex-start' }}>
+                                    <Item regular style={[styles.Inputs1, this.state.SwitchOnValueHolder ? styles.hidden : styles.Inputs1]} >
+                                        <Image style={[styles.ImageShow, this.state.SwitchOnValueHolder ? styles.hidden : styles.ImageShow]} source={OdemeIkon}></Image>
+                                        <Input placeholder='Ödeme Tutarı' style={{ width: '90%', backgroundColor: 'transparent', fontSize: 15, color: 'black' }}
+                                            keyboardType="decimal-pad"
+                                            placeholderTextColor="black"
+                                            onChangeText={(value) => this.setState({ Tutar: value })}
+                                            value={this.state.Tutar}
+                                            underlineColorAndroid="transparent" />
+                                    </Item>
+
+                                </View>
+
+                                <View style={{ flex: 1, marginBottom: 10 }}>
+                                    <Text style={styles.textYazi}>*Doğru istasyonu ve doğru pompa numarasını işaretlediğinizden emin olun. </Text>
+
+                                    <Button block danger style={{ marginTop: 5, marginLeft: 30, marginRight: 30 }} onPress={() => this._campaignDetailList()}>
+                                        <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>DEVAM</Text>
+                                    </Button>
+
+                                </View>
+                                <View style={{ flex: 1 }}>
+
+                                </View>
+                            </Form>
+                        </Content>
+                    </View>
+                </Container>
+            );
+        }
+        return this.props.children;
     }
 }
-/*
-{
-    "bm_istasyonid": "df827eaa-214b-e911-836a-000c29289d89",
-    "bm_yakittipiid": "0161929d-0f4a-e911-836a-000c29289d89",
-    "bm_gecerliodemetipi": "1",
-    "TutarTL": 0,
-    "ContactId": "f9abd025-258c-e911-838d-000c29289d89",
-    "bm_kartId": "",
-    "bm_kampanyakuponuId": "",
-    "FraudIn": 0,
-    "Plaka": "34 Ar 345"
-  }
-  */
+
 
 const styles = StyleSheet.create({
     logos: {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, Toast } from 'react-native';
 import {
     Footer,
     FooterTab,
@@ -72,49 +72,48 @@ export default class Filtre extends Component {
         }
     }
 
-    _getCoord = () => {
-        try {
-            var self = this;
-            this.setState({ loading: true })
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this.setState({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        error: null,
-                        loading: false,
-                    });
-                    this._getData();
-                    // console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-                },
-                (error) => this.setState({
-                    error: error.message,
-                    //latitude: 40.802095,
-                    //longitude: 29.526954,
-                    loading: false,
-                }),
-                { enableHighAccuracy: false, timeout: 60000, maximumAge: 3600000 },
-            );
-            this._getData();
-        } catch (error) {
-            Alert.alert('Hata!', error);
-        }
-
-    }
     _getCity = async () => {
         try {
             // getCityList()
             getCitybyLocation()
                 .then((res) => {
-                    // console.log('Şehirler ' + JSON.stringify(res))
-                    var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'Şehir' };
-                    res.splice(0, 0, initialArr);
-                    this.setState({
-                        Sehirler: res,
-                    })
+                    console.log('Şehirler ' + JSON.stringify(res))
+                    if (res instanceof Array) {
+                        if (res) {
+                            var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'Şehir' };
+                            res.splice(0, 0, initialArr);
+                            this.setState({
+                                Sehirler: res,
+                            })
+                        }
+                        else {
+                            Alert.alert(
+                                'Bağlantı Hatası!',
+                                'Bağlantınızı Kontrol Edin',
+                                [
+                                    { text: 'Tamam', onPress: () => '' },
+                                ],
+                                { cancelable: true },
+                            );
+                        }
+                    }
+                    else console.log('Res is not Array')
+                })
+                .catch(e => {
+                    Alert.alert(
+                        'Bağlantı Hatası!',
+                        'Bağlantınızı Kontrol Edin',
+                        [
+                            { text: 'Tamam', onPress: () => '' },
+                        ],
+                        { cancelable: true },
+                    );
                 })
         } catch (error) {
-            Alert.alert('Hata', error);
+            Alert.alert('Hata', error, [
+                { text: 'Tamam', onPress: () => '' },
+            ],
+                { cancelable: true });
         }
     }
     _getCitybyId = () => {
@@ -170,7 +169,7 @@ export default class Filtre extends Component {
                     getIstasyonByCityId(this.state.Ilce, 5)
                         .then((res) => {
                             if (res.status != false) {
-                                 //console.log('Istasyon By CITY ' + JSON.stringify(res));
+                                //console.log('Istasyon By CITY ' + JSON.stringify(res));
                                 this.setState({
                                     listViewData: res,
                                     loading: false,
@@ -223,29 +222,29 @@ export default class Filtre extends Component {
     // this.GetItem(item.AccountId,item.name,item.Address1_Latitude,item.Address1_Longitude,item.Adres)}
     GetItem(item, name, lat, lon, adres) {
         //  console.log('item=' + item);
-       // console.log('Lisyt Data: '+JSON.stringify(this.state.listViewData) )
-        this.setState({latitude:lat})
-        this.props.navigation.navigate("Harita", { 'Id': item, 'name': name, 'lat': lat, 'lon': lon, 'adres': adres, 'Para': 'Filtre','Tumu':this.state.listViewData });
+        // console.log('Lisyt Data: '+JSON.stringify(this.state.listViewData) )
+        this.setState({ latitude: lat })
+        this.props.navigation.navigate("Harita", { 'Id': item, 'name': name, 'lat': lat, 'lon': lon, 'adres': adres, 'Para': 'Filtre', 'Tumu': this.state.listViewData });
     }
     _HaritaFooter() {
-       // console.log('Lato: '+this.state.latitude)
-      //  if (this.state.latitude!==undefined) {
-            return (
-                <Button  active={this.state.tab1} onPress={() => this.toggleTab1()}>
-                    <Icon active={this.state.tab1} name="map" />
-                    <Text style={{ color: 'white' }}>Harita</Text>
-                </Button>
-            )
-  /*      }
-        else {
-            return (
-                <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
+        // console.log('Lato: '+this.state.latitude)
+        //  if (this.state.latitude!==undefined) {
+        return (
+            <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
                 <Icon active={this.state.tab1} name="map" />
                 <Text style={{ color: 'white' }}>Harita</Text>
             </Button>
-            )
-        }
-        */
+        )
+        /*      }
+              else {
+                  return (
+                      <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
+                      <Icon active={this.state.tab1} name="map" />
+                      <Text style={{ color: 'white' }}>Harita</Text>
+                  </Button>
+                  )
+              }
+              */
     }
     render() {
 
@@ -364,9 +363,9 @@ export default class Filtre extends Component {
                 <View>
                     <Footer>
                         <FooterTab style={{ backgroundColor: 'red', }}>
-                           {
-                               this._HaritaFooter()
-                           }
+                            {
+                                this._HaritaFooter()
+                            }
                             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
                                 <Icon active={this.state.tab2} name="contact" />
                                 <Text style={{ color: 'white' }}>Liste</Text>

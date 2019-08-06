@@ -1,13 +1,15 @@
 
 import React, { Component } from 'react';
-import { Alert, TextInput, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { NetInfo, Platform, Alert, TextInput, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, DatePickerIOS, DatePickerAndroid } from 'react-native';
 import { DatePicker, Picker, Icon, Form, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon2 from "react-native-vector-icons";
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getContact, musteriGuncelle, getCityList, getCitybyId, getStorage, handleError } from '../Service/FetchUser';
+import { getContact, musteriGuncelle, getCityList, getCitybyId, getStorage, handleError, checkConnection } from '../Service/FetchUser';
+
+
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -77,12 +79,14 @@ export default class KayitGuncelle extends Component {
             IlceList: [],
             chosenDate: new Date(),
             tarihSec: false,
+            tarihplace: 'Doğum Tarihiniz',
+            baglanti: false,
         }
         this.setDate = this.setDate.bind(this);
     }
     setDate(newDate) {
         this.setState({ chosenDate: newDate, tarihSec: true });
-        //  console.log('Tarih= ' + this.state.chosenDate);
+        console.log('Doğum Tarih= ' + this.state.chosenDate);
         //  var date = new Date(newDate) //.toDateString("dd-MM-YYY");
         // var formattedDate = new Date(date);
         // var Yeni = formattedDate.getDay() + "." + formattedDate.getMonth() + "." + formattedDate.getYear();
@@ -90,54 +94,119 @@ export default class KayitGuncelle extends Component {
 
     }
     componentWillReceiveProps(nextProps) {
-        // alert(JSON.stringify(nextProps))
+        NetInfo.isConnected.fetch().then(async (isConnected) => {
+            if (!isConnected) {
+                Alert.alert(
+                    'Bağlantı Hatası!',
+                    'Internet Bağlantınızı Kontrol Edin.',
+                    [
+
+                        {
+                            text: 'Tamam', onPress: () => {
+                                this.setState({
+                                    loading: false,
+                                    baglanti: false
+                                })
+                                this.props.navigation.navigate("hesabim")
+                            }
+                        },
+                    ],
+                    { cancelable: true },
+                )
+                return false;
+            }
+            else {
+                this.setState({
+                    loading: false,
+                    baglanti: true,
+                })
+                return true;
+            }
+        });
         this._retrieveKullanici();
     }
     componentDidMount() {
+
+        NetInfo.isConnected.fetch().then(async (isConnected) => {
+            if (!isConnected) {
+                Alert.alert(
+                    'Bağlantı Hatası!',
+                    'Internet Bağlantınızı Kontrol Edin.',
+                    [
+
+                        {
+                            text: 'Tamam', onPress: () => {
+                                this.setState({
+                                    loading: false,
+                                    baglanti: false,
+                                })
+                                this.props.navigation.navigate("hesabim")
+                            }
+                        },
+                    ],
+                    { cancelable: true },
+                )
+                return false;
+            } else {
+                this.setState({
+                    loading: false,
+                    baglanti: true,
+                })
+                return true;
+            }
+        });
         //   this._getCity();
         //  this._getCitybyId();
-        this._retrieveKullanici();
+       
+            this._retrieveKullanici();
+
     }
     onSehir(value, label) {
-
-        this.setState(
-            {
-                Sehir: value,
-                labelName: label
-            },
-            () => {
-                this._getCitybyId();
-                //console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
-            }
-        )
+        if (value) {
+            this.setState(
+                {
+                    Sehir: value,
+                    labelName: label
+                },
+                () => {
+                    this._getCitybyId();
+                    //console.log('Sehir: ' + this.state.Sehir, ' Selected: ' + this.state.labelName)
+                }
+            )
+        }
     }
     onMedeniDurum(val, label) {
-        this.setState({
-            MedeniDurum: val,
-        },
-            () => {
-                console.log('Medeniyet Durumu : ' + this.state.MedeniDurum)
-            })
+        if (val) {
+            this.setState({
+                MedeniDurum: val,
+            },
+                () => {
+                    console.log('Medeniyet Durumu : ' + this.state.MedeniDurum)
+                })
+        }
     }
     onCinsiyet(val, label) {
-        this.setState({
-            Cinsiyet: val,
-        },
-            () => {
-                console.log('Cinsi Durumu : ' + this.state.Cinsiyet)
-            })
+        if (val) {
+            this.setState({
+                Cinsiyet: val,
+            },
+                () => {
+                    console.log('Cinsi Durumu : ' + this.state.Cinsiyet)
+                })
+        }
     }
     onIlce(value, label) {
-
-        this.setState(
-            {
-                Ilce: value,
-                labelName: label
-            },
-            () => {
-                console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
-            }
-        )
+        if (value) {
+            this.setState(
+                {
+                    Ilce: value,
+                    labelName: label
+                },
+                () => {
+                    console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
+                }
+            )
+        }
     }
     _getCitybyId() {
         if (this.state.Sehir !== '00000000-0000-0000-0000-000000000000') {
@@ -146,119 +215,269 @@ export default class KayitGuncelle extends Component {
                     getCitybyId(this.state.Sehir)
                         .then((res) => {
                             // console.log('İlçe= ' + JSON.stringify(res));
-                            var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000000', 'bm_adi': 'İlçe' };
-                            res.splice(0, 0, initialArr);
-                            if (this.state.Sehir !== undefined) {
-                                this.setState({
-                                    IlceList: res,
-                                })
+                            if (res) {
+                                var initialArr = { 'bm_ilceid': '00000000-0000-0000-0000-000000000000', 'bm_adi': 'İlçe' };
+                                res.splice(0, 0, initialArr);
+                                if (this.state.Sehir !== undefined) {
+                                    this.setState({
+                                        IlceList: res,
+                                    })
+                                }
                             }
                         })
+
                 }
                 else {
                     //Alert.alert('Hata', 'Şehir Seçim');
                 }
             } catch (error) {
-                handleError(error, false);
+                // handleError(error, false);
                 Alert.alert('Hata', error);
             }
         }
     }
-    _getUserInfo = (userID) => {
-
-        // console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
-        // getContact(this.state.kullanici)
-        getContact(userID)
-            .then((res) => {
-                console.log('Kullanıcı Bilgileri: ' + JSON.stringify(res))
-                var dtarih = new Date(res.birthdate);
-                console.warn('Dogum Tarihi: ' + dtarih)
-                if (res.contactid !== undefined) {
-                    this.setState({
-                        Adi: res.firstname,
-                        Soyadi: res.lastname,
-                        eposta: res.emailaddress1,
-                        tel: res.mobilephone,
-                        Sifre: res.bm_sifre,
-                        mobilKod: res.bm_mobilkod,
-                        mobilKod2: res.bm_mobilkod,
-                        mobilgrupadi: res.bm_mobilgrupadi,
-                        Cinsiyet: res.gendercode,
-                        MedeniDurum: res.familystatuscode,
-                        chosenDate: new Date(res.birthdate)? new Date(res.birthdate):new Date().getDate(),
-                        Adres: res.address1_line1,
-                        Sehir: res.bm_sehirid,
-                        Sifre2: res.bm_sifre,
-                        //Ilce: res.bm_ilceid,
-                    });
-                    this._getCity();
-                    this.setState({ Ilce: res.bm_ilceid })
-                    console.log('Ilce: ' + this.state.Ilce)
-                    if (this.state.Ilce !== '') {
-                        this._getCitybyId();
-                        console.log('Ilce: ' + this.state.Ilce)
+    /*ls -la /App
+     getUserInfo(onSuccess, onFail) {
+        return new Promise((resolve,reject)=>{
+            this.setState({loading:true});
+            console.log('Promise çağrıldı....');
+            _getUserInfo(this.state.kullanici)
+            .then((res)=>{
+                if(res){
+                    if(res!==false){
+                        console.log('Kullanıcı Bilgileri Promise: ' + JSON.stringify(res))
                     }
-
-                    //  console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
                 }
-            }).catch(error => {
-                handleError(error, false);
-                this.setState({ loading: false }, () => {
-                    setTimeout(() => {
-                        Alert.alert(
-                            'Hata!',
-                            error,
-                            [
+            })
+        })
+    }
+*/
+    datamodel = () => {
+        this.setState({
+            Adi: null,
+            Soyadi: null,
+            eposta: null,
+            tel: null,
+            Sifre: null,
+            mobilKod: null,
+            mobilKod2: null,
+            mobilgrupadi: null,
+            Cinsiyet: null,
+            MedeniDurum: null,
+            //   chosenDate: new Date(res.birthdate) ? new Date(res.birthdate) : null,
+            Adres: null,
+            Sehir: 0,
+            Sifre2: null,
+            loading: false,
+            //Ilce: res.bm_ilceid,
+        });
+    }
+    componentDidCatch(error, errorInfo) {
 
-                                { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
-                            ],
-                            { cancelable: true },
-                        );
-                    }, 510);
+        console.log('Did cacth error: ' + error + ' , , ' + errorInfo)
+    }
+    _getUserInfo = (userID) => {
+        try {
+            this.setState({ loading: true });
+            console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
+            // getContact(this.state.kullanici)
+
+            getContact(userID)
+                .then((res) => {
+
+                    console.log('Kullanıcı Bilgileri: ' + JSON.stringify(res))
+                    if (res) {
+                        if (res !== false) {
+                            var dtarih = new Date(res.birthdate);
+                            console.warn('Dogum Tarihi: ' + dtarih)
+                            if (res.contactid !== undefined) {
+                                this.setState({
+                                    Adi: res.firstname,
+                                    Soyadi: res.lastname,
+                                    eposta: res.emailaddress1,
+                                    tel: res.mobilephone,
+                                    Sifre: res.bm_sifre,
+                                    mobilKod: res.bm_mobilkod,
+                                    mobilKod2: res.bm_mobilkod,
+                                    mobilgrupadi: res.bm_mobilgrupadi,
+                                    Cinsiyet: res.gendercode,
+                                    MedeniDurum: res.familystatuscode,
+                                    //   chosenDate: new Date(res.birthdate) ? new Date(res.birthdate) : null,
+                                    Adres: res.address1_line1,
+                                    Sehir: res.bm_sehirid,
+                                    Sifre2: res.bm_sifre,
+                                    loading: false,
+                                    //Ilce: res.bm_ilceid,
+                                });
+                                if (res.birthdate !== null) {
+                                    this.setDate(new Date(res.birthdate))
+                                }
+                                else {
+                                    this.setState({ chosenDate: '' })
+                                }
+
+                                this._getCity();
+                                this.setState({ Ilce: res.bm_ilceid })
+                                // console.log('Ilce: ' + this.state.Ilce)
+                                if (this.state.Ilce !== '') {
+                                    this._getCitybyId();
+                                    // console.log('Ilce: ' + this.state.Ilce)
+                                }
+
+                            }
+                            //  console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
+                        }
+                        else {
+                            this.datamodel();
+                            this.setState({ loading: false }, () => {
+                                setTimeout(() => {
+                                    Alert.alert(
+                                        'Bağlantı Hatası!',
+                                        'İnternet Bağlantınızı Kontrol Edin',
+                                        [
+
+                                            { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                                        ],
+                                        { cancelable: true },
+                                    );
+                                }, 510);
+                            });
+                        }
+                    }
+                    else {
+                        this.datamodel();
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                Alert.alert(
+                                    'Kullanici Bilgileri!',
+                                    'Kullanıcı Bilgileri Getirilemedi.',
+                                    [
+
+                                        { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                                    ],
+                                    { cancelable: true },
+                                );
+                            }, 510);
+                        });
+                    }
+                }).catch(error => {
+                    throw new Error(error);
+                    this.setState({ loading: false }, () => {
+                        setTimeout(() => {
+                            Alert.alert(
+                                'Hata!',
+                                'Bğlantı Hatası',
+                                [
+
+                                    { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                                ],
+                                { cancelable: true },
+                            );
+                        }, 510);
+                    });
+
                 });
 
+
+        } catch (error) {
+            this.datamodel();
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Hata!',
+                        error,
+                        [
+
+                            { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 510);
             });
+        }
+
+
     }
     _getCity() {
         try {
             getCityList()
                 .then((res) => {
-                    var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000000', 'bm_adi': 'Şehir' };
-                    res.splice(0, 0, initialArr);
-                    this.setState({
-                        Sehirler: res,
-                    })
+                    if (res) {
+                        var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000000', 'bm_adi': 'Şehir' };
+                        res.splice(0, 0, initialArr);
+                        this.setState({
+                            Sehirler: res,
+                        })
+                    }
+                    else {
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                Alert.alert(
+                                    'Bağlantı Hatası!',
+                                    'Şehirler Getirilemedi.',
+                                    [
+
+                                        { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                                    ],
+                                    { cancelable: true },
+                                );
+                            }, 510);
+                        });
+                    }
                 })
         } catch (error) {
+            this.setState({ loading: false })
             Alert.alert('Hata', error);
         }
     }
     _retrieveKullanici = async () => {
         try {
+            this.setState({ loading: true });
             const value = await getStorage('userId');
             //  alert(value)
-            if (value !== null) {
+            if (value) {
                 this.setState({ kullanici: value });
                 //  console.log("UserIdmKayıt " + this.state.kullanici);
                 this._getUserInfo(value);
             }
+            else {
+
+            }
+
         } catch (error) {
-            handleError(error, false);
+            this.setState({ loading: false });
+            //handleError(error, false);
             Alert.alert('Hata', error);
         }
     };
 
     onValueChange2(value, label) {
+        if (value) {
+            this.setState(
+                {
+                    selected2: value,
+                    labelName: label
+                },
+                () => {
+                    console.log('selectedValue: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+                }
+            )
+        }
+        else {
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Bağlantı Hatası!',
+                        'Veriler Getirilemedi.',
+                        [
 
-        this.setState(
-            {
-                selected2: value,
-                labelName: label
-            },
-            () => {
-                console.log('selectedValue: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
-            }
-        )
+                            { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 510);
+            });
+        }
     }
     _btnKayit = () => {
         try {
@@ -282,7 +501,21 @@ export default class KayitGuncelle extends Component {
                         });
 
                     })
-                    .catch((err) => { Alert.alert('Hata.', err) });
+                    .catch((err) => {
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                Alert.alert(
+                                    'Bağlantı Hatası!',
+                                    err,
+                                    [
+
+                                        { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                                    ],
+                                    { cancelable: true },
+                                );
+                            }, 510);
+                        });
+                    });
             }
             else {
                 this.setState({ loading: false }, () => {
@@ -300,8 +533,19 @@ export default class KayitGuncelle extends Component {
                 });
             }
         } catch (error) {
-            this.setState({ loading: false })
-            Alert.alert('Hata!', error)
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Bağlantı Hatası!',
+                        error,
+                        [
+
+                            { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 510);
+            });
             console.log('hata oluştu: ' + error);
         }
     }
@@ -398,6 +642,7 @@ export default class KayitGuncelle extends Component {
             )
         }
     }
+
     render() {
         return (
             <Container style={styles.container}>
@@ -558,13 +803,14 @@ export default class KayitGuncelle extends Component {
                                 textStyle={{ color: "black" }}
                                 placeHolderTextStyle={{ color: "black" }}
                                 onDateChange={this.setDate}
-                                disabled={false} />
 
-                            <Text style={[styles.dogumTarihi, (this.state.tarihSec == false) ? styles.dogumTarihi : styles.hidden]}>
-                                {this.state.chosenDate.toLocaleDateString() //.toString().substr(4, 12)
+                                disabled={false} />
+                            <Text style={[styles.dogumTarihi, (this.state.tarihSec == true) ? styles.dogumTarihi : styles.hidden]}>
+                                {
+
+                                    this.state.chosenDate ? this.state.chosenDate.toLocaleDateString() : '' //.toString().substr(4, 12)
                                 }
                             </Text>
-
                         </Item>
 
                         <Item regular style={styles.Inputs}>

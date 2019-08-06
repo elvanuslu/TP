@@ -13,7 +13,7 @@ target 'TP' do
   
 
   platform :ios, '9.0'
-  pod 'ReactNativeExceptionHandler', :path => '../node_modules/react-native-exception-handler'
+  #pod 'ReactNativeExceptionHandler', :path => '../node_modules/react-native-exception-handler'
 
   target 'TPTests' do
     inherit! :search_paths

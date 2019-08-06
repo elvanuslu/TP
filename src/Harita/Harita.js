@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { ImageBackground, Alert, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform, ToastAndroid } from 'react-native';
 import { Footer, FooterTab, Picker, Form, Icon, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon1 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -9,6 +9,9 @@ import { getIstasyonWithLatLon } from '../Service/FetchUser';
 
 import MapView, { PROVIDER_GOOGLE, MAP_TYPES } from 'react-native-maps';
 import { showLocation, Popup } from 'react-native-map-link'
+import Geolocation from 'react-native-geolocation-service';
+import IonIcon from 'react-native-vector-icons/AntDesign';
+
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -92,30 +95,66 @@ export default class Harita extends Component {
         });
     }
 
-    _getData(datan = []) {
+     _internaGetData= (lat, lon)=>{
         try {
             this.setState({ loading: true })
+            console.log('this.state.latitud:'+lat+' Longi: '+lon);
+        //    HaritaDatasi = [];
+            getIstasyonWithLatLon(lat, lon, 15)
+            .then((res) => {
+                this.setState({ loading: false });
+                HaritaDatasi.push(res);
+                this.setState({datas:res})
+               // console.log('Harita Length: '+ JSON.stringify(HaritaDatasi))
+                //console.log('Harita Konumları= ' + JSON.stringify(res));
+               // HaritaDatasi.push(this.sta);
+            })
+           
+        } catch (error) {
+            Alert.alert('Hata Oluştu', error);
+        }
+    }
+    _getData=(datan = []) =>{
+        try {
+          //  console.log('_getData Çalıştı')
+            this.setState({ loading: true })
             //console.log('Datalar: ', datan)
-            //  console.log('datan: ' + JSON.stringify(datan))
+        //     console.log('datan: ' + JSON.stringify(datan))
+        //    console.log('this.state.latitud:'+this.state.latitude+' Longi: '+this.state.longitude)
             HaritaDatasi = [];
-            /*   getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 3).then((res) => {
-                   this.setState({ datas: res, loading: false });
-                   console.log('Konumlar= ' + JSON.stringify(res));
-                   //_showLocation();
-               })
-               */
-            //   this.state.datas.push(datan);
-            if (datan !== null) {
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 15)
+                .then((res) => {
+                    this.setState({ datas: res, loading: false });
+                  //  console.log('Harita Konumlar= ' + JSON.stringify(res));
+                    //_showLocation();
+                })
+               // .error((error)=>{alert('GetIstasyon Hata!'+error)})
+
+           this.state.datas.push(datan);
+         //   console.log('Datan Length: '+datan.length)
+          //  console.log('Datan: '+JSON.stringify(datan))
+            if (datan.length>0) {       
                 HaritaDatasi.push(datan);
                 //this.setState({ datas: datan })
-                HaritaDatasi[0].map((data, i) => (
+            /*    HaritaDatasi[0].map((data, i) => (
                     console.log('Data: ', data.name, ' index: ', i),
                     console.log('Lat: ', data.Address1_Latitude),
                     console.log('Lon: ', data.Address1_Longitude, ' index: ', i)
                 ))
-                // console.log('TT:: ', tt);
+                */
+            }
+            else{
+                HaritaDatasi.push(this.state.datas);
+             //   console.log('get data Haritam Length: '+ JSON.stringify(HaritaDatasi))
+              //  alert('HaritaDatası 0: '+JSON.stringify(HaritaDatasi))
+                //this.setState({ datas: datan })
+              /*  HaritaDatasi[0].map((data, i) => (
+                    console.log('Else Data: ', data.name, ' index: ', i),
+                    console.log('Lat: ', data.Address1_Latitude),
+                    console.log('Lon: ', data.Address1_Longitude, ' index: ', i)
 
-                //   console.log('my Datas: ', HaritaDatasi)
+                ))
+                */
             }
         } catch (error) {
             Alert.alert('Get Hata', error);
@@ -126,14 +165,14 @@ export default class Harita extends Component {
     }
     componentWillReceiveProps(nextProps) {
         try {
-            console.log('Will receive Props: ', JSON.stringify(nextProps.navigation.state.params))
+          //  console.log('Will receive Props: ', JSON.stringify(nextProps.navigation.state.params))
             var AccountId = nextProps.navigation.state.params.Id;
             var name = nextProps.navigation.state.params.name;
             var lat = nextProps.navigation.state.params.lat;
             var lon = nextProps.navigation.state.params.lon;
             var adres = nextProps.navigation.state.params.adres;
             var Param = nextProps.navigation.state.params.Para;
-            console.log('componentWillReceiveProps Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
+           // console.log('componentWillReceiveProps Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
             //   console.log('Param: ', Param);
             this.setState({ loading: true })
             if (Param === 'Filtre') {
@@ -141,37 +180,7 @@ export default class Harita extends Component {
                 this._getData(nextProps.navigation.state.params.Tumu);
             }
             else {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        var initialPosition = JSON.stringify(position);
-                        this.setState({ initialPosition });
-                        this._getData();
-                    },
-                    (error) => alert(error.message),
-                    { enableHighAccuracy: false, timeout: 60000, maximumAge: 1000 }
-                );
-                this.watchID = navigator.geolocation.watchPosition((position) => {
-                    var lastPosition = JSON.stringify(position);
-                    this.setState({ lastPosition });
-                    // alert(lastPosition);
-                    this._getData();
-                });
-                /*
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        this.setState({
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                            error: null,
-                            loading: false,
-                        });
-                        this._getData();
-                        //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-                    },
-                    (error) => console.log('Geo Message: ' + error.message),
-                    { enableHighAccuracy: true, timeout: 60000, maximumAge: 360000 },
-                );
-                */
+                this._getkoordinat();
             }
         } catch (error) {
             Alert.alert('Genel Hata!', error);
@@ -186,29 +195,19 @@ export default class Harita extends Component {
         var adres = this.props.navigation.getParam('adres', '');
         var Param = this.props.navigation.getParam('Para');
 
-        console.log('componentWillMount Account ID 1=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres);
+        console.log('componentWillMount Account ID 1=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres + ' Param:' + Param);
         this.setState({ loading: true, latitude: lat, longitude: lon })
         HaritaDatasi = [];
         if (Param === 'Filtre') {
-            //console.log('Filterim: ',this.props.navigation.state.params.Tumu)
+           // console.log('Filterim: ',this.props.navigation.state.params.Tumu)
             this._getData(this.props.navigation.state.params.Tumu);
         } else {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this.setState({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        error: null,
-                        loading: false,
-                    });
-                    this._getData();
-                    //     console.log('LAT: ' + this.state.latitude + ' Lon: ' + this.state.longitude);
-                },
-                (error) => this.setState({ error: error.message }),
-                { enableHighAccuracy: false, timeout: 60000, maximumAge: 360000 },
-            );
+            console.log('getkoordinat')
+            this._getkoordinat();
+
         }
     }
+    /*
     componentDidMount() {
         // console.log('This.props: ', this.props.navigation.state.params.Tumu, ' Uzunluk: ', this.props.navigation.state.params.Tumu.length)
 
@@ -233,7 +232,9 @@ export default class Harita extends Component {
             this._getkoordinat()
         }
     }
+    */
     _getkoordinat = () => {
+        //console.log('OS=' + Platform.OS)
         try {
             this.setState({ loading: true })
             if (Platform.OS === 'ios') {
@@ -242,35 +243,48 @@ export default class Harita extends Component {
             else {
                 this.requestLocationPermission();
             }
-            this.setState({ loading: false })
+            //   
         } catch (error) {
-
+            this.setState({ loading: false })
         }
     }
-    callLocation(that) {
+    removeLocationUpdates = () => {
+        if (this.watchId !== null) {
+            Geolocation.clearWatch(this.watchId);
+            this.setState({ loading: false })
+        }
+    }
+    callLocation= (that) =>{
         this.setState({ loading: true })
-        //alert("callLocation Called");
-        navigator.geolocation.getCurrentPosition(
+        // alert('callLocation Called');
+        Geolocation.getCurrentPosition(
             (position) => {
-                console.log('Current  Pos: ' + JSON.stringify(position));
-                const currentLongitude = JSON.stringify(position.coords.longitude);
-                const currentLatitude = JSON.stringify(position.coords.latitude);
-                that.setState({ latitude: currentLongitude });
-                that.setState({ longitude: currentLatitude });
-                this._getData();
+              console.log('My POsition: ' + JSON.stringify(position)+' Zaman: '+new Date().getDate());
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                })
+                 this._internaGetData(position.coords.latitude,position.coords.longitude);
+                this.setState({ loading: false })
             },
-            (error) => alert(error.message),
-            { enableHighAccuracy: false, timeout: 50000, maximumAge: 1000, }
+            (error) => {
+                alert('GPS Error', error.code, error.message)
+            },
+            { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000 }
         );
-        that.watchID = navigator.geolocation.watchPosition((position) => {
-            console.log('Watch Pos: ' + JSON.stringify(position));
+        /*  Burası Sürekli Gps Güncelleme için daha sonra açılabilir....
+        that.watchID = Geolocation.watchPosition((position) => {
+            console.log('Watch Pos: ' +JSON.stringify(position));
             const currentLongitude = JSON.stringify(position.coords.longitude);
             const currentLatitude = JSON.stringify(position.coords.latitude);
-            that.setState({ latitude: currentLongitude });
-            that.setState({ longitude: currentLatitude });
-            this._getData()
+            that.setState({ latitude: currentLatitude });
+            that.setState({ longitude: currentLongitude });
+            this._internaGetData(currentLatitude,currentLongitude);
         });
-        this.setState({ loading: false })
+*/
+    }
+    componentWillUnmount() {
+        this.removeLocationUpdates();
     }
     async  requestLocationPermission() {
         try {
@@ -281,14 +295,14 @@ export default class Harita extends Component {
                 }
             )
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                //To Check, If Permission is granted
-                that.callLocation(this);
+                this.callLocation(this);
             } else {
                 alert("Permission Denied");
             }
         } catch (error) {
-            alert("err", err);
-            console.warn(err)
+            this.setState({ loading: false })
+            alert("Request Permission Hata" + error);
+            // console.warn(err)
         }
     }
     _showLocation() {
@@ -318,11 +332,11 @@ export default class Harita extends Component {
         )
     }
     _showHaritaStandart() {
-        console.log('Latima: ' + this.state.latitude + '  Long: ' + this.state.hedefLat)
+        //  console.log('Latima: ' + this.state.latitude + '  Long: ' + this.state.hedefLat)
 
         if (this.state.latitude !== '') {
             if ((this.state.hedefLat === undefined) || (this.state.hedefLat === '')) {
-                console.log(' sundefined')
+               // console.log(' sundefined')
                 myHedefLat = this.state.latitude;
                 myHedeflon = this.state.longitude
 
@@ -330,7 +344,7 @@ export default class Harita extends Component {
             else {
                 console.log('sdefined')
             }
-            console.log('hedef Latima: ' + myHedefLat + '  hedef Long: ' + myHedeflon)
+           // console.log('hedef Latima: ' + myHedefLat + '  hedef Long: ' + myHedeflon)
             return (
                 <View style={styles.container}>
                     <Popup
@@ -347,8 +361,8 @@ export default class Harita extends Component {
                         cancelButtonText='Tamam'
                         appsWhiteList={[]}
                         options={{
-                            latitude: myHedefLat,
-                            longitude: myHedeflon,
+                            latitude: this.state.hedefLat,
+                            longitude: this.state.hedefLon,
                             sourceLatitude: this.state.latitude,
                             sourceLongitude: this.state.longitude,
                             title: 'Mevcut Konum',
@@ -358,23 +372,23 @@ export default class Harita extends Component {
                         }}
                         style={{}}
                     />
+                      
                     <MapView //provider={PROVIDER_GOOGLE}
                         style={styles.map}
                         initialRegion={{
                             latitude: Number(this.state.latitude), //41.001895,
                             longitude: Number(this.state.longitude), //29.045486,
-                            latitudeDelta: 1,
-                            longitudeDelta: 1,
+                            latitudeDelta: 3,
+                            longitudeDelta: 3,
 
                         }}>
+         
                         <MapView.Marker
                             coordinate={{ latitude: Number(this.state.latitude), longitude: Number(this.state.longitude) }}
                             Image={{ pin }}
                             title="" description="Konumum">
                         </MapView.Marker>
-                        {console.log('Length: ' + HaritaDatasi.length)}
                         {
-
                             HaritaDatasi.length > 0 ?
                                 HaritaDatasi[0].map((data, i) => (
                                     //  console.log('Component Data: ',data.name),
@@ -406,7 +420,7 @@ export default class Harita extends Component {
                                         </View>
                                     </MapView.Marker>
                                 )) : <View>
-                                   
+
                                 </View>
                         }
                     </MapView>
@@ -446,12 +460,20 @@ export default class Harita extends Component {
                         <Title style={{ color: '#fff' }}>Harita</Title>
                     </Body>
                     <Right>
+                    <Button transparent onPress={() => this._getkoordinat()}>
+                            <IonIcon name="find" style={{ color: '#fff' }} />
+                        </Button>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
                             <Icon name="menu" style={{ color: '#fff' }} />
                         </Button>
                     </Right>
                 </Header>
-
+                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <Spinner style={{ flex: 1, backgroundColor: 'red' }}
+                        visible={this.state.loading}
+                        textContent={'Konum aranıyor...'}
+                        textStyle={styles.spinnerTextStyle} />
+                </View>
                 {this._showHaritaStandart()}
                 <View style={{ flexDirection: 'column-reverse' }}>
                     <Footer>
@@ -476,6 +498,16 @@ export default class Harita extends Component {
     }
 }
 /*
+Apple Maps – apple-maps
+Google Maps – google-maps
+Citymapper – citymapper
+Uber – uber
+Lyft – lyft
+The Transit App – transit
+Waze – waze
+Yandex.Navi – yandex
+Moovit – moovit
+Yandex Maps – yandex-maps
   /*</View>
                     <MapView.Marker coordinate = {this.state.userPosition} image = {require('../../Images/marker.png')}/>
     {this.state.datas.map((data) => (

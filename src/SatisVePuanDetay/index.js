@@ -33,7 +33,7 @@ export default class SatisVePuanDetay extends Component {
 
             getSatisPuanDetay(pompaId)
                 .then((res) => {
-                    //console.log('res= '+JSON.stringify(res))
+                    console.log('res= '+JSON.stringify(res))
                     this.setState({ data: res, loading: false })
                     //   console.log('Data=' + JSON.stringify(this.state.data));
                 })

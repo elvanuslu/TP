@@ -8,7 +8,7 @@ import { Left, Right, Toast, Button, Container, Header, Content, Card, CardItem,
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { getUserInfo, setStorage, getStorage } from '../Service/FetchUser';
+import { getUserInfo, setStorage, getStorage, fetchgetLocation, checkConnection, internetConnection } from '../Service/FetchUser';
 export default class login extends Component {
   _didFocusSubscription;
   _willBlurSubscription;
@@ -24,52 +24,97 @@ export default class login extends Component {
       loading: false,
       SwitchOnValueHolder: false,
       latlon: undefined,
-      connection_Status: undefined,
+      connection_Status: false,
     }
 
   }
-  _getGps() {
-    try {
-      navigator.geolocation.getCurrentPosition(
-        //Will give you the current location
-        (position) => {
-          const currentLongitude = (position.coords.longitude);
-          const currentLatitude = JSON.stringify(position.coords.latitude);
-          this.setState({ latlon: position.coords.longitude });
-        },
-        (error) => console.log('Gps Error' + error.message),
-        {
 
-          enableHighAccuracy: true, timeout: 3000, maximumAge: 1000
-        }
+  getInfo = () => {
+    try {
+      NetInfo.isConnected.fetch().then(isConnected => {
+        this.setState({ connection_Status: true })
+        console.log('First, is ' + (isConnected ? 'online' : this.setState({ loading: false }, () => {
+          setTimeout(() => {
+            Alert.alert(
+              'Bağlantı Hatası!',
+              'İnternet Bağlantınızı Kontrol Edin',
+              [
+
+                { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+              ],
+              { cancelable: true },
+            );
+          }, 510);
+        })));
+      });
+      function handleFirstConnectivityChange(isConnected) {
+        this.setState({ connection_Status: true })
+        console.log('Then, is ' + (isConnected ? 'online' : this.setState({ loading: false }, () => {
+          setTimeout(() => {
+            Alert.alert(
+              'Bağlantı Hatası!',
+              'İnternet Bağlantınızı Kontrol Edin',
+              [
+
+                { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+              ],
+              { cancelable: true },
+            );
+          }, 510);
+        })));
+        NetInfo.isConnected.removeEventListener(
+          'connectionChange',
+          handleFirstConnectivityChange
+        );
+      }
+      NetInfo.isConnected.addEventListener(
+        'connectionChange',
+        handleFirstConnectivityChange
       );
+
     } catch (error) {
 
     }
-    finally {
-
-    }
   }
-  /*
-    componentDidUpdate = async ()=> {
-      console.log('this.state.latlon ' + this.state.latlon)
-    }
-    */
+  baglantiDurumu = () => {
+    return NetInfo.isConnected.fetch().then(async (isConnected) => {
+      if (!isConnected) {
+        Alert.alert(
+          'Bağlantı Hatası!',
+          'Internet Bağlantınızı Kontrol Edin.',
+          [
+
+            {
+              text: 'Tamam', onPress: () => {
+                this.setState({
+                  loading: false
+                })
+                this.props.navigation.navigate("hesabim")
+              }
+            },
+          ],
+          { cancelable: true },
+        )
+        return false;
+      }
+      else {
+        return true;
+      }
+    });
+  }
   componentDidMount = async () => {
-    // BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-    //console.log('Login Did Mount')
-    this._getConn();
-    // this._getGps();
+    fetchgetLocation();
+    let durum = this.baglantiDurumu(); //BUrayı Ekledik yarın kontrol edilecek...
+    if (durum === false)
+      return;
+    
+    // let dat = await checkConnection();
     const Password = await getStorage('Password');
-    //console.log('Password= '+Password);
     const UserID = await getStorage('UserName');
-    //console.log('Kullanıcı= '+UserID);
     if (Password !== '') {
-      //alert(UserID)
       this.setState({ Pass: Password, UserName: UserID });
     }
   }
-
   handleBackPress = () => {
     //  BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async
     return true;
@@ -80,13 +125,24 @@ export default class login extends Component {
         'connectionChange',
         this._handleConnectivityChange
       );
+
       NetInfo.isConnected.fetch().done((isConnected) => {
 
         if (isConnected == true) {
-          this.setState({ connection_Status: "Online" })
+          this.setState({ connection_Status: true })
         }
         else {
-          this.setState({ connection_Status: "Offline" })
+          this.setState({ connection_Status: false })
+        }
+
+      });
+      NetInfo.isConnected.fetch().done((isConnected) => {
+
+        if (isConnected == true) {
+          this.setState({ connection_Status: true })
+        }
+        else {
+          this.setState({ connection_Status: false })
         }
 
       });
@@ -95,10 +151,10 @@ export default class login extends Component {
   }
   _handleConnectivityChange = (isConnected) => {
     if (isConnected == true) {
-      this.setState({ connection_Status: "Online" })
+      this.setState({ connection_Status: true })
     }
     else {
-      this.setState({ connection_Status: "Offline" })
+      this.setState({ connection_Status: false })
     }
   };
   onBackButtonPressAndroid = () => {
@@ -153,7 +209,7 @@ export default class login extends Component {
           // console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
-            //  console.log('Login1: ' + JSON.stringify(res)+' Cid:'+res.contactid)
+              //  console.log('Login1: ' + JSON.stringify(res)+' Cid:'+res.contactid)
               this.setState({ userId: res.contactid, loading: false });
               /*   setInterval(() => {
                    this.setState({
@@ -163,7 +219,7 @@ export default class login extends Component {
                  */
               //      console.log("stateUserId=>" + this.state.userId);
               if (res.contactid === undefined) {
-               
+
                 /*    Toast.show({
                       text: "Hata\n" + res,
                       buttonText: "Okay",
@@ -187,7 +243,7 @@ export default class login extends Component {
 
               }
               else {
-                 console.log("Kayıt else=>" + res);
+                console.log("Kayıt else=>" + res);
                 this.setState({ userId: res.contactid, loading: false });
                 this._storeData();
                 this.props.navigation.navigate('AnaSayfa');
@@ -232,7 +288,7 @@ export default class login extends Component {
 
     }
     else {
-       await setStorage('userId', '');
+      await setStorage('userId', '');
       await setStorage('Password', '');
       this.setState({ UserName: await getStorage('userId') })
       this.setState({ Pass: await getStorage('Password') })
@@ -252,6 +308,7 @@ export default class login extends Component {
 
   }
   render() {
+
     return (
       <Container>
         <View style={styles.container}>
@@ -369,6 +426,15 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   logo: {
+    marginTop: 5,
+    width: '100%',
+    height: 80,
+    resizeMode: 'contain',
+    marginBottom: 15,
+    alignSelf: 'center'
+  },
+  /*
+  logo: {
     // flexDirection: 'row',
     alignSelf: 'center',
     width: '90%',
@@ -377,6 +443,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
   },
+  */
   switchcontainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
