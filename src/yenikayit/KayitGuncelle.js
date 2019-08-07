@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { NetInfo, Platform, Alert, TextInput, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, DatePickerIOS, DatePickerAndroid } from 'react-native';
+import { DatePickerAndroid, DatePickerIOS, NetInfo, Platform, Alert, TextInput, Switch, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { DatePicker, Picker, Icon, Form, Content, Input, Item, Title, Left, Right, Button, Container, Header, Body, Card, CardItem } from 'native-base';
 import Icon2 from "react-native-vector-icons";
 
@@ -157,8 +157,8 @@ export default class KayitGuncelle extends Component {
         });
         //   this._getCity();
         //  this._getCitybyId();
-       
-            this._retrieveKullanici();
+
+        this._retrieveKullanici();
 
     }
     onSehir(value, label) {
@@ -642,7 +642,32 @@ export default class KayitGuncelle extends Component {
             )
         }
     }
+    pickerAndroid = async () => {
+        try {
+            if (Platform.OS === 'ios') {
+                return( <DatePickerIOS
+                    date={this.state.chosenDate}
+                    onDateChange={this.setDate}
+                  />)
+               
+            }
+            else {
+                const { action, year, month, day } = await DatePickerAndroid.open({
+                    // Use `new Date()` for current date.
+                    // May 25 2020. Month 0 is January.
+                    date: new Date(),
+                });
+                if (action !== DatePickerAndroid.dismissedAction) {
+                    // Selected year, month (0-11), day
+                    console.log('Action: ' + JSON.stringify(action) + ' Year:' + year + ':' + month + ':' + day);
+                    console.log('Tarihim: '+ new Date(year,month,day).toLocaleDateString())
+                }
+            }
+        } catch ({ code, message }) {
+            console.warn('Cannot open date picker', message);
+        }
 
+    }
     render() {
         return (
             <Container style={styles.container}>
@@ -811,8 +836,9 @@ export default class KayitGuncelle extends Component {
                                     this.state.chosenDate ? this.state.chosenDate.toLocaleDateString() : '' //.toString().substr(4, 12)
                                 }
                             </Text>
-                        </Item>
 
+                        </Item>
+                      
                         <Item regular style={styles.Inputs}>
                             <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                             <Input placeholder='Şifre '
@@ -846,6 +872,22 @@ export default class KayitGuncelle extends Component {
     }
 }
 // Date: {this.state.chosenDate.toString().substr(4, 12)}
+
+/*
+  <Item picker style={{
+                            flex: 1, alignSelf: 'flex-start', width: '79%', marginLeft: 40, marginBottom: 10,
+                            borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1,
+                            borderRadius: 5, borderColor: 'black'
+                        }}>
+                          <Image style={{ marginLeft: 5, width: 20, height: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
+                            <Button block light style={{ with: '100%' }} onPress={() => this.pickerAndroid()}>
+                                <Text>Light</Text>
+                            </Button>
+
+                        </Item>
+  
+
+*/
 
 const styles = StyleSheet.create({
     hidden: {

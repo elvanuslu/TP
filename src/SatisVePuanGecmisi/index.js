@@ -88,10 +88,12 @@ export default class SatisVePuanGecmisi extends Component {
             getSatisPuanGecmisi(uId)
                 .then((res) => {
                     console.log('response='+JSON.stringify(res))
+                    this.setState({ loading: false })
                     if (res.status != false) {
                         console.log('Res= ' + JSON.stringify(res.responsePompaIslemiModel))
                         this.setState({ listViewData: res.responsePompaIslemiModel,loading:false });
                     }
+                    /*
                     else{
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
@@ -107,10 +109,13 @@ export default class SatisVePuanGecmisi extends Component {
                             }, 510);
                         });
                     }
-                    
+                    */
                 })
-                .catch((error) => alert(error))
+                .catch((error) =>{
+                    this.setState({ loading: false })
+                     alert(error)})
         } catch (error) {
+            this.setState({ loading: false })
             alert(error);
         }
 

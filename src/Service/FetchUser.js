@@ -106,7 +106,7 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
   istasyonfiyati, indirimlifiyati, alimtutari, alinmmiktariLT, indirimorani, KazanilanPuan, harcananpuan, kazanilanpuantl, harcananpuantl
   , katkiOrani, bayikatkiorani, isortagikatkiorani, isortagiid) => {
   try {
-    /*
+    
     console.log('IstasyonId '+ IstasyonId);
     console.log('ContactId '+ ContactId);
     console.log('KampanyaId '+ KampanyaId);
@@ -130,7 +130,7 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
     console.log('bayikatkiorani '+ bayikatkiorani);
     console.log('isortagikatkiorani '+ isortagikatkiorani);
     console.log('isortagiid '+ isortagiid);
-*/
+
     const URL = define_api_url + `TP_SalesStart`;
     return fetch(URL,
       {
@@ -260,14 +260,21 @@ export const getCitybyId = (Id) => {
     .then((res) => res.json())
 }
 export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod, Adres, Dogum, Sehir, Ilce, MedeniDurum, Cinsiyet) => {
-  /* console.log('mobilkod' + mobilKod);
+  console.log('Contact' + Contact);
+  console.log('FirstName' + FirstName);
+  console.log('LastName' + LastName);
+  console.log('EMailAddress1' + EMailAddress1);
+  console.log('MobilePhone' + MobilePhone);
+  console.log('BMsifre' + BMsifre);
+
+  console.log('mobilkod' + mobilKod);
    console.log('Adres' + Adres);
    console.log('Dogum' + Dogum);
    console.log('Sehir' + Sehir);
    console.log('Ilce' + Ilce);
    console.log('MedeniDurum' + MedeniDurum);
    console.log('Cinsiyet' + Cinsiyet);
-   */
+   
   const URL = define_api_url + `PutContact`;
   return fetch(URL,
     {
@@ -453,7 +460,7 @@ export const deleteMusteriArac = async (Id) => {
     const URL = define_api_url + `DeleteBm_MusteriAraci`;
     return fetch(URL,
       {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

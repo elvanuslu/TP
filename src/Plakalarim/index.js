@@ -88,18 +88,21 @@ export default class Plakalarim extends Component {
     }
     _deleteMusteriAtac = (Id) => {
         try {
-            this.setState({ loading: true });
+           
             Alert.alert(
                 'Silme Onayı !',
                 'Silmek istediğinize Eminmisiniz?',
                 [
 
-                    { text: 'Tamam', onPress: () => { this._delete(Id) } },
+                    { text: 'Tamam', onPress: () => { 
+                        this.setState({ loading: true });
+                        this._delete(Id) } },
                 ],
                 { cancelable: true },
             );
 
         } catch (error) {
+            this.setState({ loading: true });
             alert('Hata', error);
         }
     }

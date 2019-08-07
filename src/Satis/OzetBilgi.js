@@ -158,7 +158,7 @@ export default class OzetBilgi extends Component {
         }
 
     }
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps=async (nextProps) =>{
         //this.onGetParams(nextProps);
         // console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
 
@@ -196,7 +196,15 @@ export default class OzetBilgi extends Component {
 
             //loading:true,
         })
-
+        try {
+            this.setState({ loading: true })
+            const contactId = await getStorage('userId');
+            this.setState({ userId: contactId });
+            this.onGetParams();
+            this.setState({ loading: false })
+        } catch (error) {
+            console.log('Error Will Mount: ' + error)
+        }
         if (this.props.Istasyon !== nextProps.Istasyon) {
             console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
             // this.setState({ reset : true })

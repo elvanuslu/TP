@@ -194,7 +194,7 @@ export default class PlakaEkle extends Component {
                     res.splice(0, 0, initialArr);
                     this.setState({ yakitlst: res,loading: false,selected2: 'Yakıt Tipi Seçin' })
                     yakitTipi2Lst = res;
-                    console.log('Yakit 2 Listesi: '+ JSON.stringify(yakitTipi2Lst))
+                  //  console.log('Yakit 2 Listesi: '+ JSON.stringify(yakitTipi2Lst))
                     }
                     //Alert.alert('Hata Oluştu!', res.message);
                     
@@ -440,7 +440,7 @@ export default class PlakaEkle extends Component {
                 <View style={styles.containerBottom}>
                     <View>
                         <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                        <Image style={{ marginBottom: 20, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                        <Image style={{ marginBottom: 20, marginLeft: 30, marginRight: 30, width: '90%', height: 1,alignSelf:'center' }} source={require('../../assets/cizgi.png')} />
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                         <Item picker style={styles.Inputs2}>
@@ -644,7 +644,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 10,
         height: 40,
-        width: '70%',
+        width: '80%',
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,

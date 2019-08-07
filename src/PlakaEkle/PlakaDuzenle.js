@@ -17,7 +17,7 @@ const araba = require("../../assets/araba.png");
 
 import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, putMusteriAraci } from '../Service/FetchUser';
 
-
+let yakitTipi2Lst = [];
 export default class PlakaDuzenle extends Component {
     constructor(props) {
         super(props);
@@ -42,23 +42,32 @@ export default class PlakaDuzenle extends Component {
             aracId: undefined,
             Yakit1: undefined,
             Yakit2: undefined,
+            uId: undefined,
+            _plaka: undefined,
+            Marka: undefined,
+            aracId: undefined,
+            yakit1: undefined,
+            yakit2: undefined,
 
         }
     }
-    async componentWillReceiveProps(nextProps) {
-        const uId = await getStorage('userId');
-        const _plaka = this.props.navigation.getParam('PlakaId', '');
-        const Marka = this.props.navigation.getParam('Marka', '');
-        const aracId = this.props.navigation.getParam('AracId');
-        const yakit1 = this.props.navigation.getParam('Yakit1');
-        const yakit2 = this.props.navigation.getParam('Yakit2');
+     componentWillReceiveProps = async (nextProps) =>{
+       console.log('nextprops: '+JSON.stringify(nextProps))
+        var uId = await getStorage('userId');
+        var _plaka = this.props.navigation.getParam('PlakaId', '');
+        var Marka = this.props.navigation.getParam('Marka', '');
+        var aracId = this.props.navigation.getParam('AracId');
+        var yakit1 = this.props.navigation.getParam('Yakit1');
+        var yakit2 = this.props.navigation.getParam('Yakit2');
 
-        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2 });
+       
         //this.setState({ plaka1: _plaka });
-        this._getAracMarkaList();
-        this._getYakitTipi();
-        this._getCard();
-        //console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2);
+      //  await this._getAracMarkaList();
+     //   await this._getYakitTipi();
+        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2 });
+        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2);
+        console.log('2- will receive mPlaka = ' + this.state.plaka1 + ' userId= ' + uId, ' Marka= ' + this.state.araba, 'state AracaId ' + this.state.aracId, 'Yakıt 1: ' + this.state.selected2, 'Yakıt2: ' + this.state.selected3);
+
     }
     _getPlaka = async () => {
         try {
@@ -91,25 +100,26 @@ export default class PlakaDuzenle extends Component {
         }
     }
     componentDidMount = async () => {
-        const uId = await getStorage('userId');
-        const _plaka = this.props.navigation.getParam('PlakaId', '');
-        const Marka = this.props.navigation.getParam('Marka', '');
-        const aracId = this.props.navigation.getParam('AracId');
-        const yakit1 = this.props.navigation.getParam('Yakit1');
-        const yakit2 = this.props.navigation.getParam('Yakit2');
-        //this.setState({cardSelected: _card});
-        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2 });
-        this._getAracMarkaList();
-        this._getYakitTipi();
+        var uId = await getStorage('userId');
+        var _plaka = this.props.navigation.getParam('PlakaId', '');
+        var Marka = this.props.navigation.getParam('Marka', '');
+        var aracId = this.props.navigation.getParam('AracId');
+        var yakit1 = this.props.navigation.getParam('Yakit1');
+        var yakit2 = this.props.navigation.getParam('Yakit2');
+        this.setState({Marka:Marka})
+
+        await this._getAracMarkaList();
+        await this._getYakitTipi();
         //   this._getCard();
-        console.log('mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'State Marka ' + this.state.araba, 'state AracaId ' + this.state.aracId);
+        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2 });
+        console.log('mPlaka = ' + this.state.plaka1 + ' userId= ' + uId, ' Marka= ' + this.state.araba, 'state AracaId ' + this.state.aracId, 'Yakıt 1: ' + this.state.selected2, 'Yakıt2: ' + this.state.selected3);
     }
     convertTextToUpperCase = () => {
         var text = this.state.plaka2;
         var uppercasetext = text.toUpperCase();
         this.setState({ plaka2: uppercasetext });
     };
-    onPlakaValueChange(value: string) {
+    onPlakaValueChange(value) {
         this.setState({
             plaka: value
         });
@@ -123,6 +133,9 @@ export default class PlakaDuzenle extends Component {
             },
             () => {
                 console.log('Yakit 1: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
+                if(value==-1){
+                    this.setState({selected2: this.props.navigation.getParam('Yakit1')})
+                }
             }
         )
     }
@@ -139,7 +152,6 @@ export default class PlakaDuzenle extends Component {
         )
     }
     onValueChange3(value, label) {
-
         this.setState(
             {
                 selected3: value,
@@ -147,21 +159,33 @@ export default class PlakaDuzenle extends Component {
             },
             () => {
                 console.log('Yakit 2: ' + this.state.labelName2, ' Selected: ' + this.state.selected3)
+               // if(value==-1)
+               if(value===this.props.navigation.getParam('Yakit2'))
+                {
+                    this.setState({selected3: this.props.navigation.getParam('Yakit2')})
+                }
+                else{
+                    this.setState({selected3: value})
+                }
             }
         )
     }
-    onYakitTipiValueChange(value: string) {
+    onYakitTipiValueChange(value) {
         this.setState({
             yakitTipi: value
         });
     }
     onArabaValueChange(value, label) {
+        console.log('onaraba: ' + value)
         this.setState({
             araba: value,
             arabaId: label,
         },
             () => {
                 console.log('Araba Val: ' + this.state.araba, ' Selected: ' + this.state.arabaId)
+                if(value==-1){
+                    this.setState({ araba: this.props.navigation.getParam('Marka', '') });
+                }
             }
         );
     }
@@ -169,7 +193,10 @@ export default class PlakaDuzenle extends Component {
         try {
             getAracMarkaList()
                 .then((res) => {
-                    this.setState({ markalar: res, loading: false })
+                    var initialArr = { 'bm_aracmarkasiid': '-1', 'bm_adi': 'Marka  Seçin' };
+                    res.splice(0, 0, initialArr);
+                    this.setState({ markalar: res, loading: false, araba: 'Marka Seç' })
+                    //   this.setState({ markalar: res, loading: false })
                     //  console.log(JSON.stringify(this.state.markalar))
                 })
                 .catch((error) => {
@@ -195,10 +222,15 @@ export default class PlakaDuzenle extends Component {
     }
     _getYakitTipi = async () => {
         try {
+            yakitTipi2Lst = [];
             getYakitTipi()
                 .then((res) => {
-                    this.setState({ yakitlst: res, loading: false })
-                    //  console.log(JSON.stringify(res))
+                    var initialArr = { 'bm_yakittipiid': '-1', 'bm_yakittipiadi': 'Yakıt Tipi Seçin' };
+                    res.splice(0, 0, initialArr);
+                    this.setState({ yakitlst: res, loading: false, selected2: 'Yakıt Tipi Seçin' })
+                    yakitTipi2Lst = res;
+                    //  this.setState({ yakitlst: res, loading: false })
+                    //  console.log('getYakit Tipi: '+JSON.stringify(res))
                 })
                 .catch((error) => {
                     Alert.alert(
@@ -293,9 +325,9 @@ export default class PlakaDuzenle extends Component {
         this._putMusteriAraci();
     }
     _YakitTipi2() {
-        if (this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2) !== undefined) {
-            if((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='08e1a1d3-33ad-e911-a2c2-005056824197')!==true){
-                if((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='f3be53f7-33ad-e911-a2c2-005056824197')!==true){
+        if (yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2) !== undefined) {
+            if ((yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid === '08e1a1d3-33ad-e911-a2c2-005056824197') !== true) {
+                if ((yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid === 'f3be53f7-33ad-e911-a2c2-005056824197') !== true) {
                     return (
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
@@ -309,7 +341,7 @@ export default class PlakaDuzenle extends Component {
                                 selectedValue={this.state.selected3}
                                 onValueChange={this.onValueChange3.bind(this)}>
                                 {
-                                    this.state.yakitlst.map((item, key) => (
+                                    yakitTipi2Lst.map((item, key) => (
                                         //  console.log("ttip: " + item.bm_yakittipiadi),
                                         //  console.log("ttip: " + item.bm_yakittipiid),
                                         <Picker.Item
@@ -364,7 +396,7 @@ export default class PlakaDuzenle extends Component {
                         <Item regular style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 35, height: 35, resizeMode: 'contain', marginRight: 10 }} source={plaka}></Image>
                             <Input placeholder='Plakanızı Girin'
-
+                                disabled
                                 placeholderTextColor="black"
                                 onChangeText={(value) => this.setState({ plaka1: value.toUpperCase() })}
                                 value={this.state.plaka1}
@@ -372,7 +404,7 @@ export default class PlakaDuzenle extends Component {
                         </Item>
 
                     </View>
-
+                    {console.log('Araba: ' + this.state.araba)}
                     <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
@@ -557,7 +589,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginBottom: 10,
         height: 50,
-        width: 300,
+        width: '80%',
         borderTopWidth: 1,
         borderLeftWidth: 1,
         borderRightWidth: 1,

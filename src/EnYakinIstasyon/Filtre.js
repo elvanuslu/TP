@@ -77,7 +77,7 @@ export default class Filtre extends Component {
             // getCityList()
             getCitybyLocation()
                 .then((res) => {
-                    console.log('Şehirler ' + JSON.stringify(res))
+                  //  console.log('Şehirler ' + JSON.stringify(res))
                     if (res instanceof Array) {
                         if (res) {
                             var initialArr = { 'bm_sehirid': '00000000-0000-0000-0000-000000000001', 'bm_adi': 'Şehir' };
@@ -156,6 +156,7 @@ export default class Filtre extends Component {
         )
     }
     onIlce(value, label) {
+       // console.log('İlce Secim: ' + value + ' this.state.Ilce: ' + this.state.Ilce)
         this.setState({ loading: true, })
         this.setState(
             {
@@ -166,6 +167,7 @@ export default class Filtre extends Component {
             () => {
                 // console.log('Ilce Sci ' + this.state.Ilce)
                 try {
+                    this.setState({loading:true})
                     getIstasyonByCityId(this.state.Ilce, 5)
                         .then((res) => {
                             if (res.status != false) {
@@ -196,12 +198,26 @@ export default class Filtre extends Component {
                                     }]
                                 })
 
-                                this.setState({ listViewData: null })
-                                //Alert.alert('Bulunamadı!', res.message);
+                                this.setState({ listViewData: null, loading: false })
+                                if (value !== '00000000-0000-0000-0000-000000000001') {
+                                    this.setState({ loading: false }, () => {
+                                        setTimeout(() => {
+                                            Alert.alert(
+                                                'Durum Bilgi',
+                                                'İstasyon Bulunamadı',
+                                                [
+                                                    { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                                                ],
+                                                { cancelable: true },
+                                            );
+                                        }, 0);
+                                    });
+                                }
                             }
                         })
                     // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
                 } catch (error) {
+                    this.setState({ loading: false, })
                     Alert.alert('Hata!', error.message);
                 }
                 finally {
