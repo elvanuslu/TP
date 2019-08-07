@@ -21,6 +21,7 @@ import DuyuruDetay from '../duyurular/DuyuruDetay';
 
 let lst=[];
 let yakitliste1=[];
+let yakitTipi2Lst=[];
 export default class PlakaEkle extends Component {
     constructor(props) {
         super(props);
@@ -60,7 +61,13 @@ export default class PlakaEkle extends Component {
         });
     }
   componentWillUnmount(){
-    alert('will Unmount')
+    this.setState({
+        araba:null,
+        selected2:null,
+        selected3:null,
+        plaka:null,
+        plaka1:'',
+    })
      
   }
     onValueChange2(value, label) {
@@ -178,12 +185,17 @@ export default class PlakaEkle extends Component {
     }
     _getYakitTipi = async () => {
         try {
+             yakitTipi2Lst=[];
             this.setState({ loading: true })
             getYakitTipi()
                 .then((res) => {
+                    if(res.length>0){
                     var initialArr = { 'bm_yakittipiid': '-1', 'bm_yakittipiadi': 'Yakıt Tipi Seçin' };
                     res.splice(0, 0, initialArr);
                     this.setState({ yakitlst: res,loading: false,selected2: 'Yakıt Tipi Seçin' })
+                    yakitTipi2Lst = res;
+                    console.log('Yakit 2 Listesi: '+ JSON.stringify(yakitTipi2Lst))
+                    }
                     //Alert.alert('Hata Oluştu!', res.message);
                     
                     //console.log('Yakıtlar ' + JSON.stringify(res))
@@ -276,11 +288,21 @@ export default class PlakaEkle extends Component {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 if (responseData.status === true) {
+                                    
                                     Alert.alert(
                                         'Araç Kayıt!',
                                         responseData.message,
                                         [
-                                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("Plakalarim", { 'Id': new Date() }) },
+                                            { text: 'Tamam', onPress: () => {
+                                                this.setState({
+                                                    araba:null,
+                                                    selected2:null,
+                                                    selected3:null,
+                                                    plaka:null,
+                                                    plaka1:'',
+                                                })
+                                                this.props.navigation.navigate("Plakalarim", { 'Id': new Date() })
+                                            } },
                                         ],
                                         { cancelable: true },
                                     );
@@ -338,6 +360,7 @@ export default class PlakaEkle extends Component {
                 selected2:null,
                 selected3:null,
                 plaka:null,
+                plaka1:null,
             })
         }
 
@@ -349,6 +372,41 @@ export default class PlakaEkle extends Component {
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
+    }
+   
+    _YakitTipi2() {
+        if (yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2) !== undefined) {
+            if((yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='08e1a1d3-33ad-e911-a2c2-005056824197')!==true){
+                if((yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='f3be53f7-33ad-e911-a2c2-005056824197')!==true){
+                    return (
+                        <Item picker style={styles.Inputs2}>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                            <Picker borderWidt='1' borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Yakıt Tipi"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.selected3}
+                                onValueChange={this.onValueChange3.bind(this)}>
+                                {
+                                    yakitTipi2Lst.map((item, key) => (
+                                        //  console.log("ttip: " + item.bm_yakittipiadi),
+                                        //  console.log("ttip: " + item.bm_yakittipiid),
+                                        <Picker.Item
+                                            label={item.bm_yakittipiadi}
+                                            value={item.bm_yakittipiid}
+                                            key={item.bm_yakittipiid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+                    )
+                }
+            }
+        }
+
     }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
@@ -442,30 +500,7 @@ export default class PlakaEkle extends Component {
                                 }
                             </Picker>
                         </Item>
-                        <Item picker style={styles.Inputs2}>
-                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-
-                            <Picker borderWidt='1' borderColor='black'
-                                mode="dropdown"
-                                iosIcon={<Icon name="arrow-down" />}
-                                style={{ width: undefined }}
-                                placeholder="Yakıt Tipi"
-                                placeholderStyle={{ color: "black" }}
-                                placeholderIconColor="#007aff"
-                                selectedValue={this.state.selected3}
-                                onValueChange={this.onValueChange3.bind(this)}>
-                                {
-                                    this.state.yakitlst1.map((item, key) => (
-                                        //  console.log("ttip: " + item.bm_yakittipiadi),
-                                        //  console.log("ttip: " + item.bm_yakittipiid),
-                                        <Picker.Item
-                                            label={item.bm_yakittipiadi}
-                                            value={item.bm_yakittipiid}
-                                            key={item.bm_yakittipiid} />)
-                                    )
-                                }
-                            </Picker>
-                        </Item>
+                        {this._YakitTipi2()}
                         <View style={{ marginTop: 20, marginLeft: 15, marginRight: 15 }}>
                             <TouchableOpacity onPress={() => this._Kaydet()}>
                                 <Image

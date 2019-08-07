@@ -295,35 +295,36 @@ export default class PlakaDuzenle extends Component {
     _YakitTipi2() {
         if (this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2) !== undefined) {
             if((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='08e1a1d3-33ad-e911-a2c2-005056824197')!==true){
-                return (
-                    <Item picker style={styles.Inputs2}>
-                        <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
-                        <Picker borderWidt='1' borderColor='black'
-                            mode="dropdown"
-                            iosIcon={<Icon name="arrow-down" />}
-                            style={{ width: undefined }}
-                            placeholder="Yakıt Tipi"
-                            placeholderStyle={{ color: "black" }}
-                            placeholderIconColor="#007aff"
-                            selectedValue={this.state.selected3}
-                            onValueChange={this.onValueChange3.bind(this)}>
-                            {
-                                this.state.yakitlst.map((item, key) => (
-                                    //  console.log("ttip: " + item.bm_yakittipiadi),
-                                    //  console.log("ttip: " + item.bm_yakittipiid),
-                                    <Picker.Item
-                                        label={item.bm_yakittipiadi}
-                                        value={item.bm_yakittipiid}
-                                        key={item.bm_yakittipiid} />)
-                                )
-                            }
-                        </Picker>
-                    </Item>
-                )
+                if((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='f3be53f7-33ad-e911-a2c2-005056824197')!==true){
+                    return (
+                        <Item picker style={styles.Inputs2}>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
+                            <Picker borderWidt='1' borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Yakıt Tipi"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="#007aff"
+                                selectedValue={this.state.selected3}
+                                onValueChange={this.onValueChange3.bind(this)}>
+                                {
+                                    this.state.yakitlst.map((item, key) => (
+                                        //  console.log("ttip: " + item.bm_yakittipiadi),
+                                        //  console.log("ttip: " + item.bm_yakittipiid),
+                                        <Picker.Item
+                                            label={item.bm_yakittipiadi}
+                                            value={item.bm_yakittipiid}
+                                            key={item.bm_yakittipiid} />)
+                                    )
+                                }
+                            </Picker>
+                        </Item>
+                    )
+                }
             }
-            
         }
-       
+
     }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />

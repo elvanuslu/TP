@@ -359,7 +359,7 @@ export default class OzetBilgi extends Component {
                             </CardItem>
                             <CardItem item>
                                 <View style={{ flex: 1, flexDirection: 'column' }}>
-                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                                    <View style={{ flex: 1, flexDirection: 'row', }}>
                                         <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>İstasyon </Text>
@@ -473,7 +473,7 @@ export default class OzetBilgi extends Component {
 
                                                 <Right>
 
-                                                    <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl ? this.state.kazanilanpuantl : 0} TL</Text>
+                                                    <Text style={styles.txtFiyatlar}>Puan TL Karşılığı: {this.state.kazanilanpuantl ? this.state.kazanilanpuantl : 0}</Text>
                                                 </Right>
 
                                             </View>
@@ -483,7 +483,7 @@ export default class OzetBilgi extends Component {
                                                     <Text style={styles.txtFiyatlar}>Harcanan Puan: {this.state.harcananPuan} </Text>
                                                 </Left>
                                                 <Right>
-                                                    <Text style={styles.txtFiyatlar}>Harcanan Puan TL: {this.state.harcananPuanTL} TL</Text>
+                                                    <Text style={styles.txtFiyatlar}>Harcanan Puan TL: {this.state.harcananPuanTL}</Text>
                                                 </Right>
 
                                             </View>
@@ -541,8 +541,8 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
         fontFamily: "Myriadpro-Bold",
-        marginBottom: 10,
-        marginTop: 15,
+        marginBottom: 1,
+        marginTop: 1,
     },
     txtYazi: {
         color: 'black',
