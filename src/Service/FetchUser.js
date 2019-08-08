@@ -106,31 +106,31 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
   istasyonfiyati, indirimlifiyati, alimtutari, alinmmiktariLT, indirimorani, KazanilanPuan, harcananpuan, kazanilanpuantl, harcananpuantl
   , katkiOrani, bayikatkiorani, isortagikatkiorani, isortagiid) => {
   try {
-    
-    console.log('IstasyonId '+ IstasyonId);
-    console.log('ContactId '+ ContactId);
-    console.log('KampanyaId '+ KampanyaId);
-    console.log('PompaNo '+ PompaNo);
-    console.log('Plaka '+ Plaka);
-    console.log('UrunId '+ UrunId);
-    console.log('PresetTutari '+ alimtutari);
-    console.log('OdemeSatisTipi '+ OdemeSatisTipi);
-    console.log('KuponKodu '+ KuponKodu);
-    console.log('TavsiyeEdilenfiyati '+ TavsiyeEdilenfiyati);
-    console.log('istasyonfiyati '+ istasyonfiyati);
-    console.log('indirimlifiyati '+ indirimlifiyati);
-    console.log('alimtutari '+ alimtutari);
-    console.log('alinmmiktariLT '+ alinmmiktariLT);
-    console.log('indirimorani '+ indirimorani);
-    console.log('KazanilanPuan '+ KazanilanPuan);
-    console.log('harcananpuan '+ harcananpuan);
-    console.log('kazanilanpuantl '+ kazanilanpuantl);
-    console.log('harcananpuantl '+ harcananpuantl);
-    console.log('katkiOrani '+ katkiOrani);
-    console.log('bayikatkiorani '+ bayikatkiorani);
-    console.log('isortagikatkiorani '+ isortagikatkiorani);
-    console.log('isortagiid '+ isortagiid);
-
+    console.log('**********************************************')
+    console.log('IstasyonId ' + IstasyonId);
+    console.log('ContactId ' + ContactId);
+    console.log('KampanyaId ' + KampanyaId);
+    console.log('PompaNo ' + PompaNo);
+    console.log('Plaka ' + Plaka);
+    console.log('UrunId ' + UrunId);
+    console.log('PresetTutari ' + alimtutari);
+    console.log('OdemeSatisTipi ' + OdemeSatisTipi);
+    console.log('KuponKodu ' + KuponKodu);
+    console.log('TavsiyeEdilenfiyati ' + TavsiyeEdilenfiyati);
+    console.log('istasyonfiyati ' + istasyonfiyati);
+    console.log('indirimlifiyati ' + indirimlifiyati);
+    console.log('alimtutari ' + alimtutari);
+    console.log('alinmmiktariLT ' + alinmmiktariLT);
+    console.log('indirimorani ' + indirimorani);
+    console.log('KazanilanPuan ' + KazanilanPuan);
+    console.log('harcananpuan ' + harcananpuan);
+    console.log('kazanilanpuantl ' + kazanilanpuantl);
+    console.log('harcananpuantl ' + harcananpuantl);
+    console.log('katkiOrani ' + katkiOrani);
+    console.log('bayikatkiorani ' + bayikatkiorani);
+    console.log('isortagikatkiorani ' + isortagikatkiorani);
+    console.log('isortagiid ' + isortagiid);
+    console.log('**********************************************')
     const URL = define_api_url + `TP_SalesStart`;
     return fetch(URL,
       {
@@ -229,13 +229,13 @@ export const getCitybyLocation = () => {
   try {
 
     const URL = define_api_url + `GetCityListFromAccount`;
-   
-     return fetch(URL, { method: 'GET' })
-       .then((res) => res.json())
+
+    return fetch(URL, { method: 'GET' })
+      .then((res) => res.json())
       // .then((ret) => { console.log('Ret Code: ' +JSON.stringify(ret))})
-       .catch(e => {
-         console.log('CitybyLocation: ' + e)
-       })
+      .catch(e => {
+        console.log('CitybyLocation: ' + e)
+      })
 
   } catch (error) {
     console.log('Error: ' + error);
@@ -268,13 +268,13 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
   console.log('BMsifre' + BMsifre);
 
   console.log('mobilkod' + mobilKod);
-   console.log('Adres' + Adres);
-   console.log('Dogum' + Dogum);
-   console.log('Sehir' + Sehir);
-   console.log('Ilce' + Ilce);
-   console.log('MedeniDurum' + MedeniDurum);
-   console.log('Cinsiyet' + Cinsiyet);
-   
+  console.log('Adres' + Adres);
+  console.log('Dogum' + Dogum);
+  console.log('Sehir' + Sehir);
+  console.log('Ilce' + Ilce);
+  console.log('MedeniDurum' + MedeniDurum);
+  console.log('Cinsiyet' + Cinsiyet);
+
   const URL = define_api_url + `PutContact`;
   return fetch(URL,
     {
@@ -620,7 +620,7 @@ export const getRequest = async (url) => {
         setTimeout(() => {
           Alert.alert(
             'Bağlantı Hatası!',
-            'İnternet Bağlantınızı Kontrol Edin'+e,
+            'İnternet Bağlantınızı Kontrol Edin' + e,
             [
 
               { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
@@ -715,27 +715,27 @@ hasLocationPermission = async () => {
 export const fetchgetLocation = async () => {
   try {
     const hasLocationPermission = await this.hasLocationPermission();
-  //  if (!hasLocationPermission) return;
-  if (!hasLocationPermission){
-    Alert.alert(
+    //  if (!hasLocationPermission) return;
+    if (!hasLocationPermission) {
+      Alert.alert(
         'Konum İzni Gerekiyor!',
         'Lütfen Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
         [
 
-            {
-                text: 'Tamam', onPress: () => {
-                    this.setState({
-                        loading: false,
-                        baglanti: false,
-                    })
-                    this.props.navigation.navigate("hesabim")
-                }
-            },
+          {
+            text: 'Tamam', onPress: () => {
+              this.setState({
+                loading: false,
+                baglanti: false,
+              })
+              this.props.navigation.navigate("hesabim")
+            }
+          },
         ],
         { cancelable: true },
-    )
-    return
-} 
+      )
+      return
+    }
     Geolocation.getCurrentPosition(
       (position) => {
         return position;

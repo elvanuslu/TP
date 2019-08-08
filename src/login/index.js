@@ -89,7 +89,7 @@ export default class login extends Component {
                 this.setState({
                   loading: false
                 })
-                this.props.navigation.navigate("hesabim")
+                //this.props.navigation.navigate("hesabim")
               }
             },
           ],

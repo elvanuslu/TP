@@ -82,23 +82,48 @@ export default class OzetBilgi extends Component {
                     this.props.navigation.state.params.KuponKodu,
                     this.state.birimFiyat,
                     '',
-                    this.state.indirimliFiyat,
+                    this.props.navigation.state.params.Fiyatlar[0].indirimlifiyati,
                     this.props.navigation.state.params.Tutar,
-                    this.state.alimmiktariLT,
-                    this.state.indirimOrani,
-                    this.state.kazanilanPuan,
-                    this.state.harcananPuan,
-                    this.state.puanTLkarsiligi,
-                    this.state.harcananPuanTL)
+                    tthis.props.navigation.state.params.Fiyatlar[0].alinmmiktariLT,
+                    this.props.navigation.state.params.Fiyatlar[0].indirimorani,
+                    this.props.navigation.state.params.Fiyatlar[0].KazanilanPuan,
+                    this.props.navigation.state.params.Fiyatlar[0].harcananpuan,
+                    this.props.navigation.state.params.Fiyatlar[0].kazanilanpuantl,
+                    this.props.navigation.state.params.Fiyatlar[0].harcananpuantl)
                     .then((res) => {
 
                         console.log('Satış Başlat: ' + JSON.stringify(res));
                         if (res.status === false) {
-                            Alert.alert('Hata Oluştu!', res.message);
+                            //Alert.alert('Hata Oluştu!', res.message);
+                            this.setState({ loading: false }, () => {
+                                setTimeout(() => {
+                                    Alert.alert(
+                                        'Yakıt Dolumu',
+                                        res.message,
+                                        [
 
+                                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
+                                        ],
+                                        { cancelable: true },
+                                    )
+                                }, 0);
+                            });
                         }
                         else {
-                            Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
+                            this.setState({ loading: false }, () => {
+                                setTimeout(() => {
+                                    Alert.alert(
+                                        'Yakıt Dolumu',
+                                        res.message + ' Yakıt Alabilirsiniz...',
+                                        [
+
+                                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
+                                        ],
+                                        { cancelable: true },
+                                    )
+                                }, 0);
+                            });
+                            //  Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
                         }
                     })
                     .catch(error => {
@@ -112,41 +137,88 @@ export default class OzetBilgi extends Component {
         }
 
     }
+    /*
+ oldId: Id,
+                    Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
+                    IstasyonId: this.props.navigation.state.params.Parametre.Istasyon,
+                    Plaka: this.props.navigation.state.params.Parametre.PlakaName,
+                    PlakaId: this.props.navigation.state.params.Parametre.Plaka,
+                    Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
+                    YakitId: this.props.navigation.state.params.Parametre.Yakit,
+                    OdemeTipi: this.props.navigation.state.params.Parametre.OdemeTipi,
+                    OdemeAdi: this.props.navigation.state.params.Parametre.OdemeAdi,
+                    PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
+                    KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
+                    Tutar: this.props.navigation.state.params.Parametre.Tutar,
+
+                    istasyonfiyati: this.props.navigation.state.params.Fiyatlar.length > 0 ? this.props.navigation.state.params.Fiyatlar[0].istasyonfiyati : this.props.navigation.state.params.Fiyatlar.istasyonfiyati,
+                    birimfiyatgoster: this.props.navigation.state.params.birimFiyati,//birimFiyati,
+                    birimFiyat: this.props.navigation.state.params.birimFiyati,
+                    indirimliFiyat: this.props.navigation.state.params.indirimliFiyat,
+                    indirimOrani: this.props.navigation.state.params.indirimOrani,
+                    alimmiktariLT: this.props.navigation.state.params.alimmiktariLT,
+                    kazanilanPuan: this.props.navigation.state.params.kazanilanPuan,
+                    puanTLkarsiligi: this.props.navigation.state.params.puanTLkarsiligi,
+                    harcananPuan: this.props.navigation.state.params.harcananPuan,
+                    harcananPuanTL: this.props.navigation.state.params.harcananPuanTL,
+                    KampanyaId: this.props.navigation.state.params.Fiyatlar.bm_kampanyaId,
+    */
     _SatisBaslat = () => {
         console.log('Satış Başlat...')
         this.setState({ loading: true });
         //     alert('Id =' + contactId);
-        console.log('Kampanya Id: ' + this.state.KampanyaId)
+        console.log(' this.props.navigation.state.params.Fiyatlar.alimmiktariLT, Id: ' + this.props.navigation.state.params.Fiyatlar.alinmmiktariLT)
+        console.log('Params Id: ' + JSON.stringify(this.props.navigation.state))
         if (this.state.userId !== null) {
-            SatisBaslat(this.state.IstasyonId, this.state.userId, this.state.KampanyaId, this.state.PompaNo, this.state.PlakaId, this.state.YakitId,
-                '', this.state.OdemeTipi, this.state.KuponKodu, this.state.birimFiyat, this.state.istasyonfiyati, this.state.indirimliFiyat, this.state.Tutar,
-                this.state.alimmiktariLT, this.state.indirimOrani, this.state.kazanilanPuan, this.state.harcananPuan,
-                this.state.puanTLkarsiligi, this.state.harcananPuanTL, this.state.katkiorani, this.state.bayikatkiorani,
-                this.state.isortagikatkiorani, this.state.isortagiid)
+            SatisBaslat(this.state.IstasyonId,
+                this.state.userId,
+                this.state.KampanyaId,
+                this.state.PompaNo,
+                this.state.PlakaId,
+                this.state.YakitId,
+                '',
+                this.state.OdemeTipi,
+                this.state.KuponKodu,
+                this.state.birimFiyat,
+                this.state.istasyonfiyati,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].indirimlifiyati : this.props.navigation.state.params.Fiyatlar.indirimlifiyati,
+                this.state.Tutar,
+                '',//this.props.navigation.state.params.Fiyatlar.alinmmiktariLT, 
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].indirimorani : this.props.navigation.state.params.Fiyatlar.indirimorani,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].KazanilanPuan : this.props.navigation.state.params.Fiyatlar.KazanilanPuan,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].harcananpuan : this.props.navigation.state.params.Fiyatlar.harcananPuan,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar)?  this.props.navigation.state.params.Fiyatlar[0].kazanilanpuantl : this.props.navigation.state.params.Fiyatlar.kazanilanpuantl,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].harcananpuantl : this.props.navigation.state.params.Fiyatlar.harcananpuantl,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].katkiorani : this.props.navigation.state.params.Fiyatlar.katkiorani,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].bayikatkiorani: this.props.navigation.state.params.Fiyatlar.bayikatkiorani,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagikatkiorani: this.props.navigation.state.params.Fiyatlar.isortagikatkiorani,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagiid: this.props.navigation.state.params.Fiyatlar.isortagiid)
                 .then((res) => {
                     console.log('Satış Başlat: ' + JSON.stringify(res));
-                    if (res.status === false) {
-                        this.setState({ loading: false }, () => {
-                            setTimeout(() => {
-                                Alert.alert('Hata Oluştu!', res.message);
-                            }, 510);
-                        });
-                    }
-                    else {
-                        this.setState({ loading: false }, () => {
-                            setTimeout(() => {
-                                Alert.alert(
-                                    'Yakıt Dolumu',
-                                    res.message,
-                                    [
+                    if (res) {
+                        if (res.status === false) {
+                            this.setState({ loading: false }, () => {
+                                setTimeout(() => {
+                                    Alert.alert('Hata Oluştu!', res.message);
+                                }, 0);
+                            });
+                        }
+                        else {
+                            this.setState({ loading: false }, () => {
+                                setTimeout(() => {
+                                    Alert.alert(
+                                        'Yakıt Dolumu',
+                                        res.message,
+                                        [
 
-                                        { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
-                                    ],
-                                    { cancelable: true },
-                                )
-                            }, 510);
-                        });
+                                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
+                                        ],
+                                        { cancelable: true },
+                                    )
+                                }, 0);
+                            });
 
+                        }
                     }
                 })
                 .catch(error => {
@@ -158,7 +230,7 @@ export default class OzetBilgi extends Component {
         }
 
     }
-    componentWillReceiveProps=async (nextProps) =>{
+    componentWillReceiveProps = async (nextProps) => {
         //this.onGetParams(nextProps);
         // console.log('ÖZetim Data= ' + JSON.stringify(nextProps))
 
@@ -249,7 +321,7 @@ export default class OzetBilgi extends Component {
             //  if (Id !== this.state.oldId) {
             if (Id !== '00000000-0000-0000-0000-000000000000') {
                 let Fiyatlar = this.props.navigation.state.params.Fiyatlar.find(p => p.bm_kampanyaId === Id);
-                  console.log('Get Params Fiyatlar: ' + JSON.stringify(Fiyatlar));
+                console.log('Get Params Fiyatlar: ' + JSON.stringify(Fiyatlar));
                 //  console.log('Fiyat 0: '+Fiyatlar.alimtutari);
                 this.setState({
                     oldId: Id,
@@ -280,13 +352,14 @@ export default class OzetBilgi extends Component {
                     bayikatkiorani: this.props.navigation.state.params.bayikatkiorani,
                     isortagikatkiorani: this.props.navigation.state.params.isortagikatkiorani,
                     isortagiid: Fiyatlar.isortagiid,
-                    istasyonfiyati:Fiyatlar.istasyonfiyati,  //this.props.navigation.state.params.Fiyatlar.istasyonfiyati,
+                    istasyonfiyati: Fiyatlar.istasyonfiyati,  //this.props.navigation.state.params.Fiyatlar.istasyonfiyati,
 
                 });
                 console.log('Test')
             }
             else {
-                console.warn('Else Çalıştı...'+JSON.stringify(this.props.navigation.state.params.Fiyatlar.istasyonfiyati))
+                console.warn('Else Çalıştı...' + JSON.stringify(this.props))
+                console.log('Fyat Array: ' + this.props.navigation.state.params.Fiyatlar.length)
                 this.setState({
                     oldId: Id,
                     Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
@@ -301,18 +374,41 @@ export default class OzetBilgi extends Component {
                     KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
                     Tutar: this.props.navigation.state.params.Parametre.Tutar,
 
-                    istasyonfiyati: this.props.navigation.state.params.Fiyatlar.istasyonfiyati,
-                    birimfiyatgoster: this.props.navigation.state.params.birimFiyati,
-                    birimFiyat: 0,
-                    indirimliFiyat: 0,
-                    indirimOrani: 0,
-                    alimmiktariLT: 0,
-                    kazanilanPuan: 0,
-                    puanTLkarsiligi: 0,
-                    harcananPuan: 0,
-                    harcananPuanTL: 0,
-                 //   KampanyaId: this.props.navigation.state.params.Fiyatlar[0].bm_kampanyaId,
-
+                    istasyonfiyati: this.props.navigation.state.params.Fiyatlar.length > 0 ? this.props.navigation.state.params.Fiyatlar[0].istasyonfiyati : this.props.navigation.state.params.Fiyatlar.istasyonfiyati,
+                    birimfiyatgoster: this.props.navigation.state.params.birimFiyati,//birimFiyati,
+                    birimFiyat: this.props.navigation.state.params.birimFiyati,
+                    indirimliFiyat: this.props.navigation.state.params.indirimliFiyat,
+                    indirimOrani: this.props.navigation.state.params.indirimOrani,
+                    alimmiktariLT: this.props.navigation.state.params.alimmiktariLT,
+                    kazanilanPuan: this.props.navigation.state.params.kazanilanPuan,
+                    puanTLkarsiligi: this.props.navigation.state.params.puanTLkarsiligi,
+                    harcananPuan: this.props.navigation.state.params.harcananPuan,
+                    harcananPuanTL: this.props.navigation.state.params.harcananPuanTL,
+                    KampanyaId: this.props.navigation.state.params.KampanyaId, //.Fiyatlar.bm_kampanyaId,
+                    /*
+                                    this.state.userId, 
+                                    this.state.KampanyaId, 
+                                    this.state.PompaNo, 
+                                    this.state.PlakaId, 
+                                    this.state.YakitId,
+                                    '', 
+                                    this.state.OdemeTipi, 
+                                    this.state.KuponKodu, 
+                                    this.state.birimFiyat, 
+                                    this.state.istasyonfiyati, 
+                                    this.state.indirimliFiyat, 
+                                    this.state.Tutar,
+                                    this.state.alimmiktariLT, 
+                                    this.state.indirimOrani, 
+                                    this.state.kazanilanPuan, 
+                                    this.state.harcananPuan,
+                                    this.state.puanTLkarsiligi, 
+                                    this.state.harcananPuanTL, 
+                                    this.state.katkiorani, 
+                                    this.state.bayikatkiorani,
+                                    this.state.isortagikatkiorani, 
+                                    this.state.isortagiid
+                    */
                 })
             }
             this.setState({ birimfiyatgoster: this.props.navigation.state.params.birimFiyati })
@@ -338,7 +434,7 @@ export default class OzetBilgi extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("SatisIllce",{'Tim':new Date()})}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() })}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
@@ -366,7 +462,7 @@ export default class OzetBilgi extends Component {
                                 <Text style={styles.textBaslik}>Satış Özeti</Text>
                             </CardItem>
                             <CardItem item>
-                                <View style={{ flex: 1, flexDirection: 'column' }}>
+                                <View style={{ flex: 1, flexDirection: 'column', }}>
                                     <View style={{ flex: 1, flexDirection: 'row', }}>
                                         <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={logo}></Image>
                                         <Left>
@@ -446,15 +542,16 @@ export default class OzetBilgi extends Component {
                                                 this.state.istasyonfiyati == undefined ? 0 : this.state.istasyonfiyati} TL</Text>
                                         </Right>
                                     </View>
-                                    <View>
 
-                                        <View style={[styles.containerKapmayali, this.props.navigation.state.params.birimFiyat ? styles.containerKapmayali : styles.hidden]}>
+                                    <View>
+                                        {console.log('Kampanya Id == ' + this.props.navigation.state.params.KampanyaId)}
+                                        <View style={[styles.containerKapmayali, this.props.navigation.state.params.KampanyaId !== '00000000-0000-0000-0000-000000000000' ? styles.containerKapmayali : styles.hidden]}>
 
 
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={pompa}></Image>
+                                                <Image style={[styles.Resim, this.props.navigation.state.params.KampanyaId !== '00000000-0000-0000-0000-000000000000' ? styles.Resim : styles.hidden]} source={pompa}></Image>
                                                 <Left>
-                                                    <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyat} TL</Text>
+                                                    <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyati} TL</Text>
 
                                                 </Left>
                                                 <Right>
@@ -463,7 +560,7 @@ export default class OzetBilgi extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={logo}></Image>
+                                                <Image style={[styles.Resim, this.props.navigation.state.params.KampanyaId !== '00000000-0000-0000-0000-000000000000' ? styles.Resim : styles.hidden]} source={logo}></Image>
                                                 <Left>
                                                     <Text style={styles.txtFiyatlar}>İndirim Oranı: %{this.state.indirimOrani}</Text>
                                                 </Left>
@@ -474,7 +571,7 @@ export default class OzetBilgi extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={logo}></Image>
+                                                <Image style={[styles.Resim, this.props.navigation.state.params.KampanyaId !== '00000000-0000-0000-0000-000000000000' ? styles.Resim : styles.hidden]} source={logo}></Image>
                                                 <Left>
                                                     <Text style={styles.txtFiyatlar}>Kazanılan Puan: {this.state.kazanilanPuan}</Text>
                                                 </Left>
@@ -486,7 +583,7 @@ export default class OzetBilgi extends Component {
 
                                             </View>
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                                                <Image style={[styles.Resim, this.props.navigation.state.params.birimFiyat ? styles.Resim : styles.hidden]} source={logo}></Image>
+                                                <Image style={[styles.Resim, this.props.navigation.state.params.KampanyaId !== '00000000-0000-0000-0000-000000000000' ? styles.Resim : styles.hidden]} source={logo}></Image>
                                                 <Left>
                                                     <Text style={styles.txtFiyatlar}>Harcanan Puan: {this.state.harcananPuan} </Text>
                                                 </Left>

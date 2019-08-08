@@ -3,13 +3,13 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Logo_40x40.png",
+      "filename" : "TP_Mobil_AppAraYuz_Ikon40_K.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "Logo_60x60.png",
+      "filename" : "TP_Mobil_AppAraYuz_Ikon60_K.png",
       "scale" : "3x"
     },
     {
@@ -45,13 +45,13 @@
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "Logo_180x180.png",
+      "filename" : "TP_Mobil_AppAraYuz_Ikon180_K.png",
       "scale" : "3x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "Logo1024x1024.png",
+      "filename" : "TP_Mobil_AppAraYuz_Ikon1024_B.png",
       "scale" : "1x"
     }
   ],

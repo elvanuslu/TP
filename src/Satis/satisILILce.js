@@ -544,7 +544,7 @@ export default class SatisIllce extends Component {
                     },
                     () => {
 
-                        // console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
+                         console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
 
                     }
                 )
@@ -608,13 +608,13 @@ export default class SatisIllce extends Component {
     }
     _getPaymentTypes() {
         try {
-            console.log('Payment Types')
+          //  console.log('Payment Types')
             {
                 this.setState({ loading: true })
                 getPaymentTypes()
                     .then((res) => {
                         //   alert(JSON.stringify(res))
-                        console.log('Odeme Tipleri: ' + JSON.stringify(res))
+                       // console.log('Odeme Tipleri: ' + JSON.stringify(res))
                         if (res) {
                             var initialArr = { 'Value': '-1', 'Name': 'Ödeme Tipi' };
                             res.splice(0, 0, initialArr);
@@ -661,13 +661,13 @@ export default class SatisIllce extends Component {
     //------------------------------------------------
     _getPlakaListesi = async () => {
         try {
-            console.log('_getPlakaListesi')
+          //  console.log('_getPlakaListesi')
             this.setState({ loading: true })
             const uId = await getStorage('userId');
             //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
-                    console.log('Res= ' + JSON.stringify(res))
+                   // console.log('Res= ' + JSON.stringify(res))
                     this.setState({ loading: false }, () => {
                         setTimeout(() => {
                             if (res) {
@@ -708,7 +708,7 @@ export default class SatisIllce extends Component {
             const value = await getStorage('userId');
             if (value !== null) {
                 this.setState({ kullanici: value });
-                console.log("UserId " + this.state.kullanici);
+              //  console.log("UserId " + this.state.kullanici);
 
             }
         } catch (error) {
@@ -724,7 +724,8 @@ export default class SatisIllce extends Component {
                     //console.log('Istasyonlarım= ' + JSON.stringify(res));
 
                     if (res.status !== false && res.length > 1) {
-
+                        var initialArr = { 'AccountId': '00000000-0000-0000-0000-000000000000', 'name': 'İstasyon Seç' };
+                        res.splice(0, 0, initialArr);
                         this.setState({ datas: res });
                         // Alert.alert('Data', JSON.stringify(res));
                         // console.log('Istasyonlar= ' + JSON.stringify(this.state.datas));
@@ -772,13 +773,13 @@ export default class SatisIllce extends Component {
     }
     componentDidMount() {
         try {
-            console.log('Did Mount' + new Date())
+          //  console.log('Did Mount' + new Date())
             this.setState({ loading: true })
             this.getLocation();
             this._retrieveKullanici();
             this._getPlakaListesi();
             this._getPaymentTypes();
-            console.log('this.state.OdemeTipleri.length: ' + this.state.OdemeTipleri.length)
+          //  console.log('this.state.OdemeTipleri.length: ' + this.state.OdemeTipleri.length)
             this.state.OdemeTipleri.length > 0 ? this._getPaymentTypes() : '' // Payment Types Çaktı
             this._getCity();
 
@@ -814,10 +815,9 @@ export default class SatisIllce extends Component {
                 </View>
             )
         }
-
     }
     _SehirIlceGoster() {
-        console.log('his.state.longitude: ' + this.state.longitude)
+        //console.log('his.state.longitude: ' + this.state.longitude)
         if (this.state.longitude <= 0) {
             return (
                 <Item picker style={styles.pickerInputs}>
@@ -933,7 +933,7 @@ export default class SatisIllce extends Component {
             Geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                    console.log('Konumlar: ' + JSON.stringify(position));
+                   // console.log('Konumlar: ' + JSON.stringify(position));
                     /*  Toast.show({
                           text: "Latitude: " +  position.coords.latitude,
                           buttonText: "Tamam",
@@ -968,7 +968,7 @@ export default class SatisIllce extends Component {
             this.watchId = Geolocation.watchPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                    console.log('Update Konumlar: ' + JSON.stringify(position));
+                  //  console.log('Update Konumlar: ' + JSON.stringify(position));
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
@@ -1032,7 +1032,7 @@ export default class SatisIllce extends Component {
                     <View style={styles.containerOrta}>
                         <Content>
                             <Form>
-                                {console.log('this.state.istasyonselectedId: ' + (this.state.istasyonselectedId === undefined) ? '0' : this.state.istasyonselectedId)}
+                            
                                 {this._SehirIlceGoster()}
                                 {this._IlceGoster()}
                                 <Item regular style={styles.comboItem} >

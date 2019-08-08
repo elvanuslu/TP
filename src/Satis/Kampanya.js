@@ -109,19 +109,22 @@ export default class KampanyaSec extends Component {
             Alert.alert('Hata Oluştu!', error);
         }
     }
-    _btnDevam = (item,fiyat) => {
+    _btnDevam = (item, fiyat) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
-        console.log('İtem: '+item+' --- '+ fiyat)
-          console.log('Devam Parametre= ' + JSON.stringify(Secilen));
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': '00000000-0000-0000-0000-000000000000','birimFiyat':undefined,'birimFiyati':Secilen.indirimlifiyati,'Fiyatlar':Secilen });
+        console.log('İtem: ' + item + ' --- ' + fiyat)
+        console.log('Devam Parametre= ' + JSON.stringify(Secilen));
+        this.props.navigation.navigate("OzetBilgi", {
+            'Parametre': this.props.navigation.state.params, 'KampanyaId': '00000000-0000-0000-0000-000000000000', 'birimFiyati': undefined,
+            'birimFiyati': Secilen.TavsiyeEdilenfiyati, 'Fiyatlar': Secilen
+        });
     }
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
-         //  console.log('Seçilen=> ' + Secilen.TavsiyeEdilenfiyati);
-         // console.log(' Datam ' + JSON.stringify(this.state.datam));
+        console.log('Seçilen=> ' + JSON.stringify(Secilen));
+        // console.log(' Datam ' + JSON.stringify(this.state.datam));
 
         this.setState({
-            birimFiyat: Secilen.TavsiyeEdilenfiyati,
+            birimFiyat: Secilen.indirimliFiyati, //Secilen.TavsiyeEdilenfiyati,
             indirimliFiyat: Secilen.indirimlifiyati,
             indirimOrani: Secilen.indirimorani,
             alimmiktariLT: Secilen.alinmmiktariLT,
@@ -134,11 +137,11 @@ export default class KampanyaSec extends Component {
 
         this.props.navigation.navigate("OzetBilgi", {
             'Parametre': this.props.navigation.state.params, 'KampanyaId': item,
-            'birimFiyat': Secilen.TavsiyeEdilenfiyati, 'indirimliFiyat': Secilen.indirimlifiyati, 'indirimOrani': Secilen.indirimorani,
+            'birimFiyati': Secilen.indirimlifiyati, 'indirimliFiyat': Secilen.indirimlifiyati, 'indirimOrani': Secilen.indirimorani,
             'alimmiktariLT': Secilen.alinmmiktariLT, 'kazanilanPuan': Secilen.KazanilanPuan, 'puanTLkarsiligi': Secilen.kazanilanpuantl,
             'harcananPuan': Secilen.harcananpuan, 'harcananPuanTL': Secilen.harcananpuantl, 'katkiorani': Secilen.katkiorani, 'bayikatkiorani': Secilen.bayikatkiorani,
             'isortagikatkiorani': Secilen.isortagikatkiorani, 'isortagiid': Secilen.isortagiid, 'istasyonfiyati': Secilen.istasyonfiyati,
-            'Fiyatlar':this.state.datam,'tar':new Date()
+            'Fiyatlar': this.state.datam, 'tar': new Date()
         });
     }
 
@@ -153,9 +156,9 @@ export default class KampanyaSec extends Component {
         const PompaNo = this.props.navigation.getParam('PompaNo', '');
         const KuponKodu = this.props.navigation.getParam('KuponKodu', '');
         const Tutar = this.props.navigation.getParam('Tutar', '');
-       console.log('Istasyonum = ' + JSON.stringify(this.props));
-        console.log('G.İ.T: '+JSON.stringify(this.state.datam))
-        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params,'KampanyaId':this.state.secilikampanyaId, 'birimFiyati': this.state.gelenIndirimliBirimFiyat,'Fiyatlar':this.state.datam});
+        console.log('Istasyonum = ' + JSON.stringify(this.props));
+        console.log('G.İ.T: ' + JSON.stringify(this.state.datam))
+        this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': this.state.secilikampanyaId, 'birimFiyati': this.state.gelenIndirimliBirimFiyat, 'Fiyatlar': this.state.datam[0] });
         /*
                 this.props.navigation.navigate("OzetBilgi", {
                     'Istasyon': this.state.istasyonselectedId,
@@ -169,7 +172,7 @@ export default class KampanyaSec extends Component {
                 */
 
     }
-    _hatavarDon(){
+    _hatavarDon() {
         this.props.navigation.navigate('AnaSayfa');
     }
     _campaignDetails = (myProp) => {
@@ -185,8 +188,8 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
                     this.setState({ datam: null, loading: false });
-                     // console.log('Gelen Kampanya = ' + JSON.stringify(res)+' Status: '+ res.status);
-                      //console.log(' infirimli Fiyat = ' + res[0].indirimlifiyati);
+                    console.log('Gelen Kampanya = ' + JSON.stringify(res) + ' Status: ' + res.status);
+                    //console.log(' infirimli Fiyat = ' + res[0].indirimlifiyati);
                     if (res.status === false) {
                         //this.setState({ datam: null, loading: false });
                         this.setState({ loading: false }, () => {
@@ -201,24 +204,27 @@ export default class KampanyaSec extends Component {
                                 );
                             }, 510);
                         });
-                       
+
 
                     }
                     else {
-                        console.log('Datamaaa: '+JSON.stringify(res))
+                        console.log('Kampnaya Bul: ' + JSON.stringify(res))
                         this.setState({
                             datam: res,
                             loading: false
                         });
-                        this.setState({gelenIndirimliBirimFiyat:res[0].indirimlifiyati})
+                        this.setState({ gelenIndirimliBirimFiyat: res[0].indirimlifiyati })
                         if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
-                            this.setState({secilikampanyaId:res[0].bm_kampanyaId})
-                            this._git();
+                            this.setState({ secilikampanyaId: res[0].bm_kampanyaId })
+                            //this._git();
                         }
 
                     }
                 })
-                .catch((error) => Alert.alert('Hata!', error))
+                .catch((error) => {
+                    this.setState({ loading: false })
+                    Alert.alert('Hata!', error)
+                })
 
         } catch (error) {
             Alert.alert('Genel Hata!', error)
@@ -253,21 +259,16 @@ export default class KampanyaSec extends Component {
     }
     */
     componentWillReceiveProps(nextProps) {
-        //     console.log('Kapmanya recive 2.Data= ' + JSON.stringify(nextProps))
+        console.log('Kapmanya recive 2.Data= ' + JSON.stringify(nextProps))
         this._campaignDetails(nextProps);
         if (this.props.Istasyon !== nextProps.Istasyon) {
             //  console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
             // this.setState({ reset : true })
         }
     }
-    componentDidUpdate(prevProps) {
-        //     console.log('Testing...' + JSON.stringify(prevProps))
-        if (prevProps.isFocused !== this.props.isFocused) {
-            alert('Testing...')
-        }
-    }
+
     componentDidMount = async () => {
-          console.log('Props= ' + JSON.stringify(this.props));
+        console.log('Props= ' + JSON.stringify(this.props));
         //   console.log("Prms= " + (this.props.navigation.state.params.Istasyon))
         const Id = await getStorage('userId');
         this.setState({ kullaniciId: Id });
@@ -339,7 +340,7 @@ export default class KampanyaSec extends Component {
                 <StatusBar backgroundColor="transparent" barStyle="dark-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate("SatisIllce",{'Tim':new Date()})}>
+                        <Button transparent onPress={() => this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() })}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain', }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
@@ -373,7 +374,7 @@ export default class KampanyaSec extends Component {
                                     </Body>
                                 </CardItem>
                                 <CardItem item >
-                                
+
                                     <View style={styles.containerKapmayali}>
                                         <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                             <Left>
@@ -420,7 +421,7 @@ export default class KampanyaSec extends Component {
                                             <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevamKampanyali(item.bm_kampanyaId)}>
                                                 <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYA SEÇ</Text>
                                             </Button>
-                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaId,item.TavsiyeEdilenfiyati)}>
+                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaId, item.TavsiyeEdilenfiyati)}>
                                                 <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
                                             </Button>
                                         </View>
@@ -457,6 +458,31 @@ export default class KampanyaSec extends Component {
   "Plaka": "93FDDDE4-DB90-E911-838F-000C29289D89"
 
 }
+Kampanya Id: undefined
+ IstasyonId 80e66a1d-d964-e911-837e-000c29289d89
+ ContactId 76d934ce-57b4-e911-a2c3-005056824197
+ KampanyaId undefined
+ PompaNo 5
+ Plaka 426161c8-ceaf-e911-a2c3-005056824197
+ UrunId 08e1a1d3-33ad-e911-a2c2-005056824197
+ PresetTutari 55
+ OdemeSatisTipi 0
+ KuponKodu 
+ TavsiyeEdilenfiyati 0
+ istasyonfiyati 6.34
+ indirimlifiyati 0
+ alimtutari 55
+ alinmmiktariLT 0
+ indirimorani 0
+ KazanilanPuan 0
+ harcananpuan 0
+ kazanilanpuantl 0
+ harcananpuantl 0
+ katkiOrani undefined
+ bayikatkiorani undefined
+ isortagikatkiorani undefined
+ isortagiid undefined
+ Satış Başlat: {"status":true,"message":"Belirlenemeyen Hata","bm_crmtrxuniqueid":720}
 */
 const styles = StyleSheet.create({
     containerKapmayali: {
