@@ -215,7 +215,7 @@ export default class OzetBilgi extends Component {
                                         ],
                                         { cancelable: true },
                                     )
-                                }, 0);
+                                }, 1);
                             });
 
                         }
