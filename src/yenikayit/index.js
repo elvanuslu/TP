@@ -313,9 +313,7 @@ export default class yenikayit extends Component {
         } catch (error) {
             this.setState({ loading: false })
             console.log('hata oluştu: ' + error);
-        } finally {
-            this.setState({ loading: false })
-        }
+        } 
     }
     _getSozlesme = () => {
         try {
