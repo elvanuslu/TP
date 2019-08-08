@@ -187,12 +187,12 @@ export default class OzetBilgi extends Component {
                 Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].indirimorani : this.props.navigation.state.params.Fiyatlar.indirimorani,
                 Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].KazanilanPuan : this.props.navigation.state.params.Fiyatlar.KazanilanPuan,
                 Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].harcananpuan : this.props.navigation.state.params.Fiyatlar.harcananPuan,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar)?  this.props.navigation.state.params.Fiyatlar[0].kazanilanpuantl : this.props.navigation.state.params.Fiyatlar.kazanilanpuantl,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].kazanilanpuantl : this.props.navigation.state.params.Fiyatlar.kazanilanpuantl,
                 Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].harcananpuantl : this.props.navigation.state.params.Fiyatlar.harcananpuantl,
                 Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].katkiorani : this.props.navigation.state.params.Fiyatlar.katkiorani,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].bayikatkiorani: this.props.navigation.state.params.Fiyatlar.bayikatkiorani,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagikatkiorani: this.props.navigation.state.params.Fiyatlar.isortagikatkiorani,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagiid: this.props.navigation.state.params.Fiyatlar.isortagiid)
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].bayikatkiorani : this.props.navigation.state.params.Fiyatlar.bayikatkiorani,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagikatkiorani : this.props.navigation.state.params.Fiyatlar.isortagikatkiorani,
+                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagiid : this.props.navigation.state.params.Fiyatlar.isortagiid)
                 .then((res) => {
                     console.log('Satış Başlat: ' + JSON.stringify(res));
                     if (res) {
