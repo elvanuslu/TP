@@ -9,7 +9,8 @@ import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getContact, musteriGuncelle, getCityList, getCitybyId, getStorage, handleError, checkConnection } from '../Service/FetchUser';
 
-
+import DateTimePicker from "react-native-modal-datetime-picker";
+import moment from "moment";
 
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
@@ -77,10 +78,12 @@ export default class KayitGuncelle extends Component {
             Adres: undefined,
             Ilce: undefined,
             IlceList: [],
-            chosenDate: new Date(),
+            chosenDate: '',
             tarihSec: false,
             tarihplace: 'Doğum Tarihiniz',
             baglanti: false,
+            isDateTimePickerVisible: false,
+            dPick: false,
         }
         this.setDate = this.setDate.bind(this);
     }
@@ -93,6 +96,24 @@ export default class KayitGuncelle extends Component {
         // console.log('Tarih 2= ' + Yeni);
 
     }
+    showDateTimePicker = () => {
+        console.log("A dpicker has been picked: ", this.state.dPick+' isDateTimePickerVisible: false:'+this.state.isDateTimePickerVisible);
+        // this.setState({ isDateTimePickerVisible: true });
+        this.state.dPic === true ? this.setState({ isDateTimePickerVisible: false }) : this.setState({ isDateTimePickerVisible: true });
+    };
+
+    hideDateTimePicker = () => {
+        this.setState({ isDateTimePickerVisible: false });
+    };
+
+    handleDatePicked = (date) => {
+        console.log("A date has been picked: ", date);
+        const data = moment(date).format('DD.MM.YYYY');
+        console.log('moment: ' + data)
+        this.setDate({chosenDate:data})
+        console.log('this.state.chosenDate show: ' + JSON.stringify(this.state.chosenDate)+' chosenDate: '+this.state.chosenDate.chosenDate)
+        this.hideDateTimePicker();
+    };
     componentWillReceiveProps(nextProps) {
         NetInfo.isConnected.fetch().then(async (isConnected) => {
             if (!isConnected) {
@@ -123,6 +144,7 @@ export default class KayitGuncelle extends Component {
                 return true;
             }
         });
+        //this.setState({chosenDate:null})
         this._retrieveKullanici();
     }
     componentDidMount() {
@@ -157,7 +179,7 @@ export default class KayitGuncelle extends Component {
         });
         //   this._getCity();
         //  this._getCitybyId();
-
+       
         this._retrieveKullanici();
 
     }
@@ -264,7 +286,7 @@ export default class KayitGuncelle extends Component {
             mobilgrupadi: null,
             Cinsiyet: null,
             MedeniDurum: null,
-            //   chosenDate: new Date(res.birthdate) ? new Date(res.birthdate) : null,
+           chosenDate: null,
             Adres: null,
             Sehir: 0,
             Sifre2: null,
@@ -281,15 +303,18 @@ export default class KayitGuncelle extends Component {
             this.setState({ loading: true });
             console.log('kull: ' + this.state.kullanici + '  Kull2: ' + userID);
             // getContact(this.state.kullanici)
-
+           // this.setState({chosenDate:null})
             getContact(userID)
                 .then((res) => {
 
                     console.log('Kullanıcı Bilgileri: ' + JSON.stringify(res))
                     if (res) {
                         if (res !== false) {
-                            var dtarih = new Date(res.birthdate);
-                            console.warn('Dogum Tarihi: ' + dtarih)
+                            if (res.birthdate1 !== null) {
+                                var dtarih = res.birthdate1;
+                                console.warn('Dogum Tarihi: ' + dtarih)
+                                this.setState({chosenDate: dtarih})
+                            }
                             if (res.contactid !== undefined) {
                                 this.setState({
                                     Adi: res.firstname,
@@ -302,19 +327,14 @@ export default class KayitGuncelle extends Component {
                                     mobilgrupadi: res.bm_mobilgrupadi,
                                     Cinsiyet: res.gendercode,
                                     MedeniDurum: res.familystatuscode,
-                                    //   chosenDate: new Date(res.birthdate) ? new Date(res.birthdate) : null,
+                                   // chosenDate: new Date(res.birthdate),
                                     Adres: res.address1_line1,
                                     Sehir: res.bm_sehirid,
                                     Sifre2: res.bm_sifre,
                                     loading: false,
                                     //Ilce: res.bm_ilceid,
                                 });
-                                if (res.birthdate !== null) {
-                                    this.setDate(new Date(res.birthdate))
-                                }
-                                else {
-                                    this.setState({ chosenDate: '' })
-                                }
+                              
 
                                 this._getCity();
                                 this.setState({ Ilce: res.bm_ilceid })
@@ -325,7 +345,7 @@ export default class KayitGuncelle extends Component {
                                 }
 
                             }
-                            //  console.log('MedeniDurum: ' + this.state.chosenDate.toLocaleDateString())
+                          
                         }
                         else {
                             this.datamodel();
@@ -373,7 +393,7 @@ export default class KayitGuncelle extends Component {
                                 ],
                                 { cancelable: true },
                             );
-                        }, 510);
+                        }, 0);
                     });
 
                 });
@@ -392,7 +412,7 @@ export default class KayitGuncelle extends Component {
                         ],
                         { cancelable: true },
                     );
-                }, 510);
+                }, 0);
             });
         }
 
@@ -484,7 +504,7 @@ export default class KayitGuncelle extends Component {
             this.setState({ loading: true });
             if (this.state.Sifre === this.state.Sifre2) {
                 musteriGuncelle(this.state.kullanici, this.state.Adi, this.state.Soyadi, this.state.eposta,
-                    this.state.tel, this.state.Sifre, this.state.mobilKod, this.state.Adres, this.state.chosenDate,
+                    this.state.tel, this.state.Sifre, this.state.mobilKod, this.state.Adres, this.state.chosenDate.chosenDate? this.state.chosenDate.chosenDate:this.state.chosenDate,
                     this.state.Sehir, this.state.Ilce, this.state.MedeniDurum, this.state.Cinsiyet)
                     .then((responseData) => {
                         this.setState({ loading: false }, () => {
@@ -645,11 +665,11 @@ export default class KayitGuncelle extends Component {
     pickerAndroid = async () => {
         try {
             if (Platform.OS === 'ios') {
-                return( <DatePickerIOS
+                return (<DatePickerIOS
                     date={this.state.chosenDate}
                     onDateChange={this.setDate}
-                  />)
-               
+                />)
+
             }
             else {
                 const { action, year, month, day } = await DatePickerAndroid.open({
@@ -660,7 +680,7 @@ export default class KayitGuncelle extends Component {
                 if (action !== DatePickerAndroid.dismissedAction) {
                     // Selected year, month (0-11), day
                     console.log('Action: ' + JSON.stringify(action) + ' Year:' + year + ':' + month + ':' + day);
-                    console.log('Tarihim: '+ new Date(year,month,day).toLocaleDateString())
+                    console.log('Tarihim: ' + new Date(year, month, day).toLocaleDateString())
                 }
             }
         } catch ({ code, message }) {
@@ -811,34 +831,28 @@ export default class KayitGuncelle extends Component {
                             </Picker>
 
                         </Item>
-                        <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '79%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
-
+                        
+                        <Item regular onPress={this.showDateTimePicker} style={{ flex: 1, alignSelf: 'flex-start', backgroundColor:'transparent', width: '79%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
                             <Image style={{ marginLeft: 5, width: 20, height: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
-                            <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
-                                defaultDate={this.state.chosenDate}
-                                minimumDate={new Date(1900, 1, 1)}
-                                maximumDate={new Date(2050, 12, 31)}
+                            <Input placeholder='Doğum Tarihiniz '
+                                editable={false}
+                                placeholderTextColor="black"
+                                onPress={this.showDateTimePicker} 
+                                // onChangeText={(value) => { this.setState({ chosenDate: value }) }}
+                                value={this.state.chosenDate.chosenDate? this.state.chosenDate.chosenDate:this.state.chosenDate}
+                                underlineColorAndroid="transparent" />
+                            <DateTimePicker
+                                titleIOS='Tarih Seçin'
+                                date={new Date()}
                                 format="DD-MM-YYYY"
-                                locale={"tr"}
-                                timeZoneOffsetInMinutes={undefined}
-                                modalTransparent={false}
-                                animationType={"fade"}
-                                androidMode={"spinner"}
-                                placeHolderText="Doğum Tarihiniz"
-                                textStyle={{ color: "black" }}
-                                placeHolderTextStyle={{ color: "black" }}
-                                onDateChange={this.setDate}
-
-                                disabled={false} />
-                            <Text style={[styles.dogumTarihi, (this.state.tarihSec == true) ? styles.dogumTarihi : styles.hidden]}>
-                                {
-
-                                    this.state.chosenDate ? this.state.chosenDate.toLocaleDateString() : '' //.toString().substr(4, 12)
-                                }
-                            </Text>
-
+                                confirmTextIOS='Tamam'
+                                cancelTextIOS='Vazgeç'
+                                datePickerModeAndroid='spinner'
+                                isVisible={this.state.isDateTimePickerVisible}
+                                onConfirm={this.handleDatePicked}
+                                onCancel={this.hideDateTimePicker}
+                            />
                         </Item>
-                      
                         <Item regular style={styles.Inputs}>
                             <Icon active name='key' underlayColor='#2089dc' color='#fff' />
                             <Input placeholder='Şifre '
@@ -874,6 +888,33 @@ export default class KayitGuncelle extends Component {
 // Date: {this.state.chosenDate.toString().substr(4, 12)}
 
 /*
+ <Item picker style={{ flex: 1, alignSelf: 'flex-start', width: '79%', marginLeft: 40, marginBottom: 10, borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderRadius: 5, borderColor: 'black' }}>
+
+                            <Image style={{ marginLeft: 5, width: 20, height: 20, resizeMode: 'contain', }} source={require('../../assets/tarih_1.png')} />
+                            <DatePicker style={{ flex: 1, alignSelf: 'flex-start', }}
+                                defaultDate={this.state.chosenDate}
+                                minimumDate={new Date(1900, 1, 1)}
+                                maximumDate={new Date(2050, 12, 31)}
+                                format="DD-MM-YYYY"
+                                locale={"tr"}
+                                timeZoneOffsetInMinutes={undefined}
+                                modalTransparent={false}
+                                animationType={"fade"}
+                                androidMode={"spinner"}
+                                placeHolderText="Doğum Tarihiniz"
+                                textStyle={{ color: "black" }}
+                                placeHolderTextStyle={{ color: "black" }}
+                                onDateChange={this.setDate}
+
+                                disabled={false} />
+                            <Text style={[styles.dogumTarihi, (this.state.tarihSec == true) ? styles.dogumTarihi : styles.hidden]}>
+                                {
+
+                                    this.state.chosenDate ? this.state.chosenDate.toLocaleDateString() : '' //.toString().substr(4, 12)
+                                }
+                            </Text>
+
+                        </Item>
   <Item picker style={{
                             flex: 1, alignSelf: 'flex-start', width: '79%', marginLeft: 40, marginBottom: 10,
                             borderLeftWidth: 1, borderTopWidth: 1, borderLeftWidth: 1, borderRightWidth: 1,

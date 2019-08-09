@@ -262,20 +262,20 @@ export const getCitybyId = (Id) => {
     .then((res) => res.json())
 }
 export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, mobilKod, Adres, Dogum, Sehir, Ilce, MedeniDurum, Cinsiyet) => {
-  console.log('Contact' + Contact);
-  console.log('FirstName' + FirstName);
-  console.log('LastName' + LastName);
-  console.log('EMailAddress1' + EMailAddress1);
-  console.log('MobilePhone' + MobilePhone);
-  console.log('BMsifre' + BMsifre);
+  console.log('Contact: ' + Contact);
+  console.log('FirstName: ' + FirstName);
+  console.log('LastName: ' + LastName);
+  console.log('EMailAddress1: ' + EMailAddress1);
+  console.log('MobilePhone: ' + MobilePhone);
+  console.log('BMsifre: ' + BMsifre);
 
-  console.log('mobilkod' + mobilKod);
-  console.log('Adres' + Adres);
-  console.log('Dogum' + Dogum);
-  console.log('Sehir' + Sehir);
-  console.log('Ilce' + Ilce);
-  console.log('MedeniDurum' + MedeniDurum);
-  console.log('Cinsiyet' + Cinsiyet);
+  console.log('mobilkod: ' + mobilKod);
+  console.log('Adres: ' + Adres);
+  console.log('Dogum: ' + Dogum);
+  console.log('Sehir: ' + Sehir);
+  console.log('Ilce: ' + Ilce);
+  console.log('MedeniDurum: ' + MedeniDurum);
+  console.log('Cinsiyet: ' + Cinsiyet);
 
   const URL = define_api_url + `PutContact`;
   return fetch(URL,
@@ -295,7 +295,7 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
         bm_kvkizni: true,
         bm_mobilkod: mobilKod,
         address1_line1: Adres,
-        birthdate: Dogum,
+        birthdate1: Dogum,
         familystatuscode: MedeniDurum,
         bm_sehirid: Sehir,
         bm_ilceid: Ilce,
