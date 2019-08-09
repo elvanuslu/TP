@@ -170,6 +170,7 @@ export const SatisBaslat = (IstasyonId, ContactId, KampanyaId, PompaNo, Plaka, U
 
   }
 }
+
 export const checkActivation = (contactId, activationContent) => {
   // console.log('ContactId= ' + contactId);
   // console.log('ActivationContent= ' + activationContent);
