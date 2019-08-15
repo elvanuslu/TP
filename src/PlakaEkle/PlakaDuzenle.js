@@ -358,6 +358,12 @@ export default class PlakaDuzenle extends Component {
         }
 
     }
+    onAracTipi(value, label){
+        console.log('Araç: '+value+' Label: '+label)
+        this.setState({
+            aracTipi: value,
+        })
+    }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
         return (
@@ -404,7 +410,7 @@ export default class PlakaDuzenle extends Component {
                         </Item>
 
                     </View>
-                    {console.log('Araba: ' + this.state.araba)}
+                   
                     <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
@@ -427,6 +433,23 @@ export default class PlakaDuzenle extends Component {
                                 }
                             </Picker>
                         </Item>
+                           
+                        <Item picker style={styles.Inputs2}>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain',  }} source={pompa}></Image>
+                                    <Picker borderColor='black'
+                                        mode="dropdown"
+                                        iosIcon={<Icon name="arrow-down" />}
+                                        style={{ width: undefined }}
+                                        placeholder="Araç Tipi"
+                                        placeholderIconColor="black"
+                                        selectedValue={this.state.aracTipi}
+                                        onValueChange={this.onAracTipi.bind(this)}
+                                       >
+                                          <Picker.Item label="Araç Tipi Seçin" value="0" />
+                                          <Picker.Item label="Binek" value="1" />
+                               
+                                    </Picker>
+                                </Item>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 

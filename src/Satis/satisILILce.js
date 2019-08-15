@@ -490,26 +490,44 @@ export default class SatisIllce extends Component {
 
     _getAracYakitTipleri = (aracId) => {
         try {
+            var Yakit = '';
+            var jsonBody = '';
             this.setState({ loading: true })
             getAracYakitTipi(aracId)
                 .then((res) => {
+                    Yakit = res;
+                    console.log('Yakitt: ' + JSON.stringify(Yakit));
                     console.log("Arac Yakit " + JSON.stringify(res));
-                    //   console.log("Arac Yakit length " + res[0].length);
-                    if (res) {
-                        var jsonBody = [
-                            {
-                                "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
-                                "bm_yakittipiadi": 'Yakıt Tipi'
-                            },
-                            {
-                                "bm_yakittipiid": res.bm_yakitcinsiid_1,
-                                "bm_yakittipiadi": res.bm_yakittipiadi_1
-                            },
-                            {
-                                "bm_yakittipiid": res.bm_yakitcinsiid_2,
-                                "bm_yakittipiadi": res.bm_yakittipiadi_2
-                            },
-                        ]
+
+                    if (Yakit) {
+
+                        if (Yakit.bm_yakitcinsiid_2 != '00000000-0000-0000-0000-000000000000') {
+                            jsonBody = [
+                                {
+                                    "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
+                                    "bm_yakittipiadi": 'Yakıt Tipi'
+                                },
+                                {
+                                    "bm_yakittipiid": res.bm_yakitcinsiid_1,
+                                    "bm_yakittipiadi": res.bm_yakittipiadi_1
+                                },
+                                {
+                                    "bm_yakittipiid": res.bm_yakitcinsiid_2,
+                                    "bm_yakittipiadi": res.bm_yakittipiadi_2
+                                },
+                            ]
+                        }
+                        else
+                            jsonBody = [
+                                {
+                                    "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
+                                    "bm_yakittipiadi": 'Yakıt Tipi'
+                                },
+                                {
+                                    "bm_yakittipiid": res.bm_yakitcinsiid_1,
+                                    "bm_yakittipiadi": res.bm_yakittipiadi_1
+                                },
+                            ]
                         this.setState({
                             yakitTipleri: jsonBody,
                             loading: false,
@@ -544,7 +562,7 @@ export default class SatisIllce extends Component {
                     },
                     () => {
 
-                         console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
+                        console.log('selectedValue: ' + this.state.istasyonName, ' Selected: ' + this.state.istasyonselectedId + ' Name= ' + this.state.IstasyonAdi)
 
                     }
                 )
@@ -608,13 +626,13 @@ export default class SatisIllce extends Component {
     }
     _getPaymentTypes() {
         try {
-          //  console.log('Payment Types')
+            //  console.log('Payment Types')
             {
                 this.setState({ loading: true })
                 getPaymentTypes()
                     .then((res) => {
                         //   alert(JSON.stringify(res))
-                       // console.log('Odeme Tipleri: ' + JSON.stringify(res))
+                        // console.log('Odeme Tipleri: ' + JSON.stringify(res))
                         if (res) {
                             var initialArr = { 'Value': '-1', 'Name': 'Ödeme Tipi' };
                             res.splice(0, 0, initialArr);
@@ -661,13 +679,13 @@ export default class SatisIllce extends Component {
     //------------------------------------------------
     _getPlakaListesi = async () => {
         try {
-          //  console.log('_getPlakaListesi')
+            //  console.log('_getPlakaListesi')
             this.setState({ loading: true })
             const uId = await getStorage('userId');
             //  alert('Uid= ' + uId);
             getPlakaList(uId)
                 .then((res) => {
-                   // console.log('Res= ' + JSON.stringify(res))
+                    // console.log('Res= ' + JSON.stringify(res))
                     this.setState({ loading: false }, () => {
                         setTimeout(() => {
                             if (res) {
@@ -708,7 +726,7 @@ export default class SatisIllce extends Component {
             const value = await getStorage('userId');
             if (value !== null) {
                 this.setState({ kullanici: value });
-              //  console.log("UserId " + this.state.kullanici);
+                //  console.log("UserId " + this.state.kullanici);
 
             }
         } catch (error) {
@@ -773,13 +791,13 @@ export default class SatisIllce extends Component {
     }
     componentDidMount() {
         try {
-          //  console.log('Did Mount' + new Date())
+            //  console.log('Did Mount' + new Date())
             this.setState({ loading: true })
             this.getLocation();
             this._retrieveKullanici();
             this._getPlakaListesi();
             this._getPaymentTypes();
-          //  console.log('this.state.OdemeTipleri.length: ' + this.state.OdemeTipleri.length)
+            //  console.log('this.state.OdemeTipleri.length: ' + this.state.OdemeTipleri.length)
             this.state.OdemeTipleri.length > 0 ? this._getPaymentTypes() : '' // Payment Types Çaktı
             this._getCity();
 
@@ -933,7 +951,7 @@ export default class SatisIllce extends Component {
             Geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                   // console.log('Konumlar: ' + JSON.stringify(position));
+                    // console.log('Konumlar: ' + JSON.stringify(position));
                     /*  Toast.show({
                           text: "Latitude: " +  position.coords.latitude,
                           buttonText: "Tamam",
@@ -968,7 +986,7 @@ export default class SatisIllce extends Component {
             this.watchId = Geolocation.watchPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                  //  console.log('Update Konumlar: ' + JSON.stringify(position));
+                    //  console.log('Update Konumlar: ' + JSON.stringify(position));
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
@@ -1032,7 +1050,7 @@ export default class SatisIllce extends Component {
                     <View style={styles.containerOrta}>
                         <Content>
                             <Form>
-                            
+
                                 {this._SehirIlceGoster()}
                                 {this._IlceGoster()}
                                 <Item regular style={styles.comboItem} >
@@ -1139,13 +1157,9 @@ export default class SatisIllce extends Component {
                                         placeholder="Ödeme Tipi"
                                         placeholderStyle={{ color: "black" }}
                                         placeholderIconColor="black"
-
                                         selectedValue={this.state.OdemeTipi}
-
                                         onValueChange={this.onOdemeTipi.bind(this)}>
                                         {
-
-
                                             this.state.OdemeTipleri.map((item, key) => (
                                                 <Picker.Item
                                                     label={item.Name}

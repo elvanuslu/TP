@@ -46,7 +46,7 @@ export default class PlakaEkle extends Component {
             card: [],
             cardSelected: undefined,
             cardLabel: '',
-
+            aracTipi:'',
 
         }
     }
@@ -69,6 +69,12 @@ export default class PlakaEkle extends Component {
         plaka1:'',
     })
      
+  }
+  onAracTipi(value, label){
+      console.log('Araç: '+value+' Label: '+label)
+      this.setState({
+          aracTipi: value,
+      })
   }
     onValueChange2(value, label) {
        
@@ -476,6 +482,23 @@ export default class PlakaEkle extends Component {
                                 value={this.state.plaka1}
                                 underlineColorAndroid="transparent" />
                         </Item>
+                         
+                        <Item picker style={styles.Inputs2}>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain',  }} source={pompa}></Image>
+                                    <Picker borderColor='black'
+                                        mode="dropdown"
+                                        iosIcon={<Icon name="arrow-down" />}
+                                        style={{ width: undefined }}
+                                        placeholder="Araç Tipi"
+                                        placeholderIconColor="black"
+                                        selectedValue={this.state.aracTipi}
+                                        onValueChange={this.onAracTipi.bind(this)}
+                                       >
+                                          <Picker.Item label="Araç Tipi Seçin" value="0" />
+                                          <Picker.Item label="Binek" value="1" />
+                               
+                                    </Picker>
+                                </Item>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 

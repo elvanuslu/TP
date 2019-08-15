@@ -380,14 +380,17 @@ export default class Satis extends Component {
     }
     _getYakitTipleri() {
         try {
+            var yakit=[];
             this.setState({ loading: true })
             getYakitTipi()
                 .then((res) => {
+                    yakit =res;
                     this.setState({
                         yakitTipleri: res,
                         loading: false,
                     });
-                    //console.log("Yakitlog Yakit" + JSON.stringify(this.state.yakitTipleri));
+                    console.log('Yakit: '+ JSON.stringify(yakit));
+                    console.log("Yakitlog Yakit" + JSON.stringify(this.state.yakitTipleri));
                     // console.log("Yakit Tipi: " + this.state.yakitTipleri[0].bm_yakittipiadi);
                 })
                 .catch(e => {

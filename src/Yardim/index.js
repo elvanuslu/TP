@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, Linking } from 'react-native';
 import { Content, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem } from 'native-base';
 
 import { getSSS } from '../Service/FetchUser';
@@ -22,12 +22,13 @@ export default class Yardim extends Component {
     }
     _getYardim = async () => {
         try {
+            var data = [];
             this.setState({ loading: true })
             getSSS(4)
                 .then((response) => {
                     if (response.status !== false) {
                         this.setState({ datam: response, loading: false })
-                        //console.log(JSON.stringify(response))
+                        console.log(JSON.stringify(response))
                     }
                     else {
                         this.setState({ loading: false })
@@ -82,8 +83,9 @@ export default class Yardim extends Component {
                                 <CardItem header>
                                     <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
                                 </CardItem>
-                                <CardItem cardBody style={{ borderRadius: 5 }}>
+                                <CardItem cardBody style={{ borderRadius: 10 }}>
                                     <Content>
+
                                         <Text style={styles.txtYazi}>{item.bm_uzunaciklama}</Text>
                                     </Content>
 
@@ -100,7 +102,13 @@ export default class Yardim extends Component {
     }
 }
 
+/*
+ <Button style={styles.txtYazi}
+                                            title={item.bm_uzunaciklama}
+                                            onPress={() => Linking.openURL("https://www.skptricks.com")}
+                                        />
 
+*/
 const styles = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF'
@@ -130,8 +138,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     cardmb: {
-       // marginLeft: 15,
-        //marginRight: 15,
+        marginLeft: 15,
+        marginRight: 15,
         marginBottom: 20,
         marginTop: 15,
         borderRadius: 10,

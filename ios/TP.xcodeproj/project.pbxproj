@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -52,6 +53,7 @@
 		E123626022CCE96D00D82B6A /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E123625F22CCE96D00D82B6A /* InputMask.framework */; };
 		E123626122CCE96D00D82B6A /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E123625F22CCE96D00D82B6A /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E15CB0EE22CF797400AAD96A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15CB0ED22CF797400AAD96A /* MapKit.framework */; };
+		E15ED0C423055322005B491C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E15ED09623055322005B491C /* GoogleService-Info.plist */; };
 		E1C9961522D60C06004F06B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1C9961422D60C06004F06B3 /* Images.xcassets */; };
 		E725C236623D46C3B8A52564 /* Myriadpro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44345CDD946E436CA1063297 /* Myriadpro-Regular.ttf */; };
 		EA80ED6C8B6D409A99C362C1 /* MyriadSemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C86D794CAC6F48CC8EDD331F /* MyriadSemiBold.ttf */; };
@@ -478,6 +480,7 @@
 		E10452BE22F1CB9B0086263D /* RNCGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCGeolocation.xcodeproj; path = "../node_modules/@react-native-community/geolocation/ios/RNCGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		E123625F22CCE96D00D82B6A /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15CB0ED22CF797400AAD96A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		E15ED09623055322005B491C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E1C9961422D60C06004F06B3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TP/Images.xcassets; sourceTree = "<group>"; };
 		EA1995A15D684CC69809BA70 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -583,6 +586,7 @@
 		13B07FAE1A68108700A75B9A /* TP */ = {
 			isa = PBXGroup;
 			children = (
+				E15ED09623055322005B491C /* GoogleService-Info.plist */,
 				E10452B822F1B5110086263D /* TP.entitlements */,
 				E1C9961422D60C06004F06B3 /* Images.xcassets */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -1341,6 +1345,7 @@
 				3C8561558A8840519CCD1A8A /* FontAwesome.ttf in Resources */,
 				95284EF8583747C3B70CAA32 /* Myriadpro-Bold.ttf in Resources */,
 				E725C236623D46C3B8A52564 /* Myriadpro-Regular.ttf in Resources */,
+				E15ED0C423055322005B491C /* GoogleService-Info.plist in Resources */,
 				895DA3A5B4B64BCB8B93C05E /* AntDesign.ttf in Resources */,
 				30C0424A73824445B80CF6D3 /* Entypo.ttf in Resources */,
 				BE1FAA10724D469AB7F2B124 /* EvilIcons.ttf in Resources */,

@@ -74,7 +74,7 @@ export default class Sozlesme extends Component {
                                 <CardItem header>
                                     <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
                                 </CardItem>
-                                <CardItem cardBody style={{ borderRadius: 5 }}>
+                                <CardItem cardBody style={{ borderRadius: 10 }}>
                                     <Content>
                                         <Text style={styles.txtYazi}>{item.bm_uzunaciklama}</Text>
                                     </Content>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         //  flexDirection: 'column',
     },
     container1: {
-        flex: 6,
+        flex: 1,
         backgroundColor: '#efefef',
     },
     container2: {
@@ -122,10 +122,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     cardmb: {
-        marginLeft: 15,
-        marginRight: 15,
+        marginLeft: 20,
+        marginRight: 20,
         marginBottom: 20,
         marginTop: 15,
-        borderRadius: 10,
+        borderRadius: 20,
     },
 })

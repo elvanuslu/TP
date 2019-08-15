@@ -379,8 +379,7 @@ export default class yenikayit extends Component {
                         <Spinner
                             visible={this.state.loading}
                             textContent={'Lütfen Bekleyiniz...'}
-                            textStyle={styles.spinnerTextStyle}
-                        />
+                            textStyle={styles.spinnerTextStyle}/>
                     </View>
                     <Content style={{ backgroundColor: '#fff', }}>
                         <Body>
