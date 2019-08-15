@@ -199,7 +199,7 @@ export default class SatisIllce extends Component {
                 () => {
                     // console.log('Ilce Sci ' + this.state.Ilce)
                     try {
-                        getIstasyonByCityId(this.state.Ilce, 10)
+                        getIstasyonByCityId(this.state.Ilce, 3)
                             .then((res) => {
                                 if (res) {
                                     if (res instanceof Array) {
@@ -719,7 +719,7 @@ export default class SatisIllce extends Component {
     _getLatLon = () => {
         try {
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 3)
                 .then((res) => {
                     //console.log('Istasyonlarım= ' + JSON.stringify(res));
 

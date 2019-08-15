@@ -854,7 +854,7 @@ export default class KayitGuncelle extends Component {
                             />
                         </Item>
                         <Item regular style={styles.Inputs}>
-                            <Icon active name='key' underlayColor='#2089dc' color='#fff' />
+                            <Icon active name='key' underlayColor='#2089dc'  />
                             <Input placeholder='Şifre '
                                 // keyboardType="email-address"
                                 placeholderTextColor="black"
@@ -865,7 +865,7 @@ export default class KayitGuncelle extends Component {
                                 underlineColorAndroid="transparent" />
                         </Item>
                         <Item regular style={styles.Inputs}>
-                            <Icon active name='key' underlayColor='#2089dc' color='#fff' />
+                            <Icon active name='key' underlayColor='#2089dc'  />
                             <Input placeholder='Şifrenizi Yeniden Girin '
                                 // keyboardType="email-address"
                                 placeholderTextColor="black"

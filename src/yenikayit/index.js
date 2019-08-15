@@ -239,15 +239,21 @@ export default class yenikayit extends Component {
                                     }
                                 }//Plaka...
                                 else {
-                                    Alert.alert(
-                                        'Kayıt İşlemi!',
-                                        'Plaka alanı boş bırakılamaz.',
-                                        [
-
-                                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                                        ],
-                                        { cancelable: true },
-                                    );
+                                    this.setState({ loading: false }, () => {
+                                        setTimeout(() => {
+                                            Alert.alert(
+                                                'Kayıt İşlemi!',
+                                                'Plaka alanı boş bırakılamaz.',
+                                                [
+        
+                                                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                ],
+                                                { cancelable: true },
+                                            );
+                                        }, 0);
+                                    });
+            
+                                   
                                 }
                             } // Tel...
                             else {
@@ -313,7 +319,7 @@ export default class yenikayit extends Component {
         } catch (error) {
             this.setState({ loading: false })
             console.log('hata oluştu: ' + error);
-        } 
+        }
     }
     _getSozlesme = () => {
         try {
@@ -326,12 +332,12 @@ export default class yenikayit extends Component {
                         'Sözleşme',
                         response[0].bm_uzunaciklama,
                         [
-  
-                          { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+
+                            { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
                         ],
                         { cancelable: true },
-                      );
-                 //   Alert.alert('Sözleşme', response[0].bm_uzunaciklama);
+                    );
+                    //   Alert.alert('Sözleşme', response[0].bm_uzunaciklama);
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
@@ -380,7 +386,7 @@ export default class yenikayit extends Component {
                         <Body>
                             <Form>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                                    <Icon active name='person' underlayColor='#2089dc'  />
                                     <Input placeholder='Ad'
                                         onChangeText={(value) => this.setState({ Adi: value })}
                                         value={this.state.Adi}
@@ -388,7 +394,7 @@ export default class yenikayit extends Component {
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                                    <Icon active name='person' underlayColor='#2089dc' />
                                     <Input placeholder='Soyad'
                                         onChangeText={(value) => this.setState({ Soyadi: value })}
                                         value={this.state.Soyadi}
@@ -396,7 +402,7 @@ export default class yenikayit extends Component {
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='mail' underlayColor='#2089dc' color='#fff' />
+                                    <Icon active name='mail' underlayColor='#2089dc'  />
                                     <Input placeholder='E-posta Adresi'
                                         keyboardType="email-address"
                                         placeholderTextColor="black"
@@ -405,7 +411,7 @@ export default class yenikayit extends Component {
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' color='#fff' />
+                                    <Icon active name='person' />
                                     <TextInputMask style={styles.Inputs1}
                                         placeholder="Telefon"
                                         placeholderTextColor="black"
@@ -420,8 +426,26 @@ export default class yenikayit extends Component {
                                     />
 
                                 </Item>
+
+                               
+                                <Item picker style={styles.Inputs}>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain',  }} source={pompa}></Image>
+                                    <Picker borderColor='black'
+                                        mode="dropdown"
+                                        iosIcon={<Icon name="arrow-down" />}
+                                        style={{ width: undefined }}
+                                        placeholder="Araç Tipi"
+                                        placeholderIconColor="black"
+                                        selectedValue={this.state.selected2}
+                                       // onValueChange={this.onValueChange2.bind(this)}
+                                       >
+                                          <Picker.Item label="Araç Tipi Seçin" value="0" />
+                                          <Picker.Item label="Binek" value="1" />
+                               
+                                    </Picker>
+                                </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' underlayColor='#2089dc' color='#fff' />
+                                    <Icon active name='person' underlayColor='#2089dc' />
 
                                     <Input autoCapitalize="characters"
                                         onChangeText={(value) => this.setState({ plaka: value.toUpperCase() })}
@@ -459,7 +483,7 @@ export default class yenikayit extends Component {
                                     </Picker>
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='md-alarm' color='#fff' />
+                                    <Icon active name='md-alarm' />
                                     <TextInputMask style={styles.Inputs1}
                                         autoCapitalize="characters"
                                         placeholder="Mobil Kod"
@@ -479,7 +503,7 @@ export default class yenikayit extends Component {
                                     />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='key' underlayColor='#2089dc' color='#fff' />
+                                    <Icon active name='key' underlayColor='#2089dc'  />
                                     <Input placeholder='Şifre '
                                         // keyboardType="email-address"
                                         placeholderTextColor="black"
@@ -489,7 +513,7 @@ export default class yenikayit extends Component {
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='key' underlayColor='#2089dc' color='#fff' />
+                                    <Icon active name='key' underlayColor='#2089dc' />
                                     <Input placeholder='Şifre (Tekrar) '
                                         // keyboardType="email-address"
                                         placeholderTextColor="black"

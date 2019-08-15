@@ -197,7 +197,19 @@ export const checkActivation = (contactId, activationContent) => {
 }
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, 
   smsizni, donotemail, kullanicisozlesmeizni, mobilkod, mobilisletimsisopt) => {
-  // console.log('kod: ' + mobilkod)
+   console.log('FirstName: ' + FirstName)
+   console.log('LastName: ' + LastName)
+   console.log('EMailAddress1: ' + EMailAddress1)
+   console.log('MobilePhone: ' + MobilePhone)
+   console.log('BMsifre: ' + BMsifre)
+   console.log('Bmplaka: ' + Bmplaka)
+   console.log('BMyakitcinsiid: ' + BMyakitcinsiid)
+   console.log('BMyakitcinsiid2: ' + BMyakitcinsiid2)
+   console.log('smsizni: ' + smsizni)
+   console.log('donotemail: ' + donotemail)
+   console.log('kullanicisozlesmeizni: ' + kullanicisozlesmeizni)
+   console.log('mobilkod: ' + mobilkod)
+   console.log('mobilisletimsisopt: ' + mobilisletimsisopt)
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
