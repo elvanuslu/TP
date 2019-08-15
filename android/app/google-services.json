@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "72179682146",
+    "firebase_url": "https://tppn-997da.firebaseio.com",
+    "project_id": "tppn-997da",
+    "storage_bucket": "tppn-997da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72179682146:android:5f89005bfbab63c9",
+        "android_client_info": {
+          "package_name": "com.tp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72179682146-mv815dbfeohp6brlt52i57h3g422kkav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuD_t21FJBnML8Hz1ApCERcGr7xfFAqxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72179682146-mv815dbfeohp6brlt52i57h3g422kkav.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72179682146:android:fef94a983fc0bd87",
+        "android_client_info": {
+          "package_name": "com.turkiyepetroller.TP"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72179682146-mv815dbfeohp6brlt52i57h3g422kkav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuD_t21FJBnML8Hz1ApCERcGr7xfFAqxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72179682146-mv815dbfeohp6brlt52i57h3g422kkav.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
