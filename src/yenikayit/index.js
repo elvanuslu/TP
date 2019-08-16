@@ -7,7 +7,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import TextInputMask from 'react-native-text-input-mask';
 import AsyncStorage from '@react-native-community/async-storage';
-import { getYakitTipi, MusteriKayit, setStorage, getSSS } from '../Service/FetchUser';
+import { getYakitTipi, MusteriKayit, setStorage, getSSS, getAracTipleri } from '../Service/FetchUser';
 
 const pompa = require("../../assets/pompaGri.png");
 const k1 = require("../../assets/Resim.png");
@@ -45,6 +45,8 @@ export default class yenikayit extends Component {
             mobilKod: '',
             mobilKodFormatted: '',
             mobilextracted: '',
+            aracTiplerim:[],
+            aracTipi:'',
         }
     }
     KapmanyaDuyuru = (value) => {
@@ -87,6 +89,7 @@ export default class yenikayit extends Component {
     componentDidMount() {
         this._retrieveKullanici();
         this._getYakitTipleri();
+        this.getAracTipleri();
     }
     _retrieveKullanici = async () => {
         try {
@@ -100,13 +103,7 @@ export default class yenikayit extends Component {
             // Error retrieving data
         }
     };
-    _SifreKontrol = async () => {
-        try {
 
-        } catch (error) {
-
-        }
-    }
     onBeniHatirla() {
 
     }
@@ -169,9 +166,9 @@ export default class yenikayit extends Component {
                                         if (this.state.Sifre === this.state.Sifre2) {
                                             this.setState({ loading: true })
                                             MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
-                                                this.state.Sifre, this.state.plaka, this.state.selected2, this.state.selected2,
+                                                this.state.Sifre, this.state.plaka, this.state.selected2, '',
                                                 this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum, this.state.mobilKod,
-                                                Platform.OS === 'ios' ? '100000000' : '100000001')
+                                                Platform.OS === 'ios' ? '100000000' : '100000001',this.state.aracTipi)
                                                 .then((responseData) => {
                                                     let response = JSON.stringify(responseData);
                                                     console.log('responseData=' + response)
@@ -245,15 +242,15 @@ export default class yenikayit extends Component {
                                                 'Kayıt İşlemi!',
                                                 'Plaka alanı boş bırakılamaz.',
                                                 [
-        
+
                                                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                                 ],
                                                 { cancelable: true },
                                             );
                                         }, 0);
                                     });
-            
-                                   
+
+
                                 }
                             } // Tel...
                             else {
@@ -352,6 +349,45 @@ export default class yenikayit extends Component {
             this.setState({ loading: false })
         }
     }
+    onAracTipi(value, label) {
+        console.log('Araç: ' + value + ' Label: ' + label)
+        this.setState({
+            aracTipi: value,
+        })
+    }
+    getAracTipleri = () => {
+        try {
+            var aracTiplerim = [];
+            this.setState({ loading: true });
+            getAracTipleri()
+                .then((res) => {
+                    if (res) {
+                        if (Array.isArray(res)) {
+                            aracTiplerim = res;
+                            var initialArr = { 'AttributeValue': '-1', 'Value': 'Araç Tipi Seçin' };
+                            aracTiplerim.splice(0, 0, initialArr);
+                            this.setState({ aracTiplerim: res })
+                           // console.log('Araç Tiplerim: ' + JSON.stringify(res));
+                        }
+
+                    }
+                    this.setState({ loading: false });
+                })
+        } catch (error) {
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Araç Tipleri Hatası!',
+                        error,
+                        [
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 0);
+            });
+        }
+    }
     render() {
         return (
             <Container style={styles.container}>
@@ -379,13 +415,13 @@ export default class yenikayit extends Component {
                         <Spinner
                             visible={this.state.loading}
                             textContent={'Lütfen Bekleyiniz...'}
-                            textStyle={styles.spinnerTextStyle}/>
+                            textStyle={styles.spinnerTextStyle} />
                     </View>
                     <Content style={{ backgroundColor: '#fff', }}>
                         <Body>
                             <Form>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='person' underlayColor='#2089dc'  />
+                                    <Icon active name='person' underlayColor='#2089dc' />
                                     <Input placeholder='Ad'
                                         onChangeText={(value) => this.setState({ Adi: value })}
                                         value={this.state.Adi}
@@ -401,7 +437,7 @@ export default class yenikayit extends Component {
                                         underlineColorAndroid="transparent" />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='mail' underlayColor='#2089dc'  />
+                                    <Icon active name='mail' underlayColor='#2089dc' />
                                     <Input placeholder='E-posta Adresi'
                                         keyboardType="email-address"
                                         placeholderTextColor="black"
@@ -426,21 +462,26 @@ export default class yenikayit extends Component {
 
                                 </Item>
 
-                               
+
                                 <Item picker style={styles.Inputs}>
-                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain',  }} source={pompa}></Image>
+                                    <Icon style={{ marginLeft: 10 }} active name='person' underlayColor='#2089dc' />
                                     <Picker borderColor='black'
                                         mode="dropdown"
                                         iosIcon={<Icon name="arrow-down" />}
                                         style={{ width: undefined }}
                                         placeholder="Araç Tipi"
                                         placeholderIconColor="black"
-                                        selectedValue={this.state.selected2}
-                                       // onValueChange={this.onValueChange2.bind(this)}
-                                       >
-                                          <Picker.Item label="Araç Tipi Seçin" value="0" />
-                                          <Picker.Item label="Binek" value="1" />
-                               
+                                        selectedValue={this.state.aracTipi}
+                                        onValueChange={this.onAracTipi.bind(this)}>
+                                        {
+                                            this.state.aracTiplerim.map((item, key) => (
+                                                <Picker.Item
+                                                    label={item.Value}
+                                                    value={item.AttributeValue}
+                                                    key={item.AttributeValue}
+                                                />
+                                            ))
+                                        }
                                     </Picker>
                                 </Item>
                                 <Item regular style={styles.Inputs}>
@@ -502,7 +543,7 @@ export default class yenikayit extends Component {
                                     />
                                 </Item>
                                 <Item regular style={styles.Inputs}>
-                                    <Icon active name='key' underlayColor='#2089dc'  />
+                                    <Icon active name='key' underlayColor='#2089dc' />
                                     <Input placeholder='Şifre '
                                         // keyboardType="email-address"
                                         placeholderTextColor="black"

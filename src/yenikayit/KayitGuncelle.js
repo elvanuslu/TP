@@ -517,7 +517,7 @@ export default class KayitGuncelle extends Component {
                                     ],
                                     { cancelable: false },
                                 );
-                            }, 510);
+                            }, 0);
                         });
 
                     })

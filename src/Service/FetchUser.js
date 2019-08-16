@@ -196,7 +196,7 @@ export const checkActivation = (contactId, activationContent) => {
   }
 }
 export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BMsifre, Bmplaka, BMyakitcinsiid, BMyakitcinsiid2, 
-  smsizni, donotemail, kullanicisozlesmeizni, mobilkod, mobilisletimsisopt) => {
+  smsizni, donotemail, kullanicisozlesmeizni, mobilkod, mobilisletimsisopt,arac) => {
    console.log('FirstName: ' + FirstName)
    console.log('LastName: ' + LastName)
    console.log('EMailAddress1: ' + EMailAddress1)
@@ -210,6 +210,7 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
    console.log('kullanicisozlesmeizni: ' + kullanicisozlesmeizni)
    console.log('mobilkod: ' + mobilkod)
    console.log('mobilisletimsisopt: ' + mobilisletimsisopt)
+   console.log('Araç Tip: '+arac);
   const URL = define_api_url + `PostContact_And_BmMusteriArac`;
   return fetch(URL,
     {
@@ -232,6 +233,7 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
         bm_kullanicisozlesmeizni: kullanicisozlesmeizni,
         bm_mobilkod: mobilkod,
         bm_mobilisletimsisopt: mobilisletimsisopt,
+        bm_kullanimsekliopt:arac,
       }),
     })
     .then((res) => res.json())
@@ -307,7 +309,7 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
         bm_kvkizni: true,
         bm_mobilkod: mobilKod,
         address1_line1: Adres,
-        birthdate1: Dogum,
+        birthdate: Dogum,
         familystatuscode: MedeniDurum,
         bm_sehirid: Sehir,
         bm_ilceid: Ilce,
@@ -402,13 +404,14 @@ export const getCardById = (Id) => {
     console.log('getCardById= ' + error);
   }
 }
-export const putMusteriAraci = async (contactId, plaka, yakit1, yakit2, marka, kartId) => {
+export const putMusteriAraci = async (contactId, plaka, yakit1, yakit2, marka, kartId,kullanimSekli) => {
   try {
     console.log('contactId' + contactId)
     console.log('plaka' + plaka)
     console.log('yakit1' + yakit1)
     console.log('yakit2' + yakit2)
     console.log('marka' + marka)
+    console.log('Kullanım Şekli' + kullanimSekli)
 
     const URL = define_api_url + `PutBm_MusteriAraci`;
     return fetch(URL,
@@ -426,6 +429,7 @@ export const putMusteriAraci = async (contactId, plaka, yakit1, yakit2, marka, k
           bm_aracmodel: '',
           bm_musterikartiid: kartId,
           contactId: contactId,
+          bm_kullanimsekliopt: kullanimSekli,
         }),
       })
       .then((res) => res.json())
@@ -435,12 +439,13 @@ export const putMusteriAraci = async (contactId, plaka, yakit1, yakit2, marka, k
     console.log('putMusteriArac: ' + error);
   }
 }
-export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) => {
+export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka,aracTip) => {
   console.log('contactId' + contactId)
   console.log('plaka ' + plaka)
   console.log('yakit1 ' + yakit1)
   console.log('yakit2 ' + yakit2)
   console.log('marka ' + marka)
+  console.log('Araç Tipi: '+ aracTip);
 
   try {
     const URL = define_api_url + `PostBm_MusteriArac`;
@@ -457,7 +462,7 @@ export const postMusteriArac = async (contactId, plaka, yakit1, yakit2, marka) =
           bm_yakitcinsiid_2: yakit2,
           bm_plaka: plaka,
           bm_aracmodel: '',
-          // bm_musterikartiid: kartId,
+          bm_kullanimsekliopt:aracTip,
           contactId: contactId,
         }),
       })
@@ -539,6 +544,10 @@ export const getAracYakitTipi = (plaka) => {
      .then((ret) => ret.json())
    //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
    */
+}
+export const getAracTipleri =() =>{
+  const URL = define_api_url + `GetAracTipi`;
+  return getRequest(URL);
 }
 export const getYakitTipi = () => {
   //console.log("getYakitTipi");

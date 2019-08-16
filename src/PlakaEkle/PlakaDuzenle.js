@@ -15,7 +15,7 @@ const plaka = require("../../assets/plakaKirmizi.png");
 const pmpa = require("../../assets/pompaKirmizi.png");
 const araba = require("../../assets/araba.png");
 
-import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, putMusteriAraci } from '../Service/FetchUser';
+import { getYakitTipi, getAracMarkaList, getStorage, getCardById, getAracTipleri, putMusteriAraci } from '../Service/FetchUser';
 
 let yakitTipi2Lst = [];
 export default class PlakaDuzenle extends Component {
@@ -48,26 +48,40 @@ export default class PlakaDuzenle extends Component {
             aracId: undefined,
             yakit1: undefined,
             yakit2: undefined,
+            aracTiplerim: [],
+            kullanimSekli: '',
 
         }
     }
-     componentWillReceiveProps = async (nextProps) =>{
-       console.log('nextprops: '+JSON.stringify(nextProps))
+    componentWillReceiveProps = async (nextProps) => {
+        console.log('nextprops: ' + JSON.stringify(nextProps))
         var uId = await getStorage('userId');
         var _plaka = this.props.navigation.getParam('PlakaId', '');
         var Marka = this.props.navigation.getParam('Marka', '');
         var aracId = this.props.navigation.getParam('AracId');
         var yakit1 = this.props.navigation.getParam('Yakit1');
         var yakit2 = this.props.navigation.getParam('Yakit2');
+        var kullanimSekli = this.props.navigation.getParam('KullanimSekli');
 
-       
         //this.setState({ plaka1: _plaka });
-      //  await this._getAracMarkaList();
-     //   await this._getYakitTipi();
-        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2 });
-        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2);
+        //  await this._getAracMarkaList();
+        //   await this._getYakitTipi();
+        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2,kullanimSekli: kullanimSekli  });
+        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2,'Kullanım Şekli: '+this.state.kullanimSekli);
         console.log('2- will receive mPlaka = ' + this.state.plaka1 + ' userId= ' + uId, ' Marka= ' + this.state.araba, 'state AracaId ' + this.state.aracId, 'Yakıt 1: ' + this.state.selected2, 'Yakıt2: ' + this.state.selected3);
-
+        switch (kullanimSekli) {
+            case 'Binek':
+                this.setState({ aracTipi: 1 })
+                break;
+            case 'Ticari':
+                this.setState({ aracTipi: 2 })
+                break;
+            case 'Ağır Vasıta':
+                this.setState({ aracTipi: 3 })
+                break;
+            default:
+                break;
+        }
     }
     _getPlaka = async () => {
         try {
@@ -106,13 +120,30 @@ export default class PlakaDuzenle extends Component {
         var aracId = this.props.navigation.getParam('AracId');
         var yakit1 = this.props.navigation.getParam('Yakit1');
         var yakit2 = this.props.navigation.getParam('Yakit2');
-        this.setState({Marka:Marka})
+        var kullanimSekli = this.props.navigation.getParam('KullanimSekli');
+        this.setState({ Marka: Marka })
 
         await this._getAracMarkaList();
         await this._getYakitTipi();
+        this.getAracTipleri();
         //   this._getCard();
-        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2 });
-        console.log('mPlaka = ' + this.state.plaka1 + ' userId= ' + uId, ' Marka= ' + this.state.araba, 'state AracaId ' + this.state.aracId, 'Yakıt 1: ' + this.state.selected2, 'Yakıt2: ' + this.state.selected3);
+        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2, kullanimSekli: kullanimSekli });
+        switch (kullanimSekli) {
+            case 'Binek':
+                this.setState({ aracTipi: 1 })
+                break;
+            case 'Ticari':
+                this.setState({ aracTipi: 2 })
+                break;
+            case 'Ağır Vasıta':
+                this.setState({ aracTipi: 3 })
+                break;
+            default:
+                break;
+        }
+        console.log('This araba: '+ this.state.araba);
+        this.setState({ araba })
+         console.log('mPlaka = ' + this.state.plaka1 + ' userId= ' + uId, ' Marka= ' + this.state.araba, 'state AracaId ' + this.state.aracId, 'Yakıt 1: ' + this.state.selected2, 'Yakıt2: ' + this.state.selected3,'Kullanım Şekli: '+this.state.kullanimSekli);
     }
     convertTextToUpperCase = () => {
         var text = this.state.plaka2;
@@ -133,8 +164,16 @@ export default class PlakaDuzenle extends Component {
             },
             () => {
                 console.log('Yakit 1: ' + this.state.labelName, ' Selected: ' + this.state.selected2)
-                if(value==-1){
-                    this.setState({selected2: this.props.navigation.getParam('Yakit1')})
+                if (value == -1) {
+                    this.setState({ selected2: this.props.navigation.getParam('Yakit1') })
+                }
+                else{
+                    if ((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid === '08e1a1d3-33ad-e911-a2c2-005056824197') === true) {
+                        if ((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid === 'f3be53f7-33ad-e911-a2c2-005056824197') == true) {
+                            this.setState({selected3:''})
+                        }
+                        this.setState({selected3:''})
+                    }
                 }
             }
         )
@@ -159,13 +198,12 @@ export default class PlakaDuzenle extends Component {
             },
             () => {
                 console.log('Yakit 2: ' + this.state.labelName2, ' Selected: ' + this.state.selected3)
-               // if(value==-1)
-               if(value===this.props.navigation.getParam('Yakit2'))
-                {
-                    this.setState({selected3: this.props.navigation.getParam('Yakit2')})
+                // if(value==-1)
+                if (value === this.props.navigation.getParam('Yakit2')) {
+                    this.setState({ selected3: this.props.navigation.getParam('Yakit2') })
                 }
-                else{
-                    this.setState({selected3: value})
+                else {
+                    this.setState({ selected3: value })
                 }
             }
         )
@@ -183,7 +221,7 @@ export default class PlakaDuzenle extends Component {
         },
             () => {
                 console.log('Araba Val: ' + this.state.araba, ' Selected: ' + this.state.arabaId)
-                if(value==-1){
+                if (value == -1) {
                     this.setState({ araba: this.props.navigation.getParam('Marka', '') });
                 }
             }
@@ -284,7 +322,7 @@ export default class PlakaDuzenle extends Component {
         try {
             this.setState({ loading: true })
             const Id = await getStorage('userId');
-            putMusteriAraci(Id, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected)
+            putMusteriAraci(Id, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.cardSelected, this.state.aracTipi)
                 .then((ret) => {
                     this.setState({ loading: false }, () => {
                         setTimeout(() => {
@@ -311,7 +349,7 @@ export default class PlakaDuzenle extends Component {
                                     { cancelable: true },
                                 );
                             }
-                        }, 510);
+                        }, 0);
                     });
 
 
@@ -354,15 +392,50 @@ export default class PlakaDuzenle extends Component {
                         </Item>
                     )
                 }
+               
             }
+           
         }
 
     }
-    onAracTipi(value, label){
-        console.log('Araç: '+value+' Label: '+label)
+    onAracTipi(value, label) {
+        console.log('Araç: ' + value + ' Label: ' + label)
         this.setState({
             aracTipi: value,
         })
+    }
+    getAracTipleri = () => {
+        try {
+            var aracTiplerim = [];
+            this.setState({ loading: true });
+            getAracTipleri()
+                .then((res) => {
+                    if (res) {
+                        if (Array.isArray(res)) {
+                            aracTiplerim = res;
+                            var initialArr = { 'AttributeValue': '-1', 'Value': 'Araç Tipi Seçin' };
+                            aracTiplerim.splice(0, 0, initialArr);
+                            this.setState({ aracTiplerim: res })
+                            // console.log('Araç Tiplerim: ' + JSON.stringify(res));
+                        }
+
+                    }
+                    this.setState({ loading: false });
+                })
+        } catch (error) {
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Araç Tipleri Hatası!',
+                        error,
+                        [
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 0);
+            });
+        }
     }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
@@ -410,7 +483,7 @@ export default class PlakaDuzenle extends Component {
                         </Item>
 
                     </View>
-                   
+
                     <View style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
@@ -433,23 +506,28 @@ export default class PlakaDuzenle extends Component {
                                 }
                             </Picker>
                         </Item>
-                           
+
                         <Item picker style={styles.Inputs2}>
-                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain',  }} source={pompa}></Image>
-                                    <Picker borderColor='black'
-                                        mode="dropdown"
-                                        iosIcon={<Icon name="arrow-down" />}
-                                        style={{ width: undefined }}
-                                        placeholder="Araç Tipi"
-                                        placeholderIconColor="black"
-                                        selectedValue={this.state.aracTipi}
-                                        onValueChange={this.onAracTipi.bind(this)}
-                                       >
-                                          <Picker.Item label="Araç Tipi Seçin" value="0" />
-                                          <Picker.Item label="Binek" value="1" />
-                               
-                                    </Picker>
-                                </Item>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', }} source={pompa}></Image>
+                            <Picker borderColor='black'
+                                mode="dropdown"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Araç Tipi"
+                                placeholderIconColor="black"
+                                selectedValue={this.state.aracTipi}
+                                onValueChange={this.onAracTipi.bind(this)}>
+                                {
+                                    this.state.aracTiplerim.map((item, key) => (
+                                        <Picker.Item
+                                            label={item.Value}
+                                            value={item.AttributeValue}
+                                            key={item.AttributeValue}
+                                        />
+                                    ))
+                                }
+                            </Picker>
+                        </Item>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 

@@ -16,7 +16,7 @@ const plaka = require("../../assets/plakaGri.png");
 //const pmpa = require("../../assets/pompaKirmizi.png");
 const araba = require("../../assets/arac.png");
 
-import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, MusteriKayit } from '../Service/FetchUser';
+import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, getAracTipleri } from '../Service/FetchUser';
 import DuyuruDetay from '../duyurular/DuyuruDetay';
 
 let lst=[];
@@ -24,8 +24,7 @@ let yakitliste1=[];
 let yakitTipi2Lst=[];
 export default class PlakaEkle extends Component {
     constructor(props) {
-        super(props);
-       
+        super(props);  
         this.state = {
             userId: undefined,
             plaka1: undefined,
@@ -47,6 +46,7 @@ export default class PlakaEkle extends Component {
             cardSelected: undefined,
             cardLabel: '',
             aracTipi:'',
+            aracTiplerim : [],
 
         }
     }
@@ -217,7 +217,7 @@ export default class PlakaEkle extends Component {
                                 ],
                                 { cancelable: true },
                             );
-                        }, 510);
+                        }, 0);
                     });
                    
                    
@@ -289,7 +289,7 @@ export default class PlakaEkle extends Component {
 
             this.setState({ loading: true })
             if (this.state.plaka1 != undefined) {
-                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba)
+                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba,this.state.aracTipi)
                     .then((responseData) => {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
@@ -325,7 +325,7 @@ export default class PlakaEkle extends Component {
                                         { cancelable: true },
                                     );
                                 }
-                            }, 510);
+                            }, 0);
                         });
 
                     })
@@ -378,6 +378,7 @@ export default class PlakaEkle extends Component {
         this._getAracMarkaList();
         this._getYakitTipi();
         this._getCard();
+        this.getAracTipleri();
     }
    
     _YakitTipi2() {
@@ -413,6 +414,39 @@ export default class PlakaEkle extends Component {
             }
         }
 
+    }
+    getAracTipleri = () => {
+        try {
+            var aracTiplerim = [];
+            this.setState({ loading: true });
+            getAracTipleri()
+                .then((res) => {
+                    if (res) {
+                        if (Array.isArray(res)) {
+                            aracTiplerim = res;
+                            var initialArr = { 'AttributeValue': '-1', 'Value': 'Araç Tipi Seçin' };
+                            aracTiplerim.splice(0, 0, initialArr);
+                            this.setState({ aracTiplerim: res })
+                           // console.log('Araç Tiplerim: ' + JSON.stringify(res));
+                        }
+
+                    }
+                    this.setState({ loading: false });
+                })
+        } catch (error) {
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Araç Tipleri Hatası!',
+                        error,
+                        [
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 0);
+            });
+        }
     }
     render() {
         <StatusBar translucent backgroundColor='transparent' color='white' barStyle="light-content" />
@@ -492,11 +526,16 @@ export default class PlakaEkle extends Component {
                                         placeholder="Araç Tipi"
                                         placeholderIconColor="black"
                                         selectedValue={this.state.aracTipi}
-                                        onValueChange={this.onAracTipi.bind(this)}
-                                       >
-                                          <Picker.Item label="Araç Tipi Seçin" value="0" />
-                                          <Picker.Item label="Binek" value="1" />
-                               
+                                        onValueChange={this.onAracTipi.bind(this)}>
+                                        {
+                                            this.state.aracTiplerim.map((item, key) => (
+                                                <Picker.Item
+                                                    label={item.Value}
+                                                    value={item.AttributeValue}
+                                                    key={item.AttributeValue}
+                                                />
+                                            ))
+                                        }
                                     </Picker>
                                 </Item>
                         <Item picker style={styles.Inputs2}>
