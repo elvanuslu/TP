@@ -456,7 +456,7 @@ export default class yenikayit extends Component {
 
                                 </Item>
                                 <Item picker style={styles.Inputs}>
-                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', color: 'black' }} source={pompa}></Image>
+                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', }} source={pompa}></Image>
                                     <Picker borderColor='black'
                                         mode="dropdown"
                                         iosIcon={<Icon name="arrow-down" />}

@@ -49,7 +49,7 @@ export default class Kodec extends Component {
                                 {
                                     text: 'Tamam', onPress: () => {
                                         setStorage('userId', this.state.user)
-                                        this.props.navigation.navigate("hesabim");
+                                        //this.props.navigation.navigate("hesabim");
                                     }
                                 },
                             ],
@@ -94,9 +94,7 @@ export default class Kodec extends Component {
                         <Title style={{ color: '#fff' }}>Kod Giriniz</Title>
                     </Body>
                     <Right>
-                        <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" style={{ color: '#fff' }} />
-                        </Button>
+                        
                     </Right>
                 </Header>
                 <View style={styles.container1}>
@@ -139,7 +137,11 @@ export default class Kodec extends Component {
         )
     }
 }
-
+/*
+<Button transparent onPress={() => this.props.navigation.openDrawer()}>
+                            <Icon name="menu" style={{ color: '#fff' }} />
+                        </Button>
+*/
 const styles = StyleSheet.create({
     ImageShow: {
         width: 30, height: 25, resizeMode: 'contain'
