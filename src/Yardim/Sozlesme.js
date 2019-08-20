@@ -30,10 +30,10 @@ export default class Sozlesme extends Component {
                     Alert.alert('Sözleşme', response.bm_uzunaciklama);
                 })
                 .catch((error) => {
-                    Alert.alert('Servis Hatası!', error)
+                    Alert.alert('Servis Hatası', error)
                 })
         } catch (error) {
-            Alert.alert('Hata Oluştu!', error)
+            Alert.alert('Hata Oluştu', error)
         }
     }
     componentDidMount() {

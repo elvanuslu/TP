@@ -606,6 +606,8 @@ export default class Satis extends Component {
                             <Image style={[styles.logos, this.state.latitude ? styles.hidden : styles.logos]} source={logo}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="İstasyon"
@@ -631,6 +633,8 @@ export default class Satis extends Component {
                             <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Plaka"
@@ -654,6 +658,8 @@ export default class Satis extends Component {
                             <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"
@@ -699,6 +705,8 @@ export default class Satis extends Component {
                             <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Ödeme tipi seçin"

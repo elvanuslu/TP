@@ -13,6 +13,7 @@ import { tryStatement } from '@babel/types';
 import { multipleValidOptions } from 'jest-validate/build/condition';
 import Geolocation from 'react-native-geolocation-service';
 
+import Permissions from 'react-native-permissions';
 
 const k1 = require("../../assets/Resim.png");
 const logo = require("../../assets/logoGri.png");
@@ -102,7 +103,7 @@ export default class SatisIllce extends Component {
                 })
                 .catch(e => {
                     Alert.alert(
-                        'Hata Oluştu!',
+                        'Hata Oluştu',
                         e,
                         [
                             { text: 'Tamam', onPress: () => '' },
@@ -147,7 +148,7 @@ export default class SatisIllce extends Component {
                     }
                     else {
                         Alert.alert(
-                            'Kampanya!',
+                            'Kampanya',
                             'Kampanya Bulunamadı.',
                             [
 
@@ -159,7 +160,7 @@ export default class SatisIllce extends Component {
                 })
                 .catch(e => {
                     Alert.alert(
-                        'Hata Oluştu!',
+                        'Hata Oluştu',
                         e,
                         [
                             { text: 'Tamam', onPress: () => '' },
@@ -235,7 +236,7 @@ export default class SatisIllce extends Component {
                                 }
                                 else {
                                     Alert.alert(
-                                        'Hata Oluştu!',
+                                        'Hata Oluştu',
                                         'Şehirler Getirilemedi.',
                                         [
 
@@ -247,7 +248,7 @@ export default class SatisIllce extends Component {
                             })
                             .catch((e) => {
                                 Alert.alert(
-                                    'Hata Oluştu!',
+                                    'Hata Oluştu',
                                     e,
                                     [
 
@@ -268,7 +269,7 @@ export default class SatisIllce extends Component {
         }
         else {
             Alert.alert(
-                'Hata Oluştu!',
+                'Hata Oluştu',
                 'Ilçeler Getirilemedi.',
                 [
 
@@ -301,7 +302,7 @@ export default class SatisIllce extends Component {
                     })
                     .catch((e) => {
                         Alert.alert(
-                            'Hata Oluştu!',
+                            'Hata Oluştu',
                             e,
                             [
 
@@ -406,40 +407,40 @@ export default class SatisIllce extends Component {
                                     }
                                     else {
                                         this.setState({ loading: false })
-                                        Alert.alert('Hata!', 'Tutar Girilmedi!');
+                                        Alert.alert('Hata', 'Tutar Girilmedi');
                                     }
                                 }
                                 // this._clearComponents();
                             }
                             else {
                                 this.setState({ loading: false })
-                                Alert.alert('Hata!', 'Pompa Numarası Girilmedi!');
+                                Alert.alert('Hata', 'Pompa Numarası Girilmedi');
                             }
                         }
                         else {
                             this.setState({ loading: false })
-                            Alert.alert('Hata!', 'Ödeme Tipi Seçilmedi!');
+                            Alert.alert('Hata', 'Ödeme Tipi Seçilmedi');
                         }
 
                     }
                     else {
                         this.setState({ loading: false })
-                        Alert.alert('Hata!', 'Yakıt Seçilmedi!');
+                        Alert.alert('Hata', 'Yakıt Seçilmedi');
                     }
                 }
                 else {
                     this.setState({ loading: false })
-                    Alert.alert('Hata!', 'Plaka Seçilmedi!');
+                    Alert.alert('Hata', 'Plaka Seçilmedi');
                 }
 
             }
             else {
                 this.setState({ loading: false })
-                Alert.alert('Hata!', 'Istasyon Seçilmedi!');
+                Alert.alert('Hata', 'Istasyon Seçilmedi');
             }
         } catch (error) {
             this.setState({ loading: false })
-            Alert.alert('Hata!', error);
+            Alert.alert('Hata', error);
         }
 
     }
@@ -477,7 +478,7 @@ export default class SatisIllce extends Component {
         }
         else {
             Alert.alert(
-                'Hata Oluştu!',
+                'Hata Oluştu',
                 'Araçlar Getirilemedi.',
                 [
 
@@ -497,37 +498,55 @@ export default class SatisIllce extends Component {
                 .then((res) => {
                     Yakit = res;
                     console.log('Yakitt: ' + JSON.stringify(Yakit));
-                    console.log("Arac Yakit " + JSON.stringify(res));
+                    // console.log("Arac Yakit " + JSON.stringify(res));
 
                     if (Yakit) {
 
                         if (Yakit.bm_yakitcinsiid_2 != '00000000-0000-0000-0000-000000000000') {
+                            if (Yakit.bm_yakitcinsiid_1 !== Yakit.bm_yakitcinsiid_2) {
+                                jsonBody = [
+                                    {
+                                        "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
+                                        "bm_yakittipiadi": 'Yakıt Tipi'
+                                    },
+                                    {
+                                        "bm_yakittipiid": Yakit.bm_yakitcinsiid_1,
+                                        "bm_yakittipiadi": Yakit.bm_yakittipiadi_1
+                                    },
+                                    {
+                                        "bm_yakittipiid": Yakit.bm_yakitcinsiid_2,
+                                        "bm_yakittipiadi": Yakit.bm_yakittipiadi_2
+                                    },
+                                ]
+                            }
+                            else {
+                                jsonBody = [
+                                    {
+                                        "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
+                                        "bm_yakittipiadi": 'Yakıt Tipi'
+                                    },
+                                    {
+                                        "bm_yakittipiid": Yakit.bm_yakitcinsiid_1,
+                                        "bm_yakittipiadi": Yakit.bm_yakittipiadi_1
+                                    },
+                                ]
+                            }
+                          
+                        }
+                        else {
                             jsonBody = [
                                 {
                                     "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
                                     "bm_yakittipiadi": 'Yakıt Tipi'
                                 },
                                 {
-                                    "bm_yakittipiid": res.bm_yakitcinsiid_1,
-                                    "bm_yakittipiadi": res.bm_yakittipiadi_1
-                                },
-                                {
-                                    "bm_yakittipiid": res.bm_yakitcinsiid_2,
-                                    "bm_yakittipiadi": res.bm_yakittipiadi_2
+                                    "bm_yakittipiid": Yakit.bm_yakitcinsiid_1,
+                                    "bm_yakittipiadi": Yakit.bm_yakittipiadi_1
                                 },
                             ]
                         }
-                        else
-                            jsonBody = [
-                                {
-                                    "bm_yakittipiid": '00000000-0000-0000-0000-000000000001',
-                                    "bm_yakittipiadi": 'Yakıt Tipi'
-                                },
-                                {
-                                    "bm_yakittipiid": res.bm_yakitcinsiid_1,
-                                    "bm_yakittipiadi": res.bm_yakittipiadi_1
-                                },
-                            ]
+                        this.setState({selected2:jsonBody[1].bm_yakittipiid})
+                        console.log('JsonBody Yakıt: '+ jsonBody[1].bm_yakittipiid)
                         this.setState({
                             yakitTipleri: jsonBody,
                             loading: false,
@@ -570,7 +589,7 @@ export default class SatisIllce extends Component {
         }
         else {
             Alert.alert(
-                'Hata Oluştu!',
+                'Hata Oluştu',
                 'İstasyonlar Getirilemedi.',
                 [
 
@@ -602,7 +621,7 @@ export default class SatisIllce extends Component {
         }
         else {
             Alert.alert(
-                'Hata Oluştu!',
+                'Hata Oluştu',
                 'Yakıt Tipleri Getirilemedi.',
                 [
 
@@ -697,7 +716,7 @@ export default class SatisIllce extends Component {
                                 this.setState({ loading: false }, () => {
                                     setTimeout(() => {
                                         Alert.alert(
-                                            'Bağlantı Hatası!',
+                                            'Bağlantı Hatası',
                                             'İnternet Bağlantınızı Kontrol Edin',
                                             [
 
@@ -737,7 +756,9 @@ export default class SatisIllce extends Component {
     _getLatLon = () => {
         try {
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 3)
+            //    console.log('this.state.latitude: ' + this.state.latitude, ' this.state.longitude:' + this.state.longitude)
+
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
                 .then((res) => {
                     //console.log('Istasyonlarım= ' + JSON.stringify(res));
 
@@ -841,6 +862,8 @@ export default class SatisIllce extends Component {
                 <Item picker style={styles.pickerInputs}>
                     <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
                     <Picker
+                        headerBackButtonText="Geri"
+                        iosHeader="Seçin"
                         mode="dropdown"
                         iosIcon={<Icon name="arrow-down" />}
                         // style={{ width: undefined }}
@@ -873,6 +896,8 @@ export default class SatisIllce extends Component {
                 <Item picker style={styles.pickerInputs}>
                     <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
                     <Picker borderColor='black'
+                        headerBackButtonText="Geri"
+                        iosHeader="Seçin"
                         mode="dropdown"
                         iosIcon={<Icon name="arrow-down" />}
                         style={{ width: undefined }}
@@ -902,7 +927,8 @@ export default class SatisIllce extends Component {
             (Platform.OS === 'android' && Platform.Version < 23)) {
             return true;
         }
-
+        // var PermissionRequests =  PermissionRequest();
+        //console.log('PermissionRequest: '+PermissionRequests)
         const hasPermission = await PermissionsAndroid.check(
             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
         );
@@ -926,10 +952,15 @@ export default class SatisIllce extends Component {
     getLocation = async () => {
         const hasLocationPermission = await this.hasLocationPermission();
 
+        /*  Permissions.checkMultiple('location', ).then(response => {
+              alert('Konum İzni: '+ JSON.stringify(response));
+            })
+  */
+        //   alert('Konum İzni: ' + JSON.stringify(hasLocationPermission));
         if (!hasLocationPermission) {
             Alert.alert(
-                'Konum İzni Gerekiyor!',
-                'Lütfen Cihazınızdat Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
+                'Konum İzni Gerekiyor',
+                'Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
                 [
 
                     {
@@ -951,7 +982,8 @@ export default class SatisIllce extends Component {
             Geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                    // console.log('Konumlar: ' + JSON.stringify(position));
+                    // alert('Long: '+ JSON.stringify(position))
+                    console.log('Konumlar: ' + JSON.stringify(position));
                     /*  Toast.show({
                           text: "Latitude: " +  position.coords.latitude,
                           buttonText: "Tamam",
@@ -1056,6 +1088,8 @@ export default class SatisIllce extends Component {
                                 <Item regular style={styles.comboItem} >
                                     <Image style={styles.logos} source={logo}></Image>
                                     <Picker borderColor='black'
+                                        headerBackButtonText="Geri"
+                                        iosHeader="Seçin"
                                         mode="dropdown"
                                         iosIcon={<Icon name="arrow-down" />}
                                         style={{ width: undefined }}
@@ -1082,6 +1116,8 @@ export default class SatisIllce extends Component {
                                     <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={plaka}></Image>
                                     <Picker borderColor='black'
                                         mode="dropdown"
+                                        headerBackButtonText="Geri"
+                                        iosHeader="Seçin"
                                         iosIcon={<Icon name="arrow-down" />}
                                         style={{ width: undefined }}
                                         placeholder="Plaka"
@@ -1105,6 +1141,8 @@ export default class SatisIllce extends Component {
                                     <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                                     <Picker borderColor='black'
                                         mode="dropdown"
+                                        headerBackButtonText="Geri"
+                                        iosHeader="Seçin"
                                         iosIcon={<Icon name="arrow-down" />}
                                         style={{ width: undefined }}
                                         placeholder="Yakıt Tipi"
@@ -1150,7 +1188,8 @@ export default class SatisIllce extends Component {
                                 <Item picker style={styles.comboItem}>
                                     <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                                     <Picker borderColor='black'
-
+                                        headerBackButtonText="Geri"
+                                        iosHeader="Seçin"
                                         mode="dropdown"
                                         iosIcon={<Icon name="arrow-down" />}
                                         style={{ width: undefined }}

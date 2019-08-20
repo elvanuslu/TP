@@ -183,7 +183,7 @@ export default class Harita extends Component {
                 this._getkoordinat();
             }
         } catch (error) {
-            Alert.alert('Genel Hata!', error);
+            Alert.alert('Genel Hata', error);
         }
 
     }

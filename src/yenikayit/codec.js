@@ -43,13 +43,14 @@ export default class Kodec extends Component {
                     if (res.status === true) {
 
                         Alert.alert(
-                            'Kayıt İşlemi!',
-                            'Aktivasyon Başarılı...',
+                            'Kayıt İşlemi',
+                            'Aktivasyon Başarılı',
                             [
                                 {
                                     text: 'Tamam', onPress: () => {
                                         setStorage('userId', this.state.user)
-                                        //this.props.navigation.navigate("hesabim");
+                                        this.setState({SmsDegeri:''})
+                                        this.props.navigation.navigate("AnaSayfa");
                                     }
                                 },
                             ],
@@ -60,8 +61,8 @@ export default class Kodec extends Component {
                     }
                     else {
                         Alert.alert(
-                            'Kayıt İşlemi!',
-                            'Aktivasyon Hatası...',
+                            'Kayıt İşlemi',
+                            'Aktivasyon Hatası',
                             [
                                 {
                                     text: 'Tamam', onPress: () => {

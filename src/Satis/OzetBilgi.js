@@ -5,6 +5,7 @@ import { Switch, CheckBox, Form, Input, Item, Picker, Title, Left, Right, Button
 
 import { SatisBaslat, getStorage, } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { switchCase } from '@babel/types';
 
 const k1 = require("../../assets/Resim.png");
 const logo = require("../../assets/logoKirmiz.png");
@@ -114,7 +115,7 @@ export default class OzetBilgi extends Component {
                                 setTimeout(() => {
                                     Alert.alert(
                                         'Yakıt Dolumu',
-                                        res.message + ' Yakıt Alabilirsiniz...',
+                                        res.message + ' Yakıt Alabilirsiniz',
                                         [
 
                                             { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
@@ -127,13 +128,13 @@ export default class OzetBilgi extends Component {
                         }
                     })
                     .catch(error => {
-                        Alert.alert('Hata Oluştu!', error);
+                        Alert.alert('Hata Oluştu', error);
                     })
 
 
             }
         } catch (error) {
-            Alert.alert('Hata Oluştu!', error);
+            Alert.alert('Hata Oluştu', error);
         }
 
     }
@@ -164,69 +165,75 @@ export default class OzetBilgi extends Component {
                     KampanyaId: this.props.navigation.state.params.Fiyatlar.bm_kampanyaId,
     */
     _SatisBaslat = () => {
-        console.log('Satış Başlat...')
-        this.setState({ loading: true });
-        //     alert('Id =' + contactId);
-        console.log(' this.props.navigation.state.params.Fiyatlar.alimmiktariLT, Id: ' + this.props.navigation.state.params.Fiyatlar.alinmmiktariLT)
-        console.log('Params Id: ' + JSON.stringify(this.props.navigation.state))
-        if (this.state.userId !== null) {
-            SatisBaslat(this.state.IstasyonId,
-                this.state.userId,
-                this.state.KampanyaId,
-                this.state.PompaNo,
-                this.state.PlakaId,
-                this.state.YakitId,
-                '',
-                this.state.OdemeTipi,
-                this.state.KuponKodu,
-                this.state.birimFiyat,
-                this.state.istasyonfiyati,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].indirimlifiyati : this.props.navigation.state.params.Fiyatlar.indirimlifiyati,
-                this.state.Tutar,
-                '',//this.props.navigation.state.params.Fiyatlar.alinmmiktariLT, 
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].indirimorani : this.props.navigation.state.params.Fiyatlar.indirimorani,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].KazanilanPuan : this.props.navigation.state.params.Fiyatlar.KazanilanPuan,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].harcananpuan : this.props.navigation.state.params.Fiyatlar.harcananPuan,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].kazanilanpuantl : this.props.navigation.state.params.Fiyatlar.kazanilanpuantl,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].harcananpuantl : this.props.navigation.state.params.Fiyatlar.harcananpuantl,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].katkiorani : this.props.navigation.state.params.Fiyatlar.katkiorani,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].bayikatkiorani : this.props.navigation.state.params.Fiyatlar.bayikatkiorani,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagikatkiorani : this.props.navigation.state.params.Fiyatlar.isortagikatkiorani,
-                Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagiid : this.props.navigation.state.params.Fiyatlar.isortagiid)
-                .then((res) => {
-                    console.log('Satış Başlat: ' + JSON.stringify(res));
-                    if (res) {
-                        if (res.status === false) {
-                            this.setState({ loading: false }, () => {
-                                setTimeout(() => {
-                                    Alert.alert('Hata Oluştu!', res.message);
-                                }, 0);
-                            });
+        try {
+            console.log('Satış Başlat...')
+            this.setState({ loading: true });
+            //     alert('Id =' + contactId);
+            console.log(' this.props.navigation.state.params.Fiyatlar.alimmiktariLT, Id: ' + this.state.alimmiktariLT)
+            console.log('Params Id: ' + JSON.stringify(this.props.navigation.state))
+            if (this.state.userId !== null) {
+                SatisBaslat(this.state.IstasyonId,
+                    this.state.userId,
+                    this.state.KampanyaId,
+                    this.state.PompaNo,
+                    this.state.PlakaId,
+                    this.state.YakitId,
+                    '',
+                    this.state.OdemeTipi,
+                    this.state.KuponKodu,
+                    this.state.birimFiyat,
+                    this.state.istasyonfiyati,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].indirimlifiyati : this.props.navigation.state.params.Fiyatlar.indirimlifiyati,
+                    this.state.Tutar,
+                    //this.props.navigation.state.params.Fiyatlar.alinmmiktariLT, 
+                    this.state.alimmiktariLT,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].indirimorani : this.props.navigation.state.params.Fiyatlar.indirimorani,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].KazanilanPuan : this.props.navigation.state.params.Fiyatlar.KazanilanPuan,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].harcananpuan : this.props.navigation.state.params.Fiyatlar.harcananPuan,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].kazanilanpuantl : this.props.navigation.state.params.Fiyatlar.kazanilanpuantl,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].harcananpuantl : this.props.navigation.state.params.Fiyatlar.harcananpuantl,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].katkiorani : this.props.navigation.state.params.Fiyatlar.katkiorani,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].bayikatkiorani : this.props.navigation.state.params.Fiyatlar.bayikatkiorani,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagikatkiorani : this.props.navigation.state.params.Fiyatlar.isortagikatkiorani,
+                    Array.isArray(this.props.navigation.state.params.Fiyatlar) ? this.props.navigation.state.params.Fiyatlar[0].isortagiid : this.props.navigation.state.params.Fiyatlar.isortagiid)
+                    .then((res) => {
+                        console.log('Satış Başlat: ' + JSON.stringify(res));
+                        if (res) {
+                            if (res.status === false) {
+                                this.setState({ loading: false }, () => {
+                                    setTimeout(() => {
+                                        Alert.alert('Hata Oluştu', res.message);
+                                    }, 0);
+                                });
+                            }
+                            else {
+                                this.setState({ loading: false }, () => {
+                                    setTimeout(() => {
+                                        Alert.alert(
+                                            'Yakıt Dolumu',
+                                            res.message,
+                                            [
+
+                                                { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
+                                            ],
+                                            { cancelable: true },
+                                        )
+                                    }, 1);
+                                });
+
+                            }
                         }
-                        else {
-                            this.setState({ loading: false }, () => {
-                                setTimeout(() => {
-                                    Alert.alert(
-                                        'Yakıt Dolumu',
-                                        res.message,
-                                        [
+                    })
+                    .catch(error => {
+                        this.setState({ loading: false })
+                        Alert.alert('Satış Hata ', error);
+                    })
+                // .finally( this.setState({ loading: false }))
 
-                                            { text: 'Tamam', onPress: () => this.props.navigation.navigate("AnaSayfa") },
-                                        ],
-                                        { cancelable: true },
-                                    )
-                                }, 1);
-                            });
-
-                        }
-                    }
-                })
-                .catch(error => {
-                    //this.setState({ loading: false })
-                    Alert.alert('Satış Hata !', error);
-                })
-            // .finally( this.setState({ loading: false }))
-
+            }
+        } catch (error) {
+            Alert.alert('Hata', error)
+            this.setState({ loading: false })
         }
 
     }
@@ -521,15 +528,17 @@ export default class OzetBilgi extends Component {
                                             <Text style={styles.txtFiyatlar}>{this.state.OdemeAdi}</Text>
                                         </Right>
                                     </View>
-
+                                    {console.log('this.state.Tutar: ' + this.state.Tutar)}
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                         <Image style={{ marginRight: 5, width: 20, height: 20, resizeMode: 'contain' }} source={odeme}></Image>
                                         <Left>
                                             <Text style={styles.txtFiyatlar}>Tutar </Text>
                                         </Left>
                                         <Right>
-                                            <Text style={styles.txtFiyatlar}>{
-                                                this.state.Tutar == undefined ? 0 : this.state.Tutar} TL</Text>
+                                            {
+                                                this.state.Tutar == 0 ? <Text style={styles.txtFiyatlar}>Fulle</Text> : <Text style={styles.txtFiyatlar}>{this.state.Tutar} TL</Text> 
+                                            }
+                                          
                                         </Right>
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>

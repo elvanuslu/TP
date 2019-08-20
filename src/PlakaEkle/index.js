@@ -19,12 +19,12 @@ const araba = require("../../assets/arac.png");
 import { getYakitTipi, getAracMarkaList, getStorage, getCardById, postMusteriArac, getAracTipleri } from '../Service/FetchUser';
 import DuyuruDetay from '../duyurular/DuyuruDetay';
 
-let lst=[];
-let yakitliste1=[];
-let yakitTipi2Lst=[];
+let lst = [];
+let yakitliste1 = [];
+let yakitTipi2Lst = [];
 export default class PlakaEkle extends Component {
     constructor(props) {
-        super(props);  
+        super(props);
         this.state = {
             userId: undefined,
             plaka1: undefined,
@@ -45,8 +45,8 @@ export default class PlakaEkle extends Component {
             card: [],
             cardSelected: undefined,
             cardLabel: '',
-            aracTipi:'',
-            aracTiplerim : [],
+            aracTipi: '',
+            aracTiplerim: [],
 
         }
     }
@@ -60,24 +60,24 @@ export default class PlakaEkle extends Component {
             plaka: value
         });
     }
-  componentWillUnmount(){
-    this.setState({
-        araba:null,
-        selected2:null,
-        selected3:null,
-        plaka:null,
-        plaka1:'',
-    })
-     
-  }
-  onAracTipi(value, label){
-      console.log('Araç: '+value+' Label: '+label)
-      this.setState({
-          aracTipi: value,
-      })
-  }
+    componentWillUnmount() {
+        this.setState({
+            araba: null,
+            selected2: null,
+            selected3: null,
+            plaka: null,
+            plaka1: '',
+        })
+
+    }
+    onAracTipi(value, label) {
+        console.log('Araç: ' + value + ' Label: ' + label)
+        this.setState({
+            aracTipi: value,
+        })
+    }
     onValueChange2(value, label) {
-       
+
         this.setState({
             selected2: value,
             labelName: label
@@ -85,28 +85,28 @@ export default class PlakaEkle extends Component {
             () => {
                 console.log('Yakit 1: ' + value, ' Selected: ' + this.state.selected2)
                 lst.push(this.state.yakitlst)
-               // var removed = lst[0].splice(0,1)
-                this.setState({ yakitlst1:lst[0] })
-               /* if ((this.state.selected2 === '0361929d-0f4a-e911-836a-000c29289d89') || (this.state.selected2 === '4ed677ba-0f4a-e911-836a-000c29289d89')) {
-                    var removed = lst[0].splice(4,2)
-                    this.setState({ yakitlst1:lst[0] })
-                }
-                */
-             /*   if ((this.state.selected2 === '0361929d-0f4a-e911-836a-000c29289d89') || (this.state.selected2 === '4ed677ba-0f4a-e911-836a-000c29289d89')) {
-                   
-                    lst.push(this.state.yakitlst)
-                    
-                    console.log('Array0: ', lst)
-                    var removed = lst[0].splice(4,2)
-                    removed =lst[0].splice(0,1);
-                    yakitliste1 = lst[0];
-                   // console.log('Removed: ',removed,'  Lst ',lst[0])
-                    
-                  //  console.log('Array: ', this.state.yakitlst1)
-                  //  console.log('Array 2: ',this.state.yakitlst)
-                //   this._getYakitTipi();
-                }
-*/
+                // var removed = lst[0].splice(0,1)
+                this.setState({ yakitlst1: lst[0] })
+                /* if ((this.state.selected2 === '0361929d-0f4a-e911-836a-000c29289d89') || (this.state.selected2 === '4ed677ba-0f4a-e911-836a-000c29289d89')) {
+                     var removed = lst[0].splice(4,2)
+                     this.setState({ yakitlst1:lst[0] })
+                 }
+                 */
+                /*   if ((this.state.selected2 === '0361929d-0f4a-e911-836a-000c29289d89') || (this.state.selected2 === '4ed677ba-0f4a-e911-836a-000c29289d89')) {
+                      
+                       lst.push(this.state.yakitlst)
+                       
+                       console.log('Array0: ', lst)
+                       var removed = lst[0].splice(4,2)
+                       removed =lst[0].splice(0,1);
+                       yakitliste1 = lst[0];
+                      // console.log('Removed: ',removed,'  Lst ',lst[0])
+                       
+                     //  console.log('Array: ', this.state.yakitlst1)
+                     //  console.log('Array 2: ',this.state.yakitlst)
+                   //   this._getYakitTipi();
+                   }
+   */
             }
         )
     }
@@ -168,7 +168,7 @@ export default class PlakaEkle extends Component {
                 .catch((error) => {
                     this.setState({ loading: false })
                     Alert.alert(
-                        'Araç markalar Servis Hatası!',
+                        'Araç markalar Servis Hatası',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -179,7 +179,7 @@ export default class PlakaEkle extends Component {
         } catch (error) {
             this.setState({ loading: false })
             Alert.alert(
-                'Hata!',
+                'Hata',
                 error,
                 [
                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -191,26 +191,26 @@ export default class PlakaEkle extends Component {
     }
     _getYakitTipi = async () => {
         try {
-             yakitTipi2Lst=[];
+            yakitTipi2Lst = [];
             this.setState({ loading: true })
             getYakitTipi()
                 .then((res) => {
-                    if(res.length>0){
-                    var initialArr = { 'bm_yakittipiid': '-1', 'bm_yakittipiadi': 'Yakıt Tipi Seçin' };
-                    res.splice(0, 0, initialArr);
-                    this.setState({ yakitlst: res,loading: false,selected2: 'Yakıt Tipi Seçin' })
-                    yakitTipi2Lst = res;
-                  //  console.log('Yakit 2 Listesi: '+ JSON.stringify(yakitTipi2Lst))
+                    if (res.length > 0) {
+                        var initialArr = { 'bm_yakittipiid': '-1', 'bm_yakittipiadi': 'Yakıt Tipi Seçin' };
+                        res.splice(0, 0, initialArr);
+                        this.setState({ yakitlst: res, loading: false, selected2: 'Yakıt Tipi Seçin' })
+                        yakitTipi2Lst = res;
+                        //  console.log('Yakit 2 Listesi: '+ JSON.stringify(yakitTipi2Lst))
                     }
                     //Alert.alert('Hata Oluştu!', res.message);
-                    
+
                     //console.log('Yakıtlar ' + JSON.stringify(res))
                 })
                 .catch((error) => {
                     this.setState({ loading: false }, () => {
                         setTimeout(() => {
                             Alert.alert(
-                                'Yakıt Servis Hatası!',
+                                'Yakıt Servis Hatası',
                                 error,
                                 [
                                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -219,14 +219,14 @@ export default class PlakaEkle extends Component {
                             );
                         }, 0);
                     });
-                   
-                   
+
+
                 })
         } catch (error) {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
                     Alert.alert(
-                        'Hata!',
+                        'Hata',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -235,7 +235,7 @@ export default class PlakaEkle extends Component {
                     );
                 }, 510);
             });
-           
+
         }
     }
     _getCard = async () => {
@@ -248,7 +248,7 @@ export default class PlakaEkle extends Component {
                 }).catch((error) => {
                     this.setState({ loading: false })
                     Alert.alert(
-                        'getCard Servis Hatası!',
+                        'getCard Servis Hatası',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -259,7 +259,7 @@ export default class PlakaEkle extends Component {
         } catch (error) {
             this.setState({ loading: false })
             Alert.alert(
-                'Hata!',
+                'Hata',
                 error,
                 [
                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -289,26 +289,28 @@ export default class PlakaEkle extends Component {
 
             this.setState({ loading: true })
             if (this.state.plaka1 != undefined) {
-                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba,this.state.aracTipi)
+                postMusteriArac(this.state.userId, this.state.plaka1, this.state.selected2, this.state.selected3, this.state.araba, this.state.aracTipi)
                     .then((responseData) => {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 if (responseData.status === true) {
-                                    
+
                                     Alert.alert(
-                                        'Araç Kayıt!',
+                                        'Araç Kayıt',
                                         responseData.message,
                                         [
-                                            { text: 'Tamam', onPress: () => {
-                                                this.setState({
-                                                    araba:null,
-                                                    selected2:null,
-                                                    selected3:null,
-                                                    plaka:null,
-                                                    plaka1:'',
-                                                })
-                                                this.props.navigation.navigate("Plakalarim", { 'Id': new Date() })
-                                            } },
+                                            {
+                                                text: 'Tamam', onPress: () => {
+                                                    this.setState({
+                                                        araba: null,
+                                                        selected2: null,
+                                                        selected3: null,
+                                                        plaka: null,
+                                                        plaka1: '',
+                                                    })
+                                                    this.props.navigation.navigate("Plakalarim", { 'Id': new Date() })
+                                                }
+                                            },
                                         ],
                                         { cancelable: true },
                                     );
@@ -316,7 +318,7 @@ export default class PlakaEkle extends Component {
                                 }
                                 else {
                                     Alert.alert(
-                                        'Araç Kayıt!',
+                                        'Araç Kayıt',
                                         responseData.message,
                                         [
 
@@ -333,7 +335,7 @@ export default class PlakaEkle extends Component {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 Alert.alert(
-                                    'Araç Kayıt!',
+                                    'Araç Kayıt',
                                     err,
                                     [
 
@@ -350,7 +352,7 @@ export default class PlakaEkle extends Component {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
                     Alert.alert(
-                        'Hata!',
+                        'Hata',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -360,13 +362,13 @@ export default class PlakaEkle extends Component {
                 }, 510);
             });
         }
-        finally{
+        finally {
             this.setState({
-                araba:null,
-                selected2:null,
-                selected3:null,
-                plaka:null,
-                plaka1:null,
+                araba: null,
+                selected2: null,
+                selected3: null,
+                plaka: null,
+                plaka1: null,
             })
         }
 
@@ -380,16 +382,18 @@ export default class PlakaEkle extends Component {
         this._getCard();
         this.getAracTipleri();
     }
-   
+
     _YakitTipi2() {
         if (yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2) !== undefined) {
-            if((yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='08e1a1d3-33ad-e911-a2c2-005056824197')!==true){
-                if((yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid ==='f3be53f7-33ad-e911-a2c2-005056824197')!==true){
+            if ((yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid === '08e1a1d3-33ad-e911-a2c2-005056824197') !== true) {
+                if ((yakitTipi2Lst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid === 'f3be53f7-33ad-e911-a2c2-005056824197') !== true) {
                     return (
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                             <Picker borderWidt='1' borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"
@@ -427,7 +431,7 @@ export default class PlakaEkle extends Component {
                             var initialArr = { 'AttributeValue': '-1', 'Value': 'Araç Tipi Seçin' };
                             aracTiplerim.splice(0, 0, initialArr);
                             this.setState({ aracTiplerim: res })
-                           // console.log('Araç Tiplerim: ' + JSON.stringify(res));
+                            // console.log('Araç Tiplerim: ' + JSON.stringify(res));
                         }
 
                     }
@@ -437,7 +441,7 @@ export default class PlakaEkle extends Component {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
                     Alert.alert(
-                        'Araç Tipleri Hatası!',
+                        'Araç Tipleri Hatası',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -480,13 +484,15 @@ export default class PlakaEkle extends Component {
                 <View style={styles.containerBottom}>
                     <View>
                         <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                        <Image style={{ marginBottom: 20, marginLeft: 30, marginRight: 30, width: '90%', height: 1,alignSelf:'center' }} source={require('../../assets/cizgi.png')} />
+                        <Image style={{ marginBottom: 20, marginLeft: 30, marginRight: 30, width: '90%', height: 1, alignSelf: 'center' }} source={require('../../assets/cizgi.png')} />
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
                             <Picker style={styles.Inputs2} borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Araç Marka/model"
@@ -510,39 +516,43 @@ export default class PlakaEkle extends Component {
                         <Item regular style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', marginRight: 5 }} source={plaka}></Image>
                             <Input placeholder='Plakanızı Girin'
-
+                                autoCompleteType="off"
                                 placeholderTextColor="black"
                                 onChangeText={(value) => this.setState({ plaka1: value.toUpperCase() })}
                                 value={this.state.plaka1}
                                 underlineColorAndroid="transparent" />
                         </Item>
-                         
+
                         <Item picker style={styles.Inputs2}>
-                                    <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain',  }} source={pompa}></Image>
-                                    <Picker borderColor='black'
-                                        mode="dropdown"
-                                        iosIcon={<Icon name="arrow-down" />}
-                                        style={{ width: undefined }}
-                                        placeholder="Araç Tipi"
-                                        placeholderIconColor="black"
-                                        selectedValue={this.state.aracTipi}
-                                        onValueChange={this.onAracTipi.bind(this)}>
-                                        {
-                                            this.state.aracTiplerim.map((item, key) => (
-                                                <Picker.Item
-                                                    label={item.Value}
-                                                    value={item.AttributeValue}
-                                                    key={item.AttributeValue}
-                                                />
-                                            ))
-                                        }
-                                    </Picker>
-                                </Item>
+                            <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', }} source={pompa}></Image>
+                            <Picker borderColor='black'
+                                mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
+                                iosIcon={<Icon name="arrow-down" />}
+                                style={{ width: undefined }}
+                                placeholder="Araç Tipi"
+                                placeholderIconColor="black"
+                                selectedValue={this.state.aracTipi}
+                                onValueChange={this.onAracTipi.bind(this)}>
+                                {
+                                    this.state.aracTiplerim.map((item, key) => (
+                                        <Picker.Item
+                                            label={item.Value}
+                                            value={item.AttributeValue}
+                                            key={item.AttributeValue}
+                                        />
+                                    ))
+                                }
+                            </Picker>
+                        </Item>
                         <Item picker style={styles.Inputs2}>
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
 
                             <Picker borderWidt='1' borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"

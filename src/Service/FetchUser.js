@@ -741,8 +741,8 @@ export const fetchgetLocation = async () => {
     //  if (!hasLocationPermission) return;
     if (!hasLocationPermission) {
       Alert.alert(
-        'Konum İzni Gerekiyor!',
-        'Lütfen Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
+        'Konum İzni Gerekiyor',
+        'Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
         [
 
           {

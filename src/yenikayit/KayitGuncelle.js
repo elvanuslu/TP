@@ -118,7 +118,7 @@ export default class KayitGuncelle extends Component {
         NetInfo.isConnected.fetch().then(async (isConnected) => {
             if (!isConnected) {
                 Alert.alert(
-                    'Bağlantı Hatası!',
+                    'Bağlantı Hatası',
                     'Internet Bağlantınızı Kontrol Edin.',
                     [
 
@@ -152,7 +152,7 @@ export default class KayitGuncelle extends Component {
         NetInfo.isConnected.fetch().then(async (isConnected) => {
             if (!isConnected) {
                 Alert.alert(
-                    'Bağlantı Hatası!',
+                    'Bağlantı Hatası',
                     'Internet Bağlantınızı Kontrol Edin.',
                     [
 
@@ -352,7 +352,7 @@ export default class KayitGuncelle extends Component {
                             this.setState({ loading: false }, () => {
                                 setTimeout(() => {
                                     Alert.alert(
-                                        'Bağlantı Hatası!',
+                                        'Bağlantı Hatası',
                                         'İnternet Bağlantınızı Kontrol Edin',
                                         [
 
@@ -369,7 +369,7 @@ export default class KayitGuncelle extends Component {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 Alert.alert(
-                                    'Kullanici Bilgileri!',
+                                    'Kullanici Bilgileri',
                                     'Kullanıcı Bilgileri Getirilemedi.',
                                     [
 
@@ -385,8 +385,8 @@ export default class KayitGuncelle extends Component {
                     this.setState({ loading: false }, () => {
                         setTimeout(() => {
                             Alert.alert(
-                                'Hata!',
-                                'Bğlantı Hatası',
+                                'Hata',
+                                'Bağlantı Hatası',
                                 [
 
                                     { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
@@ -404,7 +404,7 @@ export default class KayitGuncelle extends Component {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
                     Alert.alert(
-                        'Hata!',
+                        'Hata',
                         error,
                         [
 
@@ -433,7 +433,7 @@ export default class KayitGuncelle extends Component {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 Alert.alert(
-                                    'Bağlantı Hatası!',
+                                    'Bağlantı Hatası',
                                     'Şehirler Getirilemedi.',
                                     [
 
@@ -487,7 +487,7 @@ export default class KayitGuncelle extends Component {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
                     Alert.alert(
-                        'Bağlantı Hatası!',
+                        'Bağlantı Hatası',
                         'Veriler Getirilemedi.',
                         [
 
@@ -510,7 +510,7 @@ export default class KayitGuncelle extends Component {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 Alert.alert(
-                                    'Düzenleme!',
+                                    'Düzenleme',
                                     responseData.message,
                                     [
                                         { text: 'Tamam', onPress: () => this.props.navigation.navigate("hesabim") },
@@ -525,7 +525,7 @@ export default class KayitGuncelle extends Component {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 Alert.alert(
-                                    'Bağlantı Hatası!',
+                                    'Bağlantı Hatası',
                                     err,
                                     [
 
@@ -542,7 +542,7 @@ export default class KayitGuncelle extends Component {
                     setTimeout(() => {
                         Alert.alert(
                             'Bilgilerimi Güncelle',
-                            'Şifre Aynı Değil!',
+                            'Şifre Aynı Değil',
                             [
 
                                 { text: 'Tamam', onPress: () => console.log('') },
@@ -556,7 +556,7 @@ export default class KayitGuncelle extends Component {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
                     Alert.alert(
-                        'Bağlantı Hatası!',
+                        'Bağlantı Hatası',
                         error,
                         [
 
@@ -578,6 +578,8 @@ export default class KayitGuncelle extends Component {
                         <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
                         <Picker borderColor='black'
                             mode="dropdown"
+                            headerBackButtonText="Geri"
+                            iosHeader="Seçin"
                             iosIcon={<Icon name="arrow-down" />}
                             style={{ width: undefined }}
                             placeholder="Şehir"
@@ -610,6 +612,8 @@ export default class KayitGuncelle extends Component {
                         <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
                         <Picker borderColor='black'
                             mode="dropdown"
+                            headerBackButtonText="Geri"
+                            iosHeader="Seçin"
                             iosIcon={<Icon name="arrow-down" />}
                             style={{ width: undefined }}
                             placeholder="İlçe"
@@ -639,6 +643,8 @@ export default class KayitGuncelle extends Component {
                         <Image style={{ height: 40, width: 40 }} source={sehirIkon}></Image>
                         <Picker borderColor='black'
                             mode="dropdown"
+                            headerBackButtonText="Geri"
+                            iosHeader="Seçin"
                             iosIcon={<Icon name="arrow-down" />}
                             style={{ width: undefined }}
                             placeholder="İlçe"
@@ -791,6 +797,8 @@ export default class KayitGuncelle extends Component {
                             <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Medeni Durum"
@@ -812,6 +820,8 @@ export default class KayitGuncelle extends Component {
                             <Icon style={{ marginLeft: 5, }} active name='person' color='#fff' />
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Cinsiyetiniz"

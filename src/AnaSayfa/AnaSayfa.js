@@ -144,7 +144,7 @@ export default class AnaSayfa extends Component {
                             </Body>
                             <Right style={{ marginRight: 20, }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("Yardim")}>
-                                    <Image style={styles.button} source={require('../../assets/musteriYardim.png')} />
+                                    <Image style={styles.button} source={require('../../assets/BizeUlasin.png')} />
                                 </TouchableOpacity>
                             </Right>
 

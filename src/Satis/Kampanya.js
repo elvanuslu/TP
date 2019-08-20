@@ -92,21 +92,21 @@ export default class KampanyaSec extends Component {
                         this.setState({ loading: false });
                         console.log('Satış Başlat: ' + JSON.stringify(res));
                         if (res.status === false) {
-                            Alert.alert('Hata Oluştu!', res.message);
+                            Alert.alert('Hata Oluştu', res.message);
                             this.setState({ loading: false })
                         }
                         else {
-                            Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz...');
+                            Alert.alert('İşlem Başarılı', res.message + ' Yakıt Alabilirsiniz');
                         }
                     })
                     .catch(error => {
-                        Alert.alert('Hata Oluştu!', error);
+                        Alert.alert('Hata Oluştu', error);
                     })
                     .finally
                 this.setState({ loading: false })
             }
         } catch (error) {
-            Alert.alert('Hata Oluştu!', error);
+            Alert.alert('Hata Oluştu', error);
         }
     }
     _btnDevam = (item, fiyat) => {
@@ -195,7 +195,7 @@ export default class KampanyaSec extends Component {
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 Alert.alert(
-                                    'Durum Bilgi!',
+                                    'Durum Bilgi',
                                     res.message,
                                     [
                                         { text: 'Tamam', onPress: () => this._hatavarDon() },
@@ -223,11 +223,11 @@ export default class KampanyaSec extends Component {
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
-                    Alert.alert('Hata!', error)
+                    Alert.alert('Hata', error)
                 })
 
         } catch (error) {
-            Alert.alert('Genel Hata!', error)
+            Alert.alert('Genel Hata', error)
         }
 
     }
@@ -325,7 +325,7 @@ export default class KampanyaSec extends Component {
                 this._campaignDetails();
                 degisiklik = false;
             }
-            else alert('değiklikdurum ' + degisiklik);
+            else alert('değişiklik durum ' + degisiklik);
 
 
         } catch (error) {

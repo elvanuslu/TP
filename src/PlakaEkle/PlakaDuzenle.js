@@ -50,7 +50,7 @@ export default class PlakaDuzenle extends Component {
             yakit2: undefined,
             aracTiplerim: [],
             kullanimSekli: '',
-
+            aracTipi: undefined,
         }
     }
     componentWillReceiveProps = async (nextProps) => {
@@ -66,8 +66,8 @@ export default class PlakaDuzenle extends Component {
         //this.setState({ plaka1: _plaka });
         //  await this._getAracMarkaList();
         //   await this._getYakitTipi();
-        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2,kullanimSekli: kullanimSekli  });
-        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2,'Kullanım Şekli: '+this.state.kullanimSekli);
+        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2, kullanimSekli: kullanimSekli });
+        console.log('will Receive mPlaka = ' + _plaka + ' Id= ' + uId, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2, 'Kullanım Şekli: ' + this.state.kullanimSekli);
         console.log('2- will receive mPlaka = ' + this.state.plaka1 + ' userId= ' + uId, ' Marka= ' + this.state.araba, 'state AracaId ' + this.state.aracId, 'Yakıt 1: ' + this.state.selected2, 'Yakıt2: ' + this.state.selected3);
         switch (kullanimSekli) {
             case 'Binek':
@@ -94,7 +94,7 @@ export default class PlakaDuzenle extends Component {
                 })
                 .catch((error) => {
                     Alert.alert(
-                        'Servis Hatası!',
+                        'Servis Hatası',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -104,7 +104,7 @@ export default class PlakaDuzenle extends Component {
                 })
         } catch (error) {
             Alert.alert(
-                'Hata!',
+                'Hata',
                 error,
                 [
                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -113,37 +113,45 @@ export default class PlakaDuzenle extends Component {
             );
         }
     }
-    componentDidMount = async () => {
-        var uId = await getStorage('userId');
-        var _plaka = this.props.navigation.getParam('PlakaId', '');
-        var Marka = this.props.navigation.getParam('Marka', '');
-        var aracId = this.props.navigation.getParam('AracId');
-        var yakit1 = this.props.navigation.getParam('Yakit1');
-        var yakit2 = this.props.navigation.getParam('Yakit2');
-        var kullanimSekli = this.props.navigation.getParam('KullanimSekli');
-        this.setState({ Marka: Marka })
+    Yukle = async () => {
+        try {
+            var _plaka = this.props.navigation.getParam('PlakaId', '');
+            var Marka = this.props.navigation.getParam('Marka', '');
+            var aracId = this.props.navigation.getParam('AracId');
+            var yakit1 = this.props.navigation.getParam('Yakit1');
+            var yakit2 = this.props.navigation.getParam('Yakit2');
+            var kullanimSekli = this.props.navigation.getParam('KullanimSekli');
+            // this.setState({ Marka: Marka })
+            this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2, kullanimSekli: kullanimSekli });
 
-        await this._getAracMarkaList();
-        await this._getYakitTipi();
-        this.getAracTipleri();
-        //   this._getCard();
-        this.setState({ plaka1: _plaka, araba: Marka, aracId: aracId, selected2: yakit1, selected3: yakit2, kullanimSekli: kullanimSekli });
-        switch (kullanimSekli) {
-            case 'Binek':
-                this.setState({ aracTipi: 1 })
-                break;
-            case 'Ticari':
-                this.setState({ aracTipi: 2 })
-                break;
-            case 'Ağır Vasıta':
-                this.setState({ aracTipi: 3 })
-                break;
-            default:
-                break;
+            console.log('yükle  Mount mPlaka = ' + _plaka, ' Marka= ' + Marka, 'AracId=' + aracId, 'Yakıt1=' + yakit1, 'Yakıt2=' + yakit2, 'Kullanım Şekli: ' + kullanimSekli);
+            switch (kullanimSekli) {
+                case 'Binek':
+                    this.setState({ aracTipi: 1 })
+                    break;
+                case 'Ticari':
+                    this.setState({ aracTipi: 2 })
+                    break;
+                case 'Ağır Vasıta':
+                    this.setState({ aracTipi: 3 })
+                    break;
+                default:
+                    break;
+            }
+        } catch (error) {
+
         }
-        console.log('This araba: '+ this.state.araba);
-        this.setState({ araba })
-         console.log('mPlaka = ' + this.state.plaka1 + ' userId= ' + uId, ' Marka= ' + this.state.araba, 'state AracaId ' + this.state.aracId, 'Yakıt 1: ' + this.state.selected2, 'Yakıt2: ' + this.state.selected3,'Kullanım Şekli: '+this.state.kullanimSekli);
+    }
+    componentDidMount = async () => {
+        //   var uId = await getStorage('userId');
+
+        this._getYakitTipi();
+        this.getAracTipleri();
+        await this._getAracMarkaList();
+        await this.Yukle();
+        // console.log('This araba: '+ this.state.araba);
+        //  this.setState({ araba })
+        // console.log('mPlaka = ' + this.state.plaka1 + ' userId= ' + uId, ' Marka= ' + this.state.araba, 'state AracaId ' + this.state.aracId, 'Yakıt 1: ' + this.state.selected2, 'Yakıt2: ' + this.state.selected3,'Kullanım Şekli: '+this.state.kullanimSekli);
     }
     convertTextToUpperCase = () => {
         var text = this.state.plaka2;
@@ -167,12 +175,12 @@ export default class PlakaDuzenle extends Component {
                 if (value == -1) {
                     this.setState({ selected2: this.props.navigation.getParam('Yakit1') })
                 }
-                else{
+                else {
                     if ((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid === '08e1a1d3-33ad-e911-a2c2-005056824197') === true) {
                         if ((this.state.yakitlst.find(p => p.bm_yakittipiid === this.state.selected2).bm_yakittipiid === 'f3be53f7-33ad-e911-a2c2-005056824197') == true) {
-                            this.setState({selected3:''})
+                            this.setState({ selected3: '' })
                         }
-                        this.setState({selected3:''})
+                        this.setState({ selected3: '' })
                     }
                 }
             }
@@ -214,7 +222,10 @@ export default class PlakaDuzenle extends Component {
         });
     }
     onArabaValueChange(value, label) {
-        console.log('onaraba: ' + value)
+        console.log('onaraba: ' + value);
+        if (this.props.navigation.getParam('Marka', '') !== undefined) {
+            console.log('Marka UNdefined Değil: ' + this.props.navigation.getParam('Marka', ''))
+        }
         this.setState({
             araba: value,
             arabaId: label,
@@ -222,6 +233,7 @@ export default class PlakaDuzenle extends Component {
             () => {
                 console.log('Araba Val: ' + this.state.araba, ' Selected: ' + this.state.arabaId)
                 if (value == -1) {
+
                     this.setState({ araba: this.props.navigation.getParam('Marka', '') });
                 }
             }
@@ -229,27 +241,39 @@ export default class PlakaDuzenle extends Component {
     }
     _getAracMarkaList = async () => {
         try {
+            var markalar = [];
             getAracMarkaList()
                 .then((res) => {
                     var initialArr = { 'bm_aracmarkasiid': '-1', 'bm_adi': 'Marka  Seçin' };
                     res.splice(0, 0, initialArr);
-                    this.setState({ markalar: res, loading: false, araba: 'Marka Seç' })
-                    //   this.setState({ markalar: res, loading: false })
-                    //  console.log(JSON.stringify(this.state.markalar))
+                    if (Array.isArray(res)) {
+                        markalar = res;
+                        this.setState({ markalar: res, loading: false, araba: 'Marka Seç' })
+                        //   this.setState({ markalar: res, loading: false })
+                        console.log(JSON.stringify(this.state.markalar))
+                    }
+                    if (Array.isArray(markalar))
+                        this.Yukle();
                 })
                 .catch((error) => {
-                    Alert.alert(
-                        'Araç markalar Servis Hatası!',
-                        error,
-                        [
-                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                        ],
-                        { cancelable: true },
-                    );
+                    this.setState({ loading: false }, () => {
+                        setTimeout(() => {
+                            Alert.alert(
+                                'Hata Oluştu',
+                                error,
+                                [
+                                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                ],
+                                { cancelable: true },
+                            );
+                        }, 0);
+                    });
+
+
                 })
         } catch (error) {
             Alert.alert(
-                'Hata!',
+                'Hata',
                 error,
                 [
                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -272,7 +296,7 @@ export default class PlakaDuzenle extends Component {
                 })
                 .catch((error) => {
                     Alert.alert(
-                        'Yakıt Servis Hatası!',
+                        'Yakıt Servis Hatası',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -282,7 +306,7 @@ export default class PlakaDuzenle extends Component {
                 })
         } catch (error) {
             Alert.alert(
-                'Hata!',
+                'Hata',
                 error,
                 [
                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -299,7 +323,7 @@ export default class PlakaDuzenle extends Component {
                     this.setState({ card: res, loading: false })
                 }).catch((error) => {
                     Alert.alert(
-                        'getCard Servis Hatası!',
+                        'getCard Servis Hatası',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -309,7 +333,7 @@ export default class PlakaDuzenle extends Component {
                 })
         } catch (error) {
             Alert.alert(
-                'Hata!',
+                'Hata',
                 error,
                 [
                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -328,7 +352,7 @@ export default class PlakaDuzenle extends Component {
                         setTimeout(() => {
                             if (ret.status === true) {
                                 Alert.alert(
-                                    'Araç Düzenleme!',
+                                    'Araç Düzenleme',
                                     ret.message,
                                     [
 
@@ -340,7 +364,7 @@ export default class PlakaDuzenle extends Component {
                             }
                             else {
                                 Alert.alert(
-                                    'Araç Düzenleme!',
+                                    'Araç Düzenleme',
                                     ret.message,
                                     [
 
@@ -356,7 +380,7 @@ export default class PlakaDuzenle extends Component {
                 })
         } catch (error) {
             this.setState({ loading: false })
-            Alert.alert('Hata Oluştu!', error);
+            Alert.alert('Hata Oluştu', error);
         }
     }
     _Duzenle = () => {
@@ -371,6 +395,8 @@ export default class PlakaDuzenle extends Component {
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={pompa}></Image>
                             <Picker borderWidt='1' borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"
@@ -392,9 +418,9 @@ export default class PlakaDuzenle extends Component {
                         </Item>
                     )
                 }
-               
+
             }
-           
+
         }
 
     }
@@ -404,7 +430,7 @@ export default class PlakaDuzenle extends Component {
             aracTipi: value,
         })
     }
-    getAracTipleri = () => {
+    getAracTipleri = async () => {
         try {
             var aracTiplerim = [];
             this.setState({ loading: true });
@@ -426,7 +452,7 @@ export default class PlakaDuzenle extends Component {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
                     Alert.alert(
-                        'Araç Tipleri Hatası!',
+                        'Araç Tipleri Hatası',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -489,6 +515,8 @@ export default class PlakaDuzenle extends Component {
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain' }} source={araba}></Image>
                             <Picker style={styles.Inputs2} borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Araç Marka/model"
@@ -511,6 +539,8 @@ export default class PlakaDuzenle extends Component {
                             <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', }} source={pompa}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Araç Tipi"
@@ -536,6 +566,8 @@ export default class PlakaDuzenle extends Component {
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="Yakıt Tipi"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 placeholderStyle={{ color: "black" }}
                                 placeholderIconColor="#007aff"
                                 selectedValue={this.state.selected2}

@@ -196,7 +196,7 @@ export default class yenikayit extends Component {
                                                     else {
                                                         this.setState({ loading: false })
                                                         Alert.alert(
-                                                            'Kayıt İşlemi!',
+                                                            'Kayıt İşlemi',
                                                             responseData.message,
                                                             [
 
@@ -212,35 +212,46 @@ export default class yenikayit extends Component {
                                                 });
                                         }
                                         else {
-                                            Alert.alert(
-                                                'Kayıt İşlemi!',
-                                                'Girilen Şifre birbirinden farklı.',
-                                                [
-
-                                                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                                                ],
-                                                { cancelable: true },
-                                            );
+                                            this.setState({ loading: false }, () => {
+                                                setTimeout(() => {
+                                                    Alert.alert(
+                                                        'Kayıt İşlemi',
+                                                        'Girilen Şifre birbirinden farklı.',
+                                                        [
+        
+                                                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                        ],
+                                                        { cancelable: true },
+                                                    );
+                                                }, 0);
+                                            });
+                                          
                                         }
                                     }
                                     else {
-                                        Alert.alert(
-                                            'Kayıt İşlemi!',
-                                            'Şifre boş bırakılamaz, en az 6 karakter olmalı',
-                                            [
-
-                                                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                                            ],
-                                            { cancelable: true },
-                                        );
+                                        this.setState({ loading: false }, () => {
+                                            setTimeout(() => {
+                                                Alert.alert(
+                                                    'Kayıt İşlemi',
+                                                    'Şifre boş bırakılamaz, en az 6 karakter olmalı',
+                                                    [
+        
+                                                        { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                    ],
+                                                    { cancelable: true },
+                                                );
+                                            }, 0);
+                                        });
+    
+                                        
                                     }
                                 }//Plaka...
                                 else {
                                     this.setState({ loading: false }, () => {
                                         setTimeout(() => {
                                             Alert.alert(
-                                                'Kayıt İşlemi!',
-                                                'Plaka alanı boş bırakılamaz.',
+                                                'Kayıt İşlemi',
+                                                'Plaka alanı boş bırakılamaz',
                                                 [
 
                                                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -254,56 +265,76 @@ export default class yenikayit extends Component {
                                 }
                             } // Tel...
                             else {
+                                this.setState({ loading: false }, () => {
+                                    setTimeout(() => {
+                                        Alert.alert(
+                                            'Kayıt İşlemi',
+                                            'Telefon alanı boş bırakılamaz',
+                                            [
+        
+                                                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                            ],
+                                            { cancelable: true },
+                                        );
+                                    }, 0);
+                                });
+                               
+                            }
+                        } //E-Posta...
+                        else {
+                            this.setState({ loading: false }, () => {
+                                setTimeout(() => {
+                                    Alert.alert(
+                                        'Kayıt İşlemi',
+                                        'E-Posta alanı boş bırakılamaz',
+                                        [
+        
+                                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                        ],
+                                        { cancelable: true },
+                                    );
+                                }, 0);
+                            });
+                           
+                        }
+                    }// Soyadı...
+                    else {
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
                                 Alert.alert(
-                                    'Kayıt İşlemi!',
-                                    'Telefon alanı boş bırakılamaz.',
+                                    'Kayıt İşlemi',
+                                    'Soyadı alanı boş bırakılamaz',
                                     [
-
+        
                                         { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                     ],
                                     { cancelable: true },
                                 );
-                            }
-                        } //E-Posta...
-                        else {
+                            }, 0);
+                        });
+                      
+                    }
+                }//Adı...
+                else {
+                    this.setState({ loading: false }, () => {
+                        setTimeout(() => {
                             Alert.alert(
-                                'Kayıt İşlemi!',
-                                'E-Posta alanı boş bırakılamaz.',
+                                'Kayıt İşlemi',
+                                'Adınızı girmelisiniz',
                                 [
-
+        
                                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                 ],
                                 { cancelable: true },
                             );
-                        }
-                    }// Soyadı...
-                    else {
-                        Alert.alert(
-                            'Kayıt İşlemi!',
-                            'Soyadı alanı boş bırakılamaz.',
-                            [
-
-                                { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                            ],
-                            { cancelable: true },
-                        );
-                    }
-                }//Adı...
-                else {
-                    Alert.alert(
-                        'Kayıt İşlemi!',
-                        'Adınızı girmelisiniz.',
-                        [
-
-                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                        ],
-                        { cancelable: true },
-                    );
+                        }, 0);
+                    });
+                  
                 }
             }
             else {
                 Alert.alert(
-                    'Onay İşlemi!',
+                    'Onay İşlemi',
                     '* Sözleşmeyi Okudum onayladım \n* Kampanya ve Duyurular için benimle iletişime geçilmesine izin veriyorum.'
                     + '\n Onaylamalısınız.',
                     [
@@ -338,11 +369,11 @@ export default class yenikayit extends Component {
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
-                    Alert.alert('Servis Hatası!', error)
+                    Alert.alert('Servis Hatası', error)
 
                 })
         } catch (error) {
-            Alert.alert('Hata Oluştu!', error)
+            Alert.alert('Hata Oluştu', error)
             this.setState({ loading: false })
         }
         finally {
@@ -350,7 +381,7 @@ export default class yenikayit extends Component {
         }
     }
     onAracTipi(value, label) {
-        console.log('Araç: ' + value + ' Label: ' + label)
+      //  console.log('Araç: ' + value + ' Label: ' + label)
         this.setState({
             aracTipi: value,
         })
@@ -377,7 +408,7 @@ export default class yenikayit extends Component {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
                     Alert.alert(
-                        'Araç Tipleri Hatası!',
+                        'Araç Tipleri Hatası',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
@@ -467,6 +498,8 @@ export default class yenikayit extends Component {
                                     <Icon style={{ marginLeft: 10 }} active name='person' underlayColor='#2089dc' />
                                     <Picker borderColor='black'
                                         mode="dropdown"
+                                        headerBackButtonText="Geri"
+                                        iosHeader="Seçin"
                                         iosIcon={<Icon name="arrow-down" />}
                                         style={{ width: undefined }}
                                         placeholder="Araç Tipi"
@@ -491,6 +524,7 @@ export default class yenikayit extends Component {
                                         onChangeText={(value) => this.setState({ plaka: value.toUpperCase() })}
                                         value={this.state.plaka.toUpperCase()}
                                         placeholder="Plaka"
+                                        autoCompleteType="off"
                                         placeholderTextColor="black"
                                         underlineColorAndroid="transparent" />
 
@@ -500,6 +534,8 @@ export default class yenikayit extends Component {
                                     <Image style={{ marginLeft: 5, width: 30, height: 30, resizeMode: 'contain', }} source={pompa}></Image>
                                     <Picker borderColor='black'
                                         mode="dropdown"
+                                        headerBackButtonText="Geri"
+                                        iosHeader="Seçin"
                                         iosIcon={<Icon name="arrow-down" />}
                                         style={{ width: undefined }}
                                         placeholder="Yakıt Tipi"

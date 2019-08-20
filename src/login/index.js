@@ -80,7 +80,7 @@ export default class login extends Component {
     return NetInfo.isConnected.fetch().then(async (isConnected) => {
       if (!isConnected) {
         Alert.alert(
-          'Bağlantı Hatası!',
+          'Bağlantı Hatası',
           'Internet Bağlantınızı Kontrol Edin.',
           [
 
@@ -209,7 +209,7 @@ export default class login extends Component {
           // console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
-              //  console.log('Login1: ' + JSON.stringify(res)+' Cid:'+res.contactid)
+                console.log('Login1: ' + JSON.stringify(res)+' Cid:'+res.contactid)
               this.setState({ userId: res.contactid, loading: false });
               /*   setInterval(() => {
                    this.setState({
@@ -229,21 +229,21 @@ export default class login extends Component {
                 this.setState({ loading: false }, () => {
                   setTimeout(() => {
                     Alert.alert(
-                      'Hata!',
-                      res,
+                      'Hata',
+                      res.message,
                       [
 
                         { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
                       ],
                       { cancelable: true },
                     );
-                  }, 510);
+                  }, 0);
                 });
 
 
               }
               else {
-                console.log("Kayıt else=>" + res);
+                console.log("Kayıt else=>" + JSON.stringify(res));
                 this.setState({ userId: res.contactid, loading: false });
                 this._storeData();
                 this.props.navigation.navigate('AnaSayfa');
@@ -256,7 +256,7 @@ export default class login extends Component {
           this.setState({ loading: false }, () => {
             setTimeout(() => {
               Alert.alert('Hata', 'Şifre boş bırakılamaz.')
-            }, 510);
+            }, 0);
           });
         }
       }
@@ -264,7 +264,7 @@ export default class login extends Component {
         this.setState({ loading: false }, () => {
           setTimeout(() => {
             Alert.alert('Hata', 'Kullanıcı Adı boş bırakılamaz.')
-          }, 510);
+          }, 0);
         });
       }
 
@@ -273,7 +273,7 @@ export default class login extends Component {
       this.setState({ loading: false }, () => {
         setTimeout(() => {
           Alert.alert('Genel Hata', error);
-        }, 510);
+        }, 0);
       });
 
     }

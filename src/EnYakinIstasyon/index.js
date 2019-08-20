@@ -113,8 +113,8 @@ export default class EnYakinIstasyon extends Component {
        // if (!hasLocationPermission) return;
        if (!hasLocationPermission){
         Alert.alert(
-            'Konum İzni Gerekiyor!',
-            'Lütfen Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
+            'Konum İzni Gerekiyor',
+            'Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
             [
 
                 {
@@ -295,7 +295,7 @@ export default class EnYakinIstasyon extends Component {
             );
             this._getData();
         } catch (error) {
-            Alert.alert('Hata!', error);
+            Alert.alert('Hata', error);
         }
 
     }

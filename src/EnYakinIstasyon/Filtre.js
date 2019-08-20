@@ -88,7 +88,7 @@ export default class Filtre extends Component {
                         }
                         else {
                             Alert.alert(
-                                'Bağlantı Hatası!',
+                                'Bağlantı Hatası',
                                 'Bağlantınızı Kontrol Edin',
                                 [
                                     { text: 'Tamam', onPress: () => '' },
@@ -101,7 +101,7 @@ export default class Filtre extends Component {
                 })
                 .catch(e => {
                     Alert.alert(
-                        'Bağlantı Hatası!',
+                        'Bağlantı Hatası',
                         'Bağlantınızı Kontrol Edin',
                         [
                             { text: 'Tamam', onPress: () => '' },
@@ -218,7 +218,7 @@ export default class Filtre extends Component {
                     // console.log('Ilce: ' + this.state.Ilce, ' Selected: ' + this.state.labelName)
                 } catch (error) {
                     this.setState({ loading: false, })
-                    Alert.alert('Hata!', error.message);
+                    Alert.alert('Hata', error.message);
                 }
                 finally {
                     this.setState({ loading: false, })
@@ -299,6 +299,8 @@ export default class Filtre extends Component {
                             <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 // style={{ width: undefined }}
                                 placeholder="Şehir"
@@ -322,6 +324,8 @@ export default class Filtre extends Component {
                             <Image style={{ width: 40, height: 40, resizeMode: 'contain' }} source={sehirIkon}></Image>
                             <Picker borderColor='black'
                                 mode="dropdown"
+                                headerBackButtonText="Geri"
+                                iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
                                 style={{ width: undefined }}
                                 placeholder="İlçe"

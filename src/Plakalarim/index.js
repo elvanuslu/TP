@@ -52,25 +52,34 @@ export default class Plakalarim extends Component {
                     //  console.log(JSON.stringify(this.state.listViewData))
                 })
                 .catch((error) => {
-                    this.setState({ loading: false })
+                    this.setState({ loading: false }, () => {
+                        setTimeout(() => {
+                            Alert.alert(
+                                'Servis Hatası',
+                                error,
+                                [
+                                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                ],
+                                { cancelable: true },
+                            );
+                        }, 0);
+                    });
+                 
+                })
+        } catch (error) {
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
                     Alert.alert(
-                        'Servis Hatası!',
+                        'Hata',
                         error,
                         [
                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                         ],
                         { cancelable: true },
                     );
-                })
-        } catch (error) {
-            Alert.alert(
-                'Hata!',
-                error,
-                [
-                    { text: 'Tamam', onPress: () => console.log('OK Pressed') },
-                ],
-                { cancelable: true },
-            );
+                }, 0);
+            });
+           
         }
 
     }
@@ -90,7 +99,7 @@ export default class Plakalarim extends Component {
         try {
            
             Alert.alert(
-                'Silme Onayı !',
+                'Silme Onayı ',
                 'Silmek istediğinize Eminmisiniz?',
                 [
 
@@ -113,7 +122,7 @@ export default class Plakalarim extends Component {
                 this.setState({ loading: false }, () => {
                     setTimeout(() => {
                         Alert.alert(
-                            'Silme İşlemi !',
+                            'Silme İşlemi ',
                             response.message,
                             [
 
@@ -127,7 +136,7 @@ export default class Plakalarim extends Component {
             }).catch((err) => {
                 this.setState({ loading: false }, () => {
                     Alert.alert(
-                        'Silme İşlemi !',
+                        'Silme İşlemi ',
                         err,
                         [
 

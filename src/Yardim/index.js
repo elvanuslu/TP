@@ -32,16 +32,16 @@ export default class Yardim extends Component {
                     }
                     else {
                         this.setState({ loading: false })
-                        Alert.alert('Hata!', response.message)
+                        Alert.alert('Hata', response.message)
                     }
                 })
                 .catch((error) => {
                     this.setState({ loading: false })
-                    Alert.alert('Servis Hatası!', error)
+                    Alert.alert('Servis Hatası', error)
                 })
         } catch (error) {
             this.setState({ loading: false })
-            Alert.alert('Hata Oluştu!', error)
+            Alert.alert('Hata Oluştu', error)
         }
 
     }
@@ -60,7 +60,7 @@ export default class Yardim extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title style={{ color: '#fff' }}>Yardım/SSS</Title>
+                        <Title style={{ color: '#fff' }}>Bize Ulaşın</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>
@@ -80,9 +80,7 @@ export default class Yardim extends Component {
                         data={this.state.datam}
                         renderItem={({ item }) =>
                             <Card key={item.bm_mobilcerikId} style={styles.cardmb}>
-                                <CardItem header>
-                                    <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
-                                </CardItem>
+                               
                                 <CardItem cardBody style={{ borderRadius: 10 }}>
                                     <Content>
 
@@ -103,6 +101,10 @@ export default class Yardim extends Component {
 }
 
 /*
+ <CardItem header style={{ borderRadius: 10 }}>
+                                    <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
+                                </CardItem>
+
  <Button style={styles.txtYazi}
                                             title={item.bm_uzunaciklama}
                                             onPress={() => Linking.openURL("https://www.skptricks.com")}
@@ -115,11 +117,11 @@ const styles = StyleSheet.create({
     },
     txtYazi: {
         color: 'black',
-        fontSize: 12,
+        fontSize: 14,
         //  fontWeight:'bold',
         textAlign: 'left',
         margin: 10,
-        fontFamily: "Myriadpro-Regular",
+        fontFamily: "MyriadSemiBold",//"Myriadpro-Regular",
     },
     container: {
         flex: 1,
