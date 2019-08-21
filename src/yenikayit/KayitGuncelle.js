@@ -763,16 +763,16 @@ export default class KayitGuncelle extends Component {
                         </Item>
                         <Item regular style={[styles.Inputs, (this.state.mobilKod2 !== '') ? styles.Inputs : styles.hidden]}>
                             <Text style={[styles.Inputsleft, (this.state.mobilKod2 !== '') ? styles.Inputsleft : styles.hidden]}>
-                                {this.state.mobilgrupadi}
+                                {this.state.mobilKod}
                             </Text>
                         </Item>
-                        {//console.log('Mobil Kod I = ' + typeof this.state.mobilKod2)
+                        {console.log('Mobil Kod I = ' + typeof this.state.mobilKod2)
                             // console.log('Medeni Durum: ' + this.state.MedeniDurum)
                         }
                         <Item regular style={[styles.Input2, (this.state.mobilKod2 === '') ? styles.Inputs : styles.hidden]}>
                             <Icon active name='md-alarm' color='#fff' />
                             <Input placeholder='Mobil kod'
-                                keyboardType="number-pad"
+                                //keyboardType="number-pad"
                                 onChangeText={(value) => this.setState({ mobilKod: value })}
                                 value={this.state.mobilKod}
                                 placeholderTextColor="black"

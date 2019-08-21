@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, Linking } from 'react-native';
+import {Platform, Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, Linking } from 'react-native';
 import { Content, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem } from 'native-base';
 
 import { getSSS } from '../Service/FetchUser';
@@ -48,7 +48,12 @@ export default class Yardim extends Component {
     componentDidMount() {
         this._getYardim();
     }
-
+    dialCall = (number) => {
+        let phoneNumber = '';
+        if (Platform.OS === 'android') { phoneNumber = `tel:${number}`; }
+        else { phoneNumber = `telprompt:${number}`; }
+        Linking.openURL(phoneNumber);
+    };
     render() {
         return (
             <Container style={styles.container}>
@@ -81,12 +86,41 @@ export default class Yardim extends Component {
                         renderItem={({ item }) =>
                             <Card key={item.bm_mobilcerikId} style={styles.cardmb}>
                                
-                                <CardItem cardBody style={{ borderRadius: 10 }}>
-                                    <Content>
-
-                                        <Text style={styles.txtYazi}>{item.bm_uzunaciklama}</Text>
-                                    </Content>
-
+                               
+                                <CardItem cardBody style={{ borderRadius: 10, marginTop:10 }}>
+                                    <Text style={styles.txtYazi}>Müşteri Hizmetleri</Text>
+                                   
+                                </CardItem>
+                                <CardItem style={{marginTop:0}}>
+                                <TouchableOpacity style={{color:'blue', }}
+                                     onPress={() => { this.dialCall('02162284000') }}>
+                                        <Text style={styles.txtYazi1}>0(216) 228 40 00</Text>
+                                    </TouchableOpacity>
+                                </CardItem>
+                                <CardItem cardBody style={{ borderRadius: 10,marginTop:10 }}>
+                                    <Text style={styles.txtYazi}>Genel Müdürlük
+                                   
+                                    </Text>
+                                   
+                                </CardItem>
+                              
+                                <CardItem style={{marginTop:0}}>
+                                <TouchableOpacity style={{color:'blue', }}
+                                     onPress={() => { this.dialCall(4444487) }}>
+                                        <Text style={styles.txtYazi1}>444-4487</Text>
+                                    </TouchableOpacity>
+                                </CardItem>
+                                <CardItem cardBody style={{ borderRadius: 10, marginTop:10}}>
+                                    <Text style={styles.txtYazi}>Geri Bildirim{'\n'}
+                                   
+                                    </Text>
+                                   
+                                </CardItem>
+                                <CardItem style={{marginTop:-12}}>
+                                <TouchableOpacity style={{color:'blue', }}
+                                     onPress={() => { Linking.openURL('http://www.tppd.com.tr/tr/musteri-memnuniyeti-formu')}}>
+                                        <Text style={styles.txtYazi1}>http://www.tppd.com.tr/tr/musteri-memnuniyeti-formu</Text>
+                                    </TouchableOpacity>
                                 </CardItem>
                             </Card>
 
@@ -101,6 +135,13 @@ export default class Yardim extends Component {
 }
 
 /*
+ <CardItem cardBody style={{ borderRadius: 10 }}>
+                                    <Content>
+
+                                        <Text style={styles.txtYazi}>{item.bm_uzunaciklama}</Text>
+                                    </Content>
+
+                                </CardItem>
  <CardItem header style={{ borderRadius: 10 }}>
                                     <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
                                 </CardItem>
@@ -118,11 +159,20 @@ const styles = StyleSheet.create({
     txtYazi: {
         color: 'black',
         fontSize: 14,
+        marginLeft:15,
         //  fontWeight:'bold',
         textAlign: 'left',
-        margin: 10,
-        fontFamily: "MyriadSemiBold",//"Myriadpro-Regular",
+        //margin: 10,
+        fontFamily: "Myriadpro-Regular",//"Myriadpro-Regular",
     },
+    txtYazi1: {
+        color: 'blue',
+        fontSize: 14,
+        textAlign: 'left',
+        fontFamily: "Myriadpro-Regular",
+       
+    },
+
     container: {
         flex: 1,
         //  flexDirection: 'column',

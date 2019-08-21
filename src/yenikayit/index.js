@@ -564,7 +564,7 @@ export default class yenikayit extends Component {
                                         autoCapitalize="characters"
                                         placeholder="Mobil Kod"
                                         placeholderTextColor="black"
-                                        keyboardType="number-pad"
+                                        //keyboardType="number-pad"
                                         //   onChangeText={(value) => this.setState({ plaka: value })}
                                         value={this.state.plaka}
                                         underlineColorAndroid="transparent"
