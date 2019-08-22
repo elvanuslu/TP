@@ -45,8 +45,8 @@ export default class yenikayit extends Component {
             mobilKod: '',
             mobilKodFormatted: '',
             mobilextracted: '',
-            aracTiplerim:[],
-            aracTipi:'',
+            aracTiplerim: [],
+            aracTipi: '',
         }
     }
     KapmanyaDuyuru = (value) => {
@@ -168,7 +168,7 @@ export default class yenikayit extends Component {
                                             MusteriKayit(this.state.Adi, this.state.Soyadi, this.state.eposta, this.state.tel,
                                                 this.state.Sifre, this.state.plaka, this.state.selected2, '',
                                                 this.state.smsIzni, this.state.KampanyaDuyurular, this.state.SozlesmeOkudum, this.state.mobilKod,
-                                                Platform.OS === 'ios' ? '100000000' : '100000001',this.state.aracTipi)
+                                                Platform.OS === 'ios' ? '100000000' : '100000001', this.state.aracTipi)
                                                 .then((responseData) => {
                                                     let response = JSON.stringify(responseData);
                                                     console.log('responseData=' + response)
@@ -218,14 +218,14 @@ export default class yenikayit extends Component {
                                                         'Kayıt İşlemi',
                                                         'Girilen Şifre birbirinden farklı.',
                                                         [
-        
+
                                                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                                         ],
                                                         { cancelable: true },
                                                     );
                                                 }, 0);
                                             });
-                                          
+
                                         }
                                     }
                                     else {
@@ -235,15 +235,15 @@ export default class yenikayit extends Component {
                                                     'Kayıt İşlemi',
                                                     'Şifre boş bırakılamaz, en az 6 karakter olmalı',
                                                     [
-        
+
                                                         { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                                     ],
                                                     { cancelable: true },
                                                 );
                                             }, 0);
                                         });
-    
-                                        
+
+
                                     }
                                 }//Plaka...
                                 else {
@@ -271,14 +271,14 @@ export default class yenikayit extends Component {
                                             'Kayıt İşlemi',
                                             'Telefon alanı boş bırakılamaz',
                                             [
-        
+
                                                 { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                             ],
                                             { cancelable: true },
                                         );
                                     }, 0);
                                 });
-                               
+
                             }
                         } //E-Posta...
                         else {
@@ -288,14 +288,14 @@ export default class yenikayit extends Component {
                                         'Kayıt İşlemi',
                                         'E-Posta alanı boş bırakılamaz',
                                         [
-        
+
                                             { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                         ],
                                         { cancelable: true },
                                     );
                                 }, 0);
                             });
-                           
+
                         }
                     }// Soyadı...
                     else {
@@ -305,14 +305,14 @@ export default class yenikayit extends Component {
                                     'Kayıt İşlemi',
                                     'Soyadı alanı boş bırakılamaz',
                                     [
-        
+
                                         { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                     ],
                                     { cancelable: true },
                                 );
                             }, 0);
                         });
-                      
+
                     }
                 }//Adı...
                 else {
@@ -322,14 +322,14 @@ export default class yenikayit extends Component {
                                 'Kayıt İşlemi',
                                 'Adınızı girmelisiniz',
                                 [
-        
+
                                     { text: 'Tamam', onPress: () => console.log('OK Pressed') },
                                 ],
                                 { cancelable: true },
                             );
                         }, 0);
                     });
-                  
+
                 }
             }
             else {
@@ -381,7 +381,7 @@ export default class yenikayit extends Component {
         }
     }
     onAracTipi(value, label) {
-      //  console.log('Araç: ' + value + ' Label: ' + label)
+        //  console.log('Araç: ' + value + ' Label: ' + label)
         this.setState({
             aracTipi: value,
         })
@@ -398,7 +398,7 @@ export default class yenikayit extends Component {
                             var initialArr = { 'AttributeValue': '-1', 'Value': 'Araç Tipi Seçin' };
                             aracTiplerim.splice(0, 0, initialArr);
                             this.setState({ aracTiplerim: res })
-                           // console.log('Araç Tiplerim: ' + JSON.stringify(res));
+                            // console.log('Araç Tiplerim: ' + JSON.stringify(res));
                         }
 
                     }
@@ -418,6 +418,42 @@ export default class yenikayit extends Component {
                 }, 0);
             });
         }
+    }
+    _getkvkIzni=()=>{
+        Alert.alert(
+            'Kvk İzni',
+            'TP PETROL DAĞITIM A.Ş. KİŞİSEL VERİLERİN İŞLENMESİ AYDINLATMA METNİ \n'+
+
+            '\n•	Veri Sorumlusu ve Temsilcisi\n'+
+        ' 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVK Kanunu) uyarınca, kişisel verileriniz; veri sorumlusu olarak Bulgurlu Mah. Gürpınar Cad. No:15 adresinde mukim Şirketimiz TP Petrol Dağıtım A.Ş. tarafından aşağıda açıklanan kapsamda işlenebilecektir.\n'
+        
+            +'\n•	Kişisel Verilerin Hangi Amaçla İşlenebileceği\n'+ 
+        'Şirketimiz kişisel verilerinizin KVK Kanunu’nun 5. ve 6. maddelerine uygun bir şekilde işleneceğini, işlenen verilerinizin yine KVK Kanunu’na uygun bir şekilde muhafaza edileceğini garanti ve taahhüt eder. Bu kapsamda kişisel verileriniz Şirketimiz veri işleme politikasında belirlendiği haliyle tahdidi olmayan bir şekilde; Şirketimiz tarafından sunulan ürün ve hizmetlerin iyileştirilmesi, bu kapsamda iş birimlerimiz tarafından gerekli çalışmaların yürütülmesi; Şirketimizin ve Şirketimiz ile iş ilişkisi içerisinde olan kişilerin hukuki ve ticari güvenliğinin temini; Şirketimiz insan kaynakları ve istihdam politikalarının yönetilmesi; Şirketimiz tarafından sizlere sunulan ürün ve hizmetlerin kişisel beğenileri ve kullanım alışkanlıklarına uygun hale getirilmesi amaçları dahilinde işlenecektir. Kişisel verilerinizin KVK Kanunu’na uygun şekilde işlenmesine dair tüm yasal sorumluluk veri sorumlusu sıfatıyla TP Petrol Dağıtım A.Ş.’ye aittir.\n'+
+        '\n•	Kişisel Verilerinizin Paylaşılması'+
+        'Toplanan kişisel verileriniz; Şirketimiz tarafından sunulan ürün ve hizmetlerin iyileştirilmesi, bu kapsamda iş birimlerimiz tarafından gerekli çalışmaların yürütülmesi; Şirketimizin ve Şirketimiz ile iş ilişkisi içerisinde olan kişilerin hukuki ve ticari güvenliğinin temini; Şirketimiz insan kaynakları ve istihdam politikalarının yönetilmesi; Şirketimiz tarafından sizlere sunulan ürün ve hizmetlerin kişisel beğenileri ve kullanım alışkanlıklarına uygun hale getirilmesi amaçları dahilinde; TP Petrol Dağıtım A.Ş.’nin bağlı olduğu holdinge bağlı şirketler ile ve TP Petrol Dağıtım A.Ş. hissedarlarıyla, iş ortaklarıyla, tedarikçileriyle, iştirakleriyle, dış hizmet sağlayıcılarıyla ve kanunen yetkili kamu kurumları ve özel kişilerle, KVK Kanunu’nun 8. ve 9. maddelerinde belirtilen kişisel veri işleme şartları ve amaçlarına uygun şekilde paylaşılabilecektir.\n'+
+        
+        'Kişisel verilerinizin yukarıda yazılı amaçlarla ve KVK Kanunu’na uygun şekilde yine yukarıda yazılı taraflarla paylaşılması halinde gerekli güvenlik önlemlerinin alınması veri sorumlusu sıfatıyla TP Petrol Dağıtım A.Ş.’ye aittir.\n'+
+        
+           '\n •	Kişisel Verilerinize İlişkin KVK Kanunu’ndan Doğan Haklarınız\n'+
+        
+       'Kişisel veri sahipleri Şirketimizden\n'+
+        
+          '\n •	Kişisel verilerinin işlenip işlenmediğini öğrenme,\n'+
+            '\n•	Kişisel verileri işlenmişse buna ilişkin bilgi talep etme,\b'+
+            '\n•	Kişisel verilerin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,\n'+
+            '\n•	Yurt içinde veya yurt dışında kişisel verilerin aktarıldığı üçüncü kişileri öğrenme,\n'+
+            '\n•	Kişisel verilerin eksik veya yanlış işlenmiş olması halinde bunların düzeltilmesini veya tamamlanmasını isteme ve bu kapsamda yapılan işlemin kişisel verilerin aktarıldığı taraflara bildirilmesini isteme,\n'+
+            '\n•	KVK Kanunu’nun 7. maddesinde öngörülen şartlar çerçevesinde kişisel verilerin silinmesini veya yok edilmesini ve bu kapsamda yapılan işlemin kişisel verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme,\n'+
+            '\n•	İşlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle kişinin kendisi aleyhine bir sonucun ortaya çıkmasına itiraz etmesi,\n'+
+            '\n•	Kişisel verilerin kanuna aykırı olarak işlenmesi sebebiyle zarara uğraması halinde zararın giderilmesini talep etme haklarına sahiptir.\n'+
+        
+        '\nKVK Kanunu’nun 13.maddesinde belirtilen yukarıda yazılı haklarınızı kullanmakla ilgili “yazılı” talebiniz üzerine başvurunuz Kişisel Verileri Koruma Kurulu tarafından en kısa sürede ve en geç 30 gün içerisinde sonuçlandırılacaktır. Kişisel Verilerin Korunması Kurulu şu aşamada herhangi bir başvuru yöntemi belirlemediği için başvurunuzu KVK Kanunu’nun amir hükmü gereği yazılı olarak Şirketimize iletmeniz gereklidir. Kişisel Verileri Koruma Kurulu tarafından başvuru yöntemine ilişkin bir belirleme yapıldığı takdirde bu yöntemler TP Petrol Dağıtım A.Ş. tarafından internet adresimizden kamuoyu ile paylaşılacaktır. Yukarıda yazılı olan haklarını kullanmak üzere veri sahibi tarafından yapılacak olan başvurular şimdilik ücretsiz olup, Kişisel Verileri Koruma Kurulu tarafından ayrıca bir tarife belirlenmesi durumunda. Bu tarifeye uygun bir şekilde ücretlendirme yapılabilecektir.\n',
+            [
+
+                { text: 'Tamam', onPress: () => '' },
+            ],
+            { cancelable: true },
+        );
     }
     render() {
         return (
@@ -615,7 +651,9 @@ export default class yenikayit extends Component {
                         </View>
                         <View style={styles.switchcontainer}>
                             <View style={{ alignContent: 'center', marginBottom: 5 }}>
-                                <Text style={styles.switcText1}>Kampanya ve duyurular için benimle{"\n"}iletişime geçilmesine izin veriyorum</Text>
+                                <TouchableOpacity onPress={() => this._getkvkIzni()}>
+                                    <Text style={styles.switcText}>Kampanya ve duyurular için benimle{"\n"}iletişime geçilmesine izin veriyorum</Text>
+                                </TouchableOpacity>
                             </View>
 
                             <Switch
