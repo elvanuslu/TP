@@ -1,13 +1,15 @@
 
 import React, { Component } from 'react';
-import { Dimensions,TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
+import { Dimensions, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import AsyncStorage from '@react-native-community/async-storage';
+import Carousel from 'react-native-carousel-view';
 
-const k1 = require("../../assets/Resim.png");
-const k2 = require("../../assets/Kampanya-2.png");
-const k3 = require("../../assets/Kampanya-3.png");
+//const k1 = require("../../assets/Resim.png");
+const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
+const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
+const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
 
 export default class hesabim extends Component {
     constructor() {
@@ -18,8 +20,6 @@ export default class hesabim extends Component {
     }
 
     componentDidMount() {
-        //  const dts =  AsyncStorage.getItem('userId');
-        //  alert("id="+dts);
         this._retrieveData();
     }
     _retrieveData = async () => {
@@ -61,41 +61,57 @@ export default class hesabim extends Component {
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
-                    <Image style={styles.banner} source={k1} />
+                    <Carousel
+                       width={Math.round(Dimensions.get('window').width)}
+                       height={300}
+                      >
+                        <View >
+                            <Image style={styles.banner} source={k1} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k2} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k3} />
+                        </View>
+                    </Carousel>
+
                 </View>
                 <View style={styles.containerBottom}>
 
-                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle",{'Id':new Date()})}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle", { 'Id': new Date() })}>
                         <Image style={styles.button}
                             source={require('../../assets/bilgilerimiguncelle.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("Plakalarim",{'Id':new Date()})}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("Plakalarim", { 'Id': new Date() })}>
                         <Image
                             style={styles.button}
                             source={require('../../assets/araclarim.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi",{'Id':new Date()})}>
+                    <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("SatisVePuanGecmisi", { 'Id': new Date() })}>
                         <Image
                             style={styles.button}
                             source={require('../../assets/satisvepuan.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("EnYakinIstasyon",{'Id':new Date()})}>
+                    <TouchableOpacity style={{ height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("EnYakinIstasyon", { 'Id': new Date() })}>
                         <Image style={styles.button1} source={require('../../assets/EnYakinIstasyon.png')} />
                     </TouchableOpacity>
 
 
                 </View>
-              
+
             </Container>
         );
     }
 }
 
 
-
+/*
+ 
+*/
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -106,21 +122,21 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         //marginBottom: 10,
         justifyContent: 'center',
-       // alignItems: 'center',
+        // alignItems: 'center',
     },
     containerOrta: {
-        flex: 3,
+        flex: 4,
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
-       // marginBottom: 10,
+        // marginBottom: 10,
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 4,
+        flex: 7,
         backgroundColor: 'transparent',
-       // flexDirection: 'column-reverse',
-        marginBottom: 10,
+        // flexDirection: 'column-reverse',
+        marginBottom: 5,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -184,7 +200,7 @@ const styles = StyleSheet.create({
     banner: {
         // alignSelf: 'center',
         width: Math.round(Dimensions.get('window').width),
-        height:  Math.round(Dimensions.get('window').height) / 2,
+        height: Math.round(Dimensions.get('window').height) / 2,
         resizeMode: 'contain',
         marginBottom: 15,
     },
