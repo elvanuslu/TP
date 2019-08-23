@@ -52,7 +52,6 @@
 		E10452C422F1CBC80086263D /* libRNCGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E10452C322F1CBA60086263D /* libRNCGeolocation.a */; };
 		E123626022CCE96D00D82B6A /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E123625F22CCE96D00D82B6A /* InputMask.framework */; };
 		E123626122CCE96D00D82B6A /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E123625F22CCE96D00D82B6A /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E15CB0EE22CF797400AAD96A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E15CB0ED22CF797400AAD96A /* MapKit.framework */; };
 		E15ED0C423055322005B491C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E15ED09623055322005B491C /* GoogleService-Info.plist */; };
 		E1C9961522D60C06004F06B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1C9961422D60C06004F06B3 /* Images.xcassets */; };
 		E725C236623D46C3B8A52564 /* Myriadpro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44345CDD946E436CA1063297 /* Myriadpro-Regular.ttf */; };
@@ -479,7 +478,6 @@
 		E10452B822F1B5110086263D /* TP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TP.entitlements; path = TP/TP.entitlements; sourceTree = "<group>"; };
 		E10452BE22F1CB9B0086263D /* RNCGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCGeolocation.xcodeproj; path = "../node_modules/@react-native-community/geolocation/ios/RNCGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		E123625F22CCE96D00D82B6A /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E15CB0ED22CF797400AAD96A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E15ED09623055322005B491C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E1C9961422D60C06004F06B3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TP/Images.xcassets; sourceTree = "<group>"; };
 		EA1995A15D684CC69809BA70 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
@@ -514,7 +512,6 @@
 				52FDEA0C88A64CBEA7AA5C19 /* libAirMaps.a in Frameworks */,
 				F3DF516ACFC64E458512120C /* libRNVectorIcons.a in Frameworks */,
 				C487EA4E2BE74635B7E775F8 /* libRNTextInputMask.a in Frameworks */,
-				E15CB0EE22CF797400AAD96A /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,7 +621,6 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E15CB0ED22CF797400AAD96A /* MapKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
@@ -886,7 +882,7 @@
 								enabled = 1;
 							};
 							com.apple.Maps.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
