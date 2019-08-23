@@ -105,7 +105,7 @@ export default class Harita extends Component {
                 this.setState({ loading: false });
                 HaritaDatasi.push(res);
                 this.setState({datas:res})
-               // console.log('Harita Length: '+ JSON.stringify(HaritaDatasi))
+                console.log('Harita Length: '+ JSON.stringify(HaritaDatasi))
                 //console.log('Harita Konumları= ' + JSON.stringify(res));
                // HaritaDatasi.push(this.sta);
             })
@@ -114,15 +114,15 @@ export default class Harita extends Component {
             Alert.alert('Hata Oluştu', error);
         }
     }
-    _getData=(datan = []) =>{
+    _getData=(datan = [],lat,lon) =>{
         try {
-          //  console.log('_getData Çalıştı')
+          
             this.setState({ loading: true })
-            //console.log('Datalar: ', datan)
-        //     console.log('datan: ' + JSON.stringify(datan))
-        //    console.log('this.state.latitud:'+this.state.latitude+' Longi: '+this.state.longitude)
+            console.log('Datalar: ', datan)
+             console.log('datan: ' + JSON.stringify(datan))
+           console.log('this.state.latitud:'+this.state.latitude+' Longi: '+this.state.longitude)
             HaritaDatasi = [];
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 15)
+            getIstasyonWithLatLon(lat, lon, 15)
                 .then((res) => {
                     this.setState({ datas: res, loading: false });
                   //  console.log('Harita Konumlar= ' + JSON.stringify(res));
@@ -172,12 +172,12 @@ export default class Harita extends Component {
             var lon = nextProps.navigation.state.params.lon;
             var adres = nextProps.navigation.state.params.adres;
             var Param = nextProps.navigation.state.params.Para;
-           // console.log('componentWillReceiveProps Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
+            console.log('componentWillReceiveProps Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
             //   console.log('Param: ', Param);
-            this.setState({ loading: true })
+            this.setState({ loading: true, latitude: lat, longitude: lon })
             if (Param === 'Filtre') {
                 this.setState({ latitude: lat, longitude: lon })
-                this._getData(nextProps.navigation.state.params.Tumu);
+                this._getData(nextProps.navigation.state.params.Tumu,lat,lon);
             }
             else {
                 this._getkoordinat();
@@ -200,39 +200,15 @@ export default class Harita extends Component {
         HaritaDatasi = [];
         if (Param === 'Filtre') {
            // console.log('Filterim: ',this.props.navigation.state.params.Tumu)
-            this._getData(this.props.navigation.state.params.Tumu);
+            this._getData(this.props.navigation.state.params.Tumu,lat,lon);
         } else {
             console.log('getkoordinat')
             this._getkoordinat();
 
         }
     }
-    /*
-    componentDidMount() {
-        // console.log('This.props: ', this.props.navigation.state.params.Tumu, ' Uzunluk: ', this.props.navigation.state.params.Tumu.length)
-
-        // this.props.navigation.navigate("Harita", { 'Id': item,'name':name,'lat':lat,'lon':lon,'adres':adres });
-        this.setState({ loading: true })
-        var AccountId = this.props.navigation.getParam('Id', '');
-        var name = this.props.navigation.getParam('name', '');
-        var lat = this.props.navigation.getParam('lat', '');
-        var lon = this.props.navigation.getParam('lon', '');
-        var adres = this.props.navigation.getParam('adres', '');
-        var Param = this.props.navigation.getParam('Para');
-        this.setState({ lat: 0, lon: 0 })
-        console.log('componentDidMount Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
-        console.log('Param: ', Param);
-        if (Param === 'Filtre') {
-
-            this.setState({ latitude: lat, longitude: lon })
-            console.log('Filter: ' + this.state.latitude + ' -- ' + this.state.longitude)
-            this._getData(this.props.navigation.state.params.Tumu);
-        }
-        else {
-            this._getkoordinat()
-        }
-    }
-    */
+  
+   
     _getkoordinat = () => {
         //console.log('OS=' + Platform.OS)
         try {

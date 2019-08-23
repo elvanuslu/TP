@@ -62,7 +62,7 @@ export default class Filtre extends Component {
             this.setState({ loading: true })
             getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5).then((res) => {
                 this.setState({ listViewData: res, loading: false });
-                // console.log('res= ' + JSON.stringify(this.state.listViewData));
+                 console.log('res= ' + JSON.stringify(this.state.listViewData));
             })
         } catch (error) {
             Alert.alert('Hata', error);
@@ -237,6 +237,7 @@ export default class Filtre extends Component {
     }
     // this.GetItem(item.AccountId,item.name,item.Address1_Latitude,item.Address1_Longitude,item.Adres)}
     GetItem(item, name, lat, lon, adres) {
+        console.log('Lat: '+lat,' lon: '+lon)
         //  console.log('item=' + item);
         // console.log('Lisyt Data: '+JSON.stringify(this.state.listViewData) )
         this.setState({ latitude: lat })
