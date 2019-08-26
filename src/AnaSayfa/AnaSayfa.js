@@ -5,11 +5,25 @@ import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardIt
 
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
+<<<<<<< HEAD
 import Carousel from 'react-native-carousel-view';
 //const k1 = require("../../assets/Resim.png");
 const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
+=======
+
+import Carousel from 'react-native-carousel-view';
+
+//const k1 = require("../../assets/Resim.png");
+//const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
+//const k2 = require("../../assets/Kampanya-2.png");
+//const k3 = require("../../assets/Kampanya-3.png");
+
+const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
+const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
+const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
+>>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
 
 export default class AnaSayfa extends Component {
     constructor(props) {
@@ -104,7 +118,12 @@ export default class AnaSayfa extends Component {
                 <View style={styles.containerOrta}>
                 <Carousel
                        width={Math.round(Dimensions.get('window').width)}
+<<<<<<< HEAD
                        height={300}>
+=======
+                       height={300}
+                      >
+>>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
@@ -115,7 +134,10 @@ export default class AnaSayfa extends Component {
                             <Image style={styles.banner} source={k3} />
                         </View>
                     </Carousel>
+<<<<<<< HEAD
                     
+=======
+>>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
