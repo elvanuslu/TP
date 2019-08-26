@@ -118,12 +118,8 @@ export default class AnaSayfa extends Component {
                 <View style={styles.containerOrta}>
                 <Carousel
                        width={Math.round(Dimensions.get('window').width)}
-<<<<<<< HEAD
-                       height={300}>
-=======
                        height={300}
                       >
->>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
@@ -134,10 +130,6 @@ export default class AnaSayfa extends Component {
                             <Image style={styles.banner} source={k3} />
                         </View>
                     </Carousel>
-<<<<<<< HEAD
-                    
-=======
->>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
