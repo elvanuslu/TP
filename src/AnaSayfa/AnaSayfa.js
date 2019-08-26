@@ -127,7 +127,7 @@ export default class AnaSayfa extends Component {
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
-                        <View >
+                        <View>
                             <Image style={styles.banner} source={k2} />
                         </View>
                         <View >
