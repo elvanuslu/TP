@@ -4,8 +4,10 @@ import { Dimensions,TouchableOpacity, FlatList, StyleSheet, View, Image, Text, S
 import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
 import AsyncStorage from '@react-native-community/async-storage';
+import Carousel from 'react-native-carousel-view';
 
-const k1 = require("../../assets/Resim.png");
+//const k1 = require("../../assets/Resim.png");
+const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 
@@ -61,7 +63,19 @@ export default class hesabim extends Component {
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
-                    <Image style={styles.banner} source={k1} />
+                <Carousel
+                       width={Math.round(Dimensions.get('window').width)}
+                       height={300}>
+                        <View >
+                            <Image style={styles.banner} source={k1} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k2} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k3} />
+                        </View>
+                    </Carousel>
                 </View>
                 <View style={styles.containerBottom}>
 

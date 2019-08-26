@@ -5,8 +5,9 @@ import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardIt
 
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
-
-const k1 = require("../../assets/Resim.png");
+import Carousel from 'react-native-carousel-view';
+//const k1 = require("../../assets/Resim.png");
+const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 
@@ -101,8 +102,20 @@ export default class AnaSayfa extends Component {
                     <Image style={styles.logo} source={require('../../assets/logo.png')} />
                 </View>
                 <View style={styles.containerOrta}>
-                    <Image style={styles.banner} source={k1} />
-                    <Text style={{ alignSelf: 'center' }}></Text>
+                <Carousel
+                       width={Math.round(Dimensions.get('window').width)}
+                       height={300}>
+                        <View >
+                            <Image style={styles.banner} source={k1} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k2} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k3} />
+                        </View>
+                    </Carousel>
+                    
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -171,15 +184,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     containerOrta: {
-        flex: 3,
+        flex: 4,
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 5,
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 4,
+        flex: 7,
         backgroundColor: 'transparent',
         flexDirection: 'row-reverse',
         marginBottom: 10,
