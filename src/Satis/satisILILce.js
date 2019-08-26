@@ -663,23 +663,7 @@ export default class SatisIllce extends Component {
                         Alert.alert('Hata' + e);
                     })
             }
-            /*
-            else {
-                this.setState({ loading: false }, () => {
-                    setTimeout(() => {
-                        Alert.alert(
-                            'Bağlantı Hatası!',
-                            'İnternet Bağlantınızı Kontrol Edin',
-                            [
-
-                                { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
-                            ],
-                            { cancelable: true },
-                        );
-                    }, 510);
-                });
-            }
-            */
+         
 
         } catch (error) {
             this.setState({ hasError: true, loading: false })
@@ -691,8 +675,6 @@ export default class SatisIllce extends Component {
         this.setState({
             yakitTipi: value
         });
-        //  console.log("Yakıt Tipi: " + this.state.yakitTipi);
-        // console.log("Yakit Val: " + this.state.yakitTipiDeger);
     }
 
     //------------------------------------------------
@@ -758,7 +740,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: true })
             //    console.log('this.state.latitude: ' + this.state.latitude, ' this.state.longitude:' + this.state.longitude)
 
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 3)
                 .then((res) => {
                     //console.log('Istasyonlarım= ' + JSON.stringify(res));
 

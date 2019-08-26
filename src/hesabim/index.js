@@ -63,8 +63,8 @@ export default class hesabim extends Component {
                 <View style={styles.containerOrta}>
                     <Carousel
                        width={Math.round(Dimensions.get('window').width)}
-                       height={300}
-                      >
+                       delay={3000}
+                       height={300} >
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     containerOrta: {
-        flex: 4,
+        flex: 5,
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 7,
+        flex: 6,
         backgroundColor: 'transparent',
         // flexDirection: 'column-reverse',
         marginBottom: 5,
