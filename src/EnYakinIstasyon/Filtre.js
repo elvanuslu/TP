@@ -97,7 +97,18 @@ export default class Filtre extends Component {
                             );
                         }
                     }
-                    else console.log('Res is not Array')
+                    else 
+                    {
+                        Alert.alert(
+                            'Bağlantı Hatası',
+                            'Bağlantınızı Kontrol Edin',
+                            [
+                                { text: 'Tamam', onPress: () => '' },
+                            ],
+                            { cancelable: true },
+                        );
+                    }
+
                 })
                 .catch(e => {
                     Alert.alert(

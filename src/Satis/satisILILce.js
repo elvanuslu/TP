@@ -497,9 +497,6 @@ export default class SatisIllce extends Component {
             getAracYakitTipi(aracId)
                 .then((res) => {
                     Yakit = res;
-                    console.log('Yakitt: ' + JSON.stringify(Yakit));
-                    // console.log("Arac Yakit " + JSON.stringify(res));
-
                     if (Yakit) {
 
                         if (Yakit.bm_yakitcinsiid_2 != '00000000-0000-0000-0000-000000000000') {

@@ -265,10 +265,8 @@ export const getCitybyLocation = () => {
   }
 }
 export const getCitylocationbyId = (Id) => {
-  const URL = define_api_url + `GetCountiesByCityIdFromAccount?cityId=${Id}`;
+  const URL = define_api_url + `GetHaritaCountiesByCityIdFromAccount?cityId=${Id}`;
   return getRequest(URL);
-  // return fetch(URL, { method: 'GET' })
-  //   .then((res) => res.json())
 }
 export const getCityList = () => {
   const URL = define_api_url + `GetCityList`;
