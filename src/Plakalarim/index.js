@@ -36,9 +36,9 @@ export default class Plakalarim extends Component {
         // console.log('WillProps: ' + JSON.stringify(nextProps));
         await this._getPlakaList();
     }
-    GetItem(item, markaId, aracId, yakit1, yakit2,kullanimSekli) {
-       // console.log('Plaka = ' + item + ' MarkaId = ' + markaId, 'Araç Id=' + aracId+' bm_kullanımsekliadi: '+kullanimSekli);
-        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'Marka': markaId, 'AracId': aracId, 'Yakit1': yakit1, 'Yakit2': yakit2,'KullanimSekli':kullanimSekli });
+    GetItem(item, markaId, aracId, yakit1, yakit2, kullanimSekli) {
+        // console.log('Plaka = ' + item + ' MarkaId = ' + markaId, 'Araç Id=' + aracId+' bm_kullanımsekliadi: '+kullanimSekli);
+        this.props.navigation.navigate("PlakaDuzenle", { 'PlakaId': item, 'Marka': markaId, 'AracId': aracId, 'Yakit1': yakit1, 'Yakit2': yakit2, 'KullanimSekli': kullanimSekli });
     }
     _getPlakaList = async () => {
         try {
@@ -64,7 +64,7 @@ export default class Plakalarim extends Component {
                             );
                         }, 0);
                     });
-                 
+
                 })
         } catch (error) {
             this.setState({ loading: false }, () => {
@@ -79,7 +79,7 @@ export default class Plakalarim extends Component {
                     );
                 }, 0);
             });
-           
+
         }
 
     }
@@ -88,24 +88,30 @@ export default class Plakalarim extends Component {
     }
 
     deleteRow(secId, rowId, rowMap, aracId) {
-        console.log('secId:' + secId + ' rowId: ' + rowId + ' aracId: ' + aracId)
+        // console.log('secId:' + secId + ' rowId: ' + rowId + ' aracId: ' + aracId)
         rowMap[`${secId}${rowId}`].props.closeRow();
         const newData = [...this.state.listViewData];
         newData.splice(rowId, 1);
         this.setState({ listViewData: newData });
-        this._deleteMusteriAtac(aracId);
+        //this._deleteMusteriAtac(aracId);
     }
-    _deleteMusteriAtac = (Id) => {
+    _deleteMusteriAtac = (secId, rowId, rowMap,aracId) => {
         try {
-           
+
             Alert.alert(
                 'Silme Onayı ',
                 'Silmek istediğinize Eminmisiniz?',
                 [
 
-                    { text: 'Tamam', onPress: () => { 
-                        this.setState({ loading: true });
-                        this._delete(Id) } },
+                    {
+                        text: 'Sil', onPress: () => {
+                            this.setState({ loading: true });
+                            this.deleteRow(secId,rowId,rowMap,aracId);
+                            this._delete(aracId)
+                        }
+                    },
+                    { text: 'Vazgeç',  onPress: () => console.log('OK Pressed')
+                    },
                 ],
                 { cancelable: true },
             );
@@ -207,7 +213,7 @@ export default class Plakalarim extends Component {
                                     dataSource={this.ds.cloneWithRows(this.state.listViewData)}
                                     renderRow={data =>
                                         <ListItem   >
-                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid, data.bm_musteriaraciid, data.bm_yakitcinsiid_1, data.bm_yakitcinsiid_2,data.bm_kullanımsekliadi)}>
+                                            <TouchableOpacity style={{ width: '100%' }} onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid, data.bm_musteriaraciid, data.bm_yakitcinsiid_1, data.bm_yakitcinsiid_2, data.bm_kullanımsekliadi)}>
 
                                                 <View style={{ flex: 1, flexDirection: 'row', }}>
                                                     <Left>
@@ -226,7 +232,7 @@ export default class Plakalarim extends Component {
                                         <Content style={{ flexDirection: 'row' }}>
                                             <Button
                                                 full
-                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid, data.bm_musteriaraciid, data.bm_yakitcinsiid_1, data.bm_yakitcinsiid_2,data.bm_kullanımsekliadi)}
+                                                onPress={() => this.GetItem(data.bm_plaka, data.bm_aracmarkaid, data.bm_musteriaraciid, data.bm_yakitcinsiid_1, data.bm_yakitcinsiid_2, data.bm_kullanımsekliadi)}
                                                 style={{
                                                     backgroundColor: "#ec971f",
                                                     flex: 1,
@@ -246,7 +252,7 @@ export default class Plakalarim extends Component {
                                         <Button
                                             full
                                             danger
-                                            onPress={_ => this.deleteRow(secId, rowId, rowMap, data.bm_musteriaraciid)}
+                                            onPress={_ => this._deleteMusteriAtac(secId, rowId, rowMap, data.bm_musteriaraciid)}
                                             style={{
                                                 flex: 1,
                                                 alignItems: "center",

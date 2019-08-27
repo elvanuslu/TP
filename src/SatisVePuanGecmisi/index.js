@@ -13,56 +13,7 @@ const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
 const k3 = require("../../assets/Kampanya-3.png");
 
-const datas = [
-    {
-        Id: '34-AP-3434',
-        img: k1,
-        Istasyon: "4.Levent",
-        zaman: "12.10.2019",
-        Tutar: "1925TL",
-        Puan: "45TP",
-    },
-    {
-        Id: '34-NH-3435',
-        img: k2,
-        Istasyon: "4.Levent",
-        zaman: "24.09.2019",
-        Tutar: "625TL",
-        Puan: "4TP",
-    },
-    {
-        Id: '34-ELV-34',
-        img: k1,
-        Istasyon: "4.Levent",
-        zaman: "14.06.2019",
-        Tutar: "1025TL",
-        Puan: "41TP",
-    },
-    {
-        Id: '35-AH-35',
-        img: k1,
-        Istasyon: "4.Levent",
-        zaman: "04.05.2019",
-        Tutar: "425TL",
-        Puan: "4TP",
-    },
-    {
-        Id: '35-AHM-343',
-        img: k2,
-        Istasyon: "4.Levent",
-        zaman: "02.07.2019",
-        Tutar: "375TL",
-        Puan: "6TP",
-    },
-    {
-        Id: '06-NH-3435',
-        img: k1,
-        Istasyon: "4.Levent",
-        zaman: "06.06.2019",
-        Tutar: "225TL",
-        Puan: "14TP",
-    },
-];
+
 export default class SatisVePuanGecmisi extends Component {
     constructor(props) {
         super(props);
@@ -169,13 +120,13 @@ export default class SatisVePuanGecmisi extends Component {
                 <View style={styles.containerBottom}>
                     <Content style={{ backgroundColor: 'transparent' }}>
                         <View style={{ flexDirection: 'row', flex: 1, height: 20, marginRight: 20 }}>
-                            <View style={{ width: '20%', }}>
+                            <View style={{ width: '22%', }}>
                                 <Text style={styles.txtBold} > Tarih</Text>
                             </View>
                             <View style={{ width: '40%', }}>
                                 <Text style={styles.txtBold}> İstasyon</Text>
                             </View>
-                            <View style={{ width: '20%', }}>
+                            <View style={{ width: '16%', }}>
                                 <Text style={styles.txtBold}> Tutar</Text>
                             </View>
                             <View style={{ width: '20%', flexDirection: 'row', alignContent: 'flex-end', justifyContent: 'flex-end' }}>
@@ -189,7 +140,7 @@ export default class SatisVePuanGecmisi extends Component {
                                     <ListItem style={{ flexDirection: 'row', flex: 1 }} >
                                         <TouchableOpacity onPress={() => this.onPressAndGo(data.bm_pompaislemiid)}>
                                             <View style={{ flexDirection: 'row', flex: 1 }}>
-                                                <View style={{ width: '20%', }}>
+                                                <View style={{ width: '21%', }}>
                                                     <Text style={styles.txt} > {data.bm_islemtarihi}</Text>
                                                 </View>
                                                 <View style={{ width: '40%', }}>
@@ -198,7 +149,7 @@ export default class SatisVePuanGecmisi extends Component {
                                                 <View style={{ width: '20%', }}>
                                                     <Text style={styles.txt}> {data.bm_toplamtutar + ' TL'}</Text>
                                                 </View>
-                                                <View style={{ width: '20%', flexDirection: 'row', alignContent: 'flex-end', justifyContent: 'flex-end' }}>
+                                                <View style={{ width: '19%', flexDirection: 'row', alignContent: 'flex-end', justifyContent: 'flex-end' }}>
 
                                                     <Text style={styles.txt}> {data.bm_kazanilanpuan + ' TP'}</Text>
                                                     <Image style={styles.button}
@@ -225,21 +176,6 @@ export default class SatisVePuanGecmisi extends Component {
                                     </Content>
 
                                 }
-
-                                renderRightHiddenRow={(data, secId, rowId, rowMap) =>
-                                    <Button
-                                        full
-                                        danger
-                                        onPress={_ => this.deleteRow(secId, rowId, rowMap)}
-                                        style={{
-                                            flex: 1,
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }} >
-                                        <Icon active name="trash" />
-                                    </Button>}
-                                leftOpenValue={75}
-                                rightOpenValue={-75}
                             />
                         </View>
                     </Content>
@@ -324,8 +260,8 @@ const styles = StyleSheet.create({
 
     button: {
         resizeMode: 'contain',
-        width: 20,
-        height: 20,
+        width: 18,
+        height: 18,
         marginRight: 1,
         marginLeft: 5,
         marginBottom: 0,
