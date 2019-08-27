@@ -533,6 +533,7 @@ export default class PlakaEkle extends Component {
                                 style={{ width: undefined }}
                                 placeholder="Araç Tipi"
                                 placeholderIconColor="black"
+                                placeholderStyle={{ color: "black" }}
                                 selectedValue={this.state.aracTipi}
                                 onValueChange={this.onAracTipi.bind(this)}>
                                 {

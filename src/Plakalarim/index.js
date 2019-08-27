@@ -165,7 +165,7 @@ export default class Plakalarim extends Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title style={{ color: '#fff' }}>Plakalarım</Title>
+                        <Title style={{ color: '#fff' }}>Araçlarım</Title>
                     </Body>
                     <Right>
                         <Button transparent onPress={() => this.props.navigation.openDrawer()}>

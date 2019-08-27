@@ -247,15 +247,13 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
 
 
 }
-//Plaka Yakıtı Doldurmuyor....
-export const getCitybyLocation = () => {
+export const getCitybyLocationNew = () => {
   try {
 
     const URL = define_api_url + `GetCityListFromAccount`;
 
     return fetch(URL, { method: 'GET' })
       .then((res) => res.json())
-      // .then((ret) => { console.log('Ret Code: ' +JSON.stringify(ret))})
       .catch(e => {
         console.log('CitybyLocation: ' + e)
       })
@@ -264,6 +262,27 @@ export const getCitybyLocation = () => {
     console.log('Error: ' + error);
   }
 }
+//Plaka Yakıtı Doldurmuyor....
+export const getCitybyLocation = () => {
+  try {
+
+    const URL = define_api_url + `GetHaritaCityListFromAccount`;
+
+    return fetch(URL, { method: 'GET' })
+      .then((res) => res.json())
+      .catch(e => {
+        console.log('CitybyLocation: ' + e)
+      })
+
+  } catch (error) {
+    console.log('Error: ' + error);
+  }
+}
+
+export const getCitylocationbyIdSatis = (Id) => {
+  const URL = define_api_url + `GetCountiesByCityIdFromAccount?cityId=${Id}`;
+  return getRequest(URL);
+}
 export const getCitylocationbyId = (Id) => {
   const URL = define_api_url + `GetHaritaCountiesByCityIdFromAccount?cityId=${Id}`;
   return getRequest(URL);
@@ -271,8 +290,6 @@ export const getCitylocationbyId = (Id) => {
 export const getCityList = () => {
   const URL = define_api_url + `GetCityList`;
   return getRequest(URL);
-  //  return fetch(URL, { method: 'GET' })
-  //    .then((res) => res.json())
 }
 
 export const getCitybyId = (Id) => {
