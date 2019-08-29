@@ -1,0 +1,6 @@
+framework module Pods_TP {
+  umbrella header "Pods-TP-umbrella.h"
+
+  export *
+  module * { export * }
+}
