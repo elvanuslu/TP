@@ -5,11 +5,17 @@ import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardIt
 
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
+
 import Carousel from 'react-native-carousel-view';
+
 //const k1 = require("../../assets/Resim.png");
+//const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
+//const k2 = require("../../assets/Kampanya-2.png");
+//const k3 = require("../../assets/Kampanya-3.png");
+
 const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
-const k2 = require("../../assets/Kampanya-2.png");
-const k3 = require("../../assets/Kampanya-3.png");
+const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
+const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
 
 export default class AnaSayfa extends Component {
     constructor(props) {
@@ -102,20 +108,20 @@ export default class AnaSayfa extends Component {
                     <Image style={styles.logo} source={require('../../assets/logo.png')} />
                 </View>
                 <View style={styles.containerOrta}>
-                <Carousel
-                       width={Math.round(Dimensions.get('window').width)}
-                       height={300}>
+                <Carousel 
+                        width={Math.round(Dimensions.get('window').width)}
+                        delay={3000}
+                        height={300}>
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
-                        <View >
+                        <View>
                             <Image style={styles.banner} source={k2} />
                         </View>
                         <View >
                             <Image style={styles.banner} source={k3} />
                         </View>
                     </Carousel>
-                    
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -174,25 +180,25 @@ export default class AnaSayfa extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
+        
     },
     container1: {
         flex: 2,
         backgroundColor: 'transparent',
-        marginBottom: 10,
+       // marginBottom: 10,
         justifyContent: 'center',
         alignItems: 'center',
     },
     containerOrta: {
-        flex: 4,
+        flex: 5,
         backgroundColor: 'transparent',
         justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 5,
+        alignItems: 'flex-start',
+        marginBottom: 10,
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 7,
+        flex: 6,
         backgroundColor: 'transparent',
         flexDirection: 'row-reverse',
         marginBottom: 10,
@@ -204,6 +210,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+    },
+    carosel:{
+       
+        alignSelf:'flex-start',
+      justifyContent:'flex-start',
+      alignItems:'flex-start',
     },
     instructions: {
         textAlign: 'center',
@@ -226,11 +238,11 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         alignSelf: 'center'
     },
-  
+
     banner: {
         // alignSelf: 'center',
         width: Math.round(Dimensions.get('window').width),
-        height:  Math.round(Dimensions.get('window').height) / 2,
+        height: Math.round(Dimensions.get('window').height) / 2,
         resizeMode: 'contain',
         marginBottom: 15,
     },

@@ -6,7 +6,7 @@ import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Containe
 import {
     getCitybyLocation, getCitylocationbyId, checkConnection,
     campaignDetailList, getAracYakitTipi, getIstasyonByCityId, getPaymentTypes,
-    getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList
+    getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage ,getCitybyLocationNew,getCitylocationbyIdSatis
 } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { tryStatement } from '@babel/types';
@@ -74,7 +74,8 @@ export default class SatisIllce extends Component {
     _getCity = async () => {
         try {
             var SehirLst = [];
-            getCitybyLocation()
+           // getCitybyLocation()
+           getCitybyLocationNew()
                 .then((res) => {
 
                     // console.log('Şehirler ' + JSON.stringify(res))
@@ -284,7 +285,8 @@ export default class SatisIllce extends Component {
             try {
                 //  getCitybyId(this.state.Sehir)
                 var Ilcelst = [];
-                getCitylocationbyId(this.state.Sehir)
+              //  getCitylocationbyId(this.state.Sehir)
+              getCitylocationbyIdSatis(this.state.Sehir)
                     .then((res) => {
                         console.log('İlçe= ' + JSON.stringify(res));
                         if (res instanceof Array) {
@@ -497,9 +499,6 @@ export default class SatisIllce extends Component {
             getAracYakitTipi(aracId)
                 .then((res) => {
                     Yakit = res;
-                    console.log('Yakitt: ' + JSON.stringify(Yakit));
-                    // console.log("Arac Yakit " + JSON.stringify(res));
-
                     if (Yakit) {
 
                         if (Yakit.bm_yakitcinsiid_2 != '00000000-0000-0000-0000-000000000000') {
@@ -663,23 +662,7 @@ export default class SatisIllce extends Component {
                         Alert.alert('Hata' + e);
                     })
             }
-            /*
-            else {
-                this.setState({ loading: false }, () => {
-                    setTimeout(() => {
-                        Alert.alert(
-                            'Bağlantı Hatası!',
-                            'İnternet Bağlantınızı Kontrol Edin',
-                            [
-
-                                { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
-                            ],
-                            { cancelable: true },
-                        );
-                    }, 510);
-                });
-            }
-            */
+         
 
         } catch (error) {
             this.setState({ hasError: true, loading: false })
@@ -691,8 +674,6 @@ export default class SatisIllce extends Component {
         this.setState({
             yakitTipi: value
         });
-        //  console.log("Yakıt Tipi: " + this.state.yakitTipi);
-        // console.log("Yakit Val: " + this.state.yakitTipiDeger);
     }
 
     //------------------------------------------------
@@ -758,7 +739,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: true })
             //    console.log('this.state.latitude: ' + this.state.latitude, ' this.state.longitude:' + this.state.longitude)
 
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
+            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 3)
                 .then((res) => {
                     //console.log('Istasyonlarım= ' + JSON.stringify(res));
 
@@ -784,20 +765,7 @@ export default class SatisIllce extends Component {
         console.log('Unmount çalıştı...')
         this.removeLocationUpdates();
     }
-    /*
-    componentDidUpdate(nextProps, nexState) {
-       // console.log('NextProps: ' + JSON.stringify(nextProps))
-        if (this.state.longitude <= 0 && (adet<=20)){
-            adet++
-            console.log('lon calıstı')
-            this.getLocation();
-        }
-        (this.state.longitude >0)
-        {
-            adet=0;
-        }
-    }
-    */
+   
     componentWillReceiveProps(nextProps) {
         try {
 
@@ -855,8 +823,10 @@ export default class SatisIllce extends Component {
             )
         }
     }
+    //41.0019
+    //29.0455
     _SehirIlceGoster() {
-        //console.log('his.state.longitude: ' + this.state.longitude)
+        console.log('his.state.longitude: ' + this.state.longitude)
         if (this.state.longitude <= 0) {
             return (
                 <Item picker style={styles.pickerInputs}>

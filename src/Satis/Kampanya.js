@@ -21,6 +21,7 @@ const kampanya = require("../../assets/kapmpanyakirmizi.png");
 /*
 bm_kampanyaId":"00000000-0000-0000-0000-000000000000"
 */
+var kampanyaId ='';
 export default class KampanyaSec extends Component {
     constructor(props) {
         super(props);
@@ -58,7 +59,7 @@ export default class KampanyaSec extends Component {
             IstasyonFiyati: undefined,
             gelenIndirimliBirimFiyat: undefined,
 
-            secilikampanyaId: undefined,
+            secilikampanyaId: '',
 
 
         }
@@ -111,8 +112,6 @@ export default class KampanyaSec extends Component {
     }
     _btnDevam = (item, fiyat) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
-        console.log('İtem: ' + item + ' --- ' + fiyat)
-        console.log('Devam Parametre= ' + JSON.stringify(Secilen));
         this.props.navigation.navigate("OzetBilgi", {
             'Parametre': this.props.navigation.state.params, 'KampanyaId': '00000000-0000-0000-0000-000000000000', 'birimFiyati': undefined,
             'birimFiyati': Secilen.TavsiyeEdilenfiyati, 'Fiyatlar': Secilen
@@ -121,8 +120,6 @@ export default class KampanyaSec extends Component {
     _btnDevamKampanyali = (item) => {
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
         console.log('Seçilen=> ' + JSON.stringify(Secilen));
-        // console.log(' Datam ' + JSON.stringify(this.state.datam));
-
         this.setState({
             birimFiyat: Secilen.indirimliFiyati, //Secilen.TavsiyeEdilenfiyati,
             indirimliFiyat: Secilen.indirimlifiyati,
@@ -145,9 +142,7 @@ export default class KampanyaSec extends Component {
         });
     }
 
-    componentWillUnmount() {
-        // this.setState({ loading: false });
-    }
+
     _git() {
         const Istasyon = this.props.navigation.getParam('Istasyon', '');
         const Plaka = this.props.navigation.getParam('Plaka', '');
@@ -159,17 +154,7 @@ export default class KampanyaSec extends Component {
         console.log('Istasyonum = ' + JSON.stringify(this.props));
         console.log('G.İ.T: ' + JSON.stringify(this.state.datam))
         this.props.navigation.navigate("OzetBilgi", { 'Parametre': this.props.navigation.state.params, 'KampanyaId': this.state.secilikampanyaId, 'birimFiyati': this.state.gelenIndirimliBirimFiyat, 'Fiyatlar': this.state.datam[0] });
-        /*
-                this.props.navigation.navigate("OzetBilgi", {
-                    'Istasyon': this.state.istasyonselectedId,
-                    'Plaka': this.state.PlakaSelectId,
-                    'Yakit': this.state.selected2,
-                    'OdemeTipi': this.state.OdemeTipi,
-                    'PompaNo': this.state.PompaNo,
-                    'KuponKodu': this.state.KuponKodu,
-                    'Tutar': this.state.Tutar,
-                });
-                */
+
 
     }
     _hatavarDon() {
@@ -177,7 +162,6 @@ export default class KampanyaSec extends Component {
     }
     _campaignDetails = (myProp) => {
         try {
-            //   console.log('Propsss= ' + JSON.stringify(myProp));
             this.setState({ loading: true });
             campaignDetailList(myProp.navigation.state.params.Istasyon,
                 myProp.navigation.state.params.Yakit,
@@ -188,10 +172,8 @@ export default class KampanyaSec extends Component {
                 myProp.navigation.state.params.Plaka)
                 .then((res) => {
                     this.setState({ datam: null, loading: false });
-                    console.log('Gelen Kampanya = ' + JSON.stringify(res) + ' Status: ' + res.status);
-                    //console.log(' infirimli Fiyat = ' + res[0].indirimlifiyati);
                     if (res.status === false) {
-                        //this.setState({ datam: null, loading: false });
+
                         this.setState({ loading: false }, () => {
                             setTimeout(() => {
                                 Alert.alert(
@@ -211,9 +193,13 @@ export default class KampanyaSec extends Component {
                         console.log('Kampnaya Bul: ' + JSON.stringify(res))
                         this.setState({
                             datam: res,
-                            loading: false
+                            loading: false,
+                            secilikampanyaId: res[0].bm_kampanyaId
                         });
+                        console.log('res[0].bm_kampanyaId:'+res[0].bm_kampanyaId)
+                        kampanyaId = res[0].bm_kampanyaId;
                         this.setState({ gelenIndirimliBirimFiyat: res[0].indirimlifiyati })
+                       
                         if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
                             this.setState({ secilikampanyaId: res[0].bm_kampanyaId })
                             //this._git();
@@ -251,25 +237,13 @@ export default class KampanyaSec extends Component {
         });
 
     }
-    /*
-    shouldComponentUpdate( nextProps, nextState ){
-        if(nextState.open === this.state.open){   
-               return false    //"open" state i değişmediyse componenti tekrar render etme
-        }
-    }
-    */
+
     componentWillReceiveProps(nextProps) {
-        console.log('Kapmanya recive 2.Data= ' + JSON.stringify(nextProps))
         this._campaignDetails(nextProps);
-        if (this.props.Istasyon !== nextProps.Istasyon) {
-            //  console.log('1.Data= ' + nextProps.state.Istasyon + '  2.Data= ' + JSON.stringify(nextProps))
-            // this.setState({ reset : true })
-        }
     }
 
     componentDidMount = async () => {
         console.log('Props= ' + JSON.stringify(this.props));
-        //   console.log("Prms= " + (this.props.navigation.state.params.Istasyon))
         const Id = await getStorage('userId');
         this.setState({ kullaniciId: Id });
         this._campaignDetails(this.props);
@@ -332,7 +306,32 @@ export default class KampanyaSec extends Component {
             Alert.alert('Hata', error);
         }
     }
+    KampanyaGoster = (item) => {
+       
+        if (this.state.secilikampanyaId == '00000000-0000-0000-0000-000000000000') {
+            return (
+                <View style={{ flex: 1, flexDirection: 'row' }}>
 
+                    <Button block danger style={{ marginTop: 5, marginRight: 5, width: '100%' }} onPress={() => this._btnDevam(item.bm_kampanyaId, item.TavsiyeEdilenfiyati)}>
+                        <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
+                    </Button>
+                </View>
+            )
+        }
+        else {
+            return (
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevamKampanyali(item.bm_kampanyaId)}>
+                        <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYA SEÇ</Text>
+                    </Button>
+                    <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaId, item.TavsiyeEdilenfiyati)}>
+                        <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
+                    </Button>
+                </View>
+      
+            )
+        }
+    }
     render() {
         //   this.onGetParams();
         return (
@@ -417,14 +416,7 @@ export default class KampanyaSec extends Component {
                                             </Right>
 
                                         </View>
-                                        <View style={{ flex: 1, flexDirection: 'row' }}>
-                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevamKampanyali(item.bm_kampanyaId)}>
-                                                <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYA SEÇ</Text>
-                                            </Button>
-                                            <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaId, item.TavsiyeEdilenfiyati)}>
-                                                <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
-                                            </Button>
-                                        </View>
+                                        {this.KampanyaGoster(item)}
                                     </View>
                                 </CardItem>
 
@@ -442,48 +434,7 @@ export default class KampanyaSec extends Component {
     }
 
 }
-/*
-{
 
-  "bm_istasyonid": "DF827EAA-214B-E911-836A-000C29289D89",
-
-  "bm_yakittipiid": "0361929D-0F4A-E911-836A-000C29289D89",
-
-  "bm_gecerliodemetipi": "1",
-
-  "TutarTL": 500,
-
-  "ContactId": "45319CA5-248C-E911-838D-000C29289D89",
-
-  "Plaka": "93FDDDE4-DB90-E911-838F-000C29289D89"
-
-}
-Kampanya Id: undefined
- IstasyonId 80e66a1d-d964-e911-837e-000c29289d89
- ContactId 76d934ce-57b4-e911-a2c3-005056824197
- KampanyaId undefined
- PompaNo 5
- Plaka 426161c8-ceaf-e911-a2c3-005056824197
- UrunId 08e1a1d3-33ad-e911-a2c2-005056824197
- PresetTutari 55
- OdemeSatisTipi 0
- KuponKodu 
- TavsiyeEdilenfiyati 0
- istasyonfiyati 6.34
- indirimlifiyati 0
- alimtutari 55
- alinmmiktariLT 0
- indirimorani 0
- KazanilanPuan 0
- harcananpuan 0
- kazanilanpuantl 0
- harcananpuantl 0
- katkiOrani undefined
- bayikatkiorani undefined
- isortagikatkiorani undefined
- isortagiid undefined
- Satış Başlat: {"status":true,"message":"Belirlenemeyen Hata","bm_crmtrxuniqueid":720}
-*/
 const styles = StyleSheet.create({
     containerKapmayali: {
         flex: 1,

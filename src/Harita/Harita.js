@@ -5,7 +5,7 @@ import Icon1 from "react-native-vector-icons/FontAwesome";
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import AsyncStorage from '@react-native-community/async-storage';
-import { getIstasyonWithLatLon } from '../Service/FetchUser';
+import { getIstasyonWithLatLon ,getHaritaIstasyonWithLatLon} from '../Service/FetchUser';
 
 import MapView, { PROVIDER_GOOGLE, MAP_TYPES } from 'react-native-maps';
 import { showLocation, Popup } from 'react-native-map-link'
@@ -100,7 +100,7 @@ export default class Harita extends Component {
             this.setState({ loading: true })
             console.log('this.state.latitud:'+lat+' Longi: '+lon);
         //    HaritaDatasi = [];
-            getIstasyonWithLatLon(lat, lon, 15)
+        getHaritaIstasyonWithLatLon(lat, lon, 15)
             .then((res) => {
                 this.setState({ loading: false });
                 HaritaDatasi.push(res);
@@ -122,7 +122,7 @@ export default class Harita extends Component {
              console.log('datan: ' + JSON.stringify(datan))
            console.log('this.state.latitud:'+this.state.latitude+' Longi: '+this.state.longitude)
             HaritaDatasi = [];
-            getIstasyonWithLatLon(lat, lon, 15)
+            getHaritaIstasyonWithLatLon(lat, lon, 15)
                 .then((res) => {
                     this.setState({ datas: res, loading: false });
                   //  console.log('Harita Konumlar= ' + JSON.stringify(res));

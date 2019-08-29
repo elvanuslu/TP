@@ -138,32 +138,7 @@ export default class OzetBilgi extends Component {
         }
 
     }
-    /*
- oldId: Id,
-                    Istasyon: this.props.navigation.state.params.Parametre.IstasyonAdi,
-                    IstasyonId: this.props.navigation.state.params.Parametre.Istasyon,
-                    Plaka: this.props.navigation.state.params.Parametre.PlakaName,
-                    PlakaId: this.props.navigation.state.params.Parametre.Plaka,
-                    Yakit: this.props.navigation.state.params.Parametre.YakitAdi,
-                    YakitId: this.props.navigation.state.params.Parametre.Yakit,
-                    OdemeTipi: this.props.navigation.state.params.Parametre.OdemeTipi,
-                    OdemeAdi: this.props.navigation.state.params.Parametre.OdemeAdi,
-                    PompaNo: this.props.navigation.state.params.Parametre.PompaNo,
-                    KuponKodu: this.props.navigation.state.params.Parametre.KuponKodu,
-                    Tutar: this.props.navigation.state.params.Parametre.Tutar,
 
-                    istasyonfiyati: this.props.navigation.state.params.Fiyatlar.length > 0 ? this.props.navigation.state.params.Fiyatlar[0].istasyonfiyati : this.props.navigation.state.params.Fiyatlar.istasyonfiyati,
-                    birimfiyatgoster: this.props.navigation.state.params.birimFiyati,//birimFiyati,
-                    birimFiyat: this.props.navigation.state.params.birimFiyati,
-                    indirimliFiyat: this.props.navigation.state.params.indirimliFiyat,
-                    indirimOrani: this.props.navigation.state.params.indirimOrani,
-                    alimmiktariLT: this.props.navigation.state.params.alimmiktariLT,
-                    kazanilanPuan: this.props.navigation.state.params.kazanilanPuan,
-                    puanTLkarsiligi: this.props.navigation.state.params.puanTLkarsiligi,
-                    harcananPuan: this.props.navigation.state.params.harcananPuan,
-                    harcananPuanTL: this.props.navigation.state.params.harcananPuanTL,
-                    KampanyaId: this.props.navigation.state.params.Fiyatlar.bm_kampanyaId,
-    */
     _SatisBaslat = () => {
         try {
             console.log('Satış Başlat...')
@@ -536,9 +511,9 @@ export default class OzetBilgi extends Component {
                                         </Left>
                                         <Right>
                                             {
-                                                this.state.Tutar == 0 ? <Text style={styles.txtFiyatlar}>Fulle</Text> : <Text style={styles.txtFiyatlar}>{this.state.Tutar} TL</Text> 
+                                                this.state.Tutar == 0 ? <Text style={styles.txtFiyatlar}>Fulle</Text> : <Text style={styles.txtFiyatlar}>{this.state.Tutar} TL</Text>
                                             }
-                                          
+
                                         </Right>
                                     </View>
                                     <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
@@ -560,7 +535,7 @@ export default class OzetBilgi extends Component {
                                             <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                                                 <Image style={[styles.Resim, this.props.navigation.state.params.KampanyaId !== '00000000-0000-0000-0000-000000000000' ? styles.Resim : styles.hidden]} source={pompa}></Image>
                                                 <Left>
-                                                    <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyati} TL</Text>
+                                                    <Text style={styles.txtFiyatlar}>Birim Fiyat: {this.state.birimFiyat == undefined ? 0 : this.state.birimFiyat} TL</Text>
 
                                                 </Left>
                                                 <Right>

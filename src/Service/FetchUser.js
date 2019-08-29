@@ -38,7 +38,14 @@ export const checkConnection = async () => {
     }
   });
 }
-
+export const getHaritaIstasyonWithLatLon =(lat,lon, sayac)=>{
+  try {
+    const URL = define_api_url + `TP_HaritaAccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
+    return getRequest(URL);
+  } catch (error) {
+    
+  }
+}
 export const getIstasyonWithLatLon = (lat, lon, sayac) => {
   /*
     console.log('lat: '+lat); 
@@ -46,7 +53,7 @@ export const getIstasyonWithLatLon = (lat, lon, sayac) => {
      console.log('Sayaç: '+sayac); 
      */
   try {
-    const URL = define_api_url + `TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
+    const URL = define_api_url + `TP_HaritaAccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
     return getRequest(URL);
     //  return fetch(URL, { method: 'GET' })
     //    .then((res) => res.json())
@@ -240,15 +247,13 @@ export const MusteriKayit = (FirstName, LastName, EMailAddress1, MobilePhone, BM
 
 
 }
-//Plaka Yakıtı Doldurmuyor....
-export const getCitybyLocation = () => {
+export const getCitybyLocationNew = () => {
   try {
 
     const URL = define_api_url + `GetCityListFromAccount`;
 
     return fetch(URL, { method: 'GET' })
       .then((res) => res.json())
-      // .then((ret) => { console.log('Ret Code: ' +JSON.stringify(ret))})
       .catch(e => {
         console.log('CitybyLocation: ' + e)
       })
@@ -257,17 +262,34 @@ export const getCitybyLocation = () => {
     console.log('Error: ' + error);
   }
 }
-export const getCitylocationbyId = (Id) => {
+//Plaka Yakıtı Doldurmuyor....
+export const getCitybyLocation = () => {
+  try {
+
+    const URL = define_api_url + `GetHaritaCityListFromAccount`;
+
+    return fetch(URL, { method: 'GET' })
+      .then((res) => res.json())
+      .catch(e => {
+        console.log('CitybyLocation: ' + e)
+      })
+
+  } catch (error) {
+    console.log('Error: ' + error);
+  }
+}
+
+export const getCitylocationbyIdSatis = (Id) => {
   const URL = define_api_url + `GetCountiesByCityIdFromAccount?cityId=${Id}`;
   return getRequest(URL);
-  // return fetch(URL, { method: 'GET' })
-  //   .then((res) => res.json())
+}
+export const getCitylocationbyId = (Id) => {
+  const URL = define_api_url + `GetHaritaCountiesByCityIdFromAccount?cityId=${Id}`;
+  return getRequest(URL);
 }
 export const getCityList = () => {
   const URL = define_api_url + `GetCityList`;
   return getRequest(URL);
-  //  return fetch(URL, { method: 'GET' })
-  //    .then((res) => res.json())
 }
 
 export const getCitybyId = (Id) => {
@@ -516,34 +538,23 @@ export const SendPasswordByEmailAfterChangedPsw = async (eposta) => {
     console.log('SendPasswordByEmailAfterChangedPsw: ' + error);
   }
 }
+
 export const getIstasyonByCityId = (city, num) => {
-  const URL = define_api_url + `TP_AccountGeographyList2?bm_ilceId=${city}&StationNumber=${num}`;
+  const URL = define_api_url + `TP_HaritaAccountGeographyList2?bm_ilceId=${city}&StationNumber=${num}`;
   return getRequest(URL);
-  // return fetch(URL, { method: 'GET' })
-  //   .then((res) => res.json())
-  //.then((data) => { console.log("CityIdd=>" + JSON.stringify(data)) });
 }
 export const getDuyuruListByUser = (userId) => {
   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=1&contactid=${userId}`;
   return getRequest(URL);
-  //return fetch(URL, { method: 'GET' })
-  // .then((res) => res.json())
 }
 export const getSSS = (durum) => {
   const URL = define_api_url + `TP_MobileNotificationList?mobilIcerikStatus=${durum}`;
   return getRequest(URL);
-  // console.log('URL ' + URL);
-  // return fetch(URL, { method: 'GET' })
-  //   .then((res) => res.json())
 }
 export const getAracYakitTipi = (plaka) => {
   //console.log("getYakitTipi");
   const URL = define_api_url + `GetBm_MusteriArac?bm_musteriaraciId=${plaka}`;
   return getRequest(URL);
-  /* return fetch(URL)
-     .then((ret) => ret.json())
-   //    .then((data) => { console.log("Data=>" + JSON.stringify(data).bm_yakittipiadi) });
-   */
 }
 export const getAracTipleri =() =>{
   const URL = define_api_url + `GetAracTipi`;

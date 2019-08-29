@@ -6,7 +6,7 @@ import {
     List,
     ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content,Toast
 } from 'native-base';
-import { getIstasyonWithLatLon } from '../Service/FetchUser';
+import { getIstasyonWithLatLon,getHaritaIstasyonWithLatLon } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Geolocation from 'react-native-geolocation-service';
@@ -67,7 +67,7 @@ export default class EnYakinIstasyon extends Component {
         try {
             //    this.isAvailable();
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 5)
+            getHaritaIstasyonWithLatLon(this.state.latitude, this.state.longitude, 10)
                 .then((res) => {
                     this.setState({ listViewData: res, loading: false });
                     // console.log('res= ' + JSON.stringify(this.state.listViewData));
@@ -245,31 +245,7 @@ export default class EnYakinIstasyon extends Component {
         });
         this.setState({ loading: false })
     }
-    /*
-    async  requestLocationPermission() {
-        try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, {
-                    'title': 'Konum İzni Gerekli.',
-                    'message': 'Türkiye Petrolleri Konum Bilginizi kullanacak'
-                }
-            )
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
- 
-                that.callLocation(this);
-            } else {
-                alert("Permission Denied");
-            }
-        } catch (error) {
-           
-            alert("Hata: " + error);
-            console.warn(error)
-        }
-        finally{
-            that.callLocation(this);
-        }
-    }
-    */
+
     _getCoord = () => {
         try {
             var self = this;
