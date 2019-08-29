@@ -7,6 +7,7 @@ import {
 import { Left, Right, Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-community/async-storage';
+import firebase from 'react-native-firebase'
 
 import { getUserInfo, setStorage, getStorage, fetchgetLocation, checkConnection, internetConnection } from '../Service/FetchUser';
 export default class login extends Component {
@@ -28,7 +29,38 @@ export default class login extends Component {
     }
 
   }
-
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    console.log("before fcmToken: ", fcmToken);
+    if (!fcmToken) {
+      fcmToken = await firebase.messaging().getToken();
+      if (fcmToken) {
+        console.log("after fcmToken: ", fcmToken);
+        await AsyncStorage.setItem('fcmToken', fcmToken);
+      }
+    }
+  }
+  async requestPermission() {
+    firebase.messaging().requestPermission()
+      .then(() => {
+        this.getToken();
+      })
+      .catch(error => {
+        console.log('permission rejected');
+      });
+  }
+  async checkPermission() {
+    firebase.messaging().hasPermission()
+      .then(enabled => {
+        if (enabled) {
+          console.log("Permission granted");
+          this.getToken();
+        } else {
+          console.log("Request Permission");
+          this.requestPermission();
+        }
+      });
+  }
   getInfo = () => {
     try {
       NetInfo.isConnected.fetch().then(isConnected => {
@@ -114,6 +146,7 @@ export default class login extends Component {
     if (Password !== '') {
       this.setState({ Pass: Password, UserName: UserID });
     }
+    this.checkPermission();
   }
   handleBackPress = () => {
     //  BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async

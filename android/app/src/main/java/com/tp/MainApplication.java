@@ -3,6 +3,7 @@ package com.tp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
@@ -14,6 +15,9 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,11 +36,13 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new GeolocationPackage(),
             new RNFusedLocationPackage(),
-                       new RNTextInputMaskPackage(),
+            new RNTextInputMaskPackage(),
             new VectorIconsPackage(),
             new MapsPackage(),
             new RNGestureHandlerPackage(),
-            new AsyncStoragePackage()
+            new AsyncStoragePackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage()
       );
     }
 
