@@ -13,12 +13,6 @@
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
-
-#import <UserNotifications/UserNotifications.h>
-#import <Firebase.h>
-#import <FirebaseInstanceID/FirebaseInstanceID.h>
-#import <FirebaseMessaging.h>
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -35,66 +29,15 @@
                                             initialProperties:nil];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-  
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
-  // Use Firebase library to configure APIs
-  [FIRApp configure];
-  if ([UNUserNotificationCenter class] != nil) {
-    // iOS 10 or later
-    // For iOS 10 display notification (sent via APNS)
-    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
-    UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
-    [[UNUserNotificationCenter currentNotificationCenter]
-     requestAuthorizationWithOptions:authOptions
-     completionHandler:^(BOOL granted, NSError * _Nullable error) {
-       // …
-     }];
-  } else {
-    // iOS 10 notifications aren’t available; fall back to iOS 8–9 notifications.
-    UIUserNotificationType allNotificationTypes =
-    (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
-    UIUserNotificationSettings *settings =
-    [UIUserNotificationSettings settingsForTypes:allNotificationTypes categories:nil];
-    [application registerUserNotificationSettings:settings];
-  }
-  [application registerForRemoteNotifications];
-  [FIRMessaging messaging].delegate = self;
-  [[FIRInstanceID instanceID] instanceIDWithHandler:^(FIRInstanceIDResult * _Nullable result,
-                                                      NSError * _Nullable error) {
-    if (error != nil) {
-      NSLog(@"Error fetching remote instance ID: %@", error);
-    } else {
-      NSLog(@"Remote instance ID token: %@", result.token);
-      NSString* message =
-      [NSString stringWithFormat:@"Remote InstanceID token: %@", result.token];
-    }
-  }];
-  [FIRMessaging messaging].autoInitEnabled = YES;
-  
-  
- 
   return YES;
 }
-- (void)messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString *)fcmToken {
-  NSLog(@"FCM registration token: %@", fcmToken);
-  // Notify about received token.
-  NSDictionary *dataDict = [NSDictionary dictionaryWithObject:fcmToken forKey:@"token"];
-  [[NSNotificationCenter defaultCenter] postNotificationName:
-   @"FCMToken" object:nil userInfo:dataDict];
-  // TODO: If necessary send token to application server.
-  // Note: This callback is fired at each app startup and whenever a new token is generated.
-}
-// With “FirebaseAppDelegateProxyEnabled”: NO
-- (void)application:(UIApplication *)application
-didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  [FIRMessaging messaging].APNSToken = deviceToken;
-}
+
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
