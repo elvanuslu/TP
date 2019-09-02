@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Carousel from 'react-native-carousel-view';
+import TextTicker from 'react-native-text-ticker'
 
 
 const k1 = require("../../assets/TP_AdimizdaUlkemiz.jpg")
@@ -134,7 +135,18 @@ export default class AnaSayfa extends Component {
                     </Carousel>
                 </View>
                 <View style={styles.container1}>
-                    <Text>Buraya Kayan Yazı Gelecek</Text>
+                    <TextTicker
+                        style={styles.welcome}
+                        duration={7000}
+                        loop
+                        bounce
+                        repeatSpacer={50}
+                        marqueeDelay={1000}>
+                        Bu Topraklarda Büyümeye Devam Ediyoruz.
+                        Color Picker.
+                        Bu Topraklarda Büyümeye Devam Ediyoruz.
+                        Bu Topraklarda Büyümeye Devam Ediyoruz.
+                  </TextTicker>
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -198,7 +210,8 @@ const styles = StyleSheet.create({
     container1: {
         flex: 1,
         backgroundColor: 'transparent',
-        // marginTop:0,
+        marginLeft: 20,
+        marginRight: 20,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -223,7 +236,10 @@ const styles = StyleSheet.create({
     welcome: {
         fontSize: 20,
         textAlign: 'center',
-        margin: 10,
+        marginLeft: 20,
+        marginRight: 20,
+        color: '#4F4A49',
+        fontFamily: 'MyriadRegular',
     },
     carosel: {
 
