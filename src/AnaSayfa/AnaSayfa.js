@@ -8,7 +8,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import Carousel from 'react-native-carousel-view';
 import TextTicker from 'react-native-text-ticker'
-
+import { getDuyuruListByUser, getStorage } from '../Service/FetchUser';
 
 const k1 = require("../../assets/TP_AdimizdaUlkemiz.jpg")
 const k2 = require("../../assets/BuTopraklarda.jpg");
@@ -17,7 +17,7 @@ const k4 = require("../../assets/TP_App_Binek_1026x728-01.jpg")
 const k5 = require("../../assets/TP_App_Ticari_1026x728-01.jpg");
 const k6 = require("../../assets/TP_Mobil_hosgeldiniz_1026x768.jpg");
 const k7 = require("../../assets/TP_MobilIndirim.jpg");
-
+var Duyurular =[];
 export default class AnaSayfa extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +25,7 @@ export default class AnaSayfa extends Component {
             userName: '',
             latlon: undefined,
             loading: false,
+            data: [],
         }
     }
     _getGps1() {
@@ -80,11 +81,29 @@ export default class AnaSayfa extends Component {
         }
 
     }
-    componentWillReceiveProps(nextProps) {
-        //  this._getGps1();
-    }
     componentDidMount() {
-        //  alert(Math.round(Dimensions.get('window').width))
+        this._getDuyuruListesi();
+    }
+    _getDuyuruListesi = async () => {
+        try {
+            this.setState({ loading: true })
+            const uId = await getStorage('userId');
+            getDuyuruListByUser(uId)
+                .then((res) => {
+                    if (res.status !== false) {
+                        this.setState({ data: res, loading: false });
+                        // console.log(JSON.stringify(res));
+                    }
+                    else {
+                        Alert.alert('Hata', res.message);
+                    }
+                })
+                .catch((error) => alert(error))
+        } catch (error) {
+            this.setState({ loading: false })
+            Alert.alert('Hata', error);
+        }
+
     }
     render() {
         return (
@@ -137,15 +156,14 @@ export default class AnaSayfa extends Component {
                 <View style={styles.container1}>
                     <TextTicker
                         style={styles.welcome}
-                        duration={7000}
+                        duration={20000}
                         loop
                         bounce
                         repeatSpacer={50}
                         marqueeDelay={1000}>
-                        Bu Topraklarda Büyümeye Devam Ediyoruz.
-                        Color Picker.
-                        Bu Topraklarda Büyümeye Devam Ediyoruz.
-                        Bu Topraklarda Büyümeye Devam Ediyoruz.
+                        {this.state.data.map((data,i)=>
+                        ( data.bm_kisaaciklama+'.  '))}
+                       
                   </TextTicker>
                 </View>
                 <View style={styles.containerBottom}>
@@ -208,10 +226,10 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 1,
-        backgroundColor: 'transparent',
-        marginLeft: 20,
-        marginRight: 20,
+        flex: 0.7,
+        backgroundColor: '#F4F6F6',
+       // marginLeft: 20,
+       // marginRight: 20,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -221,7 +239,7 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         // alignItems: 'flex-start',
         marginTop: -30,
-        marginBottom: 50,
+        marginBottom: 60,
         //alignItems: 'center',
     },
     containerBottom: {
@@ -236,10 +254,10 @@ const styles = StyleSheet.create({
     welcome: {
         fontSize: 20,
         textAlign: 'center',
-        marginLeft: 20,
-        marginRight: 20,
+        fontStyle:'italic',
         color: '#4F4A49',
-        fontFamily: 'MyriadRegular',
+        fontFamily: 'MyriadBlack',
+        backgroundColor:'#F4F6F6'
     },
     carosel: {
 

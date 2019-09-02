@@ -58,16 +58,12 @@ export default class hesabim extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <View style={styles.container1}>
-                    <View>
-                        <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                    </View>
-                </View>
+                
                 <View style={styles.containerOrta}>
                     <Carousel
                         width={Math.round(Dimensions.get('window').width)}
                         delay={3000}
-                        height={300} >
+                        height={320} >
                          <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
@@ -138,15 +134,15 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     containerOrta: {
-        flex: 5,
+        flex: 6,
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
-        // marginBottom: 10,
-        //alignItems: 'center',
+       // marginTop: -30,
+       // marginBottom: 60,
     },
     containerBottom: {
-        flex: 7,
+        flex: 6,
         backgroundColor: 'transparent',
         // flexDirection: 'column-reverse',
         marginBottom: 5,
