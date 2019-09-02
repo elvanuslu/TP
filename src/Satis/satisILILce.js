@@ -6,7 +6,7 @@ import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Containe
 import {
     getCitybyLocation, getCitylocationbyId, checkConnection,
     campaignDetailList, getAracYakitTipi, getIstasyonByCityId, getPaymentTypes,
-    getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage ,getCitybyLocationNew,getCitylocationbyIdSatis
+    getIstasyonWithLatLon1, getYakitTipi, getPlakaList, getStorage ,getCitybyLocationNew,getCitylocationbyIdSatis
 } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { tryStatement } from '@babel/types';
@@ -739,7 +739,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: true })
             //    console.log('this.state.latitude: ' + this.state.latitude, ' this.state.longitude:' + this.state.longitude)
 
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 3)
+            getIstasyonWithLatLon1(this.state.latitude, this.state.longitude, 3)
                 .then((res) => {
                     //console.log('Istasyonlarım= ' + JSON.stringify(res));
 

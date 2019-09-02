@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Alert, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar } from 'react-native';
 import { Switch, Form, Input, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content } from 'native-base';
 
-import { getPaymentTypes, getIstasyonWithLatLon, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
+import { getPaymentTypes, getIstasyonWithLatLon1, getYakitTipi, getPlakaList, getStorage, getCitybyId, getCityList } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -417,7 +417,7 @@ export default class Satis extends Component {
     _getLatLon = () => {
         try {
             this.setState({ loading: true })
-            getIstasyonWithLatLon(this.state.latitude, this.state.longitude, 15)
+            getIstasyonWithLatLon1(this.state.latitude, this.state.longitude, 15)
                 .then((res) => {
 
                     this.setState({ datas: res, loading: false });
@@ -500,18 +500,7 @@ export default class Satis extends Component {
             Geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                 //   console.log('Konumlar: ' + JSON.stringify(position));
-                    /*  Toast.show({
-                          text: "Latitude: " +  position.coords.latitude,
-                          buttonText: "Tamam",
-                          type: 'danger'
-                        })
-                        Toast.show({
-                          text: "Longitude: " + position.coords.longitude,
-                          buttonText: "Tamam",
-                          type: 'danger'
-                        })
-                   */
+                 
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
@@ -557,8 +546,6 @@ export default class Satis extends Component {
     }
     //-------------------------------------------------------------
     componentDidMount() {
-        //  this.isAvailable();
-        //  console.log('Did Mount');
         this.getLocation();
         this._retrieveKullanici();
         this._getYakitTipleri();

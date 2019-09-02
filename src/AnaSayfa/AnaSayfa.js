@@ -129,7 +129,7 @@ export default class AnaSayfa extends Component {
                     <Carousel
                         width={Math.round(Dimensions.get('window').width)}
                         delay={3000}
-                        height={320}>
+                        height={295}>
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 0.7,
+        flex: 0.5,
         backgroundColor: '#F4F6F6',
        // marginLeft: 20,
        // marginRight: 20,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     welcome: {
-        fontSize: 20,
+        fontSize: 15,
         textAlign: 'center',
         fontStyle:'italic',
         color: '#4F4A49',

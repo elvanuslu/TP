@@ -103,9 +103,9 @@ export default class Duyurular extends Component {
                                 <CardItem header>
                                     <Text style={styles.textBaslik}>{item.bm_icerikadi}</Text>
                                 </CardItem>
-                                <CardItem cardBody style={{ borderRadius: 5 }}>
+                                <CardItem cardBody style={{ borderRadius: 15 }}>
                                     <Body>
-                                        <TouchableOpacity style={{ height: 133, width: '100%', }} onPress={() => this.onPressAndGo(item.bm_mobilcerikId, item.bm_url, item.bm_icerikadi, item.bm_uzunaciklama)}>
+                                        <TouchableOpacity style={{ height: 305, width: '100%', }} onPress={() => this.onPressAndGo(item.bm_mobilcerikId, item.bm_url, item.bm_icerikadi, item.bm_uzunaciklama)}>
 
                                             <Image style={styles.logo} source={{ uri: item.bm_url }} />
                                         </TouchableOpacity>

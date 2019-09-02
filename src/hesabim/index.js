@@ -63,7 +63,7 @@ export default class hesabim extends Component {
                     <Carousel
                         width={Math.round(Dimensions.get('window').width)}
                         delay={3000}
-                        height={320} >
+                        height={300} >
                          <View >
                             <Image style={styles.banner} source={k1} />
                         </View>

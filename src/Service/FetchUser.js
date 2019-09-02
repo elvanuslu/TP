@@ -46,6 +46,21 @@ export const getHaritaIstasyonWithLatLon =(lat,lon, sayac)=>{
     
   }
 }
+export const getIstasyonWithLatLon1 = (lat, lon, sayac) => {
+  /*
+    console.log('lat: '+lat); 
+     console.log('lon: '+lon); 
+     console.log('Sayaç: '+sayac); 
+     */
+  try {
+    const URL = define_api_url + `TP_AccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
+    return getRequest(URL);
+    //  return fetch(URL, { method: 'GET' })
+    //    .then((res) => res.json())
+  } catch (error) {
+
+  }
+}
 export const getIstasyonWithLatLon = (lat, lon, sayac) => {
   /*
     console.log('lat: '+lat); 
