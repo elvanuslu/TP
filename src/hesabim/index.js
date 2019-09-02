@@ -8,8 +8,18 @@ import Carousel from 'react-native-carousel-view';
 
 //const k1 = require("../../assets/Resim.png");
 const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
+<<<<<<< HEAD
 const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
 const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
+=======
+<<<<<<< HEAD
+const k2 = require("../../assets/Kampanya-2.png");
+const k3 = require("../../assets/Kampanya-3.png");
+=======
+const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
+const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
+>>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
+>>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
 
 export default class hesabim extends Component {
     constructor() {
@@ -61,10 +71,23 @@ export default class hesabim extends Component {
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
+<<<<<<< HEAD
                     <Carousel
                        width={Math.round(Dimensions.get('window').width)}
                        delay={3000}
                        height={300} >
+=======
+<<<<<<< HEAD
+                <Carousel
+                       width={Math.round(Dimensions.get('window').width)}
+                       height={300}>
+=======
+                    <Carousel
+                       width={Math.round(Dimensions.get('window').width)}
+                       height={300}
+                      >
+>>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
+>>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
@@ -75,6 +98,10 @@ export default class hesabim extends Component {
                             <Image style={styles.banner} source={k3} />
                         </View>
                     </Carousel>
+<<<<<<< HEAD
+=======
+
+>>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
                 </View>
                 <View style={styles.containerBottom}>
 
@@ -124,7 +151,11 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     containerOrta: {
+<<<<<<< HEAD
         flex: 5,
+=======
+        flex: 4,
+>>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
@@ -132,7 +163,11 @@ const styles = StyleSheet.create({
         //alignItems: 'center',
     },
     containerBottom: {
+<<<<<<< HEAD
         flex: 6,
+=======
+        flex: 7,
+>>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
         backgroundColor: 'transparent',
         // flexDirection: 'column-reverse',
         marginBottom: 5,
