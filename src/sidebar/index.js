@@ -56,7 +56,7 @@ export default class SideBar extends Component {
                         <Button block transparent style={styles.mb15} onPress={() => this.props.navigation.navigate("Yardim")}>
                             <Image
                                 style={styles.button}
-                                source={require('../../assets/yardim.png')}
+                                source={require('../../assets/BizeUlasinMenu.png')}
                             />
                         </Button>
                     </View>
@@ -98,6 +98,13 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: '100%',
         marginTop: 0,
+    },
+    button1: {
+       resizeMode: 'contain',
+        width: '100%',
+        height:100,
+        marginTop: 0,
+        backgroundColor:'yellow',
     },
     mb15: {
         marginBottom: 20
