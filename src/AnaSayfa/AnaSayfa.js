@@ -5,39 +5,17 @@ import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardIt
 
 import AsyncStorage from '@react-native-community/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
->>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
-import Carousel from 'react-native-carousel-view';
-
-//const k1 = require("../../assets/Resim.png");
-//const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
-//const k2 = require("../../assets/Kampanya-2.png");
-//const k3 = require("../../assets/Kampanya-3.png");
-
-const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
-<<<<<<< HEAD
-const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
-const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
-=======
-const k2 = require("../../assets/Kampanya-2.png");
-const k3 = require("../../assets/Kampanya-3.png");
-=======
 
 import Carousel from 'react-native-carousel-view';
 
-//const k1 = require("../../assets/Resim.png");
-//const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
-//const k2 = require("../../assets/Kampanya-2.png");
-//const k3 = require("../../assets/Kampanya-3.png");
 
-const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
-const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
-const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
->>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
->>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
+const k1 = require("../../assets/TP_AdimizdaUlkemiz.jpg")
+const k2 = require("../../assets/BuTopraklarda.jpg");
+const k3 = require("../../assets/KopukluKahve.jpg");
+const k4 = require("../../assets/TP_App_Binek_1026x728-01.jpg")
+const k5 = require("../../assets/TP_App_Ticari_1026x728-01.jpg");
+const k6 = require("../../assets/TP_Mobil_hosgeldiniz_1026x768.jpg");
+const k7 = require("../../assets/TP_MobilIndirim.jpg");
 
 export default class AnaSayfa extends Component {
     constructor(props) {
@@ -126,25 +104,12 @@ export default class AnaSayfa extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <View style={styles.container1}>
-                    <Image style={styles.logo} source={require('../../assets/logo.png')} />
-                </View>
+
                 <View style={styles.containerOrta}>
-<<<<<<< HEAD
-                <Carousel 
+                    <Carousel
                         width={Math.round(Dimensions.get('window').width)}
                         delay={3000}
-                        height={300}>
-=======
-                <Carousel
-                       width={Math.round(Dimensions.get('window').width)}
-<<<<<<< HEAD
-                       height={300}>
-=======
-                       height={300}
-                      >
->>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
->>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
+                        height={320}>
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
@@ -154,14 +119,22 @@ export default class AnaSayfa extends Component {
                         <View >
                             <Image style={styles.banner} source={k3} />
                         </View>
+                        <View >
+                            <Image style={styles.banner} source={k4} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k5} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k6} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k7} />
+                        </View>
                     </Carousel>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-                    
-=======
->>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
->>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
+                </View>
+                <View style={styles.container1}>
+                    <Text>Buraya Kayan Yazı Gelecek</Text>
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -175,7 +148,7 @@ export default class AnaSayfa extends Component {
                         <View style={{ flexDirection: 'row', marginBottom: 20, backgroundColor: 'transparent' }}>
                             <Left style={{ marginLeft: 20 }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() })}>
-                                    <Image style={styles.button} source={require('../../assets/yakitalldpi.png')} />
+                                    <Image style={styles.button} source={require('../../assets/YakitAlYeni.png')} />
                                 </TouchableOpacity>
                             </Left>
                             <Body>
@@ -185,7 +158,7 @@ export default class AnaSayfa extends Component {
                             </Body>
                             <Right style={{ marginRight: 20 }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("kampanya")}>
-                                    <Image style={styles.button} source={require('../../assets/kampanyalarldpi.png')} />
+                                    <Image style={styles.button} source={require('../../assets/KampanyalarYeni.png')} />
                                 </TouchableOpacity>
                             </Right>
 
@@ -220,25 +193,26 @@ export default class AnaSayfa extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        
+
     },
     container1: {
-        flex: 2,
+        flex: 1,
         backgroundColor: 'transparent',
-       // marginBottom: 10,
+        // marginTop:0,
         justifyContent: 'center',
         alignItems: 'center',
     },
     containerOrta: {
-        flex: 5,
+        flex: 4,
         backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginBottom: 10,
+        // justifyContent: 'center',
+        // alignItems: 'flex-start',
+        marginTop: -30,
+        marginBottom: 50,
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 6,
+        flex: 4,
         backgroundColor: 'transparent',
         flexDirection: 'row-reverse',
         marginBottom: 10,
@@ -251,11 +225,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10,
     },
-    carosel:{
-       
-        alignSelf:'flex-start',
-      justifyContent:'flex-start',
-      alignItems:'flex-start',
+    carosel: {
+
+        alignSelf: 'flex-start',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
     },
     instructions: {
         textAlign: 'center',
@@ -296,8 +270,8 @@ const styles = StyleSheet.create({
 
     button: {
         resizeMode: 'contain',
-        width: 90,
-        height: 90,
+        width: 105,
+        height: 105,
         backgroundColor: 'transparent'
         //  marginRight: 30,
         //  marginLeft: 30,

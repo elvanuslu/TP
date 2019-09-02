@@ -6,20 +6,13 @@ import { Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardIt
 import AsyncStorage from '@react-native-community/async-storage';
 import Carousel from 'react-native-carousel-view';
 
-//const k1 = require("../../assets/Resim.png");
-const k1 = require("../../assets/TP_Mobil_indirim_App1_1136X640px.jpg")
-<<<<<<< HEAD
-const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
-const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
-=======
-<<<<<<< HEAD
-const k2 = require("../../assets/Kampanya-2.png");
-const k3 = require("../../assets/Kampanya-3.png");
-=======
-const k2 = require("../../assets/TP_Urun_Binek_1792X828px.jpg");
-const k3 = require("../../assets/TP_Urun_Ticari_1334X750px.jpg");
->>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
->>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
+const k1 = require("../../assets/TP_AdimizdaUlkemiz.jpg")
+const k2 = require("../../assets/BuTopraklarda.jpg");
+const k3 = require("../../assets/KopukluKahve.jpg");
+const k4 = require("../../assets/TP_App_Binek_1026x728-01.jpg")
+const k5 = require("../../assets/TP_App_Ticari_1026x728-01.jpg");
+const k6 = require("../../assets/TP_Mobil_hosgeldiniz_1026x768.jpg");
+const k7 = require("../../assets/TP_MobilIndirim.jpg");
 
 export default class hesabim extends Component {
     constructor() {
@@ -71,40 +64,34 @@ export default class hesabim extends Component {
                     </View>
                 </View>
                 <View style={styles.containerOrta}>
-<<<<<<< HEAD
                     <Carousel
-                       width={Math.round(Dimensions.get('window').width)}
-                       delay={3000}
-                       height={300} >
-=======
-<<<<<<< HEAD
-                <Carousel
-                       width={Math.round(Dimensions.get('window').width)}
-                       height={300}>
-=======
-                    <Carousel
-                       width={Math.round(Dimensions.get('window').width)}
-                       height={300}
-                      >
->>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
->>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
-                        <View >
+                        width={Math.round(Dimensions.get('window').width)}
+                        delay={3000}
+                        height={300} >
+                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
-                        <View >
+                        <View>
                             <Image style={styles.banner} source={k2} />
                         </View>
                         <View >
                             <Image style={styles.banner} source={k3} />
                         </View>
+                        <View >
+                            <Image style={styles.banner} source={k4} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k5} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k6} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k7} />
+                        </View>
                     </Carousel>
-<<<<<<< HEAD
-=======
-
->>>>>>> b5d42c502031f0db2e934eae2c863a9184fbf5ba
                 </View>
                 <View style={styles.containerBottom}>
-
                     <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle", { 'Id': new Date() })}>
                         <Image style={styles.button}
                             source={require('../../assets/bilgilerimiguncelle.png')}
@@ -151,11 +138,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     containerOrta: {
-<<<<<<< HEAD
         flex: 5,
-=======
-        flex: 4,
->>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
@@ -163,40 +146,14 @@ const styles = StyleSheet.create({
         //alignItems: 'center',
     },
     containerBottom: {
-<<<<<<< HEAD
-        flex: 6,
-=======
         flex: 7,
->>>>>>> 3e101753a484f2328f6ca364316ae7e711b59fe2
         backgroundColor: 'transparent',
         // flexDirection: 'column-reverse',
         marginBottom: 5,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    /*
-    container1: {
-        flex: 2,
-        backgroundColor: 'red',
-        // alignItems: 'center',
-    },
-    containerOrta: {
-        flex: 3,
-        backgroundColor: 'yellow',
-        //alignItems: 'center',
-    },
-    containerBottom: {
-        flex: 4,
-        backgroundColor: 'green',
-        alignSelf: 'center',
-        marginBottom: 35,
-        // justifyContent: 'center',
-        // alignItems:'center',
-        // flexDirection: 'column',
-        //  width: '100%',
 
-    },
-    */
     welcome: {
         fontSize: 20,
         textAlign: 'center',
