@@ -117,10 +117,6 @@ export default class hesabim extends Component {
     }
 }
 
-
-/*
- 
-*/
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -176,14 +172,6 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         alignSelf: 'center'
     },
-    /* logo: {
-         marginTop: 5,
-         //  width: 150,
-         height: '75%',
-         resizeMode: 'contain',
-         marginBottom: 5,
-     },
-     */
     banner: {
         // alignSelf: 'center',
         width: Math.round(Dimensions.get('window').width),
@@ -191,15 +179,6 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         marginBottom: 15,
     },
-    /*
-    banner: {
-        // marginTop: 2,
-        width: '100%',
-        height: 195,
-        resizeMode: 'contain',
-        marginBottom: 5,
-    },
-    */
     switchcontainer: {
         flexDirection: 'row',
         alignSelf: 'flex-end',
