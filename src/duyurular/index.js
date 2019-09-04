@@ -33,12 +33,11 @@ export default class Duyurular extends Component {
         try {
             this.setState({ loading: true })
             const uId = await getStorage('userId');
-            //   console.log('mount'+uId)
             getDuyuruListByUser(uId)
                 .then((res) => {
                     if (res.status !== false) {
                         this.setState({ data: res, loading: false });
-                         console.log(JSON.stringify(res));
+                        console.log(JSON.stringify(res));
                     }
                     else {
                         Alert.alert('Hata', res.message);
@@ -52,7 +51,7 @@ export default class Duyurular extends Component {
 
     }
     onPressAndGo(Id, url, aciklama, aciklama2) {
-      //  console.log('duyuru url='+url);
+        //  console.log('duyuru url='+url);
         /*console.log('duyuru Id='+Id);
         console.log('duyuru url='+url);
         console.log('duyuru aciklama='+aciklama);
@@ -106,10 +105,8 @@ export default class Duyurular extends Component {
                                 <CardItem cardBody style={{ borderRadius: 15 }}>
                                     <Body>
                                         <TouchableOpacity style={{ height: 305, width: '100%', }} onPress={() => this.onPressAndGo(item.bm_mobilcerikId, item.bm_url, item.bm_icerikadi, item.bm_uzunaciklama)}>
-
                                             <Image style={styles.logo} source={{ uri: item.bm_url }} />
                                         </TouchableOpacity>
-
                                     </Body>
                                 </CardItem>
                                 <CardItem footer>
@@ -146,7 +143,7 @@ const styles = StyleSheet.create({
     logo: {
         width: '100%',
         height: '100%',
-        resizeMode:'contain',
+        resizeMode: 'contain',
     },
     cardmb: {
         marginLeft: 15,

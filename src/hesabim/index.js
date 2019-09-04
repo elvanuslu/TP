@@ -39,7 +39,7 @@ export default class hesabim extends Component {
     render() {
         const { navigation } = this.props;
         const otherParam = navigation.getParam('Data', '');
-        //console.log("Datam=>" + otherParam.firstname + " " + otherParam.lastname)
+       
         return (
             <Container style={styles.container}>
                 <StatusBar backgroundColor="transparent" barStyle="light-content" />
@@ -58,34 +58,39 @@ export default class hesabim extends Component {
                         </Button>
                     </Right>
                 </Header>
-                
+
                 <View style={styles.containerOrta}>
-                    <Carousel
-                        width={Math.round(Dimensions.get('window').width)}
-                        delay={3000}
-                        height={300} >
-                         <View >
-                            <Image style={styles.banner} source={k1} />
-                        </View>
-                        <View>
-                            <Image style={styles.banner} source={k2} />
-                        </View>
-                        <View >
-                            <Image style={styles.banner} source={k3} />
-                        </View>
-                        <View >
-                            <Image style={styles.banner} source={k4} />
-                        </View>
-                        <View >
-                            <Image style={styles.banner} source={k5} />
-                        </View>
-                        <View >
-                            <Image style={styles.banner} source={k6} />
-                        </View>
-                        <View >
-                            <Image style={styles.banner} source={k7} />
-                        </View>
-                    </Carousel>
+                <Carousel 
+                   width={Math.round(Dimensions.get('window').width)}
+                   delay={3000}
+                   height={310} >
+                   
+                   <View>
+                       <Image style={styles.banner} source={k1} />
+                   </View>
+                   <View >
+                       <Image style={styles.banner} source={k2} />
+                   </View>
+                   <View>
+                       <Image style={styles.banner} source={k3} />
+                   </View>
+                   <View >
+                       <Image style={styles.banner} source={k4} />
+                   </View>
+                   <View >
+                       <Image style={styles.banner} source={k5} />
+                   </View>
+                   <View>
+                       <Image style={styles.banner} source={k6} />
+                   </View>
+                   <View>
+                       <Image style={styles.banner} source={k7} />
+                   </View>
+               
+               </Carousel>
+                </View>
+                <View style={styles.container1}>
+
                 </View>
                 <View style={styles.containerBottom}>
                     <TouchableOpacity style={{ justifyContent: 'center', height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("KayitGuncelle", { 'Id': new Date() })}>
@@ -123,22 +128,21 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 2,
+        flex: 0.13,
         backgroundColor: 'transparent',
         //marginBottom: 10,
         justifyContent: 'center',
         // alignItems: 'center',
     },
     containerOrta: {
-        flex: 6,
+        flex: 1,
         backgroundColor: 'transparent',
-        justifyContent: 'center',
-        alignItems: 'center',
-       // marginTop: -30,
-       // marginBottom: 60,
+       justifyContent:'flex-start',
+        // marginTop: -20,
+        // marginBottom: 60,
     },
     containerBottom: {
-        flex: 6,
+        flex: 1,
         backgroundColor: 'transparent',
         // flexDirection: 'column-reverse',
         marginBottom: 5,
@@ -177,7 +181,7 @@ const styles = StyleSheet.create({
         width: Math.round(Dimensions.get('window').width),
         height: Math.round(Dimensions.get('window').height) / 2,
         resizeMode: 'contain',
-        marginBottom: 15,
+       marginTop:-35,
     },
     switchcontainer: {
         flexDirection: 'row',

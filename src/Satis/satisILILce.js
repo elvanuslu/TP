@@ -363,6 +363,7 @@ export default class SatisIllce extends Component {
     _campaignDetailList = async () => {
         try {
             //this.getcampaignDetailList();
+           
             this.setState({ loading: true })
             const Id = await getStorage('userId');
             if (this.state.istasyonselectedId != undefined) { //istasyon
@@ -545,8 +546,9 @@ export default class SatisIllce extends Component {
                             ]
                         }
                         this.setState({selected2:jsonBody[1].bm_yakittipiid})
-                        console.log('JsonBody Yakıt: '+ jsonBody[1].bm_yakittipiid)
+                        console.log('JsonBody Yakıt: '+jsonBody[1].bm_yakittipiadi)
                         this.setState({
+                            YakitAdi:jsonBody[1].bm_yakittipiadi,
                             yakitTipleri: jsonBody,
                             loading: false,
                         });
@@ -613,7 +615,7 @@ export default class SatisIllce extends Component {
                         YakitAdi: this.state.yakitTipleri.find(p => p.bm_yakittipiid === value).bm_yakittipiadi,
                     },
                     () => {
-                        //  console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
+                          console.log('YakıtId: ' + this.state.YakitAdi, ' Selected: ' + this.state.selected2)
                     }
                 )
             }

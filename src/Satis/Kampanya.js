@@ -21,7 +21,7 @@ const kampanya = require("../../assets/kapmpanyakirmizi.png");
 /*
 bm_kampanyaId":"00000000-0000-0000-0000-000000000000"
 */
-var kampanyaId ='';
+var kampanyaId = '';
 export default class KampanyaSec extends Component {
     constructor(props) {
         super(props);
@@ -111,7 +111,9 @@ export default class KampanyaSec extends Component {
         }
     }
     _btnDevam = (item, fiyat) => {
+       
         var Secilen = this.state.datam.find(p => p.bm_kampanyaId === item);
+        console.log('Kampanyasız: '+ JSON.stringify(Secilen));
         this.props.navigation.navigate("OzetBilgi", {
             'Parametre': this.props.navigation.state.params, 'KampanyaId': '00000000-0000-0000-0000-000000000000', 'birimFiyati': undefined,
             'birimFiyati': Secilen.TavsiyeEdilenfiyati, 'Fiyatlar': Secilen
@@ -162,6 +164,7 @@ export default class KampanyaSec extends Component {
     }
     _campaignDetails = (myProp) => {
         try {
+            console.log('Kampanya Datyları: ' + JSON.stringify(myProp))
             this.setState({ loading: true });
             campaignDetailList(myProp.navigation.state.params.Istasyon,
                 myProp.navigation.state.params.Yakit,
@@ -184,22 +187,23 @@ export default class KampanyaSec extends Component {
                                     ],
                                     { cancelable: false },
                                 );
-                            }, 510);
+                            }, 0);
                         });
 
 
                     }
                     else {
                         console.log('Kampnaya Bul: ' + JSON.stringify(res))
+                        console.log('Kampanya Datyları: ' + JSON.stringify(myProp))
                         this.setState({
                             datam: res,
                             loading: false,
                             secilikampanyaId: res[0].bm_kampanyaId
                         });
-                        console.log('res[0].bm_kampanyaId:'+res[0].bm_kampanyaId)
+                        console.log('res[0].bm_kampanyaId:' + res[0].bm_kampanyaId)
                         kampanyaId = res[0].bm_kampanyaId;
                         this.setState({ gelenIndirimliBirimFiyat: res[0].indirimlifiyati })
-                       
+
                         if (res[0].bm_kampanyaId === '00000000-0000-0000-0000-000000000000') {
                             this.setState({ secilikampanyaId: res[0].bm_kampanyaId })
                             //this._git();
@@ -307,7 +311,7 @@ export default class KampanyaSec extends Component {
         }
     }
     KampanyaGoster = (item) => {
-       
+
         if (this.state.secilikampanyaId == '00000000-0000-0000-0000-000000000000') {
             return (
                 <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -321,14 +325,12 @@ export default class KampanyaSec extends Component {
         else {
             return (
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevamKampanyali(item.bm_kampanyaId)}>
-                        <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYA SEÇ</Text>
+                    <Button block danger style={{ marginTop: 5, marginRight: 5, width: '100%' }} onPress={() => this._btnDevamKampanyali(item.bm_kampanyaId)}>
+                        <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>SEÇ VE DEVAM ET</Text>
                     </Button>
-                    <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() => this._btnDevam(item.bm_kampanyaId, item.TavsiyeEdilenfiyati)}>
-                        <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
-                    </Button>
+                   
                 </View>
-      
+
             )
         }
     }
@@ -434,7 +436,12 @@ export default class KampanyaSec extends Component {
     }
 
 }
-
+// this._btnDevam(item.bm_kampanyaId, item.TavsiyeEdilenfiyati)
+/*
+ <Button block danger style={{ marginTop: 5, marginRight: 5, width: '50%' }} onPress={() =>this._btnDevam(item.bm_kampanyaId, item.TavsiyeEdilenfiyati)}>
+                        <Text style={{ color: '#fff', fontSize: 12, fontWeight: 'bold' }}>KAMPANYASIZ DEVAM ET</Text>
+                    </Button>
+*/
 const styles = StyleSheet.create({
     containerKapmayali: {
         flex: 1,

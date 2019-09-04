@@ -174,7 +174,7 @@ export default class AnaSayfa extends Component {
                             textStyle={styles.spinnerTextStyle}
                         />
                     </View>
-                    <View style={{ flex: 3, flexDirection: "column", backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: "column", backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row', marginBottom: 20, backgroundColor: 'transparent' }}>
                             <Left style={{ marginLeft: 20 }}>
                                 <TouchableOpacity onPress={() => this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() })}>
@@ -226,24 +226,26 @@ const styles = StyleSheet.create({
 
     },
     container1: {
-        flex: 0.5,
+        flex: 0.15,
         backgroundColor: '#F4F6F6',
-       // marginLeft: 20,
-       // marginRight: 20,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop:10,
+       // marginLeft: 20,
+       // marginRight: 20,
+       
     },
     containerOrta: {
-        flex: 4,
+        flex: 1,
         backgroundColor: 'transparent',
         // justifyContent: 'center',
         // alignItems: 'flex-start',
-        marginTop: -30,
-        marginBottom: 60,
+       // marginTop: -30,
+       // marginBottom: 60,
         //alignItems: 'center',
     },
     containerBottom: {
-        flex: 4,
+        flex: 0.8,
         backgroundColor: 'transparent',
         flexDirection: 'row-reverse',
         marginBottom: 10,
@@ -252,6 +254,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     welcome: {
+       
         fontSize: 15,
         textAlign: 'center',
         fontStyle:'italic',
@@ -292,7 +295,8 @@ const styles = StyleSheet.create({
         width: Math.round(Dimensions.get('window').width),
         height: Math.round(Dimensions.get('window').height) / 2,
         resizeMode: 'contain',
-        marginBottom: 15,
+        marginTop:-34,
+       // marginBottom: 15,
     },
     switchcontainer: {
         flexDirection: 'row',
