@@ -743,9 +743,9 @@ export default class SatisIllce extends Component {
 
             getIstasyonWithLatLon1(this.state.latitude, this.state.longitude, 3)
                 .then((res) => {
-                    //console.log('Istasyonlarım= ' + JSON.stringify(res));
+                    console.log('Istasyonlarım= ' + JSON.stringify(res));
 
-                    if (res.status !== false && res.length > 1) {
+                    if (res.status !== false && res.length >= 1) {
                         var initialArr = { 'AccountId': '00000000-0000-0000-0000-000000000000', 'name': 'İstasyon Seç' };
                         res.splice(0, 0, initialArr);
                         this.setState({ datas: res });

@@ -219,18 +219,11 @@ export default class login extends Component {
                  */
               //      console.log("stateUserId=>" + this.state.userId);
               if (res.contactid === undefined) {
-
-                /*    Toast.show({
-                      text: "Hata\n" + res,
-                      buttonText: "Okay",
-                      type: 'danger'
-                    })
-                  */
                 this.setState({ loading: false }, () => {
                   setTimeout(() => {
                     Alert.alert(
                       'Hata',
-                      res.message,
+                      res,
                       [
 
                         { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },

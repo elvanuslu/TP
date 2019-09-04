@@ -64,7 +64,12 @@ export default class hesabim extends Component {
                    width={Math.round(Dimensions.get('window').width)}
                    delay={3000}
                    height={310} >
-                   
+                    <View>
+                       <Image style={styles.banner} source={k6} />
+                   </View>
+                   <View>
+                       <Image style={styles.banner} source={k7} />
+                   </View>
                    <View>
                        <Image style={styles.banner} source={k1} />
                    </View>
@@ -80,12 +85,7 @@ export default class hesabim extends Component {
                    <View >
                        <Image style={styles.banner} source={k5} />
                    </View>
-                   <View>
-                       <Image style={styles.banner} source={k6} />
-                   </View>
-                   <View>
-                       <Image style={styles.banner} source={k7} />
-                   </View>
+                  
                
                </Carousel>
                 </View>

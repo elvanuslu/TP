@@ -93,15 +93,52 @@ export default class AnaSayfa extends Component {
                     if (res.status !== false) {
                         this.setState({ data: res, loading: false });
                         // console.log(JSON.stringify(res));
+                        
                     }
                     else {
-                        Alert.alert('Hata', res.message);
+                        this.setState({ loading: false }, () => {
+                            setTimeout(() => {
+                                Alert.alert(
+                                    'Hata Oluştu',
+                                    res.message,
+                                    [
+                                        { text: 'Tamam', onPress: () => '' },
+                                    ],
+                                    { cancelable: true },
+                                )
+                            }, 0);
+                        });
+                       
                     }
                 })
-                .catch((error) => alert(error))
+                .catch((error) => 
+                this.setState({ loading: false }, () => {
+                    setTimeout(() => {
+                        Alert.alert(
+                            'Hata Oluştu',
+                            error,
+                            [
+
+                                { text: 'Tamam', onPress: () => '' },
+                            ],
+                            { cancelable: true },
+                        )
+                    }, 0);
+                }))
         } catch (error) {
-            this.setState({ loading: false })
-            Alert.alert('Hata', error);
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Hata Oluştu',
+                        error,
+                        [
+
+                            { text: 'Tamam', onPress: () => '' },
+                        ],
+                        { cancelable: true },
+                    )
+                }, 0);
+            });
         }
 
     }
@@ -131,6 +168,12 @@ export default class AnaSayfa extends Component {
                         delay={3000}
                         height={295}>
                         <View >
+                            <Image style={styles.banner} source={k6} />
+                        </View>
+                        <View >
+                            <Image style={styles.banner} source={k7} />
+                        </View>
+                        <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
                         <View>
@@ -145,12 +188,7 @@ export default class AnaSayfa extends Component {
                         <View >
                             <Image style={styles.banner} source={k5} />
                         </View>
-                        <View >
-                            <Image style={styles.banner} source={k6} />
-                        </View>
-                        <View >
-                            <Image style={styles.banner} source={k7} />
-                        </View>
+                        
                     </Carousel>
                 </View>
                 <View style={styles.container1}>
