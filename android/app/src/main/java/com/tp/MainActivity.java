@@ -1,4 +1,4 @@
-package com.tp;
+package com.turkiyepetroller.TP;
 
 import com.facebook.react.ReactActivity;
 

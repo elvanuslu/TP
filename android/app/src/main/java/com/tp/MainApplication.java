@@ -1,4 +1,4 @@
-package com.tp;
+package com.turkiyepetroller.TP;
 
 import android.app.Application;
 

@@ -28,66 +28,13 @@ export default class AnaSayfa extends Component {
             data: [],
         }
     }
-    _getGps1() {
-        try {
-            navigator.geolocation.getCurrentPosition(
-                //Will give you the current location
-                (position) => {
-                    console.log('currentLongitude' + position.coords.longitude)
-                    const currentLongitude = (position.coords.longitude);
-                    const currentLatitude = JSON.stringify(position.coords.latitude);
-                    this.setState({ latlon: position.coords.longitude });
-
-                },
-                (error) => '',
-                {
-                    enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
-                }
-            );
-        } catch (error) {
-
-        }
-        finally {
-
-        }
-    }
-    _getGps() {
-        try {
-            
-            navigator.geolocation.getCurrentPosition(
-                //Will give you the current location
-                (position) => {
-                    console.log('currentLongitude' + position.coords.longitude)
-                    const currentLongitude = (position.coords.longitude);
-                    const currentLatitude = JSON.stringify(position.coords.latitude);
-                    this.setState({ latlon: position.coords.longitude });
-                    if (this.state.latlon !== undefined) {
-                        this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() });
-                       // this.props.navigation.navigate("Satis");
-                    }
-                    else {
-                        this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() });
-
-                    }
-                },
-                (error) => {
-                    this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() });
-                },
-                {
-                    enableHighAccuracy: true, timeout: 2000, maximumAge: 1000
-                }
-            );
-        } catch (error) {
-
-        }
-
-    }
+    
     componentDidMount() {
         this._getDuyuruListesi();
     }
     _getDuyuruListesi = async () => {
         try {
-            this.setState({ loading: true })
+          //  this.setState({ loading: true })
             const uId = await getStorage('userId');
             getDuyuruListByUser(uId)
                 .then((res) => {
