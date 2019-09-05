@@ -53,7 +53,7 @@ export default class AnaSayfa extends Component {
     }
     _getGps() {
         try {
-            this.setState({ loading: true })
+            
             navigator.geolocation.getCurrentPosition(
                 //Will give you the current location
                 (position) => {
@@ -62,7 +62,8 @@ export default class AnaSayfa extends Component {
                     const currentLatitude = JSON.stringify(position.coords.latitude);
                     this.setState({ latlon: position.coords.longitude });
                     if (this.state.latlon !== undefined) {
-                        this.props.navigation.navigate("Satis");
+                        this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() });
+                       // this.props.navigation.navigate("Satis");
                     }
                     else {
                         this.props.navigation.navigate("SatisIllce", { 'Tim': new Date() });
@@ -297,7 +298,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontStyle:'italic',
         color: '#4F4A49',
-        fontFamily: 'MyriadBlack',
+        fontFamily: 'FontAwesome',
         backgroundColor:'#F4F6F6'
     },
     carosel: {
