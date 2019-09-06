@@ -93,8 +93,8 @@ export default class Yardim extends Component {
                                 </CardItem>
                                 <CardItem style={{marginTop:0}}>
                                 <TouchableOpacity style={{color:'blue', }}
-                                     onPress={() => { this.dialCall('02162284000') }}>
-                                        <Text style={styles.txtYazi1}>0(216) 228 40 00</Text>
+                                     onPress={() => { this.dialCall(4444487) }}>
+                                        <Text style={styles.txtYazi1}>444-4487</Text>
                                     </TouchableOpacity>
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 10,marginTop:10 }}>
@@ -106,9 +106,10 @@ export default class Yardim extends Component {
                               
                                 <CardItem style={{marginTop:0}}>
                                 <TouchableOpacity style={{color:'blue', }}
-                                     onPress={() => { this.dialCall(4444487) }}>
-                                        <Text style={styles.txtYazi1}>444-4487</Text>
+                                     onPress={() => { this.dialCall('02162284000') }}>
+                                        <Text style={styles.txtYazi1}>0(216) 228 40 00</Text>
                                     </TouchableOpacity>
+                               
                                 </CardItem>
                                 <CardItem cardBody style={{ borderRadius: 10, marginTop:10}}>
                                     <Text style={styles.txtYazi}>Geri Bildirim{'\n'}
@@ -160,13 +161,13 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 14,
         marginLeft:15,
-        //  fontWeight:'bold',
+          fontWeight:'bold',
         textAlign: 'left',
         //margin: 10,
         fontFamily: "Myriadpro-Regular",//"Myriadpro-Regular",
     },
     txtYazi1: {
-        color: 'blue',
+        color: '#5DADE2',
         fontSize: 14,
         textAlign: 'left',
         fontFamily: "Myriadpro-Regular",
