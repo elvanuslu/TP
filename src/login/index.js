@@ -104,7 +104,7 @@ export default class login extends Component {
   }
   componentDidMount = async () => {
     fetchgetLocation();
-    let durum = this.baglantiDurumu(); //BUrayı Ekledik yarın kontrol edilecek...
+    let durum = this.baglantiDurumu(); 
     if (durum === false)
       return;
     

@@ -248,16 +248,7 @@ export default class Harita extends Component {
             },
             { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000 }
         );
-        /*  Burası Sürekli Gps Güncelleme için daha sonra açılabilir....
-        that.watchID = Geolocation.watchPosition((position) => {
-            console.log('Watch Pos: ' +JSON.stringify(position));
-            const currentLongitude = JSON.stringify(position.coords.longitude);
-            const currentLatitude = JSON.stringify(position.coords.latitude);
-            that.setState({ latitude: currentLatitude });
-            that.setState({ longitude: currentLongitude });
-            this._internaGetData(currentLatitude,currentLongitude);
-        });
-*/
+      
     }
     componentWillUnmount() {
         this.removeLocationUpdates();

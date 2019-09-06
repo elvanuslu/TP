@@ -73,9 +73,7 @@ export default class hesabim extends Component {
                    <View>
                        <Image style={styles.banner} source={k1} />
                    </View>
-                   <View >
-                       <Image style={styles.banner} source={k2} />
-                   </View>
+                
                    <View>
                        <Image style={styles.banner} source={k3} />
                    </View>

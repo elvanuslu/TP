@@ -176,34 +176,22 @@ export default class yenikayit extends Component {
                                                     if (responseData.status == true) {
                                                         setStorage('kullaniciId', responseData.message);
                                                         this.props.navigation.navigate("Kodec", { 'Id': responseData.message });
-
-                                                        /*
-                                                        Alert.alert(
-                                                            'Kayıt İşlemi!',
-                                                            responseData.message,
-                                                            [
-
-                                                                { text: 'Tamam', onPress: () => { 
-
-                                                                    this.props.navigation.navigate("Kodec");
-                                                                } },
-                                                            ],
-                                                            { cancelable: true },
-                                                        );
-                                                        */
-                                                        // console.log("response: " + JSON.stringify(responseData)) 
                                                     }
                                                     else {
-                                                        this.setState({ loading: false })
-                                                        Alert.alert(
-                                                            'Kayıt İşlemi',
-                                                            responseData.message,
-                                                            [
-
-                                                                { text: 'Tamam', onPress: () => console.log('False') },
-                                                            ],
-                                                            { cancelable: true },
-                                                        );
+                                                        this.setState({ loading: false }, () => {
+                                                            setTimeout(() => {
+                                                                Alert.alert(
+                                                                    'Kayıt İşlemi',
+                                                                    responseData.message,
+                                                                    [
+            
+                                                                        { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                                                                    ],
+                                                                    { cancelable: true },
+                                                                );
+                                                            }, 0);
+                                                        });
+                                                      
                                                     }
                                                 })
                                                 .catch((err) => {

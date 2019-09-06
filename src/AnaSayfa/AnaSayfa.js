@@ -17,7 +17,7 @@ const k4 = require("../../assets/TP_App_Binek_1026x728-01.jpg")
 const k5 = require("../../assets/TP_App_Ticari_1026x728-01.jpg");
 const k6 = require("../../assets/TP_Mobil_hosgeldiniz_1026x768.jpg");
 const k7 = require("../../assets/TP_MobilIndirim.jpg");
-var Duyurular =[];
+var Duyurular = [];
 export default class AnaSayfa extends Component {
     constructor(props) {
         super(props);
@@ -28,20 +28,20 @@ export default class AnaSayfa extends Component {
             data: [],
         }
     }
-    
+
     componentDidMount() {
         this._getDuyuruListesi();
     }
     _getDuyuruListesi = async () => {
         try {
-          //  this.setState({ loading: true })
+            //  this.setState({ loading: true })
             const uId = await getStorage('userId');
             getDuyuruListByUser(uId)
                 .then((res) => {
                     if (res.status !== false) {
                         this.setState({ data: res, loading: false });
                         // console.log(JSON.stringify(res));
-                        
+
                     }
                     else {
                         this.setState({ loading: false }, () => {
@@ -56,23 +56,23 @@ export default class AnaSayfa extends Component {
                                 )
                             }, 0);
                         });
-                       
+
                     }
                 })
-                .catch((error) => 
-                this.setState({ loading: false }, () => {
-                    setTimeout(() => {
-                        Alert.alert(
-                            'Hata Oluştu',
-                            error,
-                            [
+                .catch((error) =>
+                    this.setState({ loading: false }, () => {
+                        setTimeout(() => {
+                            Alert.alert(
+                                'Hata Oluştu',
+                                error,
+                                [
 
-                                { text: 'Tamam', onPress: () => '' },
-                            ],
-                            { cancelable: true },
-                        )
-                    }, 0);
-                }))
+                                    { text: 'Tamam', onPress: () => '' },
+                                ],
+                                { cancelable: true },
+                            )
+                        }, 0);
+                    }))
         } catch (error) {
             this.setState({ loading: false }, () => {
                 setTimeout(() => {
@@ -124,9 +124,7 @@ export default class AnaSayfa extends Component {
                         <View >
                             <Image style={styles.banner} source={k1} />
                         </View>
-                        <View>
-                            <Image style={styles.banner} source={k2} />
-                        </View>
+                       
                         <View >
                             <Image style={styles.banner} source={k3} />
                         </View>
@@ -136,7 +134,7 @@ export default class AnaSayfa extends Component {
                         <View >
                             <Image style={styles.banner} source={k5} />
                         </View>
-                        
+
                     </Carousel>
                 </View>
                 <View style={styles.container1}>
@@ -147,10 +145,10 @@ export default class AnaSayfa extends Component {
                         bounce
                         repeatSpacer={50}
                         marqueeDelay={1000}>
-                        {this.state.data.map((data,i)=>
-                        ( data.bm_kisaaciklama+'.  '))}
-                       
-                  </TextTicker>
+                        {this.state.data.map((data, i) =>
+                            (data.bm_kisaaciklama + '.  '))}
+
+                    </TextTicker>
                 </View>
                 <View style={styles.containerBottom}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -216,19 +214,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#F4F6F6',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop:10,
-       // marginLeft: 20,
-       // marginRight: 20,
-       
+        marginTop: 10,
+        // marginLeft: 20,
+        // marginRight: 20,
+
     },
     containerOrta: {
         flex: 1,
         backgroundColor: 'transparent',
-        // justifyContent: 'center',
-        // alignItems: 'flex-start',
-       // marginTop: -30,
-       // marginBottom: 60,
-        //alignItems: 'center',
     },
     containerBottom: {
         flex: 0.8,
@@ -240,13 +233,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     welcome: {
-       
+
         fontSize: 15,
         textAlign: 'center',
-        fontStyle:'italic',
+        fontStyle: 'italic',
         color: '#4F4A49',
         fontFamily: 'FontAwesome',
-        backgroundColor:'#F4F6F6'
+        backgroundColor: '#F4F6F6'
     },
     carosel: {
 
@@ -281,8 +274,8 @@ const styles = StyleSheet.create({
         width: Math.round(Dimensions.get('window').width),
         height: Math.round(Dimensions.get('window').height) / 2,
         resizeMode: 'contain',
-        marginTop:-34,
-       // marginBottom: 15,
+        marginTop: -34,
+        // marginBottom: 15,
     },
     switchcontainer: {
         flexDirection: 'row',
