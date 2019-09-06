@@ -4,9 +4,8 @@ import {
     BackHandler, Alert, KeyboardAvoidingView, NetInfo, ToastAndroid,
     Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
-import { Left, Right, Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
-import Spinner from 'react-native-loading-spinner-overlay';
-import AsyncStorage from '@react-native-community/async-storage';
+import { Button,Container, } from 'native-base';
+
 
 
 export default class SplasScreen extends Component {
@@ -14,14 +13,27 @@ export default class SplasScreen extends Component {
         super(props);
 
     }
+    _handleGo = () => {
+        setTimeout(() => {
+            return (
+                this.props.navigation.navigate("login")
+            )
+        }, 3000)
+    }
     render() {
         return (
             <Container>
                 <View style={styles.container}>
-                    <ImageBackground source={require('../../assets/TP_AdımızdaUlkemiz_App_640X1136px.jpg')} 
-                    style={{ width=Math.round(Dimensions.get('window').width), 
-                    height =Math.round(Dimensions.get('window').height)
-                    }} />
+                    <ImageBackground source={require('../assets/TPSplash.jpg')}
+                        style={{ 
+                            width: "100%",
+                            height: "100%",
+                        }} />
+
+                    {
+                        this._handleGo()
+
+                    }
 
                 </View>
             </Container>

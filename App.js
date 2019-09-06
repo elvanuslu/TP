@@ -37,6 +37,7 @@ import AnaSayfa from './src/AnaSayfa/AnaSayfa';
 import Sozlesme from './src/Yardim/Sozlesme';
 import SatisIllce from './src/Satis/satisILILce';
 import Filtre from './src/EnYakinIstasyon/Filtre';
+import SplasScreen from './src/Splash';
 
 
 const Drawer = createDrawerNavigator({
@@ -65,10 +66,11 @@ const Drawer = createDrawerNavigator({
   KampanyaSec: { screen: KampanyaSec},
   PlakaDuzenle: { screen: PlakaDuzenle},
   OzetBilgi :{ screen: OzetBilgi},
+  SplasScreen:{ screen: SplasScreen},
 
 },
   {
-    initialRouteName: "login",
+    initialRouteName: "SplasScreen",
     contentComponent: props => <SideBar {...props} />
   })
 
@@ -97,6 +99,7 @@ const AppNavigator = createStackNavigator({
   PlakaDuzenle: { screen: PlakaDuzenle},
   OzetBilgi: { screen: OzetBilgi},
   Sozlesme:{ screen: Sozlesme},
+  SplasScreen:{ screen: SplasScreen},
 },
   {
     initialRouteName: "Drawer",
