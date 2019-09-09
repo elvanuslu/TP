@@ -135,24 +135,7 @@ export default class Yardim extends Component {
     }
 }
 
-/*
- <CardItem cardBody style={{ borderRadius: 10 }}>
-                                    <Content>
 
-                                        <Text style={styles.txtYazi}>{item.bm_uzunaciklama}</Text>
-                                    </Content>
-
-                                </CardItem>
- <CardItem header style={{ borderRadius: 10 }}>
-                                    <Text style={styles.textBaslik}>{item.bm_kisaaciklama}</Text>
-                                </CardItem>
-
- <Button style={styles.txtYazi}
-                                            title={item.bm_uzunaciklama}
-                                            onPress={() => Linking.openURL("https://www.skptricks.com")}
-                                        />
-
-*/
 const styles = StyleSheet.create({
     spinnerTextStyle: {
         color: '#FFF'

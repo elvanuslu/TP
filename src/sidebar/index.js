@@ -26,38 +26,32 @@ export default class SideBar extends Component {
                         <Button block transparent style={styles.mb15} onPress={() => this.props.navigation.navigate("AnaSayfa")}>
                             <Image
                                 style={styles.button}
-                                source={require('../../assets/anasayfa.png')}
-                            />
+                                source={require('../../assets/anasayfa.png')}/>
                         </Button>
                         <Button block transparent style={styles.mb15} onPress={() => this.props.navigation.navigate("hesabim")}>
                             <Image
                                 style={styles.button}
-                                source={require('../../assets/hesabim.png')}
-                            />
+                                source={require('../../assets/hesabim.png')}/>
                         </Button>
                         <Button block transparent style={styles.mb15} onPress={() => this.props.navigation.navigate("kampanya")}>
                             <Image
                                 style={styles.button}
-                                source={require('../../assets/kampanylar.png')}
-                            />
+                                source={require('../../assets/kampanylar.png')}/>
                         </Button>
                         <Button block transparent style={styles.mb15} onPress={() => this.props.navigation.navigate("Duyurular")}>
                             <Image
                                 style={styles.button}
-                                source={require('../../assets/duyurular.png')}
-                            />
+                                source={require('../../assets/duyurular.png')}/>
                         </Button>
                         <Button block transparent style={styles.mb15} onPress={() => this.props.navigation.navigate("SatisIllce",{'Tim':new Date()})}>
                             <Image
                                 style={styles.button}
-                                source={require('../../assets/akaryakital.png')}
-                            />
+                                source={require('../../assets/akaryakital.png')}/>
                         </Button>
                         <Button block transparent style={styles.mb15} onPress={() => this.props.navigation.navigate("Yardim")}>
                             <Image
                                 style={styles.button}
-                                source={require('../../assets/BizeUlasinMenu.png')}
-                            />
+                                source={require('../../assets/BizeUlasinMenu.png')}/>
                         </Button>
                     </View>
                     <View style={styles.containerBottom}>
@@ -97,7 +91,9 @@ const styles = StyleSheet.create({
     button: {
         resizeMode: 'contain',
         width: '100%',
+        height:50,
         marginTop: 0,
+       
     },
     button1: {
        resizeMode: 'contain',
@@ -107,7 +103,8 @@ const styles = StyleSheet.create({
         backgroundColor:'yellow',
     },
     mb15: {
-        marginBottom: 20
+        marginBottom: 20,
+       // backgroundColor:'yellow',
     },
     textYazi: {
         color: '#fff',

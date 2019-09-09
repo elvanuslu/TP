@@ -8,8 +8,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import TextInputMask from 'react-native-text-input-mask';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const k1 = require("../../assets/Resim.png");
-
+//const k1 = require("../../assets/Resim.png");
+const k1 = require("../../assets/TP_AdimizdaUlkemiz.jpg")
 
 export default class SifremiUnuttum extends Component {
     constructor() {
@@ -91,20 +91,14 @@ export default class SifremiUnuttum extends Component {
                             />
                         </View>
 
-                        <View style={styles.container1}>
-                            <View>
-                                <Image style={{ resizeMode: 'contain', width: 100, height: 80, marginTop: 5, alignSelf: 'center' }} source={require('../../assets/logo.png')}
-                                />
-                                <Image style={{ alignSelf: 'center', marginTop: 15, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
-                            </View>
-                        </View>
+                       
 
                         <View style={styles.containerOrta}>
                             <Image source={k1} style={styles.logo}></Image>
                         </View>
                         <View style={styles.containerAlt}>
 
-                            <View style={{ alignItems: 'flex-start', marginTop: 30 }}>
+                            <View style={{ alignItems: 'flex-start', marginTop: 10 }}>
                                 <Text style={styles.textYazi}>Kayıtlı e-posta adresinizi ilgili alana girerek, şifrenizi e-posta adresinize gönderebilirsiniz.{'\n\n'} </Text>
                             </View>
 
@@ -159,12 +153,12 @@ const styles = StyleSheet.create({
     },
 
     containerOrta: {
-        flex: 5,
+        flex: 1,
         // backgroundColor: 'red',
         // backgroundColor: '#efefef',
     },
     containerAlt: {
-        flex: 6,
+        flex: 3,
         //   alignItems: 'center',
         // marginTop: 0,
         backgroundColor: '#fff',
@@ -173,11 +167,9 @@ const styles = StyleSheet.create({
     },
 
     logo: {
+        marginTop:-7,
         width: '100%',
-        height: 222,
-        marginLeft: 0,
-        marginRight: 0,
-        //     marginBottom:10,
+        height: 282,
         resizeMode: 'contain',
     },
     cardmb: {
@@ -211,7 +203,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         borderRadius: 5,
-        marginTop: 5,
+        marginTop: 1,
         borderColor: 'black',
         borderWidth: 1,
         alignSelf: 'center',

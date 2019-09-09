@@ -87,13 +87,7 @@ export default class Duyurular extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <View style={styles.container1}>
-                    <View>
-                        <Image style={{ resizeMode: 'contain', width: '95%', height: 90, marginTop: 5 }} source={require('../../assets/tplogo.png')}
-                        />
-                        <Image style={{ alignSelf: 'center', marginTop: 15, marginLeft: 30, marginRight: 30, width: '90%', height: 1, }} source={require('../../assets/cizgi.png')} />
-                    </View>
-                </View>
+           
                 <View style={styles.containerOrta}>
                     <FlatList
                         data={this.state.data}
