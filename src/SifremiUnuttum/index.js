@@ -122,6 +122,8 @@ export default class SifremiUnuttum extends Component {
                             </TouchableOpacity>
 
                         </View>
+                        <View style={styles.container}>
+                        </View>
                     </Content>
                 </ScrollView>
 
@@ -138,13 +140,13 @@ const styles = StyleSheet.create({
         fontSize: 12,
         textAlign: 'left',
         marginLeft: 30,
-        marginTop: 1,
+        marginTop: 5,
         marginBottom: 1,
         fontFamily: "Myriadpro-Regular",
     },
     container: {
         flex: 1,
-        //  flexDirection: 'column',
+       
     },
     container1: {
         flex: 2,
@@ -161,15 +163,15 @@ const styles = StyleSheet.create({
         flex: 3,
         //   alignItems: 'center',
         // marginTop: 0,
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
 
 
     },
 
     logo: {
-        marginTop:-7,
+        marginTop:-10,
         width: '100%',
-        height: 282,
+        height: 320,
         resizeMode: 'contain',
     },
     cardmb: {

@@ -21,6 +21,7 @@ import Geolocation from 'react-native-geolocation-service';
 import IonIcon from 'react-native-vector-icons/AntDesign';
 
 
+
 const pompa = require("../../assets/pompatabancakirmizi.png");
 const k1 = require("../../assets/Resim.png");
 const k2 = require("../../assets/Kampanya-2.png");
@@ -40,13 +41,26 @@ const logoFull = require("../../assets/logoFull.png");
 let HaritaDatasi = [];
 let myHedefLat = undefined;
 let myHedeflon = undefined;
+let latitudeglobal = 0;
+let longitudeglobal = 0;
 
 const screen = Dimensions.get('window');
 
 const ASPECT_RATIO = screen.width / screen.height;
-var LATITUDE_DELTA = 1;
+var LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const DEFAULT_PADDING = { top: 100, right: 100, bottom: 100, left: 100 };
+const SPACE = 0.01;
 
+function createMarker(modifier = 1, lat, lon) {
+    return {
+        latitude: lat,
+        longitude: lon,
+    };
+}
+const MARKERS = [
+    createMarker(),
+];
 export default class Harita extends Component {
 
     constructor(props) {
@@ -117,6 +131,7 @@ export default class Harita extends Component {
 
     _internaGetData = (lat, lon) => {
         try {
+           
             this.setState({ loading: true })
             console.log('this.state.latitud:' + lat + ' Longi: ' + lon);
             //    HaritaDatasi = [];
@@ -136,23 +151,15 @@ export default class Harita extends Component {
     }
     _getData = (datan = [], lat, lon) => {
         try {
-
+           // alert('Koordinatlar: ' + lat + ' ' + lon)
             this.setState({ loading: true })
-            console.log('Datalar: ', datan)
-            console.log('datan: ' + JSON.stringify(datan))
-            console.log('this.state.latitud:' + this.state.latitude + ' Longi: ' + this.state.longitude)
             HaritaDatasi = [];
             getHaritaIstasyonWithLatLon(lat, lon, 10)
                 .then((res) => {
                     this.setState({ datas: res, loading: false });
-                    //  console.log('Harita Konumlar= ' + JSON.stringify(res));
-                    //_showLocation();
                 })
-            // .error((error)=>{alert('GetIstasyon Hata!'+error)})
 
             this.state.datas.push(datan);
-            //   console.log('Datan Length: '+datan.length)
-            //  console.log('Datan: '+JSON.stringify(datan))
             if (datan.length > 0) {
                 HaritaDatasi.push(datan);
 
@@ -170,7 +177,7 @@ export default class Harita extends Component {
     }
     componentWillReceiveProps(nextProps) {
         try {
-            console.log('Will receive Props: ', JSON.stringify(nextProps.navigation.state.params))
+            // console.log('Will receive Props: ', JSON.stringify(nextProps.navigation.state.params))
             var AccountId = nextProps.navigation.state.params.Id;
             var name = nextProps.navigation.state.params.name;
             var lat = nextProps.navigation.state.params.lat;
@@ -178,12 +185,14 @@ export default class Harita extends Component {
             var adres = nextProps.navigation.state.params.adres;
             var Param = nextProps.navigation.state.params.Para;
             console.log('componentWillReceiveProps Account ID=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres, ' Param: ' + Param);
-            //   console.log('Param: ', Param);
+            latitudeglobal = lat;
+            longitudeglobal = lon;
             this.setState({ loading: true, latitude: lat, longitude: lon })
             if (Param === 'Filtre') {
                 LATITUDE_DELTA = 0.0922;
-                this.setState({ latitude: lat, longitude: lon })
                 this._getData(nextProps.navigation.state.params.Tumu, lat, lon);
+
+                this.fitPadding();
 
             }
             else {
@@ -193,6 +202,8 @@ export default class Harita extends Component {
             Alert.alert('Genel Hata', error);
         }
 
+        // this.getInitialState();
+
     }
     componentWillMount() {
         var AccountId = this.props.navigation.getParam('Id', '');
@@ -201,20 +212,26 @@ export default class Harita extends Component {
         var lon = this.props.navigation.getParam('lon', '');
         var adres = this.props.navigation.getParam('adres', '');
         var Param = this.props.navigation.getParam('Para');
-
+        latitudeglobal = lat;
+        longitudeglobal = lon;
         console.log('componentWillMount Account ID 1=' + AccountId + ' name= ' + name + ' lat=' + lat + ' lon= ' + lon + ' Adres=' + adres + ' Param:' + Param);
         this.setState({ loading: true, latitude: lat, longitude: lon })
         HaritaDatasi = [];
         if (Param === 'Filtre') {
             LATITUDE_DELTA = 0.0922;
+            //  createMarker().latitude = lat;
+            //  createMarker().longitude = lon;
             // console.log('Filterim: ',this.props.navigation.state.params.Tumu)
             this._getData(this.props.navigation.state.params.Tumu, lat, lon);
+            // this.fitPadding();
 
         } else {
             console.log('getkoordinat')
             this._getkoordinat();
 
         }
+
+        // this.getInitialState();
 
     }
 
@@ -229,7 +246,7 @@ export default class Harita extends Component {
             else {
                 this.requestLocationPermission();
             }
-            //   
+            this.setState({ loading: false })
         } catch (error) {
             this.setState({ loading: false })
         }
@@ -309,8 +326,8 @@ export default class Harita extends Component {
         )
     }
     _showHaritaStandart() {
-        console.log('Latima: ' + this.state.latitude + '  Long1: ' + this.state.hedefLon)
-        console.log('Latima: ' + this.state.latitude + '  Long: ' + this.state.longitude)
+        //  console.log('Latima: ' + this.state.latitude + '  Long1: ' + this.state.hedefLon)
+        // console.log('Latima: ' + this.state.latitude + '  Long: ' + this.state.longitude)
 
         if (this.state.latitude !== '') {
             if ((this.state.hedefLat === undefined) || (this.state.hedefLat === '')) {
@@ -322,7 +339,7 @@ export default class Harita extends Component {
             else {
                 console.log('sdefined')
             }
-            console.log('hedef Latima1: ' + myHedefLat + '  hedef Long1: ' + myHedeflon + ' Region = ' + JSON.stringify(this.getInitialState()))
+            // console.log('hedef Latima1: ' + myHedefLat + '  hedef Long1: ' + myHedeflon + ' Region = ' + JSON.stringify(this.getInitialState()))
             return (
                 <View style={styles.container}>
                     <Popup
@@ -333,7 +350,7 @@ export default class Harita extends Component {
                         onCancelPressed={() => this.setState({ isVisible: false })}
                         onAppPressed={() => this.setState({ isVisible: false })}
                         onBackButtonPressed={() => this.setState({ isVisible: false })}
-                        modalProps={{ // you can put all react-native-modal props inside.
+                        modalProps={{
                             animationIn: 'slideInUp'
                         }}
                         cancelButtonText='Tamam'
@@ -353,26 +370,30 @@ export default class Harita extends Component {
 
                     <MapView
                         style={styles.map}
-                        //initialRegion={this.getInitialState()}
-                        initialRegion={{
+                        ref={ref => {
+                            this.map = ref;
+                        }}
+
+                    /*    initialRegion={new AnimatedRegion({
                             latitude: Number(this.state.latitude), //41.001895,
                             longitude: Number(this.state.longitude), //29.045486,
-                            latitudeDelta: 3,
-                            longitudeDelta: 3,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        })}
+                        */
+                       initialRegion={{
+                            latitude: Number(this.state.latitude), //41.001895,
+                            longitude: Number(this.state.longitude), //29.045486,
+                            latitudeDelta: 2,
+                            longitudeDelta:2,
+                        }}>
 
-                        }}
-                      >
-                        <MapView.Marker
-                            coordinate={{ latitude: Number(this.state.latitude), longitude: Number(this.state.longitude) }}
-                            Image={{ pin }}
-                            title="" description="Konumum">
-                        </MapView.Marker>
                         <Marker.Animated
                             ref={marker => {
                                 this.marker = marker;
                             }}
                             Image={{ pin }}
-                            coordinate={this.state.region} />
+                            coordinate={{ latitude: Number(this.state.latitude), longitude: Number(this.state.longitude) }} />
 
                         {
                             HaritaDatasi.length > 0 ?
@@ -424,6 +445,19 @@ export default class Harita extends Component {
             )
         }
     }
+    Markers = () => {
+        return {
+            latitude: latitudeglobal,
+            longitude: longitudeglobal,
+        }
+    }
+    fitPadding() {
+        console.log('Markers: ' + JSON.stringify(this.Markers()));
+        this.map.fitToCoordinates(Array(this.Markers()), {
+            edgePadding: DEFAULT_PADDING,
+            animated: true,
+        });
+    }
     animate(lat, lon, visible) {
         const { region } = this.state;
         const newCoordinate = {
@@ -445,10 +479,10 @@ export default class Harita extends Component {
         }
     }
 
-    getInitialState() {
+    getInitialState = () => {
         console.log('Lat: ' + this.state.latitude + '  hedef Long: ' + this.state.longitude)
         return {
-            Region: new AnimatedRegion({
+            region: new AnimatedRegion({
                 latitude: Number((this.state.latitude == undefined) ? 0 : this.state.latitude),
                 longitude: Number((this.state.longitude == undefined) ? 0 : this.state.longitude),
                 latitudeDelta: LATITUDE_DELTA,
@@ -458,7 +492,7 @@ export default class Harita extends Component {
     }
 
     onRegionChange(region) {
-        this.state.region.setValue(region);
+        this.setState({ latitude: region.latitude, longitude: region.longitude })
     }
     render() {
         <View>

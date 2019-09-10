@@ -341,8 +341,7 @@ componentWillUnmount(){
                     </Right>
                 </Header>
                 <View style={styles.container1} >
-                    <Image style={styles.logo} source={require('../../assets/tplogo.png')}
-                    />
+                    <Image style={styles.logo} source={require('../../assets/tplogo.png')}/>
                     <Image style={{ width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
                 </View>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -418,6 +417,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+   
     container1: {
         flex: 2,
         backgroundColor: 'transparent',

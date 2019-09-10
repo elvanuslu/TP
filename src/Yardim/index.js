@@ -73,6 +73,10 @@ export default class Yardim extends Component {
                         </Button>
                     </Right>
                 </Header>
+                <View style={styles.container3} >
+                    <Image style={styles.logo} source={require('../../assets/tplogo.png')}/>
+                    <Image style={{ width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
+                </View>
                 <View style={styles.container1}>
                     <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                         <Spinner
@@ -86,18 +90,7 @@ export default class Yardim extends Component {
                         renderItem={({ item }) =>
                             <Card key={item.bm_mobilcerikId} style={styles.cardmb}>
                                
-                               
-                                <CardItem cardBody style={{ borderRadius: 10, marginTop:10 }}>
-                                    <Text style={styles.txtYazi}>Müşteri Hizmetleri</Text>
-                                   
-                                </CardItem>
-                                <CardItem style={{marginTop:0}}>
-                                <TouchableOpacity style={{color:'blue', }}
-                                     onPress={() => { this.dialCall(4444487) }}>
-                                        <Text style={styles.txtYazi1}>444-4487</Text>
-                                    </TouchableOpacity>
-                                </CardItem>
-                                <CardItem cardBody style={{ borderRadius: 10,marginTop:10 }}>
+                               <CardItem cardBody style={{ borderRadius: 10,marginTop:10 }}>
                                     <Text style={styles.txtYazi}>Genel Müdürlük
                                    
                                     </Text>
@@ -107,17 +100,28 @@ export default class Yardim extends Component {
                                 <CardItem style={{marginTop:0}}>
                                 <TouchableOpacity style={{color:'blue', }}
                                      onPress={() => { this.dialCall('02162284000') }}>
-                                        <Text style={styles.txtYazi1}>0(216) 228 40 00</Text>
+                                        <Text style={styles.txtYazi1}>0 (216) 228 40 00</Text>
                                     </TouchableOpacity>
                                
                                 </CardItem>
+                                <CardItem cardBody style={{ borderRadius: 10, marginTop:10 }}>
+                                    <Text style={styles.txtYazi}>Müşteri Hizmetleri</Text>
+                                   
+                                </CardItem>
+                                <CardItem style={{marginTop:0}}>
+                                <TouchableOpacity style={{color:'blue', }}
+                                     onPress={() => { this.dialCall(4444487) }}>
+                                        <Text style={styles.txtYazi1}>444 44 87</Text>
+                                    </TouchableOpacity>
+                                </CardItem>
+                               
                                 <CardItem cardBody style={{ borderRadius: 10, marginTop:10}}>
                                     <Text style={styles.txtYazi}>Geri Bildirim{'\n'}
                                    
                                     </Text>
                                    
                                 </CardItem>
-                                <CardItem style={{marginTop:-12}}>
+                                <CardItem style={{marginTop:-12,borderRadius: 10}}>
                                 <TouchableOpacity style={{color:'blue', }}
                                      onPress={() => { Linking.openURL('http://www.tppd.com.tr/tr/musteri-memnuniyeti-formu')}}>
                                         <Text style={styles.txtYazi1}>http://www.tppd.com.tr/tr/musteri-memnuniyeti-formu</Text>
@@ -156,7 +160,10 @@ const styles = StyleSheet.create({
         fontFamily: "Myriadpro-Regular",
        
     },
-
+    container3: {
+        flex: 2,
+        backgroundColor: '#efefef',
+    },
     container: {
         flex: 1,
         //  flexDirection: 'column',
@@ -169,9 +176,12 @@ const styles = StyleSheet.create({
         flex: 8,
     },
     logo: {
-        width: '100%',
-        height: 220,
+        marginTop: 10,
+        //  width: 150,
+        height: '60%',
         resizeMode: 'contain',
+        marginBottom: 5,
+        alignSelf: 'center',
     },
     cardmb: {
         marginLeft: 15,
