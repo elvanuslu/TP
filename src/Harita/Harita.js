@@ -43,6 +43,8 @@ let myHedefLat = undefined;
 let myHedeflon = undefined;
 let latitudeglobal = 0;
 let longitudeglobal = 0;
+let originallat = 0;
+let originallon = 0;
 
 const screen = Dimensions.get('window');
 
@@ -131,7 +133,7 @@ export default class Harita extends Component {
 
     _internaGetData = (lat, lon) => {
         try {
-           
+
             this.setState({ loading: true })
             console.log('this.state.latitud:' + lat + ' Longi: ' + lon);
             //    HaritaDatasi = [];
@@ -151,7 +153,7 @@ export default class Harita extends Component {
     }
     _getData = (datan = [], lat, lon) => {
         try {
-           // alert('Koordinatlar: ' + lat + ' ' + lon)
+            // alert('Koordinatlar: ' + lat + ' ' + lon)
             this.setState({ loading: true })
             HaritaDatasi = [];
             getHaritaIstasyonWithLatLon(lat, lon, 10)
@@ -219,11 +221,9 @@ export default class Harita extends Component {
         HaritaDatasi = [];
         if (Param === 'Filtre') {
             LATITUDE_DELTA = 0.0922;
-            //  createMarker().latitude = lat;
-            //  createMarker().longitude = lon;
-            // console.log('Filterim: ',this.props.navigation.state.params.Tumu)
+           this.callLocation(this);
             this._getData(this.props.navigation.state.params.Tumu, lat, lon);
-            // this.fitPadding();
+           //  this.fitPadding();
 
         } else {
             console.log('getkoordinat')
@@ -267,6 +267,8 @@ export default class Harita extends Component {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 })
+                originallat = position.coords.latitude;
+                originallon = position.coords.longitude;
                 this._internaGetData(position.coords.latitude, position.coords.longitude);
                 this.setState({ loading: false })
             },
@@ -358,8 +360,8 @@ export default class Harita extends Component {
                         options={{
                             latitude: this.state.hedefLat,
                             longitude: this.state.hedefLon,
-                            sourceLatitude: this.state.latitude,
-                            sourceLongitude: this.state.longitude,
+                            sourceLatitude: originallat,//this.state.latitude,
+                            sourceLongitude: originallon,//this.state.longitude,
                             title: 'Mevcut Konum',
                             googleForceLatLon: false,
                             dialogTitle: 'Harita Seç',
@@ -374,18 +376,18 @@ export default class Harita extends Component {
                             this.map = ref;
                         }}
 
-                    /*    initialRegion={new AnimatedRegion({
-                            latitude: Number(this.state.latitude), //41.001895,
-                            longitude: Number(this.state.longitude), //29.045486,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
-                        })}
-                        */
-                       initialRegion={{
+                        /*    initialRegion={new AnimatedRegion({
+                                latitude: Number(this.state.latitude), //41.001895,
+                                longitude: Number(this.state.longitude), //29.045486,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            })}
+                            */
+                        initialRegion={{
                             latitude: Number(this.state.latitude), //41.001895,
                             longitude: Number(this.state.longitude), //29.045486,
                             latitudeDelta: 2,
-                            longitudeDelta:2,
+                            longitudeDelta: 2,
                         }}>
 
                         <Marker.Animated
@@ -393,7 +395,7 @@ export default class Harita extends Component {
                                 this.marker = marker;
                             }}
                             Image={{ pin }}
-                            coordinate={{ latitude: Number(this.state.latitude), longitude: Number(this.state.longitude) }} />
+                            coordinate={{ latitude: Number(originallat), longitude: Number(originallon) }} />
 
                         {
                             HaritaDatasi.length > 0 ?

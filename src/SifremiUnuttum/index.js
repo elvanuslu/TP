@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         // backgroundColor: '#efefef',
     },
     containerAlt: {
-        flex: 3,
+        flex: 8,
         //   alignItems: 'center',
         // marginTop: 0,
         backgroundColor: 'transparent',
@@ -169,9 +169,9 @@ const styles = StyleSheet.create({
     },
 
     logo: {
-        marginTop:-10,
+       // marginTop:-10,
         width: '100%',
-        height: 320,
+        height:308,
         resizeMode: 'contain',
     },
     cardmb: {
