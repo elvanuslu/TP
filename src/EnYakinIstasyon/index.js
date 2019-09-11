@@ -136,18 +136,8 @@ export default class EnYakinIstasyon extends Component {
             Geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                    console.log('Konumlar: ' + JSON.stringify(position));
-                    /*  Toast.show({
-                          text: "Latitude: " +  position.coords.latitude,
-                          buttonText: "Tamam",
-                          type: 'danger'
-                        })
-                        Toast.show({
-                          text: "Longitude: " + position.coords.longitude,
-                          buttonText: "Tamam",
-                          type: 'danger'
-                        })
-                   */
+                  
+                   
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
@@ -171,7 +161,7 @@ export default class EnYakinIstasyon extends Component {
             this.watchId = Geolocation.watchPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
-                    console.log('Update Konumlar: ' + JSON.stringify(position));
+                   
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
@@ -281,33 +271,26 @@ export default class EnYakinIstasyon extends Component {
     componentDidMount() {
         this.getLocation();
         GelenYer = this.props.navigation.getParam('Yer', '');
-        console.log('Gelenler: ' + GelenYer)
+        
     }
     componentWillReceiveProps(nextProps) {
         GelenYer = this.props.navigation.getParam('Yer', '');
-        console.log('Gelenler receive: ' + GelenYer)
-        console.log('Receive Props' + JSON.stringify(nextProps))
         this.getLocation();
     }
     // GetItem(item) 
     GetItem(item, name, lat, lon, adres) {
-        // console.log('item=' + item);
-        // console.log('Lisyt Data: ' + JSON.stringify(this.state.listViewData))
         this.setState({ latitude: lat })
         this.props.navigation.navigate("Harita", { 'Id': item, 'name': name, 'lat': lat, 'lon': lon, 'adres': adres, 'Para': 'Filtre', 'Tumu': this.state.listViewData });
     }
     _HaritaFooter() {
-        //console.log('Lato: '+this.state.latitude)
-        // if (this.state.latitude !== undefined) {
+      
         return (
             <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
                 <Icon active={this.state.tab1} name="map" />
                 <Text style={{ color: 'white' }}>Harita</Text>
             </Button>
         )
-        /*  }
- 
-  */
+
     }
     _backPlace = () => {
         GelenYer = this.props.navigation.getParam('Yer', '');

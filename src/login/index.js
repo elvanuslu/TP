@@ -104,10 +104,10 @@ export default class login extends Component {
   }
   componentDidMount = async () => {
     fetchgetLocation();
-    let durum = this.baglantiDurumu(); 
+    let durum = this.baglantiDurumu();
     if (durum === false)
       return;
-    
+
     // let dat = await checkConnection();
     const Password = await getStorage('Password');
     const UserID = await getStorage('UserName');
@@ -209,21 +209,17 @@ export default class login extends Component {
           // console.log('Login: ')
           getUserInfo(this.state.UserName, this.state.Pass)
             .then((res) => {
-                console.log('Login1: ' + JSON.stringify(res)+' Cid:'+res.contactid)
-              this.setState({ userId: res.contactid, loading: false });
-              /*   setInterval(() => {
-                   this.setState({
-                     loading: false
-                   });
-                 }, 5000);
-                 */
-              //      console.log("stateUserId=>" + this.state.userId);
+              console.log('Login1: ' + JSON.stringify(res) + ' Cid:' + res.contactid)
+              if (res.status !== false) {
+                this.setState({ userId: res.contactid, loading: false });
+              }
+            
               if (res.contactid === undefined) {
                 this.setState({ loading: false }, () => {
                   setTimeout(() => {
                     Alert.alert(
                       'Hata',
-                      res,
+                      res.message,
                       [
 
                         { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
@@ -368,16 +364,16 @@ export default class login extends Component {
                 />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("EnYakinIstasyon",{'Yer':'login'})}>
-                <Image
-                  style={styles.button2}
-                  source={require('../../assets/istasyonara.png')}
-                />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("EnYakinIstasyon", { 'Yer': 'login' })}>
+              <Image
+                style={styles.button2}
+                source={require('../../assets/istasyonara.png')}
+              />
+            </TouchableOpacity>
           </View>
 
         </View>
-        
+
       </Container >
     );
   }
@@ -432,7 +428,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignSelf: 'center'
   },
- 
+
   switchcontainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
@@ -464,7 +460,7 @@ const styles = StyleSheet.create({
   button2: {
     resizeMode: 'contain',
     //width: 320,
-    height:85,
+    height: 85,
     marginRight: 30,
     marginLeft: 30,
     marginTop: -30,

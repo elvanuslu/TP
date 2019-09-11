@@ -39,6 +39,7 @@ export const checkConnection = async () => {
   });
 }
 export const getHaritaIstasyonWithLatLon =(lat,lon, sayac)=>{
+  console.log('Harita Lat lon: '+ lat+' Lon: '+lon);
   try {
     const URL = define_api_url + `TP_HaritaAccountGeographyList?Latitude=${lat}&Longitude=${lon}&StationNumber=${sayac}`;
     return getRequest(URL);

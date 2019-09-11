@@ -5,6 +5,7 @@ import {
     Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
 import { Button,Container, } from 'native-base';
+//import {Sound} from 'react-native-sound';
 
 
 
@@ -13,12 +14,16 @@ export default class SplasScreen extends Component {
         super(props);
 
     }
+    componentDidMount(){
+        //Sound.setCategory('Playback');
+       
+    }
     _handleGo = () => {
         setTimeout(() => {
             return (
                 this.props.navigation.navigate("login")
             )
-        }, 3000)
+        }, 5000)
     }
     render() {
         return (
@@ -29,7 +34,6 @@ export default class SplasScreen extends Component {
                             width: "100%",
                             height: "100%",
                         }} />
-
                     {
                         this._handleGo()
 

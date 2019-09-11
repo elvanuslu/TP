@@ -17,6 +17,8 @@ target 'TP' do
 
   pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
 
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+
   target 'TPTests' do
     inherit! :search_paths
     # Pods for testing
