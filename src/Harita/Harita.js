@@ -49,7 +49,7 @@ let originallon = 0;
 const screen = Dimensions.get('window');
 
 const ASPECT_RATIO = screen.width / screen.height;
-var LATITUDE_DELTA = 0.0922;
+var LATITUDE_DELTA = 1;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const DEFAULT_PADDING = { top: 100, right: 100, bottom: 100, left: 100 };
 const SPACE = 0.01;
@@ -91,7 +91,8 @@ export default class Harita extends Component {
             marker: {
                 latitude: 0,
                 longitude: 0,
-            }
+            },
+            events: [],
         }
 
     }
@@ -191,10 +192,11 @@ export default class Harita extends Component {
             longitudeglobal = lon;
             this.setState({ loading: true, latitude: lat, longitude: lon })
             if (Param === 'Filtre') {
-                LATITUDE_DELTA = 0.0922;
+                // LATITUDE_DELTA = 0.0922;
                 this._getData(nextProps.navigation.state.params.Tumu, lat, lon);
-
                 this.fitPadding();
+
+                //this.focusMap(this.Markers,true);
 
             }
             else {
@@ -220,10 +222,10 @@ export default class Harita extends Component {
         this.setState({ loading: true, latitude: lat, longitude: lon })
         HaritaDatasi = [];
         if (Param === 'Filtre') {
-            LATITUDE_DELTA = 0.0922;
-           this.callLocation(this);
+            //  LATITUDE_DELTA = 0.0922;
+            this.callLocation(this);
             this._getData(this.props.navigation.state.params.Tumu, lat, lon);
-           //  this.fitPadding();
+            //  this.fitPadding();
 
         } else {
             console.log('getkoordinat')
@@ -328,9 +330,6 @@ export default class Harita extends Component {
         )
     }
     _showHaritaStandart() {
-        //  console.log('Latima: ' + this.state.latitude + '  Long1: ' + this.state.hedefLon)
-        // console.log('Latima: ' + this.state.latitude + '  Long: ' + this.state.longitude)
-
         if (this.state.latitude !== '') {
             if ((this.state.hedefLat === undefined) || (this.state.hedefLat === '')) {
                 // console.log(' sundefined')
@@ -366,6 +365,7 @@ export default class Harita extends Component {
                             googleForceLatLon: false,
                             dialogTitle: 'Harita Seç',
                             cancelText: 'Kapat',
+
                         }}
                         style={{}}
                     />
@@ -375,14 +375,9 @@ export default class Harita extends Component {
                         ref={ref => {
                             this.map = ref;
                         }}
+                        showsMyLocationButton={true}
+                        toolbarEnabled={true}
 
-                        /*    initialRegion={new AnimatedRegion({
-                                latitude: Number(this.state.latitude), //41.001895,
-                                longitude: Number(this.state.longitude), //29.045486,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            })}
-                            */
                         initialRegion={{
                             latitude: Number(this.state.latitude), //41.001895,
                             longitude: Number(this.state.longitude), //29.045486,
@@ -448,14 +443,24 @@ export default class Harita extends Component {
         }
     }
     Markers = () => {
-        return {
-            latitude: latitudeglobal,
-            longitude: longitudeglobal,
-        }
+        return (
+            [{
+                latitude: latitudeglobal,
+                longitude: longitudeglobal,
+            },
+            {
+                latitude: latitudeglobal-SPACE*1,
+                longitude: longitudeglobal-SPACE*1,
+            }]
+        )
+    }
+    focusMap(markers, animated) {
+        console.log(`Markers received to populate map: ${markers}`);
+        this.map.fitToSuppliedMarkers(markers, animated);
     }
     fitPadding() {
-        console.log('Markers: ' + JSON.stringify(this.Markers()));
-        this.map.fitToCoordinates(Array(this.Markers()), {
+        // console.log('Markers: ' + JSON.stringify(this.Markers()));
+        this.map.fitToCoordinates(this.Markers(), {
             edgePadding: DEFAULT_PADDING,
             animated: true,
         });
@@ -496,6 +501,25 @@ export default class Harita extends Component {
     onRegionChange(region) {
         this.setState({ latitude: region.latitude, longitude: region.longitude })
     }
+    makeEvent(e, name) {
+        return {
+          id: id++,
+          name,
+          data: e.nativeEvent ? e.nativeEvent : e,
+        };
+      }
+    
+      recordEvent(name) {
+          console.log('events: '+JSON.stringify(name));
+        return e => {
+          if (e.persist) {
+            e.persist(); 
+          }
+          this.setState(prevState => ({
+            events: [this.makeEvent(e, name), ...prevState.events.slice(0, 10)],
+          }));
+        };
+      }
     render() {
         <View>
 
@@ -517,9 +541,7 @@ export default class Harita extends Component {
                         <Button transparent onPress={() => this._getkoordinat()}>
                             <IonIcon name="find" style={{ color: '#fff' }} />
                         </Button>
-                        <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" style={{ color: '#fff' }} />
-                        </Button>
+                        
                     </Right>
                 </Header>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>

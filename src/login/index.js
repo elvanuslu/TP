@@ -368,10 +368,16 @@ export default class login extends Component {
                 />
               </TouchableOpacity>
             </View>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate("EnYakinIstasyon",{'Yer':'login'})}>
+                <Image
+                  style={styles.button2}
+                  source={require('../../assets/istasyonara.png')}
+                />
+              </TouchableOpacity>
           </View>
 
         </View>
-
+        
       </Container >
     );
   }
@@ -426,17 +432,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignSelf: 'center'
   },
-  /*
-  logo: {
-    // flexDirection: 'row',
-    alignSelf: 'center',
-    width: '90%',
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  */
+ 
   switchcontainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
@@ -464,5 +460,13 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginLeft: 30,
 
+  },
+  button2: {
+    resizeMode: 'contain',
+    //width: 320,
+    height:85,
+    marginRight: 30,
+    marginLeft: 30,
+    marginTop: -30,
   },
 });

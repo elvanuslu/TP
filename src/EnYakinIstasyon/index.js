@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform,ToastAndroid} from 'react-native';
+import { ListView, TouchableOpacity, FlatList, StyleSheet, View, Image, Text, StatusBar, PermissionsAndroid, Platform, ToastAndroid } from 'react-native';
 import {
     Footer,
     FooterTab,
     List,
-    ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content,Toast
+    ListItem, Item, Picker, Title, Left, Right, Button, Container, Header, Body, Icon, Card, CardItem, Content, Toast
 } from 'native-base';
-import { getIstasyonWithLatLon,getHaritaIstasyonWithLatLon } from '../Service/FetchUser';
+import { getIstasyonWithLatLon, getHaritaIstasyonWithLatLon } from '../Service/FetchUser';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Geolocation from 'react-native-geolocation-service';
@@ -18,7 +18,7 @@ const pompa = require("../../assets/pompa.png");
 const yagdegisim = require("../../assets/yagdegisim.png");
 const bankamatik = require("../../assets/tasittanima.png");
 
-
+let GelenYer = '';
 export default class EnYakinIstasyon extends Component {
     watchId = null;
     constructor(props) {
@@ -79,7 +79,7 @@ export default class EnYakinIstasyon extends Component {
             this.setState({ loading: false })
         }
     }
-   
+
     //---------------------------------------------------------------
     hasLocationPermission = async () => {
         if (Platform.OS === 'ios' ||
@@ -110,44 +110,44 @@ export default class EnYakinIstasyon extends Component {
     getLocation = async () => {
         const hasLocationPermission = await this.hasLocationPermission();
 
-       // if (!hasLocationPermission) return;
-       if (!hasLocationPermission){
-        Alert.alert(
-            'Konum İzni Gerekiyor',
-            'Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
-            [
+        // if (!hasLocationPermission) return;
+        if (!hasLocationPermission) {
+            Alert.alert(
+                'Konum İzni Gerekiyor',
+                'Cihazınızdan Türkiye Petrolleri uygulaması için konum izni vermelisiniz.',
+                [
 
-                {
-                    text: 'Tamam', onPress: () => {
-                        this.setState({
-                            loading: false,
-                            baglanti: false,
-                        })
-                        this.props.navigation.navigate("hesabim")
-                    }
-                },
-            ],
-            { cancelable: true },
-        )
-        return
-    } 
+                    {
+                        text: 'Tamam', onPress: () => {
+                            this.setState({
+                                loading: false,
+                                baglanti: false,
+                            })
+                            this.props.navigation.navigate("hesabim")
+                        }
+                    },
+                ],
+                { cancelable: true },
+            )
+            return
+        }
 
         this.setState({ loading: true }, () => {
             Geolocation.getCurrentPosition(
                 (position) => {
                     this.setState({ location: position, loading: false });
                     console.log('Konumlar: ' + JSON.stringify(position));
-                  /*  Toast.show({
-                        text: "Latitude: " +  position.coords.latitude,
-                        buttonText: "Tamam",
-                        type: 'danger'
-                      })
-                      Toast.show({
-                        text: "Longitude: " + position.coords.longitude,
-                        buttonText: "Tamam",
-                        type: 'danger'
-                      })
-                 */
+                    /*  Toast.show({
+                          text: "Latitude: " +  position.coords.latitude,
+                          buttonText: "Tamam",
+                          type: 'danger'
+                        })
+                        Toast.show({
+                          text: "Longitude: " + position.coords.longitude,
+                          buttonText: "Tamam",
+                          type: 'danger'
+                        })
+                   */
                     this.setState({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude
@@ -196,11 +196,11 @@ export default class EnYakinIstasyon extends Component {
     _getGeoLOcation = () => {
         Geolocation.getCurrentPosition(
             (position) => {
-               // alert(JSON.stringify(position));
-             /*   console.log('My POsition: ' + JSON.stringify(position));
-                console.log('Lat: ' + position.coords.latitude)
-                console.log('Lon: ' + position.coords.longitude)
-                */
+                // alert(JSON.stringify(position));
+                /*   console.log('My POsition: ' + JSON.stringify(position));
+                   console.log('Lat: ' + position.coords.latitude)
+                   console.log('Lon: ' + position.coords.longitude)
+                   */
                 this.setState({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
@@ -275,16 +275,17 @@ export default class EnYakinIstasyon extends Component {
         }
 
     }
-componentWillUnmount(){
-    this.removeLocationUpdates();
-}
+    componentWillUnmount() {
+        this.removeLocationUpdates();
+    }
     componentDidMount() {
         this.getLocation();
-        // this._getkoordinat();
-        // console.log('Property= '+JSON.stringify(this.props)); //(this.props.navigation.state.routeName));
-        //  this._getCoord();
+        GelenYer = this.props.navigation.getParam('Yer', '');
+        console.log('Gelenler: ' + GelenYer)
     }
     componentWillReceiveProps(nextProps) {
+        GelenYer = this.props.navigation.getParam('Yer', '');
+        console.log('Gelenler receive: ' + GelenYer)
         console.log('Receive Props' + JSON.stringify(nextProps))
         this.getLocation();
     }
@@ -306,24 +307,21 @@ componentWillUnmount(){
         )
         /*  }
  
-  else {
-      return (
-          <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
-              <Icon active={this.state.tab1} name="map" />
-              <Text style={{ color: 'white' }}>Harita</Text>
-          </Button>
-      )
-  }
   */
     }
+    _backPlace = () => {
+        GelenYer = this.props.navigation.getParam('Yer', '');
+       // console.log('Gelenler _backPlace: ' + GelenYer)
+        this.props.navigation.navigate(GelenYer);
+    }
     render() {
-        //console.log('Positions: ' + this.state.latitude + '  Lon: ' + this.state.longitude)
+
         return (
             <Container style={styles.container}>
                 <StatusBar style={{ color: '#fff' }} backgroundColor="transparent" barStyle="light-content" />
                 <Header style={{ backgroundColor: 'red' }}>
                     <Left>
-                        <Button transparent onPress={() => this.props.navigation.navigate('AnaSayfa')}>
+                        <Button transparent onPress={() => this._backPlace()}>
                             <Image style={{ marginLeft: -15, width: 50, height: 50, resizeMode: 'contain' }} source={require('../../assets/GeriDongri.png')} />
                         </Button>
                     </Left>
@@ -334,14 +332,11 @@ componentWillUnmount(){
                         <Button transparent onPress={() => this.getLocation()}>
                             <IonIcon name="find" style={{ color: '#fff' }} />
                         </Button>
-                        <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-
-                            <Icon name="menu" style={{ color: '#fff' }} />
-                        </Button>
+                        
                     </Right>
                 </Header>
                 <View style={styles.container1} >
-                    <Image style={styles.logo} source={require('../../assets/tplogo.png')}/>
+                    <Image style={styles.logo} source={require('../../assets/tplogo.png')} />
                     <Image style={{ width: '100%', height: 1, }} source={require('../../assets/cizgi.png')} />
                 </View>
                 <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -417,7 +412,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-   
+
     container1: {
         flex: 2,
         backgroundColor: 'transparent',

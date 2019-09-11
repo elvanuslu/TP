@@ -166,7 +166,7 @@ export default class AnaSayfa extends Component {
                                 </TouchableOpacity>
                             </Left>
                             <Body>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate("EnYakinIstasyon")}>
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate("EnYakinIstasyon",{'Yer':'AnaSayfa'})}>
                                     <Image style={styles.button} source={require('../../assets/istasyonlarldpi.png')} />
                                 </TouchableOpacity>
                             </Body>

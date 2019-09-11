@@ -108,7 +108,7 @@ export default class hesabim extends Component {
                             source={require('../../assets/satisvepuan.png')}
                         />
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() => this.props.navigation.navigate("EnYakinIstasyon", { 'Id': new Date() })}>
+                    <TouchableOpacity style={{ height: 50, width: 320, marginTop: 5, marginLeft: 30, marginRight: 30, }} onPress={() =>this.props.navigation.navigate("EnYakinIstasyon",{'Yer':'hesabim','Id': new Date()})}>
                         <Image style={styles.button1} source={require('../../assets/EnYakinIstasyon.png')} />
                     </TouchableOpacity>
 

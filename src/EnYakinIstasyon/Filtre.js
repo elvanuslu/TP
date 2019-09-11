@@ -263,16 +263,7 @@ export default class Filtre extends Component {
                 <Text style={{ color: 'white' }}>Harita</Text>
             </Button>
         )
-        /*      }
-              else {
-                  return (
-                      <Button disabled active={this.state.tab1} onPress={() => this.toggleTab1()}>
-                      <Icon active={this.state.tab1} name="map" />
-                      <Text style={{ color: 'white' }}>Harita</Text>
-                  </Button>
-                  )
-              }
-              */
+      
     }
     render() {
 
@@ -289,9 +280,7 @@ export default class Filtre extends Component {
                         <Title style={{ color: '#fff' }}>Filtre</Title>
                     </Body>
                     <Right>
-                        <Button transparent onPress={() => this.props.navigation.openDrawer()}>
-                            <Icon name="menu" style={{ color: '#fff' }} />
-                        </Button>
+                       
                     </Right>
                 </Header>
                 <View style={styles.container1} >
@@ -314,7 +303,6 @@ export default class Filtre extends Component {
                                 headerBackButtonText="Geri"
                                 iosHeader="Seçin"
                                 iosIcon={<Icon name="arrow-down" />}
-                                // style={{ width: undefined }}
                                 placeholder="Şehir"
                                 placeholderStyle={{ color: "black" }}
                                 placeholderIconColor="black"
@@ -322,8 +310,6 @@ export default class Filtre extends Component {
                                 onValueChange={this.onSehir.bind(this)}>
                                 {
                                     this.state.Sehirler.map((item, key) => (
-                                        // console.log("Sehirler: " + item.bm_sehirid),
-                                        // console.log("Sehirler: " + item.bm_adi),
                                         <Picker.Item
                                             label={item.bm_adi}
                                             value={item.bm_sehirid}
