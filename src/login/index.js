@@ -213,8 +213,23 @@ export default class login extends Component {
               if (res.status !== false) {
                 this.setState({ userId: res.contactid, loading: false });
               }
-            
-              if (res.contactid === undefined) {
+console.log('res.contactid: '+res.contactid)
+              if ((res.checkActivation == false)&&(res.status==false)&&(res.contactid!==null)) {
+                this.setState({ loading: false }, () => {
+                  setTimeout(() => {
+                    Alert.alert(
+                      'Hata',
+                      res.message,
+                      [
+
+                        { text: 'Tamam', onPress: () => this.props.navigation.navigate("Kodec", { 'Id': res.contactid }) },
+                      ],
+                      { cancelable: true },
+                    );
+                  }, 0);
+                })
+              }
+              if ((res.checkActivation == true)&&(res.status==false)&&(res.contactid!==null)) {
                 this.setState({ loading: false }, () => {
                   setTimeout(() => {
                     Alert.alert(
@@ -231,7 +246,26 @@ export default class login extends Component {
 
 
               }
-              else {
+
+              if (res.contactid === null) {
+                this.setState({ loading: false }, () => {
+                  setTimeout(() => {
+                    Alert.alert(
+                      'Hata',
+                      res.message,
+                      [
+
+                        { text: 'Tamam', onPress: () => { this.setState({ loading: false }) } },
+                      ],
+                      { cancelable: true },
+                    );
+                  }, 0);
+                });
+
+
+              }
+              else if(res.status==undefined)
+              {
                 console.log("Kayıt else=>" + JSON.stringify(res));
                 this.setState({ userId: res.contactid, loading: false });
                 this._storeData();

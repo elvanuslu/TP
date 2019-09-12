@@ -368,40 +368,39 @@ export default class Harita extends Component {
                         {
                             HaritaDatasi.length > 0 ?
                                 HaritaDatasi[0].map((data, i) => (
-                                   
-                                        <MapView.Marker
-                                            key={i}
-                                            
-                                            onSelect={() =>
-                                                this.animate(data.Address1_Latitude, data.Address1_Longitude, true)
-                                            }
-    
-                                         onPress={() => this.animate(data.Address1_Latitude, data.Address1_Longitude, true)}
-                                            coordinate={{
-                                                latitude: data.Address1_Latitude,
-                                                longitude: data.Address1_Longitude
-                                            }}
+                                    <MapView.Marker
+                                        key={i}
 
-                                            title={data.name} description={data.Adres}
-                                            Image={{ pin }}>
-                                            <View style={{
-                                                flexDirection: 'row',
-                                                backgroundColor: 'transparent'
-                                            }}>
-                                                <View
-                                                    style={{
-                                                        flexDirection: 'column'
-                                                    }} >
+                                        onSelect={() =>
+                                            this.animate(data.Address1_Latitude, data.Address1_Longitude, true)
+                                        }
 
-                                                    <ImageBackground source={logoFull} style={{ width: 30, height: 30, resizeMode: 'contain' }}>
+                                        onPress={() => this.animate(data.Address1_Latitude, data.Address1_Longitude, true)}
+                                        coordinate={{
+                                            latitude: data.Address1_Latitude,
+                                            longitude: data.Address1_Longitude
+                                        }}
 
-                                                    </ImageBackground>
+                                        title={data.name} description={data.Adres}
+                                        Image={{ pin }}>
+                                        <View style={{
+                                            flexDirection: 'row',
+                                            backgroundColor: 'transparent'
+                                        }}>
+                                            <View
+                                                style={{
+                                                    flexDirection: 'column'
+                                                }} >
+
+                                                <ImageBackground source={logoFull} style={{ width: 30, height: 30, resizeMode: 'contain' }}>
+
+                                                </ImageBackground>
 
 
-                                                </View>
                                             </View>
-                                        </MapView.Marker>
-                                 
+                                        </View>
+                                    </MapView.Marker>
+
                                 )) : <View>
 
                                 </View>
@@ -450,14 +449,22 @@ export default class Harita extends Component {
         });
     }
     animate(lat, lon, visible) {
+
         const { region } = this.state;
-      
-        this.setState({
-            isVisible: visible,
-            hedefLat: lat,
-            hedefLon: lon
-        })
-        
+        if (Platform.OS === 'android') {
+            this.setState({
+                isVisible: visible,
+                hedefLat: lat,
+                hedefLon: lon
+            })
+        }
+        else {
+            this.setState({
+                //isVisible: visible,
+                hedefLat: lat,
+                hedefLon: lon
+            })
+        }
         const newCoordinate = {
             latitude: this.state.latitude,
             longitude: this.state.longitude,
@@ -468,7 +475,7 @@ export default class Harita extends Component {
             }
         } else {
             region.timing(newCoordinate).start();
-          
+
         }
         console.log('isVisible= ' + this.state.isVisible)
     }
@@ -497,7 +504,7 @@ export default class Harita extends Component {
     }
 
     recordEvent(name) {
-       
+
         return e => {
             if (e.persist) {
                 e.persist();
@@ -507,8 +514,14 @@ export default class Harita extends Component {
             }));
             console.log('events data : ' + JSON.stringify(this.makeEvent(e, name)));
             var myEvenetData = this.makeEvent(e, name);
-            this._internaGetData(myEvenetData.data.coordinate.latitude, myEvenetData.data.coordinate.longitude)
-            // console.log('MyEvent Data: '+ myEvenetData.data.coordinate.latitude+' , '+ myEvenetData.data.coordinate.longitude);
+
+            if (myEvenetData.data.coordinate !== undefined)
+                this._internaGetData(myEvenetData.data.coordinate.latitude, myEvenetData.data.coordinate.longitude);
+            else {
+                console.log('IsVisible: ' + this.state.isVisible)
+                this.setState({ isVisible: true });
+            }
+
         };
 
     }

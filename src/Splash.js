@@ -5,7 +5,7 @@ import {
     Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
 import { Button,Container, } from 'native-base';
-//import {Sound} from 'react-native-sound';
+
 
 
 
@@ -15,7 +15,7 @@ export default class SplasScreen extends Component {
 
     }
     componentDidMount(){
-        //Sound.setCategory('Playback');
+      
        
     }
     _handleGo = () => {

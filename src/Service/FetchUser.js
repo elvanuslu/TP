@@ -359,7 +359,6 @@ export const musteriGuncelle = (Contact, FirstName, LastName, EMailAddress1, Mob
 }
 
 export const getKampanyaListesi = () => {
-  //  const URL = `http://85.105.103.4:8096/TP_CampaignList`;
   const URL = define_api_url + `TP_CampaignList`;
   return getRequest(URL);
   //  return fetch(URL, { method: 'GET' })
