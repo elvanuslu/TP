@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
     ImageBackground, Dimensions,
-    BackHandler, Alert, KeyboardAvoidingView, NetInfo, ToastAndroid,
-    Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
+    Platform, Alert, KeyboardAvoidingView, NetInfo, ToastAndroid,
+     StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
-import { Button,Container, } from 'native-base';
+import { Button, Container, } from 'native-base';
 
 import Sound from 'react-native-sound'
 
@@ -15,26 +15,48 @@ export default class SplasScreen extends Component {
         super(props);
 
     }
-    componentDidMount(){
+    componentDidMount() {
+        var whoosh = undefined;
         Sound.setCategory('Playback');
-    
-        var whoosh = new Sound("tp.wav", Sound.MAIN_BUNDLE, (error) => {
-            if (error) {
-              console.log('failed to load the sound', error);
-              return;
-            }
-            // loaded successfully
-            console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-          
-            // Play the sound with an onEnd callback
-            whoosh.play((success) => {
-              if (success) {
-                console.log('successfully finished playing');
-              } else {
-                console.log('playback failed due to audio decoding errors');
-              }
-            });
-          });
+        if (Platform.OS == 'android' ) {
+            whoosh = new Sound("http://213.194.120.55/tp.crm.ui/tp.wav", Sound.MAIN_BUNDLE, (error) => {
+                if (error) {
+                    console.log('failed to load the sound', error);
+                    return;
+                }
+                // loaded successfully
+                console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+
+                // Play the sound with an onEnd callback
+                whoosh.play((success) => {
+                    if (success) {
+                        console.log('successfully finished playing');
+                    } else {
+                        console.log('playback failed due to audio decoding errors');
+                    }
+                });
+            })
+        }
+        else {
+            console.log('sound else...')
+            whoosh = new Sound("tp.wav", Sound.MAIN_BUNDLE, (error) => {
+                if (error) {
+                    console.log('failed to load the sound', error);
+                    return;
+                }
+                // loaded successfully
+                console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
+
+                // Play the sound with an onEnd callback
+                whoosh.play((success) => {
+                    if (success) {
+                        console.log('successfully finished playing');
+                    } else {
+                        console.log('playback failed due to audio decoding errors');
+                    }
+                });
+            })
+        }
     }
     _handleGo = () => {
         setTimeout(() => {
@@ -48,7 +70,7 @@ export default class SplasScreen extends Component {
             <Container>
                 <View style={styles.container}>
                     <ImageBackground source={require('../assets/TPSplash.jpg')}
-                        style={{ 
+                        style={{
                             width: "100%",
                             height: "100%",
                         }} />
