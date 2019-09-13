@@ -18,6 +18,8 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
+import com.zmxv.RNSound.RNSoundPackage;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -36,7 +38,8 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new MapsPackage(),
             new RNGestureHandlerPackage(),
-            new AsyncStoragePackage()
+            new AsyncStoragePackage(),
+            new RNSoundPackage()
       );
     }
 
@@ -55,5 +58,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    
   }
 }

@@ -53,6 +53,8 @@
 		E123626022CCE96D00D82B6A /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E123625F22CCE96D00D82B6A /* InputMask.framework */; };
 		E123626122CCE96D00D82B6A /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E123625F22CCE96D00D82B6A /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E15ED0C423055322005B491C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E15ED09623055322005B491C /* GoogleService-Info.plist */; };
+		E16F16C4232BAD57002BF008 /* tp.wav in Resources */ = {isa = PBXBuildFile; fileRef = E16F16C3232BAD57002BF008 /* tp.wav */; };
+		E16F16CB232BAF95002BF008 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E16F16CA232BAF31002BF008 /* libRNSound.a */; };
 		E1C9961522D60C06004F06B3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1C9961422D60C06004F06B3 /* Images.xcassets */; };
 		E725C236623D46C3B8A52564 /* Myriadpro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44345CDD946E436CA1063297 /* Myriadpro-Regular.ttf */; };
 		EA80ED6C8B6D409A99C362C1 /* MyriadSemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C86D794CAC6F48CC8EDD331F /* MyriadSemiBold.ttf */; };
@@ -328,6 +330,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNTextInputMask;
 		};
+		E16F16C9232BAF31002BF008 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E16F16C5232BAF2D002BF008 /* RNSound.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19825A1E1BD4A89800EE0337;
+			remoteInfo = RNSound;
+		};
 		E1CCBFBE22C226D800C8DDD1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -479,6 +488,8 @@
 		E10452BE22F1CB9B0086263D /* RNCGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCGeolocation.xcodeproj; path = "../node_modules/@react-native-community/geolocation/ios/RNCGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		E123625F22CCE96D00D82B6A /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E15ED09623055322005B491C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E16F16C3232BAD57002BF008 /* tp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = tp.wav; path = ../tp.wav; sourceTree = "<group>"; };
+		E16F16C5232BAF2D002BF008 /* RNSound.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 		E1C9961422D60C06004F06B3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TP/Images.xcassets; sourceTree = "<group>"; };
 		EA1995A15D684CC69809BA70 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -492,6 +503,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E16F16CB232BAF95002BF008 /* libRNSound.a in Frameworks */,
 				E10452C422F1CBC80086263D /* libRNCGeolocation.a in Frameworks */,
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -583,6 +595,7 @@
 		13B07FAE1A68108700A75B9A /* TP */ = {
 			isa = PBXGroup;
 			children = (
+				E16F16C3232BAD57002BF008 /* tp.wav */,
 				E15ED09623055322005B491C /* GoogleService-Info.plist */,
 				E10452B822F1B5110086263D /* TP.entitlements */,
 				E1C9961422D60C06004F06B3 /* Images.xcassets */,
@@ -649,6 +662,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E16F16C5232BAF2D002BF008 /* RNSound.xcodeproj */,
 				E10452BE22F1CB9B0086263D /* RNCGeolocation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -785,6 +799,14 @@
 			isa = PBXGroup;
 			children = (
 				E161826722C49BA500FBD36A /* libRNTextInputMask.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E16F16C6232BAF2D002BF008 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E16F16CA232BAF31002BF008 /* libRNSound.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -976,6 +998,10 @@
 				{
 					ProductGroup = E1CCBFC822C226D800C8DDD1 /* Products */;
 					ProjectRef = 329CF7703C864779BB51FF54 /* RNGestureHandler.xcodeproj */;
+				},
+				{
+					ProductGroup = E16F16C6232BAF2D002BF008 /* Products */;
+					ProjectRef = E16F16C5232BAF2D002BF008 /* RNSound.xcodeproj */;
 				},
 				{
 					ProductGroup = E161826322C49BA500FBD36A /* Products */;
@@ -1260,6 +1286,13 @@
 			remoteRef = E161826622C49BA500FBD36A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		E16F16CA232BAF31002BF008 /* libRNSound.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSound.a;
+			remoteRef = E16F16C9232BAF31002BF008 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E1CCBFBF22C226D800C8DDD1 /* libjsi.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1337,6 +1370,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E16F16C4232BAD57002BF008 /* tp.wav in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				3C8561558A8840519CCD1A8A /* FontAwesome.ttf in Resources */,
 				95284EF8583747C3B70CAA32 /* Myriadpro-Bold.ttf in Resources */,
@@ -1433,6 +1467,7 @@
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 					"$(SRCROOT)/../js/node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(PODS_ROOT)/Headers/Public/React",
 				);
 				INFOPLIST_FILE = TP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1467,6 +1502,7 @@
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 					"$(SRCROOT)/../js/node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
+					"$(PODS_ROOT)/Headers/Public/React",
 				);
 				INFOPLIST_FILE = TP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
