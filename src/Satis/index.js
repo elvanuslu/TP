@@ -137,6 +137,7 @@ export default class Satis extends Component {
     }
     _campaignDetailList = async () => {
         try {
+            if(this.state.Tutar<=1000){
             this._FormuTemizleyiverBirZahmet();
             this.setState({ loading: true })
             const Id = await getStorage('userId');
@@ -236,6 +237,10 @@ export default class Satis extends Component {
             else {
                 this.setState({ loading: false })
                 Alert.alert('Hata!', 'Istasyon Seçilmedi!');
+            }
+            }
+            else{
+                
             }
         } catch (error) {
             this.setState({ loading: false })

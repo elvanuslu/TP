@@ -365,6 +365,7 @@ export default class SatisIllce extends Component {
             //this.getcampaignDetailList();
            
             this.setState({ loading: true })
+            if(this.state.Tutar<=1000){
             const Id = await getStorage('userId');
             if (this.state.istasyonselectedId != undefined) { //istasyon
                 if (this.state.PlakaSelectId != undefined) { // Plaka
@@ -441,6 +442,22 @@ export default class SatisIllce extends Component {
                 this.setState({ loading: false })
                 Alert.alert('Hata', 'Istasyon Seçilmedi');
             }
+        }
+        else{
+            this.setState({ loading: false }, () => {
+                setTimeout(() => {
+                    Alert.alert(
+                        'Tutar Girişi',
+                        'Maksimum 1.000 TL tutar girebilirsiniz.',
+                        [
+
+                            { text: 'Tamam', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: true },
+                    );
+                }, 0);
+            });
+        }
         } catch (error) {
             this.setState({ loading: false })
             Alert.alert('Hata', error);

@@ -8,8 +8,6 @@ import { Button, Container, } from 'native-base';
 
 import Sound from 'react-native-sound'
 
-//const url= require('./tp.wav')
-
 export default class SplasScreen extends Component {
     constructor(props) {
         super(props);
@@ -24,10 +22,7 @@ export default class SplasScreen extends Component {
                     console.log('failed to load the sound', error);
                     return;
                 }
-                // loaded successfully
                 console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-
-                // Play the sound with an onEnd callback
                 whoosh.play((success) => {
                     if (success) {
                         console.log('successfully finished playing');
