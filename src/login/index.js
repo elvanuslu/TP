@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import {
-  BackHandler, Alert, KeyboardAvoidingView, NetInfo, ToastAndroid,
+  BackHandler, Alert, NetInfo, ToastAndroid,
   Platform, StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
 import { Left, Right, Toast, Button, Container, Header, Content, Card, CardItem, Body, Item, Icon, Input } from 'native-base';
@@ -102,6 +102,11 @@ export default class login extends Component {
       }
     });
   }
+  getParametrem=()=>{
+    const sound = this.props.navigation.getParam('ses', '');
+    sound.stop();
+    //console.log('Ses: '+JSON.stringify(sound));
+  }
   componentDidMount = async () => {
     fetchgetLocation();
     let durum = this.baglantiDurumu();
@@ -114,8 +119,12 @@ export default class login extends Component {
     if (Password !== '') {
       this.setState({ Pass: Password, UserName: UserID });
     }
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+
   }
   handleBackPress = () => {
+    console.log('BackHandler: '+JSON.stringify(BackHandler));
+    this.props.navigation.navigate("login")
     //  BackHandler.disableSelectionMode();// .onBackButtonPressAndroid()// .exitApp(); // works best when the goBack is async
     return true;
   };
@@ -158,6 +167,7 @@ export default class login extends Component {
     }
   };
   onBackButtonPressAndroid = () => {
+      console.log('selection is true');
     if (this.isSelectionModeEnabled()) {
       this.disableSelectionMode();
       // console.log('selection is true');
@@ -174,6 +184,7 @@ export default class login extends Component {
       this._handleConnectivityChange
 
     );
+    this.backHandler.remove();
     //  BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     //  this._didFocusSubscription && this._didFocusSubscription.remove();
     //  this._willBlurSubscription && this._willBlurSubscription.remove();    
@@ -181,7 +192,7 @@ export default class login extends Component {
     //console.log('remove component')
   }
   handleBackButton() {
-    //  ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+      ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
     return true;
   }
   _storeData = async () => {

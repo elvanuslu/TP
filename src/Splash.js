@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import {
     ImageBackground, Dimensions,
     Platform, Alert, KeyboardAvoidingView, NetInfo, ToastAndroid,
-     StyleSheet, Text, View, Image, Switch, TouchableOpacity
+    StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
 import { Button, Container, } from 'native-base';
 
 import Sound from 'react-native-sound'
 
+var whoosh = undefined;
 export default class SplasScreen extends Component {
     constructor(props) {
         super(props);
-
+   
     }
-    componentDidMount() {
-        var whoosh = undefined;
+    sesCal = () => {
+       
         Sound.setCategory('Playback');
-        if (Platform.OS == 'android' ) {
+        if (Platform.OS == 'android') {
             whoosh = new Sound("http://213.194.120.55/tp.crm.ui/tp.wav", Sound.MAIN_BUNDLE, (error) => {
                 if (error) {
                     console.log('failed to load the sound', error);
@@ -31,6 +32,7 @@ export default class SplasScreen extends Component {
                     }
                 });
             })
+            return whoosh;
         }
         else {
             console.log('sound else...')
@@ -39,10 +41,6 @@ export default class SplasScreen extends Component {
                     console.log('failed to load the sound', error);
                     return;
                 }
-                // loaded successfully
-                console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-
-                // Play the sound with an onEnd callback
                 whoosh.play((success) => {
                     if (success) {
                         console.log('successfully finished playing');
@@ -51,24 +49,42 @@ export default class SplasScreen extends Component {
                     }
                 });
             })
+            return whoosh;
         }
     }
+    componentDidMount() {
+        this.sesCal();
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log('Splash will Receive ');
+        this.sesCal();
+    }
+
+
     _handleGo = () => {
         setTimeout(() => {
             return (
-                this.props.navigation.navigate("login")
+                this.props.navigation.navigate("login",{'ses':whoosh})
             )
         }, 5000)
+      
+    }
+    _stopMusic=()=>{
+        whoosh.stop();
+        whoosh.release();
+        this.props.navigation.navigate("login")
     }
     render() {
         return (
             <Container>
                 <View style={styles.container}>
-                    <ImageBackground source={require('../assets/TPSplash.jpg')}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                        }} />
+                    <TouchableOpacity onPress={()=>this._stopMusic()}>
+                        <ImageBackground source={require('../assets/TPSplash.jpg')}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                            }} />
+                    </TouchableOpacity>
                     {
                         this._handleGo()
 
