@@ -3,7 +3,6 @@ package com.turkiyepetroller.TP;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.evollu.react.fcm.FIRMessagingPackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
@@ -35,7 +34,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new FIRMessagingPackage(),
             new GeolocationPackage(),
             new RNFusedLocationPackage(),
                        new RNTextInputMaskPackage(),
