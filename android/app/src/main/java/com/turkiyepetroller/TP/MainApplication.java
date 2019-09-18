@@ -20,6 +20,8 @@ import java.util.List;
 
 import com.zmxv.RNSound.RNSoundPackage;
 
+
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -40,6 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNGestureHandlerPackage(),
             new AsyncStoragePackage(),
             new RNSoundPackage()
+
       );
     }
 
