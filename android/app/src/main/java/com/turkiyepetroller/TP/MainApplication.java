@@ -3,6 +3,7 @@ package com.turkiyepetroller.TP;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 import com.RNTextInputMask.RNTextInputMaskPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
             new GeolocationPackage(),
             new RNFusedLocationPackage(),
                        new RNTextInputMaskPackage(),
