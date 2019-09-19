@@ -5,7 +5,10 @@
      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
      <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
   
 <permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:protectionLevel="signature" />
 <permission android:name="android.permission.ACCESS_FINE_LOCATION" android:protectionLevel="signature"/>
@@ -18,6 +21,7 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:usesCleartextTraffic="true"
+       android:launchMode="singleTop"
          android:theme="@style/AppTheme">
         <uses-library
             android:name="org.apache.http.legacy"
@@ -38,6 +42,18 @@
        <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBy1DkFim6ya1ImkzyMML_1n-mFCMpCU6k"/>
+    
+     <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
     </application>
 
 </manifest>
