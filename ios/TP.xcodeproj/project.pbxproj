@@ -60,6 +60,7 @@
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		F3DF516ACFC64E458512120C /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300E27061C11468696ABFDD0 /* libRNVectorIcons.a */; };
 		FAECD5B85FCC47CE8F002456 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96BDC42372A64329973E3183 /* AppCenter-Config.plist */; };
+		5FEBAB50445040E8A9A5DA3E /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EEE7EBFD8948F6B609ED93 /* libRNFirebase.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -523,6 +524,7 @@
 				52FDEA0C88A64CBEA7AA5C19 /* libAirMaps.a in Frameworks */,
 				F3DF516ACFC64E458512120C /* libRNVectorIcons.a in Frameworks */,
 				C487EA4E2BE74635B7E775F8 /* libRNTextInputMask.a in Frameworks */,
+				5FEBAB50445040E8A9A5DA3E /* libRNFirebase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +685,7 @@
 				84C258A647124E6699A5CE3A /* AppCenterReactNative.xcodeproj */,
 				95279A7D041848ADAD97F4C2 /* AppCenterReactNativeAnalytics.xcodeproj */,
 				4811D0CB0A14441C95283ED9 /* AppCenterReactNativeCrashes.xcodeproj */,
+
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1467,6 +1470,7 @@
 					"$(SRCROOT)/../js/node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(PODS_ROOT)/Headers/Public/React",
+					
 				);
 				INFOPLIST_FILE = TP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1479,6 +1483,13 @@
 				PRODUCT_NAME = TP;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+<<<<<<< HEAD
+=======
+					"\"$(SRCROOT)/TP\"",
+>>>>>>> 65fac9801c21aae26da88717053115163b7842a3
+				);
 			};
 			name = Debug;
 		};
@@ -1502,6 +1513,7 @@
 					"$(SRCROOT)/../js/node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(PODS_ROOT)/Headers/Public/React",
+		
 				);
 				INFOPLIST_FILE = TP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1514,6 +1526,13 @@
 				PRODUCT_NAME = TP;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+<<<<<<< HEAD
+=======
+					"\"$(SRCROOT)/TP\"",
+>>>>>>> 65fac9801c21aae26da88717053115163b7842a3
+				);
 			};
 			name = Release;
 		};

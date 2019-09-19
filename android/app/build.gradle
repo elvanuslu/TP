@@ -95,6 +95,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -106,7 +107,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 8
-        versionName "1.0.1"
+        versionName "1.0.2"
         multiDexEnabled true
     }
     splits {
@@ -150,6 +151,7 @@ android {
 }
 
 dependencies {
+
     implementation project(':react-native-sound')
 
     implementation project(':@react-native-community_geolocation')
@@ -164,6 +166,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     
+   
  //  implementation 'com.google.firebase:firebase-core:17.0.0'
 }
 
