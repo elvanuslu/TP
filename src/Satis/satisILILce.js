@@ -758,7 +758,7 @@ export default class SatisIllce extends Component {
             this.setState({ loading: true })
             //    console.log('this.state.latitude: ' + this.state.latitude, ' this.state.longitude:' + this.state.longitude)
 
-            getIstasyonWithLatLon1(this.state.latitude, this.state.longitude, 3)
+            getIstasyonWithLatLon1(this.state.latitude, this.state.longitude, 20)
                 .then((res) => {
                     console.log('Istasyonlarım= ' + JSON.stringify(res));
 
