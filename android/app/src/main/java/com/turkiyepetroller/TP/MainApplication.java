@@ -37,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage(),
             new GeolocationPackage(),
             new RNFusedLocationPackage(),
                        new RNTextInputMaskPackage(),

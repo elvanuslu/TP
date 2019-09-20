@@ -5,7 +5,7 @@ import {
     StyleSheet, Text, View, Image, Switch, TouchableOpacity
 } from 'react-native';
 import { Button, Container, } from 'native-base';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import Sound from 'react-native-sound'
 import firebase from 'react-native-firebase'
 
