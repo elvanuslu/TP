@@ -1,4 +1,8 @@
 
+> Configure project :app
+registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+registerResGeneratingTask is deprecated, use registerGeneratedResFolders(FileCollection)
+
 > Configure project :react-native-firebase
 react-native-firebase: using React Native prebuilt binary from /Users/elvan/Documents/TP1/node_modules/react-native/android
 
@@ -221,56 +225,64 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 +--- project :@react-native-community_async-storage
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0
++--- com.google.android.gms:play-services-base:16.1.0
 |    +--- com.google.android.gms:play-services-basement:16.2.0
 |    |    \--- com.android.support:support-v4:26.1.0 -> 28.0.0 (*)
 |    \--- com.google.android.gms:play-services-tasks:16.0.1
 |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-+--- com.google.firebase:firebase-messaging:15.0.2
-|    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-|    +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-|    \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
++--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 +--- com.facebook.react:react-native:{strictly 0.59.9} -> 0.59.9 (c)
 +--- com.android.support:appcompat-v7:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.google.android.gms:play-services-base:{strictly 16.1.0} -> 16.1.0 (c)
-+--- com.google.firebase:firebase-core:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-messaging:{strictly 15.0.2} -> 15.0.2 (c)
++--- com.google.firebase:firebase-core:{strictly 16.0.9} -> 16.0.9 (c)
++--- com.google.firebase:firebase-messaging:{strictly 18.0.0} -> 18.0.0 (c)
 +--- com.android.support:multidex:{strictly 1.0.2} -> 1.0.2 (c)
 +--- com.android.support:support-v4:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-annotations:{strictly 28.0.0} -> 28.0.0 (c)
@@ -290,13 +302,12 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 +--- com.squareup.okhttp3:okhttp:{strictly 3.12.1} -> 3.12.1 (c)
 +--- com.squareup.okio:okio:{strictly 1.15.0} -> 1.15.0 (c)
 +--- com.squareup.okhttp3:okhttp-urlconnection:{strictly 3.12.1} -> 3.12.1 (c)
-+--- com.google.firebase:firebase-analytics:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-measurement-connector-impl:{strictly 15.0.0} -> 15.0.0 (c)
 +--- com.google.android.gms:play-services-basement:{strictly 16.2.0} -> 16.2.0 (c)
 +--- com.google.android.gms:play-services-tasks:{strictly 16.0.1} -> 16.0.1 (c)
-+--- com.google.firebase:firebase-common:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-iid:{strictly 15.1.0} -> 15.1.0 (c)
-+--- com.google.firebase:firebase-measurement-connector:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.firebase:firebase-analytics:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.firebase:firebase-common:{strictly 17.0.0} -> 17.0.0 (c)
++--- com.google.firebase:firebase-iid:{strictly 18.0.0} -> 18.0.0 (c)
++--- com.google.firebase:firebase-measurement-connector:{strictly 17.0.1} -> 17.0.1 (c)
 +--- com.android.support:support-core-ui:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-media-compat:{strictly 28.0.0} -> 28.0.0 (c)
 +--- android.arch.lifecycle:runtime:{strictly 1.1.1} -> 1.1.1 (c)
@@ -309,10 +320,12 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 +--- com.facebook.fresco:fbcore:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:drawee:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:imagepipeline:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-measurement-base:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.android.gms:play-services-stats:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-analytics-impl:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-iid-interop:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.android.gms:play-services-measurement:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-api:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.auto.value:auto-value-annotations:{strictly 1.6.3} -> 1.6.3 (c)
++--- com.google.android.gms:play-services-stats:{strictly 16.0.1} -> 16.0.1 (c)
++--- com.google.firebase:firebase-iid-interop:{strictly 16.0.1} -> 16.0.1 (c)
 +--- com.android.support:customview:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:viewpager:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:coordinatorlayout:{strictly 28.0.0} -> 28.0.0 (c)
@@ -325,9 +338,12 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 +--- android.arch.core:common:{strictly 1.1.1} -> 1.1.1 (c)
 +--- android.arch.lifecycle:livedata:{strictly 1.1.1} -> 1.1.1 (c)
 +--- com.facebook.fresco:imagepipeline-base:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-ads-identifier:{strictly 15.0.1} -> 15.0.1 (c)
++--- com.google.android.gms:play-services-measurement-base:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-impl:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk-api:{strictly 16.5.0} -> 16.5.0 (c)
 +--- android.arch.core:runtime:{strictly 1.1.1} -> 1.1.1 (c)
-\--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
++--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
+\--- com.google.android.gms:play-services-ads-identifier:{strictly 16.0.0} -> 16.0.0 (c)
 
 debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for variant: debugAndroidTest
 +--- com.android.support:multidex-instrumentation:1.0.2
@@ -494,52 +510,60 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    \--- com.facebook.react:react-native:+ -> 0.59.9 (*)
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-+--- com.google.firebase:firebase-messaging:15.0.2
-|    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-|    +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-|    \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.android.gms:play-services-base:16.1.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
++--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 +--- com.facebook.react:react-native:{strictly 0.59.9} -> 0.59.9 (c)
 +--- com.android.support:appcompat-v7:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.google.android.gms:play-services-base:{strictly 16.1.0} -> 16.1.0 (c)
-+--- com.google.firebase:firebase-core:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-messaging:{strictly 15.0.2} -> 15.0.2 (c)
++--- com.google.firebase:firebase-core:{strictly 16.0.9} -> 16.0.9 (c)
++--- com.google.firebase:firebase-messaging:{strictly 18.0.0} -> 18.0.0 (c)
 +--- com.android.support:multidex:{strictly 1.0.2} -> 1.0.2 (c)
 +--- com.android.support:support-v4:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.google.android.gms:play-services-location:{strictly 16.0.0} -> 16.0.0 (c)
@@ -564,13 +588,12 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.squareup.okhttp3:okhttp:{strictly 3.12.1} -> 3.12.1 (c)
 +--- com.squareup.okio:okio:{strictly 1.15.0} -> 1.15.0 (c)
 +--- com.squareup.okhttp3:okhttp-urlconnection:{strictly 3.12.1} -> 3.12.1 (c)
-+--- com.google.firebase:firebase-analytics:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-measurement-connector-impl:{strictly 15.0.0} -> 15.0.0 (c)
 +--- com.google.android.gms:play-services-basement:{strictly 16.2.0} -> 16.2.0 (c)
 +--- com.google.android.gms:play-services-tasks:{strictly 16.0.1} -> 16.0.1 (c)
-+--- com.google.firebase:firebase-common:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-iid:{strictly 15.1.0} -> 15.1.0 (c)
-+--- com.google.firebase:firebase-measurement-connector:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.firebase:firebase-analytics:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.firebase:firebase-common:{strictly 17.0.0} -> 17.0.0 (c)
++--- com.google.firebase:firebase-iid:{strictly 18.0.0} -> 18.0.0 (c)
++--- com.google.firebase:firebase-measurement-connector:{strictly 17.0.1} -> 17.0.1 (c)
 +--- com.android.support:support-core-ui:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-media-compat:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.google.android.gms:play-services-places-placereport:{strictly 16.0.0} -> 16.0.0 (c)
@@ -586,10 +609,12 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.facebook.fresco:fbcore:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:drawee:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:imagepipeline:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-measurement-base:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.android.gms:play-services-stats:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-analytics-impl:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-iid-interop:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.android.gms:play-services-measurement:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-api:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.auto.value:auto-value-annotations:{strictly 1.6.3} -> 1.6.3 (c)
++--- com.google.android.gms:play-services-stats:{strictly 16.0.1} -> 16.0.1 (c)
++--- com.google.firebase:firebase-iid-interop:{strictly 16.0.1} -> 16.0.1 (c)
 +--- com.android.support:customview:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:viewpager:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:coordinatorlayout:{strictly 28.0.0} -> 28.0.0 (c)
@@ -603,9 +628,12 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- android.arch.lifecycle:livedata:{strictly 1.1.1} -> 1.1.1 (c)
 +--- com.facebook.fresco:imagepipeline-base:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.parse.bolts:bolts-tasks:{strictly 1.4.0} -> 1.4.0 (c)
-+--- com.google.android.gms:play-services-ads-identifier:{strictly 15.0.1} -> 15.0.1 (c)
++--- com.google.android.gms:play-services-measurement-base:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-impl:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk-api:{strictly 16.5.0} -> 16.5.0 (c)
 +--- android.arch.core:runtime:{strictly 1.1.1} -> 1.1.1 (c)
-\--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
++--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
+\--- com.google.android.gms:play-services-ads-identifier:{strictly 16.0.0} -> 16.0.0 (c)
 
 debugAnnotationProcessor - Classpath for the annotation processor for 'debug'. (n)
 No dependencies
@@ -756,56 +784,64 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 +--- project :@react-native-community_async-storage
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0
++--- com.google.android.gms:play-services-base:16.1.0
 |    +--- com.google.android.gms:play-services-basement:16.2.0
 |    |    \--- com.android.support:support-v4:26.1.0 -> 28.0.0 (*)
 |    \--- com.google.android.gms:play-services-tasks:16.0.1
 |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-+--- com.google.firebase:firebase-messaging:15.0.2
-|    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-|    +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-|    \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
++--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 +--- com.facebook.react:react-native:{strictly 0.59.9} -> 0.59.9 (c)
 +--- com.android.support:appcompat-v7:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.google.android.gms:play-services-base:{strictly 16.1.0} -> 16.1.0 (c)
-+--- com.google.firebase:firebase-core:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-messaging:{strictly 15.0.2} -> 15.0.2 (c)
++--- com.google.firebase:firebase-core:{strictly 16.0.9} -> 16.0.9 (c)
++--- com.google.firebase:firebase-messaging:{strictly 18.0.0} -> 18.0.0 (c)
 +--- com.android.support:support-v4:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-annotations:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-compat:{strictly 28.0.0} -> 28.0.0 (c)
@@ -824,13 +860,12 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 +--- com.squareup.okhttp3:okhttp:{strictly 3.12.1} -> 3.12.1 (c)
 +--- com.squareup.okio:okio:{strictly 1.15.0} -> 1.15.0 (c)
 +--- com.squareup.okhttp3:okhttp-urlconnection:{strictly 3.12.1} -> 3.12.1 (c)
-+--- com.google.firebase:firebase-analytics:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-measurement-connector-impl:{strictly 15.0.0} -> 15.0.0 (c)
 +--- com.google.android.gms:play-services-basement:{strictly 16.2.0} -> 16.2.0 (c)
 +--- com.google.android.gms:play-services-tasks:{strictly 16.0.1} -> 16.0.1 (c)
-+--- com.google.firebase:firebase-common:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-iid:{strictly 15.1.0} -> 15.1.0 (c)
-+--- com.google.firebase:firebase-measurement-connector:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.firebase:firebase-analytics:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.firebase:firebase-common:{strictly 17.0.0} -> 17.0.0 (c)
++--- com.google.firebase:firebase-iid:{strictly 18.0.0} -> 18.0.0 (c)
++--- com.google.firebase:firebase-measurement-connector:{strictly 17.0.1} -> 17.0.1 (c)
 +--- com.android.support:support-core-ui:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-media-compat:{strictly 28.0.0} -> 28.0.0 (c)
 +--- android.arch.lifecycle:runtime:{strictly 1.1.1} -> 1.1.1 (c)
@@ -843,10 +878,12 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 +--- com.facebook.fresco:fbcore:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:drawee:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:imagepipeline:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-measurement-base:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.android.gms:play-services-stats:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-analytics-impl:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-iid-interop:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.android.gms:play-services-measurement:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-api:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.auto.value:auto-value-annotations:{strictly 1.6.3} -> 1.6.3 (c)
++--- com.google.android.gms:play-services-stats:{strictly 16.0.1} -> 16.0.1 (c)
++--- com.google.firebase:firebase-iid-interop:{strictly 16.0.1} -> 16.0.1 (c)
 +--- com.android.support:customview:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:viewpager:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:coordinatorlayout:{strictly 28.0.0} -> 28.0.0 (c)
@@ -859,9 +896,12 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 +--- android.arch.core:common:{strictly 1.1.1} -> 1.1.1 (c)
 +--- android.arch.lifecycle:livedata:{strictly 1.1.1} -> 1.1.1 (c)
 +--- com.facebook.fresco:imagepipeline-base:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-ads-identifier:{strictly 15.0.1} -> 15.0.1 (c)
++--- com.google.android.gms:play-services-measurement-base:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-impl:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk-api:{strictly 16.5.0} -> 16.5.0 (c)
 +--- android.arch.core:runtime:{strictly 1.1.1} -> 1.1.1 (c)
-\--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
++--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
+\--- com.google.android.gms:play-services-ads-identifier:{strictly 16.0.0} -> 16.0.0 (c)
 
 debugCompileOnly - Compile only dependencies for 'debug' sources. (n)
 No dependencies
@@ -1042,47 +1082,55 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    \--- com.facebook.react:react-native:+ -> 0.59.9 (*)
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-\--- com.google.firebase:firebase-messaging:15.0.2
-     +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-     +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-     +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-     +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-     +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-     \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.android.gms:play-services-base:16.1.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
+\--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 
 debugRuntimeElements - Runtime elements for debug (n)
 No dependencies
@@ -1219,56 +1267,64 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- project :@react-native-community_async-storage
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0
++--- com.google.android.gms:play-services-base:16.1.0
 |    +--- com.google.android.gms:play-services-basement:16.2.0
 |    |    \--- com.android.support:support-v4:26.1.0 -> 28.0.0 (*)
 |    \--- com.google.android.gms:play-services-tasks:16.0.1
 |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-+--- com.google.firebase:firebase-messaging:15.0.2
-|    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-|    +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-|    \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
++--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 +--- com.facebook.react:react-native:{strictly 0.59.9} -> 0.59.9 (c)
 +--- com.android.support:appcompat-v7:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.google.android.gms:play-services-base:{strictly 16.1.0} -> 16.1.0 (c)
-+--- com.google.firebase:firebase-core:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-messaging:{strictly 15.0.2} -> 15.0.2 (c)
++--- com.google.firebase:firebase-core:{strictly 16.0.9} -> 16.0.9 (c)
++--- com.google.firebase:firebase-messaging:{strictly 18.0.0} -> 18.0.0 (c)
 +--- com.android.support:support-v4:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-annotations:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-compat:{strictly 28.0.0} -> 28.0.0 (c)
@@ -1287,13 +1343,12 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- com.squareup.okhttp3:okhttp:{strictly 3.12.1} -> 3.12.1 (c)
 +--- com.squareup.okio:okio:{strictly 1.15.0} -> 1.15.0 (c)
 +--- com.squareup.okhttp3:okhttp-urlconnection:{strictly 3.12.1} -> 3.12.1 (c)
-+--- com.google.firebase:firebase-analytics:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-measurement-connector-impl:{strictly 15.0.0} -> 15.0.0 (c)
 +--- com.google.android.gms:play-services-basement:{strictly 16.2.0} -> 16.2.0 (c)
 +--- com.google.android.gms:play-services-tasks:{strictly 16.0.1} -> 16.0.1 (c)
-+--- com.google.firebase:firebase-common:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-iid:{strictly 15.1.0} -> 15.1.0 (c)
-+--- com.google.firebase:firebase-measurement-connector:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.firebase:firebase-analytics:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.firebase:firebase-common:{strictly 17.0.0} -> 17.0.0 (c)
++--- com.google.firebase:firebase-iid:{strictly 18.0.0} -> 18.0.0 (c)
++--- com.google.firebase:firebase-measurement-connector:{strictly 17.0.1} -> 17.0.1 (c)
 +--- com.android.support:support-core-ui:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-media-compat:{strictly 28.0.0} -> 28.0.0 (c)
 +--- android.arch.lifecycle:runtime:{strictly 1.1.1} -> 1.1.1 (c)
@@ -1306,10 +1361,12 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- com.facebook.fresco:fbcore:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:drawee:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:imagepipeline:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-measurement-base:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.android.gms:play-services-stats:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-analytics-impl:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-iid-interop:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.android.gms:play-services-measurement:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-api:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.auto.value:auto-value-annotations:{strictly 1.6.3} -> 1.6.3 (c)
++--- com.google.android.gms:play-services-stats:{strictly 16.0.1} -> 16.0.1 (c)
++--- com.google.firebase:firebase-iid-interop:{strictly 16.0.1} -> 16.0.1 (c)
 +--- com.android.support:customview:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:viewpager:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:coordinatorlayout:{strictly 28.0.0} -> 28.0.0 (c)
@@ -1322,9 +1379,12 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- android.arch.core:common:{strictly 1.1.1} -> 1.1.1 (c)
 +--- android.arch.lifecycle:livedata:{strictly 1.1.1} -> 1.1.1 (c)
 +--- com.facebook.fresco:imagepipeline-base:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-ads-identifier:{strictly 15.0.1} -> 15.0.1 (c)
++--- com.google.android.gms:play-services-measurement-base:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-impl:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk-api:{strictly 16.5.0} -> 16.5.0 (c)
 +--- android.arch.core:runtime:{strictly 1.1.1} -> 1.1.1 (c)
-\--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
++--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
+\--- com.google.android.gms:play-services-ads-identifier:{strictly 16.0.0} -> 16.0.0 (c)
 
 debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: debugUnitTest
 +--- project :react-native-firebase
@@ -1489,47 +1549,55 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 |    \--- com.facebook.react:react-native:+ -> 0.59.9 (*)
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-\--- com.google.firebase:firebase-messaging:15.0.2
-     +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-     +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-     +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-     +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-     +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-     \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.android.gms:play-services-base:16.1.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
+\--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 
 debugWearApp - Link to a wear app to embed for object 'debug'. (n)
 No dependencies
@@ -1553,9 +1621,10 @@ implementation - Implementation only dependencies for 'main' sources. (n)
 +--- unspecified (n)
 +--- com.android.support:appcompat-v7:28.0.0 (n)
 +--- com.facebook.react:react-native:+ (n)
-+--- com.google.android.gms:play-services-base:15.0.0 (n)
-+--- com.google.firebase:firebase-core:15.0.2 (n)
-\--- com.google.firebase:firebase-messaging:15.0.2 (n)
++--- com.google.android.gms:play-services-base:16.1.0 (n)
++--- com.google.firebase:firebase-core:16.0.9 (n)
++--- com.google.firebase:firebase-messaging:18.0.0 (n)
+\--- com.google.firebase:firebase-notifications:18.0.0 (n)
 
 lintChecks - Configuration to apply external lint check jar
 No dependencies
@@ -1882,58 +1951,66 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- project :@react-native-community_async-storage
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0
++--- com.google.android.gms:play-services-base:16.1.0
 |    +--- com.google.android.gms:play-services-basement:16.2.0
 |    |    \--- com.android.support:support-v4:26.1.0 -> 28.0.0 (*)
 |    \--- com.google.android.gms:play-services-tasks:16.0.1
 |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-+--- com.google.firebase:firebase-messaging:15.0.2
-|    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-|    +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-|    \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
++--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 +--- com.android.support:multidex:1.0.2
 +--- com.facebook.react:react-native:{strictly 0.59.9} -> 0.59.9 (c)
 +--- com.android.support:appcompat-v7:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:multidex:{strictly 1.0.2} -> 1.0.2 (c)
 +--- com.google.android.gms:play-services-base:{strictly 16.1.0} -> 16.1.0 (c)
-+--- com.google.firebase:firebase-core:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-messaging:{strictly 15.0.2} -> 15.0.2 (c)
++--- com.google.firebase:firebase-core:{strictly 16.0.9} -> 16.0.9 (c)
++--- com.google.firebase:firebase-messaging:{strictly 18.0.0} -> 18.0.0 (c)
 +--- com.android.support:support-v4:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-annotations:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-compat:{strictly 28.0.0} -> 28.0.0 (c)
@@ -1954,11 +2031,10 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- com.squareup.okhttp3:okhttp-urlconnection:{strictly 3.12.1} -> 3.12.1 (c)
 +--- com.google.android.gms:play-services-basement:{strictly 16.2.0} -> 16.2.0 (c)
 +--- com.google.android.gms:play-services-tasks:{strictly 16.0.1} -> 16.0.1 (c)
-+--- com.google.firebase:firebase-analytics:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-measurement-connector-impl:{strictly 15.0.0} -> 15.0.0 (c)
-+--- com.google.firebase:firebase-common:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-iid:{strictly 15.1.0} -> 15.1.0 (c)
-+--- com.google.firebase:firebase-measurement-connector:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.firebase:firebase-analytics:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.firebase:firebase-common:{strictly 17.0.0} -> 17.0.0 (c)
++--- com.google.firebase:firebase-iid:{strictly 18.0.0} -> 18.0.0 (c)
++--- com.google.firebase:firebase-measurement-connector:{strictly 17.0.1} -> 17.0.1 (c)
 +--- com.android.support:support-core-ui:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-media-compat:{strictly 28.0.0} -> 28.0.0 (c)
 +--- android.arch.lifecycle:runtime:{strictly 1.1.1} -> 1.1.1 (c)
@@ -1971,10 +2047,12 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- com.facebook.fresco:fbcore:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:drawee:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:imagepipeline:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-measurement-base:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.android.gms:play-services-stats:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-analytics-impl:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-iid-interop:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.android.gms:play-services-measurement:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-api:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.auto.value:auto-value-annotations:{strictly 1.6.3} -> 1.6.3 (c)
++--- com.google.android.gms:play-services-stats:{strictly 16.0.1} -> 16.0.1 (c)
++--- com.google.firebase:firebase-iid-interop:{strictly 16.0.1} -> 16.0.1 (c)
 +--- com.android.support:customview:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:viewpager:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:coordinatorlayout:{strictly 28.0.0} -> 28.0.0 (c)
@@ -1987,9 +2065,12 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- android.arch.core:common:{strictly 1.1.1} -> 1.1.1 (c)
 +--- android.arch.lifecycle:livedata:{strictly 1.1.1} -> 1.1.1 (c)
 +--- com.facebook.fresco:imagepipeline-base:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-ads-identifier:{strictly 15.0.1} -> 15.0.1 (c)
++--- com.google.android.gms:play-services-measurement-base:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-impl:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk-api:{strictly 16.5.0} -> 16.5.0 (c)
 +--- android.arch.core:runtime:{strictly 1.1.1} -> 1.1.1 (c)
-\--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
++--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
+\--- com.google.android.gms:play-services-ads-identifier:{strictly 16.0.0} -> 16.0.0 (c)
 
 releaseCompileOnly - Compile only dependencies for 'release' sources. (n)
 No dependencies
@@ -2169,47 +2250,55 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 |    \--- com.facebook.react:react-native:+ -> 0.59.9 (*)
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-+--- com.google.firebase:firebase-messaging:15.0.2
-|    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-|    +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-|    \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.android.gms:play-services-base:16.1.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
++--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 \--- com.android.support:multidex:1.0.2
 
 releaseRuntimeElements - Runtime elements for release (n)
@@ -2347,56 +2436,64 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- project :@react-native-community_async-storage
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0
++--- com.google.android.gms:play-services-base:16.1.0
 |    +--- com.google.android.gms:play-services-basement:16.2.0
 |    |    \--- com.android.support:support-v4:26.1.0 -> 28.0.0 (*)
 |    \--- com.google.android.gms:play-services-tasks:16.0.1
 |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-+--- com.google.firebase:firebase-messaging:15.0.2
-|    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-|    +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-|    \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
++--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 +--- com.facebook.react:react-native:{strictly 0.59.9} -> 0.59.9 (c)
 +--- com.android.support:appcompat-v7:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.google.android.gms:play-services-base:{strictly 16.1.0} -> 16.1.0 (c)
-+--- com.google.firebase:firebase-core:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-messaging:{strictly 15.0.2} -> 15.0.2 (c)
++--- com.google.firebase:firebase-core:{strictly 16.0.9} -> 16.0.9 (c)
++--- com.google.firebase:firebase-messaging:{strictly 18.0.0} -> 18.0.0 (c)
 +--- com.android.support:support-v4:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-annotations:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-compat:{strictly 28.0.0} -> 28.0.0 (c)
@@ -2417,11 +2514,10 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- com.squareup.okhttp3:okhttp-urlconnection:{strictly 3.12.1} -> 3.12.1 (c)
 +--- com.google.android.gms:play-services-basement:{strictly 16.2.0} -> 16.2.0 (c)
 +--- com.google.android.gms:play-services-tasks:{strictly 16.0.1} -> 16.0.1 (c)
-+--- com.google.firebase:firebase-analytics:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-measurement-connector-impl:{strictly 15.0.0} -> 15.0.0 (c)
-+--- com.google.firebase:firebase-common:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-iid:{strictly 15.1.0} -> 15.1.0 (c)
-+--- com.google.firebase:firebase-measurement-connector:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.firebase:firebase-analytics:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.firebase:firebase-common:{strictly 17.0.0} -> 17.0.0 (c)
++--- com.google.firebase:firebase-iid:{strictly 18.0.0} -> 18.0.0 (c)
++--- com.google.firebase:firebase-measurement-connector:{strictly 17.0.1} -> 17.0.1 (c)
 +--- com.android.support:support-core-ui:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:support-media-compat:{strictly 28.0.0} -> 28.0.0 (c)
 +--- android.arch.lifecycle:runtime:{strictly 1.1.1} -> 1.1.1 (c)
@@ -2434,10 +2530,12 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- com.facebook.fresco:fbcore:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:drawee:{strictly 1.10.0} -> 1.10.0 (c)
 +--- com.facebook.fresco:imagepipeline:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-measurement-base:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.android.gms:play-services-stats:{strictly 15.0.1} -> 15.0.1 (c)
-+--- com.google.firebase:firebase-analytics-impl:{strictly 15.0.2} -> 15.0.2 (c)
-+--- com.google.firebase:firebase-iid-interop:{strictly 15.0.0} -> 15.0.0 (c)
++--- com.google.android.gms:play-services-measurement:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-api:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.auto.value:auto-value-annotations:{strictly 1.6.3} -> 1.6.3 (c)
++--- com.google.android.gms:play-services-stats:{strictly 16.0.1} -> 16.0.1 (c)
++--- com.google.firebase:firebase-iid-interop:{strictly 16.0.1} -> 16.0.1 (c)
 +--- com.android.support:customview:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:viewpager:{strictly 28.0.0} -> 28.0.0 (c)
 +--- com.android.support:coordinatorlayout:{strictly 28.0.0} -> 28.0.0 (c)
@@ -2450,9 +2548,12 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- android.arch.core:common:{strictly 1.1.1} -> 1.1.1 (c)
 +--- android.arch.lifecycle:livedata:{strictly 1.1.1} -> 1.1.1 (c)
 +--- com.facebook.fresco:imagepipeline-base:{strictly 1.10.0} -> 1.10.0 (c)
-+--- com.google.android.gms:play-services-ads-identifier:{strictly 15.0.1} -> 15.0.1 (c)
++--- com.google.android.gms:play-services-measurement-base:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-impl:{strictly 16.5.0} -> 16.5.0 (c)
++--- com.google.android.gms:play-services-measurement-sdk-api:{strictly 16.5.0} -> 16.5.0 (c)
 +--- android.arch.core:runtime:{strictly 1.1.1} -> 1.1.1 (c)
-\--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
++--- android.arch.lifecycle:livedata-core:{strictly 1.1.1} -> 1.1.1 (c)
+\--- com.google.android.gms:play-services-ads-identifier:{strictly 16.0.0} -> 16.0.0 (c)
 
 releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: releaseUnitTest
 +--- project :react-native-firebase
@@ -2617,47 +2718,55 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 |    \--- com.facebook.react:react-native:+ -> 0.59.9 (*)
 +--- com.android.support:appcompat-v7:28.0.0 (*)
 +--- com.facebook.react:react-native:+ -> 0.59.9 (*)
-+--- com.google.android.gms:play-services-base:15.0.0 -> 16.1.0 (*)
-+--- com.google.firebase:firebase-core:15.0.2
-|    +--- com.google.firebase:firebase-analytics:[15.0.2,16.0.0) -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1] -> 16.2.0 (*)
-|    |    +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-ads-identifier:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|    |    |    +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |    +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |    |    \--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |    \--- com.google.firebase:firebase-iid:[15.1.0,16.0.0) -> 15.1.0
-|    |    |         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    |         +--- com.google.android.gms:play-services-stats:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-|    |    |         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    |    |         \--- com.google.firebase:firebase-iid-interop:[15.0.0,16.0.0) -> 15.0.0
-|    |    |              +--- com.google.android.gms:play-services-base:[15.0.1,16.0.0) -> 16.1.0 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|    |    \--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|    \--- com.google.firebase:firebase-measurement-connector-impl:[15.0.0,16.0.0) -> 15.0.0
-|         +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-|         +--- com.google.android.gms:play-services-measurement-base:[15.0.2] -> 15.0.2
-|         +--- com.google.firebase:firebase-analytics:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-analytics-impl:[15.0.2] -> 15.0.2 (*)
-|         +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-|         \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0
-|              \--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-\--- com.google.firebase:firebase-messaging:15.0.2
-     +--- com.google.android.gms:play-services-basement:[15.0.1,16.0.0) -> 16.2.0 (*)
-     +--- com.google.android.gms:play-services-tasks:[15.0.1,16.0.0) -> 16.0.1 (*)
-     +--- com.google.firebase:firebase-common:[15.0.1,16.0.0) -> 15.0.1 (*)
-     +--- com.google.firebase:firebase-core:[15.0.2,16.0.0) -> 15.0.2 (*)
-     +--- com.google.firebase:firebase-iid:[15.1.0] -> 15.1.0 (*)
-     \--- com.google.firebase:firebase-measurement-connector:[15.0.0,16.0.0) -> 15.0.0 (*)
++--- com.google.android.gms:play-services-base:16.1.0 (*)
++--- com.google.firebase:firebase-core:16.0.9
+|    \--- com.google.firebase:firebase-analytics:16.5.0
+|         +--- com.google.android.gms:play-services-measurement:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0
+|         |    |    \--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-ads-identifier:16.0.0
+|         |    |    |    \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-stats:16.0.1
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         +--- com.google.android.gms:play-services-measurement-api:16.5.0
+|         |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|         |    |    \--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|         |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    +--- com.google.firebase:firebase-common:16.0.3 -> 17.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    \--- com.google.auto.value:auto-value-annotations:1.6.3
+|         |    +--- com.google.firebase:firebase-iid:17.1.2 -> 18.0.0
+|         |    |    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    |    +--- com.google.android.gms:play-services-stats:16.0.1 (*)
+|         |    |    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|         |    |    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|         |    |    \--- com.google.firebase:firebase-iid-interop:16.0.1
+|         |    |         +--- com.google.android.gms:play-services-base:16.0.1 -> 16.1.0 (*)
+|         |    |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         |    \--- com.google.firebase:firebase-measurement-connector:17.0.1
+|         |         \--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|         \--- com.google.android.gms:play-services-measurement-sdk:16.5.0
+|              +--- com.google.android.gms:play-services-basement:16.2.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-base:[16.5.0] -> 16.5.0 (*)
+|              +--- com.google.android.gms:play-services-measurement-impl:[16.5.0] -> 16.5.0 (*)
+|              \--- com.google.android.gms:play-services-measurement-sdk-api:[16.5.0] -> 16.5.0 (*)
++--- com.google.firebase:firebase-messaging:18.0.0
+|    +--- com.google.android.gms:play-services-basement:16.0.1 -> 16.2.0 (*)
+|    +--- com.google.android.gms:play-services-tasks:16.0.1 (*)
+|    +--- com.google.firebase:firebase-common:17.0.0 (*)
+|    +--- com.google.firebase:firebase-iid:[18.0.0] -> 18.0.0 (*)
+|    \--- com.google.firebase:firebase-measurement-connector:17.0.1 (*)
+\--- com.google.firebase:firebase-notifications:18.0.0 FAILED
 
 releaseWearApp - Link to a wear app to embed for object 'release'. (n)
 No dependencies
@@ -2759,5 +2868,5 @@ No dependencies
 
 A web-based, searchable dependency report is available by adding the --scan option.
 
-BUİLD SUCCESSFUL in 2s
+BUİLD SUCCESSFUL in 3s
 1 actionable task: 1 executed
