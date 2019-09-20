@@ -10,6 +10,7 @@ import Sound from 'react-native-sound'
 import firebase from 'react-native-firebase'
 import type, { Notification, NotificationOpen } from 'react-native-firebase';
 
+
 var whoosh = undefined;
 export default class SplasScreen extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ export default class SplasScreen extends Component {
             firebase.notifications.Android.Importance.Max
         ).setDescription('A Channel To manage the notifications related to Application');
         firebase.notifications().android.createChannel(channel);
-        
+
         this.notificationListener = firebase.notifications().onNotification((notification) => {
             console.log('onNotification notification-->', notification);
             console.log('onNotification notification.data -->', notification.data);
@@ -44,16 +45,17 @@ export default class SplasScreen extends Component {
                 .setData(notification.data)
                 .android.setChannelId('notification_channel_name') // e.g. the id you chose above
                 .android.setSmallIcon('ic_launcher') // create this icon in Android Studio
-               // .android.setColor(colors.colorAccent) // you can set a color here
-                .android.setPriority(firebase.notifications.Android.Priority.High);
- 
+                .android.setLargeIcon('ic_launcher')
+                .android.setColor('#af2104') // you can set a color here
+                .android.setBadgeIconType(firebase.notifications.Android.BadgeIconType.Small)
+                .android.setPriority(firebase.notifications.Android.Priority.High)
             firebase.notifications()
                 .displayNotification(localNotification)
-                .catch(err => console.error(err));
- 
+                .catch(err => console.error('Error: ' + err));
+
         }
     }
-    getNot=()=>{
+    getNot = () => {
         firebase.messaging().hasPermission().then(hasPermission => {
             if (hasPermission) {
                 this.subscribeToNotificationListeners()
@@ -62,13 +64,13 @@ export default class SplasScreen extends Component {
                     this.subscribeToNotificationListeners()
                 }).catch(error => {
                     console.error(error);
- 
+
                 })
             }
         })
     }
     async getToken() {
-        
+
         let fcmToken = await AsyncStorage.getItem('fcmToken');
         console.log("before fcmToken: ", fcmToken);
         if (!fcmToken) {
