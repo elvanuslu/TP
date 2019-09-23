@@ -43,10 +43,10 @@ export default class SplasScreen extends Component {
                 .setSubtitle(notification.subtitle)
                 .setBody(notification.body)
                 .setData(notification.data)
-                .android.setChannelId('notification_channel_name') // e.g. the id you chose above
-                .android.setSmallIcon('ic_launcher') // create this icon in Android Studio
+                .android.setChannelId('notification_channel_name') 
+                .android.setSmallIcon('ic_launcher') 
                 .android.setLargeIcon('ic_launcher')
-                .android.setColor('#af2104') // you can set a color here
+                .android.setColor('#af2104') 
                 .android.setBadgeIconType(firebase.notifications.Android.BadgeIconType.Small)
                 .android.setPriority(firebase.notifications.Android.Priority.High)
             firebase.notifications()
