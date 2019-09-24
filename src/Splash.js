@@ -7,8 +7,8 @@ import {
 import { Button, Container, } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Sound from 'react-native-sound'
-import firebase from 'react-native-firebase'
-import type, { Notification, NotificationOpen } from 'react-native-firebase';
+//import firebase from 'react-native-firebase'
+//import type, { Notification, NotificationOpen } from 'react-native-firebase';
 
 
 var whoosh = undefined;
@@ -17,6 +17,7 @@ export default class SplasScreen extends Component {
         super(props);
 
     }
+    /*
     subscribeToNotificationListeners() {
         const channel = new firebase.notifications.Android.Channel(
             'notification_channel_name', // To be Replaced as per use
@@ -102,6 +103,7 @@ export default class SplasScreen extends Component {
                 }
             });
     }
+    */
     sesCal = () => {
 
         Sound.setCategory('Playback');
@@ -142,8 +144,8 @@ export default class SplasScreen extends Component {
     }
     componentDidMount() {
         this.sesCal();
-        this.checkPermission();
-        this.getNot();
+       // this.checkPermission();
+        //this.getNot();
     }
     componentWillReceiveProps(nextProps) {
         console.log('Splash will Receive ');
