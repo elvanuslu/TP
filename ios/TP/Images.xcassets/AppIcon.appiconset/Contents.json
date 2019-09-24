@@ -3,55 +3,55 @@
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon40_K.png",
+      "filename" : "40x40.png",
       "scale" : "2x"
     },
     {
       "size" : "20x20",
       "idiom" : "iphone",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon60_K.png",
+      "filename" : "60x60.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon58_K.png",
+      "filename" : "58x58.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon87_K.png",
+      "filename" : "87x87.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon80_K.png",
+      "filename" : "80x80.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon120_K-1.png",
+      "filename" : "120x120-1.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon120_K.png",
+      "filename" : "120x120.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon180_K.png",
+      "filename" : "180x180.png",
       "scale" : "3x"
     },
     {
       "size" : "1024x1024",
       "idiom" : "ios-marketing",
-      "filename" : "TP_Mobil_AppAraYuz_Ikon1024_B.png",
+      "filename" : "logoyeniarkabeyaz.png",
       "scale" : "1x"
     }
   ],
