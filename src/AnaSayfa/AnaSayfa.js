@@ -202,7 +202,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         flexDirection: 'row-reverse',
         marginBottom: 10,
-        backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems: 'center'
     },
