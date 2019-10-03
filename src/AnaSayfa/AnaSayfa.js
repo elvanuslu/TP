@@ -83,7 +83,7 @@ export default class AnaSayfa extends Component {
         //  this._getGps1();
     }
     componentDidMount() {
-        //  alert(Math.round(Dimensions.get('window').width))
+        //  alert(Math.round(Dimensions.get('window').width)) 
     }
     render() {
         return (
