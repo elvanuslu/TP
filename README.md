@@ -1,2 +1,2 @@
 # TP
-Türkiye Petrolleri React Native 
+React Native Project
